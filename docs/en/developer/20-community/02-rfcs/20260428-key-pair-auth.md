@@ -70,7 +70,7 @@ ALTER USER service_account WITH REMOVE PUBLIC_KEY FINGERPRINT = 'SHA256:abc123..
 DESC USER service_account;
 ```
 
-Both full PEM format (with `-----BEGIN PUBLIC KEY-----` headers) and bare base64-encoded key body are accepted as input. Internally, only the base64 body is stored.
+Both full PEM format (with `-----BEGIN PUBLIC KEY-----` headers) and bare base64-encoded key body are accepted as input. Internally, only the base64 body is stored. For convenience in SQL strings, the one-line base64 body is recommended — it avoids newline/escaping issues in SQL literals.
 
 ### Authenticating with a Key Pair
 
@@ -85,10 +85,11 @@ The `X-DATABEND-AUTH-METHOD: keypair` header is required. Without it, the server
 
 The JWT must contain:
 - `sub` (subject): the username
+- `iss` (issuer): `<tenant>.<username>` — binds the token to a specific tenant and user, preventing cross-tenant replay
 - `iat` (issued at): current timestamp
 - `exp` (expiration): a short TTL (e.g., 60 seconds)
 
-The server extracts the username from the `sub` claim, looks up the user's stored public keys, and verifies the JWT signature. If any stored key validates the signature, authentication succeeds.
+The server validates the `iss` claim against the current tenant and `sub` claim before verifying the signature. If any stored key validates the signature, authentication succeeds.
 
 ### Passphrase Support
 
@@ -155,7 +156,7 @@ This creates the user with a single public key. The `BY` clause accepts either f
 **ALTER USER** (key management via user options):
 
 ```sql
--- Add a public key with an optional label
+-- Add a public key with an optional label (only for key-pair users)
 ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key>' LABEL = '<label>';
 
 -- Remove a public key by its label
@@ -165,6 +166,8 @@ ALTER USER <username> WITH REMOVE PUBLIC_KEY LABEL = '<label>';
 ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>';
 
 ```
+
+`ADD PUBLIC_KEY` and `REMOVE PUBLIC_KEY` are only allowed for users already configured with key-pair authentication. To switch a password/JWT user to key-pair auth, use `ALTER USER <username> IDENTIFIED WITH key_pair BY '<key>'`.
 
 Using `IDENTIFIED WITH key_pair BY '<key>'` in ALTER USER is rejected if the user already uses key-pair authentication — use `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` to manage keys instead. This prevents accidental replacement of all existing keys.
 
@@ -176,6 +179,7 @@ Using `IDENTIFIED WITH key_pair BY '<key>'` in ALTER USER is rejected if the use
 - **Maximum keys per user**: A global setting `max_public_keys_per_user` (default: 10, range: 1–100) limits the number of public keys per user. Attempting to add a key beyond this limit is rejected.
 - **Last key protection**: Removing the last public key from a key-pair user is rejected. The user must always have at least one key.
 - **Label constraints**: Labels are trimmed on input, must be 128 characters or fewer, and must be unique per user. Duplicate labels are rejected.
+- **Duplicate key protection**: Adding a public key with the same fingerprint as an existing key is rejected.
 
 ### Authentication Flow
 
@@ -186,9 +190,10 @@ When a Bearer JWT token arrives at the HTTP handler:
    - If `keypair`: route to key-pair authentication flow.
    - Otherwise: route to existing JWKS-based JWT verification (unchanged).
 3. Key-pair flow:
-   a. Decode the JWT payload without verification to extract the `sub` (username) claim.
-   b. Look up the user in meta by username.
-   c. Verify the user's `auth_info` is `AuthInfo::KeyPair`.
+   a. Decode the JWT payload without verification to extract the `sub` (username) and `iss` (issuer) claims.
+   b. Validate `iss` matches `<tenant>.<username>`. Reject if missing or mismatched.
+   c. Look up the user in meta by username.
+   d. Verify the user's `auth_info` is `AuthInfo::KeyPair`.
    d. Iterate over stored public keys, attempt to verify the JWT signature with each. Accept on first match.
    e. Validate standard JWT claims: `exp` must not be in the past, `iat` must be present and not in the future.
    f. Enforce network policy, set authenticated user in session.
@@ -205,10 +210,16 @@ Invalid keys are rejected with a descriptive error message.
 
 ### Key Fingerprint
 
-Key fingerprints are computed as `SHA256:<base64>` of the DER-encoded public key bytes (same convention as OpenSSH). This is used for:
+Key fingerprints are computed as `SHA256:<base64>` where the input is the SHA-256 digest of the DER-encoded public key bytes (decoded from the stored base64 body). The output is base64-encoded without padding. This matches the OpenSSH fingerprint convention, so users can verify with standard tools:
 
-- `DESC USER` output to identify keys without exposing the full PEM.
-- `REMOVE PUBLIC_KEY` to specify which key to remove.
+```bash
+openssl pkey -pubin -in key.pem -outform DER | openssl dgst -sha256 -binary | base64
+```
+
+This is used for:
+
+- `DESC USER` output to identify keys without exposing the full key.
+- `REMOVE PUBLIC_KEY FINGERPRINT` to specify which key to remove.
 
 ### Supported Algorithms
 
@@ -223,9 +234,9 @@ The server detects the algorithm from the PEM key type and the JWT `alg` header.
 
 ### Protocol Support
 
-- **HTTP**: Fully supported via Bearer JWT tokens.
-- **MySQL protocol**: Not supported. Key-pair users attempting to connect via MySQL protocol receive a clear error message. This is a fundamental limitation — the MySQL wire protocol does not support JWT-based authentication.
-- **FlightSQL**: Supported via Bearer JWT tokens in the authorization header.
+- **HTTP**: Fully supported via Bearer JWT tokens with `X-DATABEND-AUTH-METHOD: keypair` header.
+- **MySQL protocol**: Not supported. Key-pair users attempting to connect via MySQL protocol receive a clear error message. The MySQL wire protocol does not support JWT-based authentication.
+- **FlightSQL**: Not supported in the initial implementation. The current FlightSQL handshake only accepts Basic auth, and subsequent Bearer tokens are server-generated session IDs, not user-signed JWTs. Supporting key-pair auth over FlightSQL would require changes to the handshake and metadata flow, which is deferred to a future iteration.
 
 ### JWT Token Format
 
@@ -243,12 +254,14 @@ The client-generated JWT must follow this structure:
 ```json
 {
   "sub": "service_account",
+  "iss": "my_tenant.service_account",
   "iat": 1714300000,
   "exp": 1714300060
 }
 ```
 
 - `sub` (required): The Databend username.
+- `iss` (required): Issuer in `<tenant>.<username>` format. Validated by the server to prevent cross-tenant replay.
 - `iat` (required): Issued-at timestamp.
 - `exp` (required): Expiration timestamp. Recommended TTL is 60 seconds.
 
@@ -259,10 +272,10 @@ The token is signed with the user's private key using the algorithm that matches
 The new `KeyPair` variant is added to the protobuf `AuthInfo.oneof info` as field number 4. Compatibility behavior:
 
 - **Old query reading non-KeyPair users**: Completely unaffected. Protobuf silently ignores unknown fields that are not part of the deserialized message.
-- **Old query reading a KeyPair user**: The `oneof info` field resolves to `None` (the unknown variant is skipped by protobuf). `AuthInfo::from_pb()` returns an `Incompatible` error. This only affects operations on that specific user (login, DESC USER, etc.) — all other users remain fully functional.
-- **No global version bump required**: `MIN_READER_VER` does not need to increase, since old versions can still process all existing auth types.
-
-This satisfies the requirement: if a KeyPair user exists, old versions only error for that user; if no KeyPair users exist, old versions are completely unaffected.
+- **Old query reading a KeyPair user**: The `oneof info` field resolves to `None` (the unknown variant is skipped by protobuf). `AuthInfo::from_pb()` returns an `Incompatible` error.
+- **Impact scope**: This error affects not only login and DESC USER for that specific user, but also any operation that scans the full user set — including `SHOW USERS` and system table reads (`system.users`). If any KeyPair user exists, old query nodes will fail on these bulk operations.
+- **Upgrade ordering**: All query nodes must be upgraded before creating any KeyPair user. Once a KeyPair user exists, rolling back to an old version will break user-listing operations. It is recommended to upgrade all nodes first, then enable key-pair auth.
+- **No global version bump required**: `MIN_READER_VER` does not need to increase, since old versions can still process all existing auth types. The incompatibility is limited to the new `KeyPair` variant.
 
 ## Drawbacks
 
@@ -298,7 +311,7 @@ Mutual TLS is another approach to certificate-based authentication. However, it 
 
 ## Unresolved Questions
 
-- Should the JWT `iss` (issuer) claim be validated? Snowflake uses `<account>.<user>.SHA256:<fingerprint>` as the issuer. We could adopt a similar convention or leave it optional initially.
+(None at this time.)
 
 ## Future Possibilities
 
@@ -306,3 +319,4 @@ Mutual TLS is another approach to certificate-based authentication. However, it 
 - **Automatic key rotation**: Allow users to set key expiration dates, with warnings before expiry.
 - **Certificate-based auth**: Extend to support X.509 certificates, where the server validates the certificate chain in addition to the signature.
 - **`bendsql` integration**: Add `--private-key` and `--passphrase` flags to `bendsql` for native key-pair authentication.
+- **FlightSQL support**: Extend the FlightSQL handshake to accept key-pair JWT tokens, including `X-DATABEND-AUTH-METHOD` metadata propagation.
