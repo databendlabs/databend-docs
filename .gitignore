@@ -21,3 +21,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.zip
+
+# CI auto-fix artifacts
+_databend/
+bin/
+lib/
+configs/
+*.tar.gz

@@ -25,9 +25,11 @@ Worker management commands require cloud control. If `cloud_control_grpc_server_
 | [ALTER WORKER](alter-worker.md) | Modifies worker tags, options, or state |
 | [DROP WORKER](drop-worker.md) | Removes a worker definition |
 | [SHOW WORKERS](show-workers.md) | Lists workers and their metadata |
+| [Examples](examples.md) | Shows validated worker SQL examples |
 
 ## Notes
 
 - Option names are case-insensitive. Databend normalizes them to lowercase during planning.
 - `SHOW WORKERS` returns the columns `name`, `tags`, `options`, `created_at`, and `updated_at`.
 - `ALTER WORKER` supports `SET TAG`, `UNSET TAG`, `SET`, `UNSET`, `SUSPEND`, and `RESUME`.
+- `CREATE WORKER` does not support a `TAG` clause.
