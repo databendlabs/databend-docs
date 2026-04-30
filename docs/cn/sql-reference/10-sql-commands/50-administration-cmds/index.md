@@ -43,6 +43,7 @@ title: 管理命令
 | **[VACUUM TABLE](09-vacuum-table.md)** | 回收表的存储空间 |
 | **[VACUUM DROP TABLE](09-vacuum-drop-table.md)** | 清理已删除表的数据 |
 | **[VACUUM TEMP FILES](09-vacuum-temp-files.md)** | 移除临时文件 |
+| **[VACUUM VIRTUAL COLUMN](10-vacuum-virtual-column.md)** | 删除过期的虚拟列文件 |
 | **[SHOW INDEXES](show-indexes.md)** | 显示表索引（Index） |
 
 ## 动态执行
