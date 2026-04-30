@@ -55,6 +55,7 @@ Tags are returned in API responses and visible through `SHOW WAREHOUSES`.
 | [CREATE WAREHOUSE](create-warehouse.md) | Creates a new warehouse                           |
 | [USE WAREHOUSE](use-warehouse.md)       | Sets the current warehouse for the session        |
 | [SHOW WAREHOUSES](show-warehouses.md)   | Lists all warehouses with optional filtering      |
+| [SHOW ONLINE NODES](show-online-nodes.md) | Lists online query nodes managed by the system |
 | [ALTER WAREHOUSE](alter-warehouse.md)   | Suspends, resumes, or modifies warehouse settings |
 | [DROP WAREHOUSE](drop-warehouse.md)     | Removes a warehouse                               |
 | [QUERY_HISTORY](query-history.md)       | Inspects query logs for a warehouse               |
