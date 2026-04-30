@@ -52,19 +52,19 @@ ALTER WAREHOUSE <warehouse_name>
 暂停计算集群：
 
 ```sql
-ALTER WAREHOUSE my_wh SUSPEND;
+ALTER WAREHOUSE 'my-wh' SUSPEND;
 ```
 
 恢复计算集群：
 
 ```sql
-ALTER WAREHOUSE my_wh RESUME;
+ALTER WAREHOUSE 'my-wh' RESUME;
 ```
 
 修改配置：
 
 ```sql
-ALTER WAREHOUSE my_wh
+ALTER WAREHOUSE 'my-wh'
     SET warehouse_size = Large
     auto_resume = TRUE
     comment = '生产环境';
@@ -73,5 +73,5 @@ ALTER WAREHOUSE my_wh
 禁用自动暂停：
 
 ```sql
-ALTER WAREHOUSE my_wh SET auto_suspend = NULL;
+ALTER WAREHOUSE 'my-wh' SET auto_suspend = NULL;
 ```

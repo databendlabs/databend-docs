@@ -25,11 +25,11 @@ DROP WAREHOUSE [ IF EXISTS ] <warehouse_name>
 删除计算集群：
 
 ```sql
-DROP WAREHOUSE my_warehouse;
+DROP WAREHOUSE 'my-warehouse';
 ```
 
 仅在存在时删除：
 
 ```sql
-DROP WAREHOUSE IF EXISTS my_warehouse;
+DROP WAREHOUSE IF EXISTS 'my-warehouse';
 ```
