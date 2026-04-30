@@ -85,11 +85,10 @@ X-DATABEND-AUTH-METHOD: keypair
 
 JWT 必须包含：
 - `sub`（主题）：用户名
-- `iss`（签发者）：`<tenant>.<username>` — 将 token 绑定到特定租户和用户，防止跨租户重放
 - `iat`（签发时间）：当前时间戳
 - `exp`（过期时间）：短 TTL（建议 60 秒）
 
-服务端在验证签名之前，先验证 `iss` 声明是否与当前租户和 `sub` 声明匹配。如果任何存储的公钥验证签名成功，则认证通过。
+服务端通过 `sub` 查找用户，然后用存储的公钥验证 JWT 签名。如果任何存储的公钥验证签名成功，则认证通过。
 
 ### 密码短语支持
 
@@ -190,13 +189,12 @@ ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>
    - 如果为 `keypair`：路由到密钥对认证流程。
    - 否则：路由到现有的 JWKS JWT 验证流程（不变）。
 3. 密钥对流程：
-   a. 不验证签名，解码 JWT payload 提取 `sub`（用户名）和 `iss`（签发者）声明。
-   b. 验证 `iss` 匹配 `<tenant>.<username>`。缺失或不匹配则拒绝。
-   c. 通过用户名在 meta 中查找用户。
-   d. 验证用户的 `auth_info` 为 `AuthInfo::KeyPair`。
-   e. 遍历存储的公钥，尝试用每个公钥验证 JWT 签名。首次匹配即接受。
-   f. 验证标准 JWT 声明：`exp` 不能过期，`iat` 必须存在且不能在未来。
-   g. 执行网络策略，设置已认证用户会话。
+   a. 不验证签名，解码 JWT payload 提取 `sub`（用户名）声明。
+   b. 通过用户名在 meta 中查找用户。
+   c. 验证用户的 `auth_info` 为 `AuthInfo::KeyPair`。
+   d. 遍历存储的公钥，尝试用每个公钥验证 JWT 签名。首次匹配即接受。
+   e. 验证标准 JWT 声明：`exp` 不能过期，`iat` 必须存在且不能在未来。
+   f. 执行网络策略，设置已认证用户会话。
 
 ### 密钥验证
 
@@ -254,14 +252,12 @@ openssl pkey -pubin -in key.pem -outform DER | openssl dgst -sha256 -binary | ba
 ```json
 {
   "sub": "service_account",
-  "iss": "my_tenant.service_account",
   "iat": 1714300000,
   "exp": 1714300060
 }
 ```
 
 - `sub`（必需）：Databend 用户名。
-- `iss`（必需）：签发者，格式为 `<tenant>.<username>`。服务端验证此声明以防止跨租户重放。
 - `iat`（必需）：签发时间戳。
 - `exp`（必需）：过期时间戳。建议 TTL 为 60 秒。
 

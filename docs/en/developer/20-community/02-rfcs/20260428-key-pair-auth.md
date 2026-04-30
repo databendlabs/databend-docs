@@ -85,11 +85,10 @@ The `X-DATABEND-AUTH-METHOD: keypair` header is required. Without it, the server
 
 The JWT must contain:
 - `sub` (subject): the username
-- `iss` (issuer): `<tenant>.<username>` — binds the token to a specific tenant and user, preventing cross-tenant replay
 - `iat` (issued at): current timestamp
 - `exp` (expiration): a short TTL (e.g., 60 seconds)
 
-The server validates the `iss` claim against the current tenant and `sub` claim before verifying the signature. If any stored key validates the signature, authentication succeeds.
+The server looks up the user by `sub`, then verifies the JWT signature against the user's stored public keys. If any stored key validates the signature, authentication succeeds.
 
 ### Passphrase Support
 
@@ -190,10 +189,9 @@ When a Bearer JWT token arrives at the HTTP handler:
    - If `keypair`: route to key-pair authentication flow.
    - Otherwise: route to existing JWKS-based JWT verification (unchanged).
 3. Key-pair flow:
-   a. Decode the JWT payload without verification to extract the `sub` (username) and `iss` (issuer) claims.
-   b. Validate `iss` matches `<tenant>.<username>`. Reject if missing or mismatched.
-   c. Look up the user in meta by username.
-   d. Verify the user's `auth_info` is `AuthInfo::KeyPair`.
+   a. Decode the JWT payload without verification to extract the `sub` (username) claim.
+   b. Look up the user in meta by username.
+   c. Verify the user's `auth_info` is `AuthInfo::KeyPair`.
    d. Iterate over stored public keys, attempt to verify the JWT signature with each. Accept on first match.
    e. Validate standard JWT claims: `exp` must not be in the past, `iat` must be present and not in the future.
    f. Enforce network policy, set authenticated user in session.
@@ -254,14 +252,12 @@ The client-generated JWT must follow this structure:
 ```json
 {
   "sub": "service_account",
-  "iss": "my_tenant.service_account",
   "iat": 1714300000,
   "exp": 1714300060
 }
 ```
 
 - `sub` (required): The Databend username.
-- `iss` (required): Issuer in `<tenant>.<username>` format. Validated by the server to prevent cross-tenant replay.
 - `iat` (required): Issued-at timestamp.
 - `exp` (required): Expiration timestamp. Recommended TTL is 60 seconds.
 
