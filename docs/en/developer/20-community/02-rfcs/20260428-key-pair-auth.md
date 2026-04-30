@@ -3,7 +3,7 @@ title: Key-Pair Authentication
 description: RFC for per-user key-pair authentication using public key cryptography.
 ---
 
-- Tracking Issue: TBD
+- Tracking Issue: https://github.com/databendlabs/databend/pull/19786
 
 ## Summary
 
@@ -66,8 +66,11 @@ ALTER USER service_account WITH ADD PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ
 ALTER USER service_account WITH REMOVE PUBLIC_KEY LABEL = 'ci-pipeline';
 ALTER USER service_account WITH REMOVE PUBLIC_KEY FINGERPRINT = 'SHA256:abc123...';
 
--- View key fingerprints, labels, and creation times
+-- View key count
 DESC USER service_account;
+
+-- View key fingerprints, labels, and creation times
+SHOW PUBLIC KEYS FOR USER service_account;
 ```
 
 Both full PEM format (with `-----BEGIN PUBLIC KEY-----` headers) and bare base64-encoded key body are accepted as input. Internally, only the base64 body is stored. For convenience in SQL strings, the one-line base64 body is recommended — it avoids newline/escaping issues in SQL literals.
@@ -171,7 +174,15 @@ ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>
 
 Using `IDENTIFIED WITH key_pair BY '<key>'` in ALTER USER is rejected if the user already uses key-pair authentication — use `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` to manage keys instead. This prevents accidental replacement of all existing keys.
 
-**DESCRIBE USER**: Shows SHA256 fingerprints, labels, and creation timestamps of all stored public keys.
+**DESCRIBE USER**: Shows the number of stored public keys as an integer in the `public_keys` column.
+
+**SHOW PUBLIC KEYS FOR USER**:
+
+```sql
+SHOW PUBLIC KEYS FOR USER <username>;
+```
+
+Returns one row per key with columns: `fingerprint`, `label`, `created_at`. This is the primary way to inspect key details.
 
 ### Constraints
 
