@@ -229,7 +229,7 @@ openssl pkey -pubin -in key.pem -outform DER | openssl dgst -sha256 -binary | ba
 
 用于：
 
-- `DESC USER` 输出中标识密钥，无需暴露完整 PEM。
+- `SHOW PUBLIC KEYS FOR USER` 输出中标识密钥，无需暴露完整 PEM。
 - `REMOVE PUBLIC_KEY` 指定要移除的密钥。
 
 ### 支持的算法

@@ -229,7 +229,7 @@ openssl pkey -pubin -in key.pem -outform DER | openssl dgst -sha256 -binary | ba
 
 This is used for:
 
-- `DESC USER` output to identify keys without exposing the full key.
+- `SHOW PUBLIC KEYS FOR USER` output to identify keys without exposing the full key.
 - `REMOVE PUBLIC_KEY FINGERPRINT` to specify which key to remove.
 
 ### Supported Algorithms
