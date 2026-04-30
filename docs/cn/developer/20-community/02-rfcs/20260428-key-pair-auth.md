@@ -3,7 +3,7 @@ title: 密钥对认证
 description: 基于公钥密码学的用户密钥对认证 RFC。
 ---
 
-- Tracking Issue: TBD
+- Tracking Issue: https://github.com/databendlabs/databend/pull/19786
 
 ## 概述
 
@@ -66,8 +66,11 @@ ALTER USER service_account WITH ADD PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ
 ALTER USER service_account WITH REMOVE PUBLIC_KEY LABEL = 'ci-pipeline';
 ALTER USER service_account WITH REMOVE PUBLIC_KEY FINGERPRINT = 'SHA256:abc123...';
 
--- 查看密钥指纹、标签和创建时间
+-- 查看密钥数量
 DESC USER service_account;
+
+-- 查看密钥指纹、标签和创建时间
+SHOW PUBLIC KEYS FOR USER service_account;
 ```
 
 输入时接受完整 PEM 格式（带 `-----BEGIN PUBLIC KEY-----` header）或纯 base64 编码的密钥体。内部只存储 base64 体。为方便在 SQL 字符串中使用，建议使用单行 base64 体 — 可避免 SQL 字面量中的换行/转义问题。
@@ -170,7 +173,15 @@ ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>
 
 如果用户已经使用密钥对认证，在 ALTER USER 中使用 `IDENTIFIED WITH key_pair BY '<key>'` 会被拒绝 — 请使用 `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` 来管理密钥。这可以防止意外替换所有现有密钥。
 
-**DESCRIBE USER**：显示所有存储公钥的 SHA256 指纹、标签和创建时间。
+**DESCRIBE USER**：在 `public_keys` 列中以整数形式显示存储的公钥数量。
+
+**SHOW PUBLIC KEYS FOR USER**：
+
+```sql
+SHOW PUBLIC KEYS FOR USER <username>;
+```
+
+每个密钥返回一行，包含 `fingerprint`、`label`、`created_at` 列。这是查看密钥详情的主要方式。
 
 ### 约束
 
@@ -216,7 +227,7 @@ openssl pkey -pubin -in key.pem -outform DER | openssl dgst -sha256 -binary | ba
 
 用于：
 
-- `DESC USER` 输出中标识密钥，无需暴露完整 PEM。
+- `SHOW PUBLIC KEYS FOR USER` 输出中标识密钥，无需暴露完整 PEM。
 - `REMOVE PUBLIC_KEY` 指定要移除的密钥。
 
 ### 支持的算法
