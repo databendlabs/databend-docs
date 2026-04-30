@@ -6,7 +6,7 @@ sidebar_position: 7
 Lists online query nodes visible to the current tenant.
 
 :::note
-This command requires system management support and an enterprise license.
+This command requires system management support and an [enterprise license](/guides/20-self-hosted/00-editions/enterprise/license).
 :::
 
 ## Syntax
@@ -23,7 +23,7 @@ SHOW ONLINE NODES
 |--------|-------------|
 | `id` | Node identifier |
 | `type` | Node type, such as `SelfManaged` or `SystemManaged` |
-| `group` | Node group |
+| `node_group` | Node group |
 | `warehouse` | Warehouse identifier |
 | `cluster` | Cluster identifier |
 | `version` | Binary version |
