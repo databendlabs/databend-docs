@@ -25,11 +25,11 @@ DROP WAREHOUSE [ IF EXISTS ] <warehouse_name>
 Drop a warehouse:
 
 ```sql
-DROP WAREHOUSE my_warehouse;
+DROP WAREHOUSE 'my-warehouse';
 ```
 
 Drop a warehouse only if it exists:
 
 ```sql
-DROP WAREHOUSE IF EXISTS my_warehouse;
+DROP WAREHOUSE IF EXISTS 'my-warehouse';
 ```

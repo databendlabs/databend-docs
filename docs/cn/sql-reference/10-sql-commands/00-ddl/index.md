@@ -8,6 +8,7 @@ title: DDL（Data Definition Language）命令
 
 | 组件 | 描述 |
 |-----------|-------------|
+| **[Catalog](09-catalog/index.md)** | 创建、删除和查看 catalog 列表 |
 | **[数据库](00-database/index.md)** | 创建、修改和删除数据库 |
 | **[表](01-table/index.md)** | 创建、修改和管理表 |
 | **[表版本管理 (Table Versioning)](21-table-versioning/index.md)** | 创建命名快照标签用于时间回溯 |
@@ -21,6 +22,8 @@ title: DDL（Data Definition Language）命令
 | **[聚合索引 (Aggregating Index)](07-aggregating-index/index.md)** | 预计算聚合以加快查询速度 |
 | **[倒排索引 (Inverted Index)](07-inverted-index/index.md)** | 用于文本列的全文搜索索引 |
 | **[Ngram 索引 (Ngram Index)](07-ngram-index/index.md)** | 用于 LIKE 模式的子字符串搜索索引 |
+| **[空间索引 (Spatial Index)](07-spatial-index/index.md)** | 用于 `GEOMETRY` 列的空间裁剪索引 |
+| **[向量索引 (Vector Index)](07-vector-index/index.md)** | 向量嵌入的相似度搜索索引 |
 | **[虚拟列 (Virtual Column)](07-virtual-column/index.md)** | 将 JSON 字段提取并索引为虚拟列 |
 
 ## 安全和访问控制
@@ -38,12 +41,13 @@ title: DDL（Data Definition Language）命令
 | 组件 | 描述 |
 |-----------|-------------|
 | **[暂存区 (Stage)](03-stage/index.md)** | 为数据加载定义存储位置 |
-| **[Pipe](17-pipe/index.md)** | 删除导入管道 |
+| **[Pipe](17-pipe/index.md)** | 管理导入管道 |
 | **[流 (Stream)](04-stream/index.md)** | 捕获和处理数据变更 |
 | **[任务 (Task)](04-task/index.md)** | 调度和自动化 SQL 操作 |
 | **[序列 (Sequence)](04-sequence/index.md)** | 生成唯一的序列号 |
 | **[连接 (Connection)](13-connection/index.md)** | 配置外部数据源连接 |
 | **[文件格式 (File Format)](13-file-format/index.md)** | 为数据导入/导出定义格式 |
+| **[字典 (Dictionary)](17-dictionary/index.md)** | 定义由外部数据源驱动的字典 |
 
 ## 函数和存储过程
 
@@ -59,6 +63,7 @@ title: DDL（Data Definition Language）命令
 | 组件 | 描述 |
 |-----------|-------------|
 | **[计算集群 (Warehouse)](19-warehouse/index.md)** | 管理用于查询执行的计算资源 |
+| **[工作节点 (Worker)](20-worker/index.md)** | 通过 cloud control 管理 worker 资源 |
 | **[工作负载组 (Workload Group)](20-workload-group/index.md)** | 控制资源分配和优先级 |
 | **[事务 (Transaction)](14-transaction/index.md)** | 管理数据库事务 |
 | **[变量 (Variable)](15-variable/index.md)** | 设置和使用会话/全局变量 |
