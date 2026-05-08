@@ -35,4 +35,4 @@ export const ASKBEND_URL = "https://ask.databend.com";
 
 export const tagline = "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics."
 
-export const announcementBarContent = `⭐️ If you like Databend, give it a star on <a style="display: inline-flex;" target="_blank" rel="noopener noreferrer" href="https://github.com/databendlabs/databend">GitHub ${GitHubSvg}</a> and follow us on <a target="_blank" style="display: inline-flex;" rel="noopener noreferrer" href="https://x.com/DatabendLabs" >X(Twitter)</a> ${XSvg}`
+export const announcementBarContent = `⭐️ If you like Databend, give it a star on <a style="display: inline-flex;text-decoration: underline;" target="_blank" rel="noopener noreferrer" href="https://github.com/databendlabs/databend">GitHub ${GitHubSvg}</a> and follow us on <a target="_blank" style="display: inline-flex;text-decoration: underline;" rel="noopener noreferrer" href="https://x.com/DatabendLabs" >X(Twitter) ${XSvg}</a>`
