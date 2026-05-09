@@ -92,16 +92,30 @@ CREATE USER user1 IDENTIFIED BY 'abc123';
 CREATE USER user2 IDENTIFIED WITH sha256_password BY 'abc123';
 ```
 
-### 示例 4：创建具有特殊配置的用户
+### 示例 4：为 AI 工具或自动化创建全权限用户
+
+创建拥有所有数据库读写权限的用户，适用于管理账号或自动化流水线：
 
 ```sql
--- 创建需修改密码的用户
-CREATE USER new_employee IDENTIFIED BY 'temp123' WITH MUST_CHANGE_PASSWORD = true;
+-- 创建全局访问角色
+CREATE ROLE full_access_role;
+GRANT ALL ON *.* TO ROLE full_access_role;
 
--- 创建禁用状态的用户
-CREATE USER temp_user IDENTIFIED BY 'abc123' WITH DISABLED = true;
+-- 创建用户并分配角色
+CREATE USER admin_user IDENTIFIED BY 'SecurePass456!' WITH DEFAULT_ROLE = 'full_access_role';
+GRANT ROLE full_access_role TO admin_user;
+```
 
--- 创建带默认角色的用户（需单独授予角色）
-CREATE USER manager IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'admin';
-GRANT ROLE admin TO manager;
+### 示例 5：全库只读用户
+
+创建仅能查询数据的用户，适用于仪表盘、BI 工具或安全模式下的 AI Agent：
+
+```sql
+-- 创建只读角色
+CREATE ROLE readonly_role;
+GRANT SELECT ON *.* TO ROLE readonly_role;
+
+-- 创建用户
+CREATE USER readonly_user IDENTIFIED BY 'ReadOnly789!' WITH DEFAULT_ROLE = 'readonly_role';
+GRANT ROLE readonly_role TO readonly_user;
 ```

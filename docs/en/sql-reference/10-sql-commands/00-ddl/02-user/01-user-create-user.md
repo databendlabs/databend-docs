@@ -92,16 +92,30 @@ CREATE USER user1 IDENTIFIED BY 'abc123';
 CREATE USER user2 IDENTIFIED WITH sha256_password BY 'abc123';
 ```
 
-### Example 4: Create Users with Special Configurations
+### Example 4: Full Access for AI Tools or Automation
+
+Create a user with full read/write access across all databases, suitable for admin accounts or automation pipelines:
 
 ```sql
--- Create user with password change requirement
-CREATE USER new_employee IDENTIFIED BY 'temp123' WITH MUST_CHANGE_PASSWORD = true;
+-- Create a role with global access
+CREATE ROLE full_access_role;
+GRANT ALL ON *.* TO ROLE full_access_role;
 
--- Create user in disabled state
-CREATE USER temp_user IDENTIFIED BY 'abc123' WITH DISABLED = true;
+-- Create the user and assign the role
+CREATE USER admin_user IDENTIFIED BY 'SecurePass456!' WITH DEFAULT_ROLE = 'full_access_role';
+GRANT ROLE full_access_role TO admin_user;
+```
 
--- Create user with default role (role must be granted separately)
-CREATE USER manager IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'admin';
-GRANT ROLE admin TO manager;
+### Example 5: Read-Only Access Across All Databases
+
+Create a user that can only query data, suitable for dashboards, BI tools, or AI agents in safe mode:
+
+```sql
+-- Create a read-only role
+CREATE ROLE readonly_role;
+GRANT SELECT ON *.* TO ROLE readonly_role;
+
+-- Create the user
+CREATE USER readonly_user IDENTIFIED BY 'ReadOnly789!' WITH DEFAULT_ROLE = 'readonly_role';
+GRANT ROLE readonly_role TO readonly_user;
 ```
