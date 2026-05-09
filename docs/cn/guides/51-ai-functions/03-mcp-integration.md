@@ -25,7 +25,11 @@ import TabItem from '@theme/TabItem';
 
 ### 1. 获取 Databend 连接信息
 
-推荐使用 **Databend Cloud** 以获得开箱即用的体验。
+推荐使用 **Databend Cloud** 以获得开箱即用的体验。你有两种方式获取 DSN。
+
+#### 方式 A：使用 **与 AI 工具连接**（推荐）
+
+一键生成带会话沙箱防护的临时 DSN，适合快速接入 AI 工具。
 
 1. 登录 [Databend Cloud](https://app.databend.cn)。
 2. 点击 **与 AI 工具连接**。
@@ -38,6 +42,20 @@ import TabItem from '@theme/TabItem';
    ```
 
 ![与 AI 工具连接](@site/static/img/connect/ai-tools.png)
+
+#### 方式 B：使用自建 SQL 用户拼接 DSN
+
+如果你希望使用固定的账号和权限（例如 CI 环境、共享给团队成员，或搭配最小权限策略），可以自行创建 SQL 用户并拼接 DSN。
+
+1. 在 Databend Cloud 中 [创建 SQL 用户](/guides/cloud/resources/warehouses#creating-sql-users-for-warehouse-access) 并授予所需权限。
+2. 从 **概览 → 连接** 页面获取 `tenant`、`region`、`database`、`warehouse` 等信息。
+3. 按下列格式拼接 DSN：
+
+   ```text
+   databend://<username>:<password>@<tenant>.gw.<region>.default.databend.com:443/<database>?warehouse=<warehouse_name>
+   ```
+
+自建用户不会自动启用会话沙箱，建议通过最小权限控制写入范围，并在下一步保持 `DATABEND_MCP_SAFE_MODE=true`。
 
 ### 2. 配置 MCP 客户端
 

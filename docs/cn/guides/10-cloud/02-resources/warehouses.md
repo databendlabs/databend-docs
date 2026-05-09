@@ -225,7 +225,25 @@ databend://<username>:<password>@<tenant>.gw.<region>.default.databend.com:443/<
 
 ### 创建 SQL 用户
 
-除默认的 `cloudapp` 用户外，您可以创建额外的 SQL 用户以实现更细粒度的安全管控：
+除默认的 `cloudapp` 用户外，您可以创建额外的 SQL 用户以实现更细粒度的安全管控。
+
+#### 示例 1：全库读写访问
+
+授予用户对所有数据库的读写权限，适用于需要跨库操作的管理账号或自动化流水线：
+
+```sql
+-- 创建全局访问角色
+CREATE ROLE full_access_role;
+GRANT ALL ON *.* TO ROLE full_access_role;
+
+-- 创建用户并分配角色
+CREATE USER admin_user IDENTIFIED BY 'SecurePass456!' WITH DEFAULT_ROLE = 'full_access_role';
+GRANT ROLE full_access_role TO admin_user;
+```
+
+#### 示例 2：单数据库访问
+
+仅授予用户对某个数据库的访问权限：
 
 ```sql
 -- 创建包含数据库权限的角色
@@ -236,6 +254,24 @@ GRANT ALL ON my_database.* TO ROLE warehouse_user1_role;
 CREATE USER warehouse_user1 IDENTIFIED BY 'StrongPassword123' WITH DEFAULT_ROLE = 'warehouse_user1_role';
 GRANT ROLE warehouse_user1_role TO warehouse_user1;
 ```
+
+#### 示例 3：全库只读访问
+
+适用于仅需查询数据的场景（仪表盘、BI 工具、安全模式下的 AI Agent）：
+
+```sql
+-- 创建只读角色
+CREATE ROLE readonly_role;
+GRANT SELECT ON *.* TO ROLE readonly_role;
+
+-- 创建用户
+CREATE USER readonly_user IDENTIFIED BY 'ReadOnly789!' WITH DEFAULT_ROLE = 'readonly_role';
+GRANT ROLE readonly_role TO readonly_user;
+```
+
+:::tip
+在 Databend Cloud 中，`CREATE DATABASE` 等权限只能授予角色，不能直接授予用户。请先创建角色、授权，再将角色分配给用户。
+:::
 
 更多详情请参阅 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 和 [GRANT](/sql/sql-commands/ddl/user/grant) 文档。
 
