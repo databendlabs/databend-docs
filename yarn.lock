@@ -6599,10 +6599,10 @@ data-urls@^4.0.0:
     whatwg-mimetype "^3.0.0"
     whatwg-url "^12.0.0"
 
-databend-logos@^0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/databend-logos/-/databend-logos-0.0.16.tgz#7698a60e7d9b9255b821a5f06c3b9de75ec6d4d1"
-  integrity sha512-W1ZPe/NkiW9mLcTYo8lQn6PxcxN/iHe26wAB/UcC/Hw+lTmJGfHyoFWkbvYJL1lSCQ+ryF9dxvAwvJJv3dGBzA==
+databend-logos@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.npmmirror.com/databend-logos/-/databend-logos-0.0.21.tgz#6243259a213c8ec75cbf38726aba8f105544c33b"
+  integrity sha512-2yVEItFYW3BcK5JhVjAkR+0r1RBm0kP+rtZBTwxd662WnfDQDTkklTMHLgGR1hQzbfBRuTLsALk80kdd2ccAdw==
 
 dayjs@^1.11.11, dayjs@^1.11.19:
   version "1.11.20"
