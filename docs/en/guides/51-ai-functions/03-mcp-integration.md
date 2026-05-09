@@ -47,7 +47,7 @@ Generates a short-lived DSN with session sandbox safety in one click. Best for g
 
 Use this when you want a stable account and permission set (for example, CI pipelines, sharing with teammates, or pairing with a least-privilege policy).
 
-1. Create a SQL user in Databend Cloud and grant the required privileges. See [Creating SQL Users for Warehouse Access](/guides/cloud/resources/warehouses#creating-sql-users-for-warehouse-access).
+1. Create a SQL user in Databend Cloud and grant the required privileges. See [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) and [GRANT](/sql/sql-commands/ddl/user/grant).
 2. Get your `tenant`, `region`, `database`, and `warehouse` values from **Overview → Connect**.
 3. Assemble the DSN using this format:
 

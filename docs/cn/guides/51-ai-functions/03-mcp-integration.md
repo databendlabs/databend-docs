@@ -47,7 +47,7 @@ import TabItem from '@theme/TabItem';
 
 如果你希望使用固定的账号和权限（例如 CI 环境、共享给团队成员，或搭配最小权限策略），可以自行创建 SQL 用户并拼接 DSN。
 
-1. 在 Databend Cloud 中 [创建 SQL 用户](/guides/cloud/resources/warehouses#creating-sql-users-for-warehouse-access) 并授予所需权限。
+1. 在 Databend Cloud 中创建 SQL 用户并授予所需权限，参阅 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 和 [GRANT](/sql/sql-commands/ddl/user/grant)。
 2. 从 **概览 → 连接** 页面获取 `tenant`、`region`、`database`、`warehouse` 等信息。
 3. 按下列格式拼接 DSN：
 
