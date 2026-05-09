@@ -128,16 +128,17 @@ docker run -d \
 | 名称                             | 类型    | 标签                         | 描述                                        |
 | -------------------------------- | ------- | ---------------------------- | ------------------------------------------- |
 | warehouse_status                 | Guage   | tenant,warehouse,size,status | 计算集群 状态的标志（Suspended,Running 等） |
-| warehouse_connections            | Guage   | tenant,warehouse             | 当前会话数                                  |
-| warehouse_queries_queued         | Guage   | tenant,warehouse             | 当前在队列中等待的查询                      |
-| warehouse_queries_running        | Guage   | tenant,warehouse             | 当前正在运行的查询                          |
-| warehouse_queries_start_total    | Counter | tenant,warehouse             | 启动的查询总数                              |
-| warehouse_queries_failed_total   | Counter | tenant,warehouse             | 失败的查询总数                              |
-| warehouse_queries_success_total  | Counter | tenant,warehouse             | 成功的查询总数                              |
-| warehouse_storage_requests_total | Counter | tenant,warehouse,scheme,op   | 后端存储的请求计数                          |
-| warehouse_storage_requests_bytes | Counter | tenant,warehouse,scheme,op   | 来自后端存储的请求字节数                    |
-| warehouse_data_scan_rows         | Counter | tenant,warehouse             | 从后端存储扫描的数据行数                    |
-| warehouse_data_write_rows        | Counter | tenant,warehouse             | 写入后端存储的数据行数                      |
+| warehouse_running_clusters       | Gauge   | tenant,warehouse             | 计算集群当前运行中的 cluster 数量（仅多集群计算集群） |
+| warehouse_connections            | Guage   | tenant,warehouse,warehouse_cluster | 当前会话数                                  |
+| warehouse_queries_queued         | Guage   | tenant,warehouse,warehouse_cluster | 当前在队列中等待的查询                      |
+| warehouse_queries_running        | Guage   | tenant,warehouse,warehouse_cluster | 当前正在运行的查询                          |
+| warehouse_queries_start_total    | Counter | tenant,warehouse,warehouse_cluster | 启动的查询总数                              |
+| warehouse_queries_failed_total   | Counter | tenant,warehouse,warehouse_cluster | 失败的查询总数                              |
+| warehouse_queries_success_total  | Counter | tenant,warehouse,warehouse_cluster | 成功的查询总数                              |
+| warehouse_storage_requests_total | Counter | tenant,warehouse,warehouse_cluster,scheme,op | 后端存储的请求计数                  |
+| warehouse_storage_requests_bytes | Counter | tenant,warehouse,warehouse_cluster,scheme,op | 来自后端存储的请求字节数            |
+| warehouse_data_scan_rows         | Counter | tenant,warehouse,warehouse_cluster | 从后端存储扫描的数据行数                    |
+| warehouse_data_write_rows        | Counter | tenant,warehouse,warehouse_cluster | 写入后端存储的数据行数                      |
 
 ### 任务指标
 
