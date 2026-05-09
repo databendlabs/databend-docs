@@ -33,7 +33,35 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 
 ## 示例
 
-### 示例 1：创建用户并授予数据库权限
+### 示例 1：全库读写访问
+
+创建拥有所有数据库读写权限的用户：
+
+```sql
+-- 创建全局访问角色
+CREATE ROLE full_access_role;
+GRANT ALL ON *.* TO ROLE full_access_role;
+
+-- 创建用户并分配角色
+CREATE USER admin_user IDENTIFIED BY 'SecurePass456!' WITH DEFAULT_ROLE = 'full_access_role';
+GRANT ROLE full_access_role TO admin_user;
+```
+
+### 示例 2：全库只读访问
+
+创建仅能查询数据的用户，适用于仪表盘或 BI 工具：
+
+```sql
+-- 创建只读角色
+CREATE ROLE readonly_role;
+GRANT SELECT ON *.* TO ROLE readonly_role;
+
+-- 创建用户
+CREATE USER readonly_user IDENTIFIED BY 'ReadOnly789!' WITH DEFAULT_ROLE = 'readonly_role';
+GRANT ROLE readonly_role TO readonly_user;
+```
+
+### 示例 3：单数据库访问
 
 创建角色并授予数据库权限，然后将角色授予用户：
 
@@ -57,32 +85,7 @@ SHOW GRANTS FOR ROLE data_analyst_role;
 +----------------------------------------------------------------+
 ```
 
-### 示例 2：创建用户并授予角色
-
-创建用户并分配具有特定权限的角色：
-
-```sql
--- 创建角色并授予权限
-CREATE ROLE analyst_role;
-GRANT SELECT ON *.* TO ROLE analyst_role;
-GRANT INSERT ON default.* TO ROLE analyst_role;
-
--- 创建用户并授予角色
-CREATE USER john_analyst IDENTIFIED BY 'secure_pass456';
-GRANT ROLE analyst_role TO john_analyst;
-```
-
-验证角色分配：
-```sql
-SHOW GRANTS FOR john_analyst;
-+------------------------------------------+
-| Grants                                   |
-+------------------------------------------+
-| GRANT ROLE analyst_role TO 'john_analyst'@'%' |
-+------------------------------------------+
-```
-
-### 示例 3：创建不同认证类型的用户
+### 示例 4：创建不同认证类型的用户
 
 ```sql
 -- 使用默认认证创建用户
@@ -90,18 +93,4 @@ CREATE USER user1 IDENTIFIED BY 'abc123';
 
 -- 使用 SHA256 认证创建用户
 CREATE USER user2 IDENTIFIED WITH sha256_password BY 'abc123';
-```
-
-### 示例 4：创建具有特殊配置的用户
-
-```sql
--- 创建需修改密码的用户
-CREATE USER new_employee IDENTIFIED BY 'temp123' WITH MUST_CHANGE_PASSWORD = true;
-
--- 创建禁用状态的用户
-CREATE USER temp_user IDENTIFIED BY 'abc123' WITH DISABLED = true;
-
--- 创建带默认角色的用户（需单独授予角色）
-CREATE USER manager IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'admin';
-GRANT ROLE admin TO manager;
 ```

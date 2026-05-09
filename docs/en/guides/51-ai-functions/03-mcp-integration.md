@@ -25,7 +25,11 @@ For example: _"Create a scheduled task that copies parquet files from @my_stage 
 
 ### 1. Get a Databend Connection
 
-We recommend using **Databend Cloud** for the best experience.
+We recommend using **Databend Cloud** for the best experience. You can obtain the DSN in two ways.
+
+#### Option A: Use **Use with AI Tools** (recommended)
+
+Generates a short-lived DSN with session sandbox safety in one click. Best for getting AI tools connected quickly.
 
 1. Log in to [Databend Cloud](https://app.databend.com).
 2. Click **Use with AI Tools**.
@@ -38,6 +42,20 @@ We recommend using **Databend Cloud** for the best experience.
    ```
 
 ![Use with AI Tools](@site/static/img/connect/ai-tools.png)
+
+#### Option B: Build the DSN with your own SQL user
+
+Use this when you want a stable account and permission set (for example, CI pipelines, sharing with teammates, or pairing with a least-privilege policy).
+
+1. Create a SQL user in Databend Cloud and grant the required privileges. See [CREATE USER](/sql/sql-commands/ddl/user/user-create-user#example-1-full-access-across-all-databases).
+2. Get your `tenant`, `region`, `database`, and `warehouse` values from **Overview → Connect**.
+3. Assemble the DSN using this format:
+
+   ```text
+   databend://<username>:<password>@<tenant>.gw.<region>.default.databend.com:443/<database>?warehouse=<warehouse_name>
+   ```
+
+Self-created users do not get the session sandbox automatically. Scope writes through least-privilege grants and keep `DATABEND_MCP_SAFE_MODE=true` in the next step.
 
 ### 2. Configure Your MCP Client
 
