@@ -3,7 +3,7 @@ title: 密钥对认证
 description: 基于公钥密码学的用户密钥对认证 RFC。
 ---
 
-- Tracking Issue: TBD
+- Tracking Issue: https://github.com/databendlabs/databend/pull/19786
 
 ## 概述
 
@@ -66,8 +66,11 @@ ALTER USER service_account WITH ADD PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ
 ALTER USER service_account WITH REMOVE PUBLIC_KEY LABEL = 'ci-pipeline';
 ALTER USER service_account WITH REMOVE PUBLIC_KEY FINGERPRINT = 'SHA256:abc123...';
 
--- 查看密钥指纹、标签和创建时间
+-- 查看密钥数量
 DESC USER service_account;
+
+-- 查看密钥指纹、标签和创建时间
+SHOW PUBLIC KEYS FOR USER service_account;
 ```
 
 输入时接受完整 PEM 格式（带 `-----BEGIN PUBLIC KEY-----` header）或纯 base64 编码的密钥体。内部只存储 base64 体。为方便在 SQL 字符串中使用，建议使用单行 base64 体 — 可避免 SQL 字面量中的换行/转义问题。
@@ -85,11 +88,10 @@ X-DATABEND-AUTH-METHOD: keypair
 
 JWT 必须包含：
 - `sub`（主题）：用户名
-- `iss`（签发者）：`<tenant>.<username>` — 将 token 绑定到特定租户和用户，防止跨租户重放
 - `iat`（签发时间）：当前时间戳
 - `exp`（过期时间）：短 TTL（建议 60 秒）
 
-服务端在验证签名之前，先验证 `iss` 声明是否与当前租户和 `sub` 声明匹配。如果任何存储的公钥验证签名成功，则认证通过。
+服务端通过 `sub` 查找用户，然后用存储的公钥验证 JWT 签名。如果任何存储的公钥验证签名成功，则认证通过。
 
 ### 密码短语支持
 
@@ -171,7 +173,15 @@ ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>
 
 如果用户已经使用密钥对认证，在 ALTER USER 中使用 `IDENTIFIED WITH key_pair BY '<key>'` 会被拒绝 — 请使用 `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` 来管理密钥。这可以防止意外替换所有现有密钥。
 
-**DESCRIBE USER**：显示所有存储公钥的 SHA256 指纹、标签和创建时间。
+**DESCRIBE USER**：在 `public_keys` 列中以整数形式显示存储的公钥数量。
+
+**SHOW PUBLIC KEYS FOR USER**：
+
+```sql
+SHOW PUBLIC KEYS FOR USER <username>;
+```
+
+每个密钥返回一行，包含 `fingerprint`、`label`、`created_at` 列。这是查看密钥详情的主要方式。
 
 ### 约束
 
@@ -190,13 +200,12 @@ ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>
    - 如果为 `keypair`：路由到密钥对认证流程。
    - 否则：路由到现有的 JWKS JWT 验证流程（不变）。
 3. 密钥对流程：
-   a. 不验证签名，解码 JWT payload 提取 `sub`（用户名）和 `iss`（签发者）声明。
-   b. 验证 `iss` 匹配 `<tenant>.<username>`。缺失或不匹配则拒绝。
-   c. 通过用户名在 meta 中查找用户。
-   d. 验证用户的 `auth_info` 为 `AuthInfo::KeyPair`。
-   e. 遍历存储的公钥，尝试用每个公钥验证 JWT 签名。首次匹配即接受。
-   f. 验证标准 JWT 声明：`exp` 不能过期，`iat` 必须存在且不能在未来。
-   g. 执行网络策略，设置已认证用户会话。
+   a. 不验证签名，解码 JWT payload 提取 `sub`（用户名）声明。
+   b. 通过用户名在 meta 中查找用户。
+   c. 验证用户的 `auth_info` 为 `AuthInfo::KeyPair`。
+   d. 遍历存储的公钥，尝试用每个公钥验证 JWT 签名。首次匹配即接受。
+   e. 验证标准 JWT 声明：`exp` 不能过期，`iat` 必须存在且不能在未来。
+   f. 执行网络策略，设置已认证用户会话。
 
 ### 密钥验证
 
@@ -218,7 +227,7 @@ openssl pkey -pubin -in key.pem -outform DER | openssl dgst -sha256 -binary | ba
 
 用于：
 
-- `DESC USER` 输出中标识密钥，无需暴露完整 PEM。
+- `SHOW PUBLIC KEYS FOR USER` 输出中标识密钥，无需暴露完整 PEM。
 - `REMOVE PUBLIC_KEY` 指定要移除的密钥。
 
 ### 支持的算法
@@ -254,14 +263,12 @@ openssl pkey -pubin -in key.pem -outform DER | openssl dgst -sha256 -binary | ba
 ```json
 {
   "sub": "service_account",
-  "iss": "my_tenant.service_account",
   "iat": 1714300000,
   "exp": 1714300060
 }
 ```
 
 - `sub`（必需）：Databend 用户名。
-- `iss`（必需）：签发者，格式为 `<tenant>.<username>`。服务端验证此声明以防止跨租户重放。
 - `iat`（必需）：签发时间戳。
 - `exp`（必需）：过期时间戳。建议 TTL 为 60 秒。
 

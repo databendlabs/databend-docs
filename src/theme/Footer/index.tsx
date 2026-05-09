@@ -142,10 +142,10 @@ function Footer() {
             },
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "401 RYLAND ST. STE 200-A",
-              "addressLocality": "Reno",
+              "streetAddress": "732 S 6TH ST, STE R",
+              "addressLocality": "Las Vegas",
               "addressRegion": "NV",
-              "postalCode": "89502",
+              "postalCode": "89101",
               "addressCountry": "USA"
             },
           }

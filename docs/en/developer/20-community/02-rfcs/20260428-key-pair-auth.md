@@ -3,7 +3,7 @@ title: Key-Pair Authentication
 description: RFC for per-user key-pair authentication using public key cryptography.
 ---
 
-- Tracking Issue: TBD
+- Tracking Issue: https://github.com/databendlabs/databend/pull/19786
 
 ## Summary
 
@@ -66,8 +66,11 @@ ALTER USER service_account WITH ADD PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ
 ALTER USER service_account WITH REMOVE PUBLIC_KEY LABEL = 'ci-pipeline';
 ALTER USER service_account WITH REMOVE PUBLIC_KEY FINGERPRINT = 'SHA256:abc123...';
 
--- View key fingerprints, labels, and creation times
+-- View key count
 DESC USER service_account;
+
+-- View key fingerprints, labels, and creation times
+SHOW PUBLIC KEYS FOR USER service_account;
 ```
 
 Both full PEM format (with `-----BEGIN PUBLIC KEY-----` headers) and bare base64-encoded key body are accepted as input. Internally, only the base64 body is stored. For convenience in SQL strings, the one-line base64 body is recommended — it avoids newline/escaping issues in SQL literals.
@@ -85,11 +88,10 @@ The `X-DATABEND-AUTH-METHOD: keypair` header is required. Without it, the server
 
 The JWT must contain:
 - `sub` (subject): the username
-- `iss` (issuer): `<tenant>.<username>` — binds the token to a specific tenant and user, preventing cross-tenant replay
 - `iat` (issued at): current timestamp
 - `exp` (expiration): a short TTL (e.g., 60 seconds)
 
-The server validates the `iss` claim against the current tenant and `sub` claim before verifying the signature. If any stored key validates the signature, authentication succeeds.
+The server looks up the user by `sub`, then verifies the JWT signature against the user's stored public keys. If any stored key validates the signature, authentication succeeds.
 
 ### Passphrase Support
 
@@ -171,7 +173,15 @@ ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>
 
 Using `IDENTIFIED WITH key_pair BY '<key>'` in ALTER USER is rejected if the user already uses key-pair authentication — use `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` to manage keys instead. This prevents accidental replacement of all existing keys.
 
-**DESCRIBE USER**: Shows SHA256 fingerprints, labels, and creation timestamps of all stored public keys.
+**DESCRIBE USER**: Shows the number of stored public keys as an integer in the `public_keys` column.
+
+**SHOW PUBLIC KEYS FOR USER**:
+
+```sql
+SHOW PUBLIC KEYS FOR USER <username>;
+```
+
+Returns one row per key with columns: `fingerprint`, `label`, `created_at`. This is the primary way to inspect key details.
 
 ### Constraints
 
@@ -190,10 +200,9 @@ When a Bearer JWT token arrives at the HTTP handler:
    - If `keypair`: route to key-pair authentication flow.
    - Otherwise: route to existing JWKS-based JWT verification (unchanged).
 3. Key-pair flow:
-   a. Decode the JWT payload without verification to extract the `sub` (username) and `iss` (issuer) claims.
-   b. Validate `iss` matches `<tenant>.<username>`. Reject if missing or mismatched.
-   c. Look up the user in meta by username.
-   d. Verify the user's `auth_info` is `AuthInfo::KeyPair`.
+   a. Decode the JWT payload without verification to extract the `sub` (username) claim.
+   b. Look up the user in meta by username.
+   c. Verify the user's `auth_info` is `AuthInfo::KeyPair`.
    d. Iterate over stored public keys, attempt to verify the JWT signature with each. Accept on first match.
    e. Validate standard JWT claims: `exp` must not be in the past, `iat` must be present and not in the future.
    f. Enforce network policy, set authenticated user in session.
@@ -218,7 +227,7 @@ openssl pkey -pubin -in key.pem -outform DER | openssl dgst -sha256 -binary | ba
 
 This is used for:
 
-- `DESC USER` output to identify keys without exposing the full key.
+- `SHOW PUBLIC KEYS FOR USER` output to identify keys without exposing the full key.
 - `REMOVE PUBLIC_KEY FINGERPRINT` to specify which key to remove.
 
 ### Supported Algorithms
@@ -254,14 +263,12 @@ The client-generated JWT must follow this structure:
 ```json
 {
   "sub": "service_account",
-  "iss": "my_tenant.service_account",
   "iat": 1714300000,
   "exp": 1714300060
 }
 ```
 
 - `sub` (required): The Databend username.
-- `iss` (required): Issuer in `<tenant>.<username>` format. Validated by the server to prevent cross-tenant replay.
 - `iat` (required): Issued-at timestamp.
 - `exp` (required): Expiration timestamp. Recommended TTL is 60 seconds.
 
