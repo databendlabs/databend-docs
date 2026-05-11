@@ -16,3 +16,4 @@ title: 生产环境部署
 - [Meta Service 状态](60-metasrv-status.md)
 - [Meta Service CLI API](70-metasrv-cli-api.md)
 - [Meta Service gRPC 指南](16-metasrv-grpc.md)
+- [BendDeploy](90-benddeploy/index.md)

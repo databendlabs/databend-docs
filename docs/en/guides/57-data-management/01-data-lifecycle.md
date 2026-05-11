@@ -25,6 +25,7 @@ Databend supports the following objects to create and modify them:
 - Grants
 - Warehouse
 - Task
+- [Snapshot Tag](/sql/sql-commands/ddl/table-versioning#snapshot-tags)
 
 ## Organizing Data
 

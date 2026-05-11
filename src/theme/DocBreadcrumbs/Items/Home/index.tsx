@@ -6,7 +6,7 @@ import { translate } from "@docusaurus/Translate";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
 export default function HomeBreadcrumbItem() {
-  const { siteConfig } = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext() as any;
   const { pathname } = useLocation();
 
   // 从配置中获取 navbar items

@@ -4,8 +4,8 @@ sidebar_label: Deploying a Cluster on Kubernetes
 description: How to Databend a Databend query cluster on Kubernetes.
 ---
 
-<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import VideoCN from '@site/docs/fragment/02-deploying-databend-on-kubernetes-cnvideo.md' -->
+{/* import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/02-deploying-databend-on-kubernetes-cnvideo.md' */}
 
 This topic explains how to install and configure the Databend cluster on Kubernetes.
 
@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
   In this example, you will deploy a Databend Meta cluster consisting of 3 nodes, as well as two separate Databend Query clusters, each also consisting of 3 nodes. You should manage and allocate resources according to your actual deployment plans and usage scenarios to ensure that services run smoothly.
 
-  :::info For Production Deployments
+  :::info[For Production Deployments]
   Please refer to [Deployment Environments](/guides/self-hosted/deployment/understanding-deployment-modes#deployment-environments) to reserve appropriate resources for your clusters.
   :::
 
@@ -47,7 +47,7 @@ import TabItem from '@theme/TabItem';
   - [k3d](https://k3d.io)
   - [minikube](https://minikube.sigs.k8s.io/docs/start/)
 
-  :::info For Kubernetes Clusters on Remote Servers
+  :::info[For Kubernetes Clusters on Remote Servers]
   It is recommended to set up an external load balancer or choose appropriate port forwarding rules to ensure that services are accessible.
   :::
 
@@ -57,11 +57,11 @@ import TabItem from '@theme/TabItem';
   - Azure Storage Blob
   - Other storage services supported by [Apache OpenDAL](https://github.com/databendlabs/opendal#services)
 
-  :::tip Recommended Storage Settings
+  :::tip[Recommended Storage Settings]
   [Preparing Storage](/guides/self-hosted/deployment/production/preparing-storage) provides detailed instructions on recommended storage settings.
   :::
 
-  :::info For advanced user
+  :::info[For advanced user]
 
   Authentication methods without access keys are also supported:
 
@@ -73,7 +73,7 @@ import TabItem from '@theme/TabItem';
 
 - Ensure there is a default storage class for the Kubernetes cluster.
 
-  :::tip For cloud platforms
+  :::tip[For cloud platforms]
 
   <Tabs>
   <TabItem value="aws" label="EKS(AWS)">
@@ -128,7 +128,7 @@ import TabItem from '@theme/TabItem';
 
 - **Recommended** Ensure Prometheus Operator running in Kubernetes cluster, if you want to monitor the status for Databend Meta and Databend Query.
 
-  :::tip Steps for a simple Kube Prometheus Stack
+  :::tip[Steps for a simple Kube Prometheus Stack]
 
   1. Add chart repository for kube-prometheus-stack
 
@@ -624,6 +624,6 @@ After deploying Databend, you might need to learn about the following topics:
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/connect/visualization): Integrate Databend with visualization tools for insights.
 
-<!-- <LanguageFileParse
+{/* <LanguageFileParse
 cn={<VideoCN />}
-/> -->
+/> */}

@@ -60,7 +60,7 @@ SELECT * FROM t WHERE content LIKE '%quick br%'
 2. 索引过滤出包含这些 n-gram 的数据块
 3. 完整的 `LIKE` 过滤器仅应用于预过滤的数据块
 
-:::note **重要限制**
+:::note[重要限制]
 - 模式长度必须至少为 `gram_size` 个字符（例如，当 `gram_size=3` 时，像 `'%yo%'` 这样的短模式将不会使用索引）
 - 匹配不区分大小写（"FOO" 会匹配 "foo"、"Foo"、"fOo"）
 - 仅适用于 `LIKE` 操作符，不适用于其他模式匹配函数
@@ -167,7 +167,7 @@ TableScan
 | `REFRESH NGRAM INDEX name ON table` | 刷新 n-gram 索引 |
 | `DROP NGRAM INDEX name ON table` | 删除 n-gram 索引 |
 
-:::tip **何时使用 Ngram 索引（Ngram Index）**
+:::tip[何时使用 Ngram 索引（Ngram Index）]
 **理想场景：**
 - 日志分析和监控系统
 - 代码搜索和模式匹配

@@ -49,6 +49,8 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | Function | Description | Note | Example |
 |----------|-------------|------|---------|
 | [ST_DIMENSION](st-dimension.md) | Return the topological dimension |  | `ST_DIMENSION(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `0` |
+| [ST_CENTROID](st-centroid.md) | Return the centroid of a geometry | GEOMETRY only | `ST_CENTROID(TO_GEOMETRY('LINESTRING(0 0, 2 0)'))` → `POINT(1 0)` |
+| [ST_ENVELOPE](st-envelope.md) | Return the minimum bounding rectangle | GEOMETRY only | `ST_ENVELOPE(TO_GEOMETRY('LINESTRING(0 0, 2 3)'))` → `POLYGON((0 0,2 0,2 3,0 3,0 0))` |
 | [ST_SRID](st-srid.md) | Return the SRID of a geometry |  | `ST_SRID(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `4326` |
 | [ST_POINTN](st-pointn.md) | Return a specific point from a LineString |  | `ST_POINTN(ST_MAKELINE(...), 1)` → `POINT(-122.35 37.55)` |
 | [ST_STARTPOINT](st-startpoint.md) | Return the first point in a LineString |  | `ST_STARTPOINT(ST_MAKELINE(...))` → `POINT(-122.35 37.55)` |
@@ -73,6 +75,11 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | [ST_EQUALS](st-equals.md) | Test whether two geometries are spatially equal | GEOMETRY only | `ST_EQUALS(TO_GEOMETRY('POINT(1 1)'), TO_GEOMETRY('POINT(1 1)'))` → `TRUE` |
 | [ST_LENGTH](st-length.md) | Measure the length of a LineString |  | `ST_LENGTH(ST_MAKELINE(...))` → `5.57` |
 | [ST_DISTANCE](st-distance.md) | Measure the distance between geometries |  | `ST_DISTANCE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `5.57` |
+| [ST_DWITHIN](st-dwithin.md) | Test whether two geometries are within a distance | GEOMETRY only | `ST_DWITHIN(TO_GEOMETRY('POINT(0 0)'), TO_GEOMETRY('POINT(1 1)'), 1.5)` → `TRUE` |
+| [ST_UNION](st-union.md) | Return the combined geometry of two inputs | GEOMETRY only | `ST_UNION(TO_GEOMETRY('POINT(0 0)'), TO_GEOMETRY('POINT(1 1)'))` → `MULTIPOINT(0 0,1 1)` |
+| [ST_INTERSECTION](st-intersection.md) | Return the shared part of two geometries | GEOMETRY only | `ST_INTERSECTION(TO_GEOMETRY('LINESTRING(0 0, 1 1)'), TO_GEOMETRY('LINESTRING(0 0, 1 1)'))` → `LINESTRING(0 0,1 1)` |
+| [ST_DIFFERENCE](st-difference.md) | Return the part of the first geometry not covered by the second | GEOMETRY only | `ST_DIFFERENCE(TO_GEOMETRY('POINT(0 0)'), TO_GEOMETRY('POINT(1 1)'))` → `POINT(0 0)` |
+| [ST_SYMDIFFERENCE](st-symdifference.md) | Return the non-overlapping parts of two geometries | GEOMETRY only | `ST_SYMDIFFERENCE(TO_GEOMETRY('POINT(0 0)'), TO_GEOMETRY('POINT(1 1)'))` → `MULTIPOINT(0 0,1 1)` |
 
 ## Transformation
 

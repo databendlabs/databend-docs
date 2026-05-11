@@ -18,6 +18,7 @@ title: 系统函数 (System Functions)
 | [FUSE_SEGMENT](fuse_segment.md) | 返回表的段信息 | `FUSE_SEGMENT('default', 'mytable')` |
 | [FUSE_BLOCK](fuse_block.md) | 返回表的块信息 | `FUSE_BLOCK('default', 'mytable')` |
 | [FUSE_COLUMN](fuse_column.md) | 返回表的列信息 | `FUSE_COLUMN('default', 'mytable')` |
+| [FUSE_TAG](fuse_tag.md) | 返回表的快照标签信息 | `FUSE_TAG('default', 'mytable')` |
 
 ## 存储优化函数
 

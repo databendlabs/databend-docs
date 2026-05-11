@@ -13,7 +13,6 @@ import { useThemeConfig } from "@docusaurus/theme-common";
 import styles from "./index.module.scss";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useMount } from "ahooks";
-import "@ant-design/v5-patch-for-react-19";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import * as CookieConsent from "vanilla-cookieconsent";
@@ -143,10 +142,10 @@ function Footer() {
             },
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "401 RYLAND ST. STE 200-A",
-              "addressLocality": "Reno",
+              "streetAddress": "732 S 6TH ST, STE R",
+              "addressLocality": "Las Vegas",
               "addressRegion": "NV",
-              "postalCode": "89502",
+              "postalCode": "89101",
               "addressCountry": "USA"
             },
           }

@@ -26,7 +26,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 要了解什么是权限以及它是如何工作的，请参见 [Privileges](/guides/security/access-control/privileges)。
 
-:::note 重要
+:::note[重要]
 创建 Ownership 对象的 CREATE 类权限不能直接授予用户，必须先授予角色，再将角色授予用户。这些权限包括：
 - CREATE
 - CREATE DATABASE

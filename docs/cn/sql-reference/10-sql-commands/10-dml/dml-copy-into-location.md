@@ -21,7 +21,7 @@ COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
 [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET } [ formatTypeOptions ]
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | LANCE } [ formatTypeOptions ]
        ) ]
 [ copyOptions ]
 [ VALIDATION_MODE = RETURN_ROWS ]
@@ -118,6 +118,8 @@ externalLocation ::=
 
 有关详细信息，请参阅 [输入 & 输出文件格式](../../00-sql-reference/50-file-format-options.md)。
 
+`LANCE` 仅支持用于 `COPY INTO <location>`。Databend 会在目标路径下写出 Lance 数据集目录，而不是单个文件。
+
 ### copyOptions
 
 ```sql
@@ -136,6 +138,13 @@ copyOptions ::=
 | OVERWRITE        | false                  | 如果为 `true`，则目标路径下具有相同名称的现有文件将被覆盖。注意：`OVERWRITE = true` 需要 `USE_RAW_PATH = true` 和 `INCLUDE_QUERY_ID = false`。 |
 | INCLUDE_QUERY_ID | true                   | 如果为 `true`，则导出的文件名中将包含唯一的 UUID。                                                                                             |
 | USE_RAW_PATH     | false                  | 如果为 `true`，则将使用用户提供的确切路径（包括完整的文件名）来导出数据。如果设置为 `false`，则用户必须提供目录路径。                          |
+
+:::note
+- 当 `TYPE = LANCE` 时，不支持 `SINGLE`。
+- 当 `TYPE = LANCE` 时，不支持 `PARTITION BY`。
+- 当你希望下游 Lance 读取器使用稳定的数据集 URI 时，建议在 `TYPE = LANCE` 下配合 `USE_RAW_PATH = TRUE`。
+- 当 `TYPE = LANCE` 且 `USE_RAW_PATH = FALSE` 时，Databend 会把 query ID 追加到目标路径后面，为每次导出生成独立的数据集根目录。
+:::
 
 ### DETAILED_OUTPUT
 
@@ -291,3 +300,31 @@ COPY INTO 's3://databend'
 ```
 
 ![Alt text](/img/sql/copy-into-bucket.png)
+
+### 示例 4：导出为 Lance 数据集
+
+这个示例把数据导出成 Lance 数据集目录，而不是独立文件：
+
+```sql
+CREATE STAGE ml_stage;
+
+COPY INTO @ml_stage/datasets/train
+FROM (
+    SELECT number, number + 1 AS label
+    FROM numbers(10)
+)
+FILE_FORMAT = (TYPE = LANCE)
+USE_RAW_PATH = TRUE
+OVERWRITE = TRUE
+DETAILED_OUTPUT = TRUE;
+```
+
+目标路径下会出现类似下面的 Lance 数据集结构：
+
+```text
+datasets/train/_versions/...
+datasets/train/data/... .lance
+datasets/train/*.manifest
+```
+
+如果你想看包含 Python `lance` 验证的完整端到端示例，请参阅 [导出 Lance 数据集](/guides/unload-data/unload-lance)。

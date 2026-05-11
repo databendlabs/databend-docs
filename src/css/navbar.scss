@@ -52,6 +52,9 @@
 .navbar__link {
   font-weight: 600;
 }
+.navbar__link--active {
+  color: var(--ifm-color-primary) !important;
+}
 
 .navbar__search-input {
   border-radius: 3px !important;

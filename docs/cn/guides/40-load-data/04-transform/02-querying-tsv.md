@@ -11,6 +11,8 @@ sidebar_label: TSV
 
 ## 教程
 
+本指南介绍如何查询 TSV（在 Databend `v1.2.890-nightly` 及之后版本中称为 `TEXT`）Stage 文件。为了兼容旧版本 Server，下面的示例仍然使用 `TSV`。
+
 ### 第 1 步：创建外部暂存区
 
 创建一个外部暂存区（Stage），并配置你的 S3 存储桶和凭据，你的 TSV 文件存储在该位置。

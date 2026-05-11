@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 在单个事务中将行插入到多个表中，可以选择插入操作依赖于某些条件（有条件地）或不考虑任何条件（无条件地）执行。
 
-:::tip atomic operations
+:::tip[atomic operations]
 Databend 通过原子操作确保数据完整性。插入、更新、替换和删除要么完全成功，要么完全失败。
 :::
 

@@ -61,6 +61,15 @@ title: '聚合函数'
 | [GROUP_ARRAY_MOVING_AVG](aggregate-group-array-moving-avg.md) | 计算数组的移动平均值 | `GROUP_ARRAY_MOVING_AVG(3)(values)` → `[null, null, 3.0, 6.0, 9.0]` |
 | [GROUP_ARRAY_MOVING_SUM](aggregate-group-array-moving-sum.md) | 计算数组的移动总和 | `GROUP_ARRAY_MOVING_SUM(2)(values)` → `[null, 3, 7, 11, 15]` |
 
+## 地理空间聚合
+
+| 函数 | 描述 | 示例 |
+|----------|-------------|---------|
+| [ST_UNION_AGG](aggregate-st-union-agg.md) | 对分组内的 GEOMETRY 值做合并 | `ST_UNION_AGG(geom)` → `MULTIPOINT(...)` |
+| [ST_INTERSECTION_AGG](aggregate-st-intersection-agg.md) | 对分组内的 GEOMETRY 值做相交 | `ST_INTERSECTION_AGG(geom)` → `POLYGON(...)` |
+| [ST_ENVELOPE_AGG](aggregate-st-envelope-agg.md) | 返回分组内 GEOMETRY 值的最小外接矩形 | `ST_ENVELOPE_AGG(geom)` → `POLYGON(...)` |
+| [ST_COLLECT](aggregate-st-collect.md) | 将分组内的 GEOMETRY 值收集为一个 GEOMETRY 结果 | `ST_COLLECT(geom)` → `GEOMETRYCOLLECTION(...)` |
+
 ## 字符串聚合
 
 | 函数 | 描述 | 示例 |

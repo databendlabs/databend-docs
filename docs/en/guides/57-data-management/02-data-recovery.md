@@ -34,7 +34,7 @@ With Databend Time Travel, you can revisit and retrieve data from the past, even
   - For temporary data: Set to 0 or the default of **1 day**.
   - For permanent data: Choose any period from **0 to 90 days**.
 
-:::info Note
+:::info[Note]
 
 Setting a retention period of 0 days means Time Travel won't be available for that data.
 
@@ -57,7 +57,7 @@ Fail-safe includes:
 - **MetaData Recovery:** Uses versioning in the meta-service to recover deleted tables.
 - **Data Recovery:** Uses AWS S3's versioning to save data that's been changed or deleted.
 
-:::caution Attention
+:::caution[Attention]
 
 - Fail-safe is an emergency service, not user-configurable, provided by Databend Cloud.
 - It should be used only after other recovery methods don't work.

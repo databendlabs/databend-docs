@@ -41,7 +41,7 @@ CREATE DATABASE debezium;
 
 ## 步骤 3：创建 application.properties
 
-创建文件 _application.properties_ 并启动 debezium-server-databend。安装与启动方法见 [Installing debezium-server-databend](#installing-debezium-server-databend)。
+创建文件 _application.properties_ 并启动 debezium-server-databend。安装与启动方法见 [安装 debezium-server-databend](/guides/load-data/load-db/debezium#installing-debezium-server-databend)。
 
 首次启动时会按配置的 Batch Size 对 MySQL 数据进行全量同步，成功后即可在 Databend 中看到这些数据。
 

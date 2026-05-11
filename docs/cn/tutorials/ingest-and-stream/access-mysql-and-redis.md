@@ -149,7 +149,7 @@ INSERT INTO users (name, email) VALUES
 
 3. 在 Docker Desktop 中找到 Redis 容器 ID，或通过终端运行 `docker ps` 查看：
 
-![alt text](../../../../static/img/documents/tutorials/redis-container-id.png)
+![alt text](@site/static/img/documents/tutorials/redis-container-id.png)
 
 4. 使用 Redis 容器 ID 进入 Redis CLI（将 `14d50cc4d075` 替换为你的实际容器 ID）：
 

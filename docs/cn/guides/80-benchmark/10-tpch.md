@@ -9,7 +9,7 @@ sidebar_label: "TPC-H SF100 基准测试"
 
 TPC-H 基准测试是评估决策支持系统的标准，侧重于复杂的查询和数据维护。在此分析中，我们使用 TPC-H SF100（SF1 = 6 百万行）数据集比较 Databend Cloud 和 Snowflake，该数据集包含 100GB 的数据和大约 6 亿行，涵盖 22 个查询。
 
-:::info Disclaimer
+:::info[Disclaimer]
 TPC Benchmark™ 和 TPC-H™ 是事务处理性能委员会 ([TPC](http://www.tpc.org)) 的商标。我们的基准测试虽然受到 TPC-H 的启发，但与官方 TPC-H 结果不具有直接可比性。
 :::
 
@@ -25,7 +25,7 @@ TPC Benchmark™ 和 TPC-H™ 是事务处理性能委员会 ([TPC](http://www.t
 - **数据加载成本**：与 Snowflake 相比，Databend 在数据加载方面实现了 **67% 的成本降低**。
 - **查询执行成本**：Databend 的查询执行成本比 Snowflake 大约 **低 60%**。
 
-:::info Note
+:::info[Note]
 
 对于此基准测试，未应用任何特殊调整。Snowflake 和 Databend Cloud 均使用其默认设置。
 请记住，**不要只相信我们的话 - 我们鼓励您自己运行并验证这些结果。**

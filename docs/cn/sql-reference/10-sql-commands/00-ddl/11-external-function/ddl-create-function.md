@@ -35,12 +35,59 @@ CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name>
 
 ## 示例
 
-以下示例创建一个外部函数，用于计算两个整数的最大公约数（GCD）：
+以下示例完整演示如何创建一个计算最大公约数（GCD）的外部函数。
+
+### 第一步：启动 Python UDF 服务
+
+安装 `databend-udf` 包：
+
+```bash
+pip install databend-udf
+```
+
+创建文件 `udf_server.py`：
+
+```python
+from databend_udf import udf, UDFServer
+
+@udf(
+    input_types=["INT", "INT"],
+    result_type="INT",
+    skip_null=True,
+)
+def gcd(x: int, y: int) -> int:
+    while y != 0:
+        (x, y) = (y, x % y)
+    return x
+
+if __name__ == '__main__':
+    server = UDFServer("0.0.0.0:8815")
+    server.add_function(gcd)
+    server.serve()
+```
+
+启动服务：
+
+```bash
+python udf_server.py
+```
+
+### 第二步：在 Databend 中注册函数
 
 ```sql
-CREATE FUNCTION gcd AS (INT, INT) 
-    RETURNS INT 
-    LANGUAGE python 
-    HANDLER = 'gcd' 
+CREATE FUNCTION gcd AS (INT, INT)
+    RETURNS INT
+    LANGUAGE python
+    HANDLER = 'gcd'
     ADDRESS = 'http://localhost:8815';
+```
+
+### 第三步：调用函数
+
+```sql
+SELECT gcd(48, 18);
+-- 返回：6
+
+SELECT gcd(100, 75);
+-- 返回：25
 ```

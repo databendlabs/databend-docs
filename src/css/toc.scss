@@ -1,6 +1,13 @@
 // TOC start
+.table-of-contents__link.toc-highlight {
+  font-weight: 500;
+  color: var(--ifm-toc-link-color);
+}
+.table-of-contents__link.toc-highlight:hover,
+.table-of-contents__link--active.toc-highlight,
 .table-of-contents__link--active {
   font-weight: 600;
+  color: var(--ifm-color-primary);
 }
 .table-of-contents {
   > li > a {

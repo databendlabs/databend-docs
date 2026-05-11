@@ -20,11 +20,11 @@ title: 成本管理
 
 对于“仅发送通知”选项，Databend Cloud 将根据以下频率周期向管理员发送电子邮件通知：
 
-| 消费范围 	| 通知频率 	|
-|----------------	|------------------------	|
-| 80% - 90%      	| 每三天       	|
-| 90% - 100%     	| 每三天       	|
-| 100% 或以上     | 每三天       	|
+| 消费范围    | 通知频率 |
+| ----------- | -------- |
+| 80% - 90%   | 每三天   |
+| 90% - 100%  | 每三天   |
+| 100% 或以上 | 每三天   |
 
 ## 授予财务人员访问权限
 
@@ -36,8 +36,8 @@ CREATE ROLE billing;
 
 在邀请财务人员加入您的组织时，请为他们分配此 `billing` 角色。
 
-![alt text](../../../../../static/img/documents/pricing-billing/billing-role.png)
+![alt text](@site/static/img/documents/pricing-billing/billing-role.png)
 
 一旦他们登录 Databend Cloud，他们将拥有受限的访问权限，仅限于账单页面，所有其他与业务相关的页面都将从视图中隐藏。这种方法通过限制对 Databend Cloud 环境的其他部分的不必要访问，有助于保护敏感数据。
 
-![alt text](../../../../../static/img/documents/pricing-billing/billing-only-view.png)
+![alt text](@site/static/img/documents/pricing-billing/billing-only-view.png)

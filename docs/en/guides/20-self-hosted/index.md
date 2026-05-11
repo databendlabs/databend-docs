@@ -28,6 +28,6 @@ Deploy [Databend](https://github.com/databendlabs/databend) — an open-source, 
 2. [**Deploy**](self-hosted/deployment/) — Production deployment guides
 3. [**Connect**](/guides/connect) — BendSQL, Python, Go, Java, Node.js
 
-:::tip Prefer Zero Maintenance?
+:::tip[Prefer Zero Maintenance?]
 [Databend Cloud](/guides/cloud) handles all infrastructure for you — same engine, fully managed.
 :::

@@ -18,7 +18,7 @@ title: 查询结果缓存
 | **数据一致性** | 表数据自缓存后未变更 (除非 `query_result_cache_allow_inconsistent = 1`) |
 | **会话范围** | 缓存作用域为会话级别 |
 
-:::note 自动缓存失效
+:::note[自动缓存失效]
 默认配置下 (`query_result_cache_allow_inconsistent = 0`)，当底层表数据变更时缓存结果自动失效。这确保数据一致性，但可能降低高频更新场景的缓存效率。
 :::
 
@@ -105,6 +105,6 @@ SELECT * FROM RESULT_SCAN(LAST_QUERY_ID());
 - **数据变更** (自动失效确保一致性)
 - **表结构变更** (Schema 修改触发失效)
 
-:::note 会话作用域
+:::note[会话作用域]
 查询结果缓存按会话隔离。各会话维护独立缓存，会话结束时自动清理。
 :::

@@ -1,6 +1,6 @@
 ---
 title: 使用 Kafka Connect 导入 Kafka 数据
-sidebar_label: 'Kafka Connect 导入 Kafka'
+sidebar_label: "Kafka Connect 导入 Kafka"
 ---
 
 本教程将演示如何在 Confluent Cloud 中的 Kafka 与 Databend Cloud 之间搭建 Kafka Connect Sink 流水线，使用 [databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect) 插件生产消息并写入 Databend Cloud。
@@ -27,7 +27,7 @@ confluent api-key create --resource lkc-jr57j2
 confluent api-key use <your-api-key> --resource lkc-jr57j2
 ```
 
-### 步骤 2：上传自定义 Connector 插件 
+### 步骤 2：上传自定义 Connector 插件
 
 本步骤将 databend-kafka-connect Sink 插件上传到 Confluent Cloud。
 
@@ -35,12 +35,12 @@ confluent api-key use <your-api-key> --resource lkc-jr57j2
 2. 在 Confluent Cloud 中依次点击 **Connectors** > **Add Connector** > **Add plugin**。
 3. 填写以下信息并上传插件包：
 
-| 参数 | 说明 |
-|------|------|
-| Connector plugin name | 例如 `databend_plugin` |
-| Custom plugin description | 例如 `Kafka Connect sink connector for Databend` |
-| Connector class | `com.databend.kafka.connect.DatabendSinkConnector` |
-| Connector type | `Sink` |
+| 参数                      | 说明                                               |
+| ------------------------- | -------------------------------------------------- |
+| Connector plugin name     | 例如 `databend_plugin`                             |
+| Custom plugin description | 例如 `Kafka Connect sink connector for Databend`   |
+| Connector class           | `com.databend.kafka.connect.DatabendSinkConnector` |
+| Connector type            | `Sink`                                             |
 
 ### 步骤 3：创建 Kafka Topic
 
@@ -48,46 +48,46 @@ confluent api-key use <your-api-key> --resource lkc-jr57j2
 2. 设置 Topic 名称（如 `databend_topic`），继续下一步。
 3. 选择 **Create a schema for message values**，点击 **Create Schema**。
 
-![alt text](../../../../static/img/documents/tutorials/kafka-2.png)
+![alt text](@site/static/img/documents/tutorials/kafka-2.png)
 
 4. 在 **Add new schema** 页面选择 **Avro** 标签页，并粘贴以下 Schema：
 
 ```json
 {
-    "doc": "Sample schema to help you get started.",
-    "fields": [
-        {
-            "doc": "The int type is a 32-bit signed integer.",
-            "name": "id",
-            "type": "int"
-        },
-        {
-            "doc": "The string is a unicode character sequence.",
-            "name": "name",
-            "type": "string"
-        },
-        {
-            "doc": "The string is a unicode character sequence.",
-            "name": "age",
-            "type": "int"
-        }
-    ],
-    "name": "sampleRecord",
-    "type": "record"
+  "doc": "Sample schema to help you get started.",
+  "fields": [
+    {
+      "doc": "The int type is a 32-bit signed integer.",
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "doc": "The string is a unicode character sequence.",
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "doc": "The string is a unicode character sequence.",
+      "name": "age",
+      "type": "int"
+    }
+  ],
+  "name": "sampleRecord",
+  "type": "record"
 }
 ```
 
-![alt text](../../../../static/img/documents/tutorials/kafka-1.png)
+![alt text](@site/static/img/documents/tutorials/kafka-1.png)
 
 ### 步骤 4：添加 Connector
 
 1. 在 Confluent Cloud 中点击 **Connectors** > **Add Connector**，选择刚上传的插件。
 
-![alt text](../../../../static/img/documents/tutorials/kafka-3.png)
+![alt text](@site/static/img/documents/tutorials/kafka-3.png)
 
 2. 在 **Kafka credentials** 步骤中选择 **Use an existing API key**，输入之前创建的 API key 与 secret。
 
-![alt text](../../../../static/img/documents/tutorials/kafka-4.png)
+![alt text](@site/static/img/documents/tutorials/kafka-4.png)
 
 3. 在 **Configuration** 步骤中切换到 **JSON** 标签页，粘贴以下配置并替换占位符：
 
@@ -144,4 +144,4 @@ Starting Kafka Producer. Use Ctrl-C or Ctrl-D to exit.
 
 3. 在 Databend Cloud 中查看数据，确认写入成功：
 
-![alt text](../../../../static/img/documents/tutorials/kafka-5.png)
+![alt text](@site/static/img/documents/tutorials/kafka-5.png)

@@ -11,6 +11,8 @@ sidebar_label: TSV
 
 ## Tutorial
 
+This guide queries TSV (called `TEXT` in Databend `v1.2.890-nightly` and later) files from a stage. The examples keep `TSV` for compatibility with older server versions.
+
 ### Step 1. Create an External Stage
 
 Create an external stage with your own S3 bucket and credentials where your TSV files are stored.

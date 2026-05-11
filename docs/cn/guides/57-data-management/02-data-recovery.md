@@ -34,9 +34,9 @@ import EEFeature from '@site/src/components/EEFeature';
   - 对于临时数据：设置为 0 或默认的 **1 天**。
   - 对于永久数据：选择 **0 到 90 天** 之间的任何期限。
 
-:::info Note
+:::info[Note]
 
-将保留期设置为 0 天意味着时间回溯将不适用于该数据。
+设置保留期为 0 天意味着时间回溯将不适用于该数据。
 
 :::
 
@@ -57,7 +57,7 @@ Fail-safe 包括：
 - **MetaData 恢复：** 使用元服务中的版本控制来恢复已删除的表。
 - **数据恢复：** 使用 AWS S3 的版本控制来保存已更改或删除的数据。
 
-:::caution Attention
+:::caution[Attention]
 
 - Fail-safe 是一项紧急服务，不可由用户配置，由 Databend Cloud 提供。
 - 它应仅在其他恢复方法不起作用后使用。

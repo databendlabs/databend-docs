@@ -1,6 +1,7 @@
 ---
 title: Fail-Safe
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -9,7 +10,7 @@ import EEFeature from '@site/src/components/EEFeature';
 Fail-Safe refers to mechanisms aimed at recovering lost or accidentally deleted data from object storage.
 
 - Storage Compatibility: Currently, Fail-Safe supports only S3-compatible storage types.
-- Bucket Versioning: For Fail-Safe to work, bucket versioning must be enabled. Note that data created before enabling versioning *cannot* be recovered using this method.
+- Bucket Versioning: For Fail-Safe to work, bucket versioning must be enabled. Note that data created before enabling versioning _cannot_ be recovered using this method.
 
 ### Implementing Fail-Safe
 
@@ -21,13 +22,13 @@ Below is a step-by-step example of using the [SYSTEM$FUSE_AMEND](/sql/sql-functi
 
 1. Enable versioning for the bucket `databend-doc`.
 
-![alt text](../../../../static/img/guides/bucket-versioning.png)
+![alt text](@site/static/img/guides/bucket-versioning.png)
 
 2. Create an external table, storing the table data in the `fail-safe` folder in the `databend-doc` bucket.
 
 ```sql
-CREATE TABLE t(a INT) 
-'s3://databend-doc/fail-safe/' 
+CREATE TABLE t(a INT)
+'s3://databend-doc/fail-safe/'
 CONNECTION = (access_key_id ='<your-access-key-id>' secret_access_key ='<your-secret-accesskey>');
 
 -- Insert sample data
@@ -36,11 +37,11 @@ INSERT INTO t VALUES (1), (2), (3);
 
 If you open the `fail-safe` folder in the bucket now, you can see the data is already there:
 
-![alt text](../../../../static/img/guides/bucket-versioning-2.png)
+![alt text](@site/static/img/guides/bucket-versioning-2.png)
 
 3. Simulate data loss by deleting all the sub-folders and their files in the `fail-safe` folder.
 
-![alt text](../../../../static/img/guides/bucket-versioning-3.png)
+![alt text](@site/static/img/guides/bucket-versioning-3.png)
 
 4. Attempting to query the table after removal will result in an error:
 

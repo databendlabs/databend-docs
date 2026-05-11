@@ -21,8 +21,8 @@ USE WAREHOUSE <warehouse_name>
 
 ## 示例
 
-将当前会话切换到 `my_warehouse`：
+将当前会话切换到 `my-warehouse`：
 
 ```sql
-USE WAREHOUSE my_warehouse;
+USE WAREHOUSE 'my-warehouse';
 ```

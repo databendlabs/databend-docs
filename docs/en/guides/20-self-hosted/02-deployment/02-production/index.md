@@ -16,3 +16,4 @@ This section provides comprehensive details on managing and configuring Databend
 - [Meta Service Status](60-metasrv-status.md)
 - [Meta Service CLI API](70-metasrv-cli-api.md)
 - [Meta Service gRPC Guide](16-metasrv-grpc.md)
+- [BendDeploy](90-benddeploy/index.md)

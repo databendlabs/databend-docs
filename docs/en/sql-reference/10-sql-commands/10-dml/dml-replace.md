@@ -14,7 +14,7 @@ REPLACE INTO can either insert multiple new rows into a table or update existing
 
 - Staged files: Databend enables you to replace data into a table from staged files with the REPLACE INTO statement. This is achieved through Databend's capacity to [Query Staged Files](/guides/load-data/transform/querying-stage) and subsequently incorporate the query result into the table.
 
-:::tip atomic operations
+:::tip[atomic operations]
 Databend ensures data integrity with atomic operations. Inserts, updates, replaces, and deletes either succeed completely or fail entirely.
 :::
 

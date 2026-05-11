@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { Button, Dropdown, Flex, Spin } from "antd";
+import { Button, Dropdown, Flex, Space, Spin } from "antd";
 import styles from "./styles.module.scss";
 import { FaAngleDown } from "react-icons/fa6";
 
@@ -39,7 +39,7 @@ const CopyDropdownButton: React.FC = () => {
   function copyHtml() {
     setIsCopied(true);
     const htmlContent = getPageContentAsHtml();
-    const markdownContent = convertHtmlToMarkdown(htmlContent);
+    const markdownContent = convertHtmlToMarkdown(htmlContent as string);
     navigator.clipboard.writeText(markdownContent?.replace("Copy Page", ""));
     setTimeout(() => {
       setIsCopied(false);
@@ -71,7 +71,7 @@ const CopyDropdownButton: React.FC = () => {
     return (
       metadata?.source?.replace(
         "@site",
-        "https://raw.githubusercontent.com/databendlabs/databend-docs/refs/heads/main"
+        "https://raw.githubusercontent.com/databendlabs/databend-docs/refs/heads/main",
       ) || ""
     );
   }, [metadata]);
@@ -134,15 +134,15 @@ const CopyDropdownButton: React.FC = () => {
         if (key === "markdown") window.open(sourceUrl, "_blank");
         if (key === "gpt")
           window.open(
-            `https://chat.openai.com/?hints=search&q=Read from ${window.location.href} so I can ask questions about it.`
+            `https://chat.openai.com/?hints=search&q=Read from ${window.location.href} so I can ask questions about it.`,
           );
         if (key === "claude")
           window.open(
-            `https://claude.ai/new?q=Read from ${window.location.href} so I can ask questions about it.`
+            `https://claude.ai/new?q=Read from ${window.location.href} so I can ask questions about it.`,
           );
         if (key === "perplexity") {
           window.open(
-            `https://www.perplexity.ai/search/new?q=Read from ${window.location.href} so I can ask questions about it`
+            `https://www.perplexity.ai/search/new?q=Read from ${window.location.href} so I can ask questions about it`,
           );
         }
       },
@@ -163,20 +163,18 @@ const CopyDropdownButton: React.FC = () => {
         </span>
       </Flex>
     ),
-    [loading, isCopied]
+    [loading, isCopied],
   );
 
   return (
-    <Dropdown.Button
-      onClick={() => handleCopy(sourceUrl)}
-      menu={menu}
-      placement="bottomRight"
-      icon={<FaAngleDown className={styles.svg} />}
-      className={styles.buttonCainter}
-      trigger={["click"]}
-    >
-      {renderButtonContent}
-    </Dropdown.Button>
+    <Space.Compact className={styles.buttonCainter}>
+      <Button onClick={() => handleCopy(sourceUrl)}>
+        {renderButtonContent}
+      </Button>
+      <Dropdown menu={menu} placement="bottomRight" trigger={["click"]}>
+        <Button icon={<FaAngleDown className={styles.svg} />} />
+      </Dropdown>
+    </Space.Compact>
   );
 };
 

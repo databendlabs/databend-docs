@@ -46,13 +46,13 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
        ) ]
 [ copyOptions ]
 ```
-:::info Note
+:::info[Note]
 
 compared the two syntaxes
-- Same `Select List` 
+- Same `Select List`
 - Same ` FROM {@<stage_name>[/<path>] | '<uri>'}`
 - diff parameters:
-  - query use `table function parameters`, i.e. `(<key> => <value>, ...)` 
+  - query use `table function parameters`, i.e. `(<key> => <value>, ...)`
   - transform use Options at the end of [Copy into table](/sql/sql-commands/dml/dml-copy-into-table)
 
 :::

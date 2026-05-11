@@ -66,7 +66,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 LIKE [db.]origin_table_name
 ```
 
-:::note 解决方法
+:::note[解决方法]
 
 可显式指定 `TRANSIENT` 或 `COMPRESSION`：
 
@@ -87,7 +87,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 AS SELECT query
 ```
 
-:::note 解决方法
+:::note[解决方法]
 
 可显式指定 `TRANSIENT` 或 `COMPRESSION`：
 

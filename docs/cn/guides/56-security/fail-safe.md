@@ -1,6 +1,7 @@
 ---
 title: Fail-Safe
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -21,13 +22,13 @@ Databend 提供了 [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-a
 
 1. 为 bucket `databend-doc` 启用版本控制。
 
-![alt text](../../../../static/img/guides/bucket-versioning.png)
+![alt text](@site/static/img/guides/bucket-versioning.png)
 
 2. 创建一个外部表，将表数据存储在 `databend-doc` bucket 的 `fail-safe` 文件夹中。
 
 ```sql
-CREATE TABLE t(a INT) 
-'s3://databend-doc/fail-safe/' 
+CREATE TABLE t(a INT)
+'s3://databend-doc/fail-safe/'
 CONNECTION = (access_key_id ='<your-access-key-id>' secret_access_key ='<your-secret-accesskey>');
 
 -- 插入示例数据
@@ -36,11 +37,11 @@ INSERT INTO t VALUES (1), (2), (3);
 
 如果现在打开 bucket 中的 `fail-safe` 文件夹，您可以看到数据已存在：
 
-![alt text](../../../../static/img/guides/bucket-versioning-2.png)
+![alt text](@site/static/img/guides/bucket-versioning-2.png)
 
 3. 通过删除 `fail-safe` 文件夹中的所有子文件夹及其文件来模拟数据丢失。
 
-![alt text](../../../../static/img/guides/bucket-versioning-3.png)
+![alt text](@site/static/img/guides/bucket-versioning-3.png)
 
 4. 删除后尝试查询表将导致错误：
 

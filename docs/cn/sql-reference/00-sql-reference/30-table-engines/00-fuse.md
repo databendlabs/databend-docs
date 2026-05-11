@@ -4,7 +4,7 @@ title: Fuse Engine 表
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.736"/>
+<FunctionDescription description="Introduced or updated: v1.2.892"/>
 
 ## 概述
 
@@ -123,6 +123,29 @@ CREATE TABLE <table_name> (
   `bloom_index_columns = '<column> [, <column> ...]'`
 - **描述：**
   指定要用于 Bloom Index 的列。这些列的数据类型可以是 Map、Number、String、Date 或 Timestamp。如果未指定任何特定列，则默认情况下会在所有受支持的列上创建 Bloom Index。 `bloom_index_columns=''` 禁用 Bloom Index。
+
+---
+
+### `bloom_index_type`
+
+- **语法：**
+  `bloom_index_type = 'xor8' | 'binary_fuse32'`
+- **描述：**
+  指定 Bloom Index 使用的过滤器算法类型。默认为 `xor8`。对于有大量点查（point lookup）的表，推荐使用 `binary_fuse32`，它具有更低的误判率，但索引体积约为 `xor8` 的 4 倍。
+
+  注意：`ALTER TABLE ... SET OPTIONS(bloom_index_type = ...)` 只影响新写入的数据和重建的 Bloom Index，已有的 `xor8` 格式索引文件与新的 `binary_fuse32` 索引文件可以在同一张表中共存。
+
+  **示例：**
+  ```sql
+  -- 建表时指定 bloom_index_type
+  CREATE TABLE t (a INT) bloom_index_type = 'binary_fuse32';
+
+  -- 修改已有表的 bloom_index_type（只影响后续写入）
+  ALTER TABLE t SET OPTIONS(bloom_index_type = 'binary_fuse32');
+
+  -- 改回 xor8
+  ALTER TABLE t SET OPTIONS(bloom_index_type = 'xor8');
+  ```
 
 ---
 
