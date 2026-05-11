@@ -47,14 +47,30 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO databend_cdc;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO databend_cdc;
 ```
 
-### 创建 Publication 和复制槽（可选）
+### 创建 Publication 和复制槽（CDC 必需）
 
-Databend Cloud 可以自动创建 Publication 和复制槽。如果您希望手动创建：
+CDC 和 Snapshot + CDC 模式需要 Publication 和复制槽。由于 `CREATE PUBLICATION ... FOR ALL TABLES` 需要超级用户权限，且添加单个表需要表的所有权，因此这些对象应由数据库所有者或超级用户在启动 CDC 任务之前创建。
+
+以超级用户或数据库所有者身份执行：
 
 ```sql
+-- 创建包含要复制的表的 Publication
 CREATE PUBLICATION bend_cdc_pub FOR ALL TABLES;
+
+-- 创建逻辑复制槽
 SELECT * FROM pg_create_logical_replication_slot('bend_cdc_slot', 'pgoutput');
+
+-- 授予专用用户使用复制槽的权限
+ALTER ROLE databend_cdc WITH REPLICATION;
 ```
+
+:::note
+如果只需要复制特定表而非所有表，可以使用：
+```sql
+CREATE PUBLICATION bend_cdc_pub FOR TABLE table1, table2;
+```
+这样可以避免超级用户要求，但仍需要对列出的表拥有所有权。
+:::
 
 ### 网络访问
 

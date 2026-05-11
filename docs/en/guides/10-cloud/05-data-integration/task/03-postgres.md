@@ -47,14 +47,30 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO databend_cdc;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO databend_cdc;
 ```
 
-### Create Publication and Replication Slot (Optional)
+### Create Publication and Replication Slot (Required for CDC)
 
-Databend Cloud can automatically create the publication and replication slot. If you prefer to create them manually:
+For CDC and Snapshot + CDC modes, a publication and replication slot must exist. Because `CREATE PUBLICATION ... FOR ALL TABLES` requires superuser privileges, and adding individual tables requires table ownership, these objects should be created by a database owner or superuser before starting the CDC task.
+
+Run the following as a superuser or database owner:
 
 ```sql
+-- Create a publication that includes the tables you want to replicate
 CREATE PUBLICATION bend_cdc_pub FOR ALL TABLES;
+
+-- Create a logical replication slot
 SELECT * FROM pg_create_logical_replication_slot('bend_cdc_slot', 'pgoutput');
+
+-- Grant the dedicated user permission to use the replication slot
+ALTER ROLE databend_cdc WITH REPLICATION;
 ```
+
+:::note
+If you only need to replicate specific tables instead of all tables, you can use:
+```sql
+CREATE PUBLICATION bend_cdc_pub FOR TABLE table1, table2;
+```
+This avoids the superuser requirement but still requires ownership of the listed tables.
+:::
 
 ### Network Access
 
