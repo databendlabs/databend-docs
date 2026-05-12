@@ -706,3 +706,25 @@ SELECT * FROM t2;
 │ 6                │ null              │
 └──────────────────────────────────────┘
 ```
+
+### 示例 8：使用 Schema Evolution 加载
+
+当加载的 Parquet 文件结构包含目标表中不存在的列时，可以使用 Schema Evolution 自动添加缺失的列。首先，在表上启用 Schema Evolution：
+
+```sql
+CREATE OR REPLACE TABLE invoices(order_id INT);
+
+-- 启用 Schema Evolution
+ALTER TABLE invoices SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
+```
+
+然后加载具有不同结构的 Parquet 文件。Databend 会自动添加新列，缺失的值用 `NULL` 填充：
+
+```sql
+-- 假设 @my_stage 中包含带有额外列（如 amount、currency）的 Parquet 文件
+COPY INTO invoices
+    FROM @my_stage/
+    FILE_FORMAT = (TYPE = PARQUET MISSING_FIELD_AS = FIELD_DEFAULT);
+```
+
+更多详细信息，请参阅 [Schema Evolution](/guides/load-data/transform/schema-evolution)。
