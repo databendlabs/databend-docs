@@ -17,6 +17,7 @@ import GongzhonghaoImg from "@site/static/img/databend-gongzhonghao.jpeg";
 import SalesImg from "@site/static/img/sales.jpeg";
 import { Tooltip } from "antd";
 import Contact from "@site/static/icons/contact.svg";
+import { LightDatabendCloudSingleSvg } from "databend-logos";
 interface TProps {
   titleAlign?:
     | "start"
@@ -195,7 +196,7 @@ const JoinCommunity: FC<TProps> = ({
                 target="_blank"
               >
                 <div className={clsx("community-item", styles.communityItem)}>
-                  <div className={clsx("icon", styles.Icon)}>🚀</div>
+                  <LightDatabendCloudSingleSvg width={50} />
                   <h6>Explore Databend Cloud</h6>
                 </div>
               </Link>
