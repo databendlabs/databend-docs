@@ -132,6 +132,10 @@ GRANT ROLE <role_name> TO <user_name>
 GRANT ROLE <role_name> TO ROLE <role_name>
 ```
 
+:::note
+`default_role` is a user property — it's set when you `CREATE USER` or `ALTER USER`, and `GRANT`/`REVOKE` won't touch it. So if you later revoke a role that happens to be someone's `default_role`, the setting stays but the role membership is gone. Use `ALTER USER ... WITH DEFAULT_ROLE` to update it explicitly.
+:::
+
 ### Granting Ownership
 
 To understand what ownership is and how it works, see [Ownership](/guides/security/access-control/ownership).

@@ -133,6 +133,10 @@ GRANT ROLE <role_name> TO <user_name>
 GRANT ROLE <role_name> TO ROLE <role_name>
 ```
 
+:::note
+`default_role` 是用户属性，在 `CREATE USER` 或 `ALTER USER` 时设置，`GRANT`/`REVOKE` 不会动它。所以如果你 revoke 了一个恰好是用户 `default_role` 的角色，这个设置还在，但角色成员关系已经没了。需要手动 `ALTER USER ... WITH DEFAULT_ROLE` 来更新。
+:::
+
 ### Granting Ownership
 
 要了解什么是所有权以及它是如何工作的，请参见 [Ownership](/guides/security/access-control/ownership)。
