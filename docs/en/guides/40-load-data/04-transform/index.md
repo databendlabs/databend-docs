@@ -154,3 +154,6 @@ The following file-level metadata fields are available for the supported file fo
 - [Querying Avro Files](./04-querying-avro.md)
 - [Querying CSV Files](./01-querying-csv.md)
 - [Querying TSV Files](./02-querying-tsv.md)
+
+## Schema Evolution
+- [Schema Evolution](./07-schema-evolution.md) — Automatically add new columns to a table when loading Parquet files with evolving schemas.

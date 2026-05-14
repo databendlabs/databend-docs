@@ -239,3 +239,22 @@ CREATE TABLE <table_name> (
   ```
 
 ---
+
+### `enable_schema_evolution`
+
+- **语法：**
+  `enable_schema_evolution = True / False`
+- **描述：**
+  控制表在 `COPY INTO` 操作中是否可以自动演进结构。启用后（设置为 `True`），当加载的 Parquet 文件结构包含目标表中不存在的列时，Databend 会自动将这些缺失的列添加到表中。已有行的缺失值将用 `NULL` 填充。更多信息请参阅 [Schema Evolution](/guides/load-data/transform/schema-evolution)。
+
+  **示例：**
+
+  ```sql
+  -- 为现有表启用 Schema Evolution
+  ALTER TABLE invoices SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
+
+  -- 创建新表时启用 Schema Evolution
+  CREATE OR REPLACE TABLE invoices (order_id INT) ENABLE_SCHEMA_EVOLUTION = true;
+  ```
+
+---
