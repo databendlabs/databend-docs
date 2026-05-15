@@ -76,7 +76,7 @@ DROP [ COLUMN ] <column_name>
 - Masking policies can only be attached to regular tables. Views, streams, and temporary tables do not allow `SET MASKING POLICY`.
 - A column can belong to at most one security policy (masking or row-level). Remove the existing policy before attaching a new one.
 - Attaching, detaching, describing, or dropping a masking policy requires the global `APPLY MASKING POLICY` privilege or APPLY/OWNERSHIP on the specific masking policy.
-- Adding, removing, describing, or dropping a row access policy requires the global `APPLY ROW ACCESS POLICY` privilege or APPLY/OWNERSHIP on that policy.
+- Adding or removing a row access policy requires `ALTER` on the target table plus the global `APPLY ROW ACCESS POLICY` privilege or APPLY/OWNERSHIP on that policy. Describing or dropping a policy requires the same policy privilege.
 :::
 
 :::caution
@@ -183,6 +183,59 @@ MODIFY COLUMN email SET MASKING POLICY pii_email USING (email, username);
 -- To drop or alter the column, remove the policy first
 ALTER TABLE users
 MODIFY COLUMN email UNSET MASKING POLICY;
+```
+
+## Row Access Policy Operations
+
+<EEFeature featureName='ROW ACCESS POLICY'/>
+
+Attach or detach a row access policy for a table. A row access policy filters rows at query time and during DML target-row matching.
+
+### Syntax
+
+```sql
+-- Add a row access policy to a table
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+ADD ROW ACCESS POLICY <policy_name> ON ( <column_name> [ , <column_name> ... ] )
+
+-- Drop a specific row access policy from a table
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+DROP ROW ACCESS POLICY <policy_name>
+
+-- Drop all row access policies from a table
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+DROP ALL ROW ACCESS POLICIES
+```
+
+:::note
+- Row access policy is currently experimental. Enable it with `SET enable_experimental_row_access_policy = 1` or `SET GLOBAL enable_experimental_row_access_policy = 1`.
+- A table can have at most one row access policy at a time.
+- The columns in `ON (...)` bind to the policy arguments by position. The number of columns and their data types must match the policy signature.
+- Row access policies can only be attached to regular tables. Views, streams, and temporary tables do not allow `ADD ROW ACCESS POLICY`.
+- A column can belong to at most one security policy, either masking or row access.
+- Adding or removing a row access policy requires `ALTER` on the target table plus the global `APPLY ROW ACCESS POLICY` privilege or APPLY/OWNERSHIP on that policy. Describing or dropping a policy requires the same policy privilege.
+:::
+
+:::caution
+You must detach the row access policy before changing or dropping a protected column. Otherwise the statement fails because the column is still referenced by a security policy.
+:::
+
+### Example
+
+```sql
+SET enable_experimental_row_access_policy = 1;
+
+CREATE TABLE employees(id INT, name STRING, department STRING);
+
+CREATE ROW ACCESS POLICY rap_engineering
+AS (dept STRING)
+RETURNS BOOLEAN -> dept = 'Engineering';
+
+ALTER TABLE employees
+ADD ROW ACCESS POLICY rap_engineering ON (department);
+
+ALTER TABLE employees
+DROP ROW ACCESS POLICY rap_engineering;
 ```
 
 ## Table Comment
