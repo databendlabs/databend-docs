@@ -35,6 +35,7 @@ title: DDL（Data Definition Language）命令
 | **[网络策略 (Network Policy)](12-network-policy/index.md)** | 控制对数据库的网络访问 |
 | **[掩码策略 (Mask Policy)](12-mask-policy/index.md)** | 为敏感信息应用数据掩码 |
 | **[密码策略 (Password Policy)](12-password-policy/index.md)** | 强制执行密码要求和轮换 |
+| **[行访问策略 (Row Access Policy)](12-row-access-policy/index.md)** | 使用集中化行级谓词过滤表数据 |
 
 ## 数据集成和处理
 

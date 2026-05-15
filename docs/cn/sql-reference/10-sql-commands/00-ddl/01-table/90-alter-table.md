@@ -76,7 +76,7 @@ DROP [ COLUMN ] <column_name>
 - 只有常规表支持绑定脱敏策略；视图、流表以及临时表均无法执行 `SET MASKING POLICY`。
 - 单个列最多只能附加一个安全策略（无论是列脱敏还是行级策略）。在重新绑定之前，请先移除原有策略。
 - 设置或取消设置脱敏策略需要拥有全局 `APPLY MASKING POLICY` 权限，或针对目标策略具有 APPLY/OWNERSHIP 权限，否则 `ALTER TABLE` 会被拒绝。
-- 添加、移除、描述或删除 Row Access Policy 需要拥有全局 `APPLY ROW ACCESS POLICY` 权限，或针对目标策略具有 APPLY/OWNERSHIP 权限。
+- 添加或移除 Row Access Policy 需要拥有目标表的 `ALTER` 权限，并拥有全局 `APPLY ROW ACCESS POLICY` 权限或针对目标策略具有 APPLY/OWNERSHIP 权限。描述或删除策略需要相同的策略权限。
 :::
 
 :::caution
@@ -122,6 +122,59 @@ MODIFY COLUMN email SET MASKING POLICY pii_email USING (email, username);
 
 ALTER TABLE users
 MODIFY COLUMN email UNSET MASKING POLICY;
+```
+
+## Row Access Policy 操作
+
+<EEFeature featureName='ROW ACCESS POLICY'/>
+
+为表绑定或解除 Row Access Policy。行访问策略会在查询时以及 DML 目标行匹配时过滤行。
+
+### 语法
+
+```sql
+-- 为表添加行访问策略
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+ADD ROW ACCESS POLICY <policy_name> ON ( <column_name> [ , <column_name> ... ] )
+
+-- 从表上移除指定行访问策略
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+DROP ROW ACCESS POLICY <policy_name>
+
+-- 移除表上的所有行访问策略
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+DROP ALL ROW ACCESS POLICIES
+```
+
+:::note
+- Row Access Policy 当前为实验性功能。可通过 `SET enable_experimental_row_access_policy = 1` 或 `SET GLOBAL enable_experimental_row_access_policy = 1` 启用。
+- 一张表同一时间最多只能绑定一个 Row Access Policy。
+- `ON (...)` 中的列会按位置绑定到策略参数。列数量和数据类型必须与策略签名匹配。
+- Row Access Policy 只能绑定到常规表；视图、流表和临时表不支持 `ADD ROW ACCESS POLICY`。
+- 单个列最多只能附加一个安全策略：脱敏策略或行访问策略二选一。
+- 添加或移除 Row Access Policy 需要拥有目标表的 `ALTER` 权限，并拥有全局 `APPLY ROW ACCESS POLICY` 权限或针对目标策略具有 APPLY/OWNERSHIP 权限。描述或删除策略需要相同的策略权限。
+:::
+
+:::caution
+修改或删除受保护列前，必须先解除行访问策略。否则该列仍被安全策略引用，语句会执行失败。
+:::
+
+### 示例
+
+```sql
+SET enable_experimental_row_access_policy = 1;
+
+CREATE TABLE employees(id INT, name STRING, department STRING);
+
+CREATE ROW ACCESS POLICY rap_engineering
+AS (dept STRING)
+RETURNS BOOLEAN -> dept = 'Engineering';
+
+ALTER TABLE employees
+ADD ROW ACCESS POLICY rap_engineering ON (department);
+
+ALTER TABLE employees
+DROP ROW ACCESS POLICY rap_engineering;
 ```
 
 ## 表注释
