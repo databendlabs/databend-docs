@@ -51,6 +51,13 @@ const config: Config = {
         href: "/img/logo/logo-no-text.svg",
       },
     },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "llms-txt",
+        href: "/llms.txt",
+      },
+    },
   ],
   customFields: {
     isChina: isCN,
