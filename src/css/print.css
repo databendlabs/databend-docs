@@ -142,8 +142,15 @@ th {
   line-height: 1.25rem;
   border: unset;
   padding: 0.2rem 0.3rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    Liberation Mono, Courier New, monospace;
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    Liberation Mono,
+    Courier New,
+    monospace;
   background-color: hsl(210 40% 96.1%);
 }
 
@@ -157,6 +164,7 @@ th {
   scroll-margin: 5rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
+  word-break: break-word;
 }
 
 .theme-doc-markdown.markdown img {
