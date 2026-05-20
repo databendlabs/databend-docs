@@ -1,45 +1,78 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="640" viewBox="0 0 1120 640" role="img" aria-labelledby="title desc">
   <title id="title">TPC-H SF1000 Warehouse Size Benchmark</title>
-  <desc id="desc">Total runtime for 22 TPC-H SF1000 queries by Databend Cloud Warehouse size: Small 1173.32 seconds, Medium 537.93 seconds, Large 285.96 seconds.</desc>
-  <rect width="960" height="520" fill="#ffffff"/>
-  <text x="480" y="46" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">TPC-H SF1000 (1TB) Warehouse Size Benchmark</text>
-  <text x="480" y="78" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#6b7280">Total runtime for 22 queries, lower is better</text>
+  <desc id="desc">Total runtime for 22 TPC-H SF1000 queries by Databend Cloud Warehouse size: Small 1173.32 seconds, Medium 537.93 seconds, Large 285.96 seconds. Lower is better.</desc>
+  <defs>
+    <linearGradient id="barSmall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#245fc6"/>
+      <stop offset="100%" stop-color="#3d8fe6"/>
+    </linearGradient>
+    <linearGradient id="barMedium" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3577d4"/>
+      <stop offset="100%" stop-color="#6ba6ea"/>
+    </linearGradient>
+    <linearGradient id="barLarge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6aa1dd"/>
+      <stop offset="100%" stop-color="#a8c9ef"/>
+    </linearGradient>
+    <filter id="barShadow" x="-20%" y="-20%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#245fc6" flood-opacity="0.10"/>
+    </filter>
+  </defs>
 
-  <line x1="120" y1="420" x2="860" y2="420" stroke="#d1d5db" stroke-width="2"/>
-  <line x1="120" y1="120" x2="120" y2="420" stroke="#d1d5db" stroke-width="2"/>
+  <rect width="1120" height="640" fill="#ffffff"/>
+  <rect x="58" y="40" width="1004" height="558" rx="22" fill="#ffffff" stroke="#e6edf5" stroke-width="1.2"/>
 
-  <g font-family="Inter, Arial, sans-serif" font-size="13" fill="#6b7280">
-    <text x="106" y="424" text-anchor="end">0</text>
-    <text x="106" y="348" text-anchor="end">300</text>
-    <text x="106" y="272" text-anchor="end">600</text>
-    <text x="106" y="196" text-anchor="end">900</text>
-    <text x="106" y="120" text-anchor="end">1200s</text>
+  <text x="560" y="92" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="28" font-weight="600" fill="#172033">TPC-H SF1000 (1TB) Warehouse Size Benchmark</text>
+  <text x="560" y="124" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="14" font-weight="400" fill="#68788f">Total runtime for 22 queries · Lower is better · Unit: seconds</text>
+
+  <g transform="translate(112 168)">
+    <rect x="0" y="0" width="896" height="340" rx="16" fill="#ffffff" stroke="#e8eef6"/>
+
+    <g font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="12" font-weight="400" fill="#738299">
+      <text x="42" y="308" text-anchor="end">0</text>
+      <text x="42" y="234" text-anchor="end">300</text>
+      <text x="42" y="160" text-anchor="end">600</text>
+      <text x="42" y="86" text-anchor="end">900</text>
+      <text x="42" y="12" text-anchor="end">1200</text>
+    </g>
+
+    <g stroke="#edf2f7" stroke-width="1">
+      <line x1="58" y1="304" x2="850" y2="304"/>
+      <line x1="58" y1="230" x2="850" y2="230"/>
+      <line x1="58" y1="156" x2="850" y2="156"/>
+      <line x1="58" y1="82" x2="850" y2="82"/>
+      <line x1="58" y1="8" x2="850" y2="8"/>
+    </g>
+    <line x1="58" y1="304" x2="850" y2="304" stroke="#d7e0ea" stroke-width="1.2"/>
+
+    <g filter="url(#barShadow)">
+      <rect x="158" y="9" width="120" height="295" rx="10" fill="url(#barSmall)"/>
+      <rect x="388" y="171" width="120" height="133" rx="10" fill="url(#barMedium)"/>
+      <rect x="618" y="234" width="120" height="70" rx="10" fill="url(#barLarge)"/>
+    </g>
+
+    <g font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" text-anchor="middle">
+      <text x="218" y="-10" font-size="18" font-weight="500" fill="#172033">1173.32s</text>
+      <text x="448" y="148" font-size="18" font-weight="500" fill="#172033">537.93s</text>
+      <text x="678" y="211" font-size="18" font-weight="500" fill="#172033">285.96s</text>
+
+      <text x="218" y="336" font-size="16" font-weight="500" fill="#273449">Small</text>
+      <text x="448" y="336" font-size="16" font-weight="500" fill="#273449">Medium</text>
+      <text x="678" y="336" font-size="16" font-weight="500" fill="#273449">Large</text>
+    </g>
   </g>
 
-  <g stroke="#eef2f7" stroke-width="1">
-    <line x1="120" y1="344" x2="860" y2="344"/>
-    <line x1="120" y1="268" x2="860" y2="268"/>
-    <line x1="120" y1="192" x2="860" y2="192"/>
-    <line x1="120" y1="116" x2="860" y2="116"/>
+  <g font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif">
+    <rect x="166" y="535" width="214" height="48" rx="13" fill="#f8fbff" stroke="#e4edf8"/>
+    <text x="188" y="556" font-size="12" font-weight="400" fill="#68788f">Small baseline</text>
+    <text x="188" y="576" font-size="19" font-weight="500" fill="#245fc6">1.00x</text>
+
+    <rect x="453" y="535" width="214" height="48" rx="13" fill="#f8fbff" stroke="#e4edf8"/>
+    <text x="475" y="556" font-size="12" font-weight="400" fill="#68788f">Speedup vs. Small</text>
+    <text x="475" y="576" font-size="19" font-weight="500" fill="#3577d4">2.18x</text>
+
+    <rect x="740" y="535" width="214" height="48" rx="13" fill="#f8fbff" stroke="#e4edf8"/>
+    <text x="762" y="556" font-size="12" font-weight="400" fill="#68788f">Speedup vs. Small</text>
+    <text x="762" y="576" font-size="19" font-weight="500" fill="#6aa1dd">4.10x</text>
   </g>
-
-  <rect x="205" y="124" width="120" height="296" rx="8" fill="#1d4ed8"/>
-  <rect x="420" y="284" width="120" height="136" rx="8" fill="#2563eb"/>
-  <rect x="635" y="348" width="120" height="72" rx="8" fill="#60a5fa"/>
-
-  <g font-family="Inter, Arial, sans-serif" text-anchor="middle">
-    <text x="265" y="108" font-size="18" font-weight="700" fill="#111827">1173.32s</text>
-    <text x="480" y="268" font-size="18" font-weight="700" fill="#111827">537.93s</text>
-    <text x="695" y="332" font-size="18" font-weight="700" fill="#111827">285.96s</text>
-
-    <text x="265" y="454" font-size="17" font-weight="600" fill="#111827">Small</text>
-    <text x="480" y="454" font-size="17" font-weight="600" fill="#111827">Medium</text>
-    <text x="695" y="454" font-size="17" font-weight="600" fill="#111827">Large</text>
-
-    <text x="265" y="480" font-size="14" fill="#6b7280">1.00x</text>
-    <text x="480" y="480" font-size="14" fill="#6b7280">2.18x vs Small</text>
-    <text x="695" y="480" font-size="14" fill="#6b7280">4.10x vs Small</text>
-  </g>
-
-  <text x="120" y="500" font-family="Inter, Arial, sans-serif" font-size="13" fill="#9ca3af">Databend Cloud · TPC-H SF1000 · 22 queries</text>
 </svg>
