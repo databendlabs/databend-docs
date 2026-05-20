@@ -162,7 +162,20 @@ id | email              | is_vip
 
 Use `object_delete` inside a masking policy to hide specific keys within a VARIANT column. All access paths (subscript, `json_path_query`, `get_path`, cast, `json_object_keys`) respect the mask—hidden keys return NULL or are absent from results.
 
-### Step 1: Create roles
+### Step 1: Create a table with sample data
+
+```sql
+CREATE TABLE events (
+  id INT,
+  data VARIANT
+);
+
+INSERT INTO events VALUES
+  (1, parse_json('{"name": "alice", "content": "secret data", "secret_key": "sk_123", "age": 30}')),
+  (2, parse_json('{"name": "bob", "content": "private info", "secret_key": "sk_456", "age": 25}'));
+```
+
+### Step 2: Create roles
 
 ```sql
 -- Role that sees full VARIANT data
@@ -172,9 +185,10 @@ CREATE ROLE data_admin;
 CREATE ROLE data_reader;
 ```
 
-### Step 2: Create the masking policy
+### Step 3: Create the masking policy
 
 ```sql
+-- Hide 'content' and 'secret_key' from non-admin roles
 CREATE MASKING POLICY mask_variant_sensitive
   AS (val VARIANT) RETURNS VARIANT ->
     CASE
@@ -183,33 +197,56 @@ CREATE MASKING POLICY mask_variant_sensitive
     END;
 ```
 
-### Step 3: Attach the policy to a VARIANT column
+### Step 4: Attach the policy to the VARIANT column
 
 ```sql
-ALTER TABLE my_table MODIFY COLUMN data SET MASKING POLICY mask_variant_sensitive;
+ALTER TABLE events MODIFY COLUMN data SET MASKING POLICY mask_variant_sensitive;
 ```
 
-### Step 4: Grant access
+### Step 5: Grant access
 
 ```sql
-GRANT SELECT ON my_db.my_table TO ROLE data_admin;
-GRANT SELECT ON my_db.my_table TO ROLE data_reader;
+GRANT SELECT ON default.events TO ROLE data_admin;
+GRANT SELECT ON default.events TO ROLE data_reader;
 GRANT ROLE data_admin TO USER 'admin_user';
 GRANT ROLE data_reader TO USER 'normal_user';
 ```
 
-### Step 5: Verify
+### Step 6: Verify
 
 ```sql
--- As data_reader:
-SELECT data FROM my_table;
--- {"name":"alice","age":30}  (content is gone)
+-- As data_admin: full data visible
+SET ROLE data_admin;
+SELECT data FROM events;
+-- {"age":30,"content":"secret data","name":"alice","secret_key":"sk_123"}
+-- {"age":25,"content":"private info","name":"bob","secret_key":"sk_456"}
 
-SELECT data['content'] FROM my_table;
+-- As data_reader: sensitive keys removed
+SET ROLE data_reader;
+
+SELECT data FROM events;
+-- {"age":30,"name":"alice"}
+-- {"age":25,"name":"bob"}
+
+SELECT data['content'] FROM events;
+-- NULL
 -- NULL
 
-SELECT json_object_keys(data) FROM my_table;
--- ["age","name"]  (content key not visible)
+SELECT data['name'] FROM events;
+-- "alice"
+-- "bob"
+
+SELECT json_path_query_first(data, '$.content') FROM events;
+-- NULL
+
+SELECT data::STRING FROM events;
+-- {"age":30,"name":"alice"}
+
+SELECT json_object_keys(data) FROM events;
+-- ["age","name"]
+
+SELECT * FROM events WHERE data['content'] IS NOT NULL;
+-- (empty result)
 ```
 
 :::tip

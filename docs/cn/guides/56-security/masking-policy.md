@@ -162,7 +162,20 @@ id | email              | is_vip
 
 在脱敏策略中使用 `object_delete` 可以隐藏 VARIANT 列中的指定 key。所有访问方式（下标访问、`json_path_query`、`get_path`、CAST、`json_object_keys`）都会生效——被隐藏的 key 返回 NULL 或从结果中消失。
 
-### 第一步：创建角色
+### 第一步：创建表并插入示例数据
+
+```sql
+CREATE TABLE events (
+  id INT,
+  data VARIANT
+);
+
+INSERT INTO events VALUES
+  (1, parse_json('{"name": "alice", "content": "secret data", "secret_key": "sk_123", "age": 30}')),
+  (2, parse_json('{"name": "bob", "content": "private info", "secret_key": "sk_456", "age": 25}'));
+```
+
+### 第二步：创建角色
 
 ```sql
 -- 可以看到完整 VARIANT 数据的角色
@@ -172,9 +185,10 @@ CREATE ROLE data_admin;
 CREATE ROLE data_reader;
 ```
 
-### 第二步：创建脱敏策略
+### 第三步：创建脱敏策略
 
 ```sql
+-- 对非管理员角色隐藏 'content' 和 'secret_key'
 CREATE MASKING POLICY mask_variant_sensitive
   AS (val VARIANT) RETURNS VARIANT ->
     CASE
@@ -183,33 +197,56 @@ CREATE MASKING POLICY mask_variant_sensitive
     END;
 ```
 
-### 第三步：绑定到 VARIANT 列
+### 第四步：绑定到 VARIANT 列
 
 ```sql
-ALTER TABLE my_table MODIFY COLUMN data SET MASKING POLICY mask_variant_sensitive;
+ALTER TABLE events MODIFY COLUMN data SET MASKING POLICY mask_variant_sensitive;
 ```
 
-### 第四步：授权
+### 第五步：授权
 
 ```sql
-GRANT SELECT ON my_db.my_table TO ROLE data_admin;
-GRANT SELECT ON my_db.my_table TO ROLE data_reader;
+GRANT SELECT ON default.events TO ROLE data_admin;
+GRANT SELECT ON default.events TO ROLE data_reader;
 GRANT ROLE data_admin TO USER 'admin_user';
 GRANT ROLE data_reader TO USER 'normal_user';
 ```
 
-### 第五步：验证
+### 第六步：验证
 
 ```sql
--- 以 data_reader 身份查询：
-SELECT data FROM my_table;
--- {"name":"alice","age":30}（content 已消失）
+-- 以 data_admin 身份查询：完整数据可见
+SET ROLE data_admin;
+SELECT data FROM events;
+-- {"age":30,"content":"secret data","name":"alice","secret_key":"sk_123"}
+-- {"age":25,"content":"private info","name":"bob","secret_key":"sk_456"}
 
-SELECT data['content'] FROM my_table;
+-- 以 data_reader 身份查询：敏感字段已删除
+SET ROLE data_reader;
+
+SELECT data FROM events;
+-- {"age":30,"name":"alice"}
+-- {"age":25,"name":"bob"}
+
+SELECT data['content'] FROM events;
+-- NULL
 -- NULL
 
-SELECT json_object_keys(data) FROM my_table;
--- ["age","name"]（content key 不可见）
+SELECT data['name'] FROM events;
+-- "alice"
+-- "bob"
+
+SELECT json_path_query_first(data, '$.content') FROM events;
+-- NULL
+
+SELECT data::STRING FROM events;
+-- {"age":30,"name":"alice"}
+
+SELECT json_object_keys(data) FROM events;
+-- ["age","name"]
+
+SELECT * FROM events WHERE data['content'] IS NOT NULL;
+-- （空结果）
 ```
 
 :::tip
