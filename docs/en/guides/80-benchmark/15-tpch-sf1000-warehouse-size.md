@@ -6,6 +6,21 @@ slug: tpch-sf1000
 
 This page compares Small, Medium, and Large Databend Cloud Warehouses on the same TPC-H SF1000 workload. SF1000 is commonly used to represent about 1TB of TPC-H data.
 
+## Dataset Scale
+
+TPC-H Scale Factor 1000 (SF1000) represents approximately 1TB of generated data. The dataset contains about 6 billion rows across the 8 standard TPC-H tables.
+
+| Table | Rows |
+|---|---:|
+| customer | 150,000,000 |
+| lineitem | 6,000,000,000 |
+| nation | 25 |
+| orders | 1,500,000,000 |
+| part | 200,000,000 |
+| partsupp | 800,000,000 |
+| region | 5 |
+| supplier | 10,000,000 |
+
 :::info[Disclaimer]
 TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing Performance Council ([TPC](http://www.tpc.org)). This test is inspired by TPC-H, but it is not an official TPC-H result.
 :::
@@ -17,6 +32,8 @@ TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing Perfo
 | Small | 1173.32 s | 1.00x | — |
 | Medium | 537.93 s | 2.18x | 2.18x |
 | Large | 285.96 s | 4.10x | 1.88x |
+
+![TPC-H SF1000 Warehouse Size Benchmark](@site/static/img/documents/tpch-sf1000-warehouse-size.svg)
 
 Medium is about 2.18x faster than Small. Large is about 4.10x faster than Small and completes the full 22-query workload in under 5 minutes.
 
