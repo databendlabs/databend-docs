@@ -158,6 +158,67 @@ id | email              | is_vip
  2 | *********          | false
 ```
 
+## Masking Variant Sub-Fields
+
+Use `object_delete` inside a masking policy to hide specific keys within a VARIANT column. All access paths (subscript, `json_path_query`, `get_path`, cast, `json_object_keys`) respect the mask—hidden keys return NULL or are absent from results.
+
+### Step 1: Create roles
+
+```sql
+-- Role that sees full VARIANT data
+CREATE ROLE data_admin;
+
+-- Role that cannot see sensitive keys
+CREATE ROLE data_reader;
+```
+
+### Step 2: Create the masking policy
+
+```sql
+CREATE MASKING POLICY mask_variant_sensitive
+  AS (val VARIANT) RETURNS VARIANT ->
+    CASE
+      WHEN current_role() IN ('data_admin', 'account_admin') THEN val
+      ELSE object_delete(val, 'content', 'secret_key')
+    END;
+```
+
+### Step 3: Attach the policy to a VARIANT column
+
+```sql
+ALTER TABLE my_table MODIFY COLUMN data SET MASKING POLICY mask_variant_sensitive;
+```
+
+### Step 4: Grant access
+
+```sql
+GRANT SELECT ON my_db.my_table TO ROLE data_admin;
+GRANT SELECT ON my_db.my_table TO ROLE data_reader;
+GRANT ROLE data_admin TO USER 'admin_user';
+GRANT ROLE data_reader TO USER 'normal_user';
+```
+
+### Step 5: Verify
+
+```sql
+-- As data_reader:
+SELECT data FROM my_table;
+-- {"name":"alice","age":30}  (content is gone)
+
+SELECT data['content'] FROM my_table;
+-- NULL
+
+SELECT json_object_keys(data) FROM my_table;
+-- ["age","name"]  (content key not visible)
+```
+
+:::tip
+For nested keys, use `delete_by_keypath`:
+```sql
+ELSE delete_by_keypath(val, 'nested:secret')
+```
+:::
+
 ## Privileges & References
 
 - Grant `CREATE MASKING POLICY` on `*.*` to any role responsible for creating or replacing policies; the creator automatically owns the policy.

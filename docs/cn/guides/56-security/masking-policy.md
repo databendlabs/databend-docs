@@ -158,6 +158,67 @@ id | email              | is_vip
  2 | *********          | false
 ```
 
+## Variant 字段级脱敏
+
+在脱敏策略中使用 `object_delete` 可以隐藏 VARIANT 列中的指定 key。所有访问方式（下标访问、`json_path_query`、`get_path`、CAST、`json_object_keys`）都会生效——被隐藏的 key 返回 NULL 或从结果中消失。
+
+### 第一步：创建角色
+
+```sql
+-- 可以看到完整 VARIANT 数据的角色
+CREATE ROLE data_admin;
+
+-- 看不到敏感字段的角色
+CREATE ROLE data_reader;
+```
+
+### 第二步：创建脱敏策略
+
+```sql
+CREATE MASKING POLICY mask_variant_sensitive
+  AS (val VARIANT) RETURNS VARIANT ->
+    CASE
+      WHEN current_role() IN ('data_admin', 'account_admin') THEN val
+      ELSE object_delete(val, 'content', 'secret_key')
+    END;
+```
+
+### 第三步：绑定到 VARIANT 列
+
+```sql
+ALTER TABLE my_table MODIFY COLUMN data SET MASKING POLICY mask_variant_sensitive;
+```
+
+### 第四步：授权
+
+```sql
+GRANT SELECT ON my_db.my_table TO ROLE data_admin;
+GRANT SELECT ON my_db.my_table TO ROLE data_reader;
+GRANT ROLE data_admin TO USER 'admin_user';
+GRANT ROLE data_reader TO USER 'normal_user';
+```
+
+### 第五步：验证
+
+```sql
+-- 以 data_reader 身份查询：
+SELECT data FROM my_table;
+-- {"name":"alice","age":30}（content 已消失）
+
+SELECT data['content'] FROM my_table;
+-- NULL
+
+SELECT json_object_keys(data) FROM my_table;
+-- ["age","name"]（content key 不可见）
+```
+
+:::tip
+如需隐藏嵌套 key，使用 `delete_by_keypath`：
+```sql
+ELSE delete_by_keypath(val, 'nested:secret')
+```
+:::
+
 ## 权限与参考
 
 - 将 `CREATE MASKING POLICY`（通常授予 `*.*`）赋予负责创建或替换策略的角色，创建者会自动获得策略的 OWNERSHIP。
