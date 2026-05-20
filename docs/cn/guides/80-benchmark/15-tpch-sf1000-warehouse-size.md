@@ -6,6 +6,21 @@ slug: tpch-sf1000
 
 本文对比 Databend Cloud Small、Medium、Large 三档 Warehouse 在同一 TPC-H SF1000 workload 下的表现。SF1000 通常用于表示约 1TB 规模的 TPC-H 数据。
 
+## 数据规模
+
+TPC-H Scale Factor 1000（SF1000）表示约 1TB 的生成数据。该数据集包含 8 张 TPC-H 标准表，总行数约 60 亿行。
+
+| 表 | 行数 |
+|---|---:|
+| customer | 150,000,000 |
+| lineitem | 6,000,000,000 |
+| nation | 25 |
+| orders | 1,500,000,000 |
+| part | 200,000,000 |
+| partsupp | 800,000,000 |
+| region | 5 |
+| supplier | 10,000,000 |
+
 :::info[Disclaimer]
 TPC Benchmark™ 和 TPC-H™ 是事务处理性能委员会 ([TPC](http://www.tpc.org)) 的商标。本文测试受 TPC-H 启发，但不属于官方 TPC-H 结果。
 :::
@@ -17,6 +32,8 @@ TPC Benchmark™ 和 TPC-H™ 是事务处理性能委员会 ([TPC](http://www.t
 | Small | 1173.32 s | 1.00x | — |
 | Medium | 537.93 s | 2.18x | 2.18x |
 | Large | 285.96 s | 4.10x | 1.88x |
+
+![TPC-H SF1000 Warehouse Size Benchmark](@site/static/img/documents/tpch-sf1000-warehouse-size.svg)
 
 Medium 约为 Small 的 2.18x。Large 约为 Small 的 4.10x，可在 5 分钟内完成 22 条 Query。
 
