@@ -160,7 +160,7 @@ id | email              | is_vip
 
 ## Variant 字段级脱敏
 
-在脱敏策略中使用 `object_delete` 可以隐藏 VARIANT 列中的指定 key。所有访问方式（下标访问、`json_path_query`、`get_path`、CAST、`json_object_keys`）都会生效——被隐藏的 key 返回 NULL 或从结果中消失。
+在脱敏策略中，`object_delete` 用于隐藏 VARIANT 列中的指定 key。该脱敏效果对所有访问方式（下标、`json_path_query`、`get_path`、CAST、`json_object_keys`）保持一致：被隐藏的 key 会表现为 NULL 或被完全剔除。
 
 ### 第一步：创建表并插入示例数据
 
