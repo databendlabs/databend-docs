@@ -188,14 +188,18 @@ CREATE ROLE data_reader;
 ### Step 3: Create the masking policy
 
 ```sql
--- Hide 'content' and 'secret_key' from non-admin roles
+-- Hide 'content' and 'secret_key' from users without data_admin role
 CREATE MASKING POLICY mask_variant_sensitive
   AS (val VARIANT) RETURNS VARIANT ->
     CASE
-      WHEN current_role() IN ('data_admin', 'account_admin') THEN val
+      WHEN is_role_in_session('data_admin') OR is_role_in_session('account_admin') THEN val
       ELSE object_delete(val, 'content', 'secret_key')
     END;
 ```
+
+:::note
+`is_role_in_session` (available since v1.2.911) checks all roles granted to the user, regardless of which role is currently active. This is more secure than `current_role()` because users cannot bypass the mask by switching roles with `SET ROLE`.
+:::
 
 ### Step 4: Attach the policy to the VARIANT column
 

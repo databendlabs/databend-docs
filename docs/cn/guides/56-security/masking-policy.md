@@ -188,14 +188,18 @@ CREATE ROLE data_reader;
 ### 第三步：创建脱敏策略
 
 ```sql
--- 对非管理员角色隐藏 'content' 和 'secret_key'
+-- 对没有 data_admin 角色的用户隐藏 'content' 和 'secret_key'
 CREATE MASKING POLICY mask_variant_sensitive
   AS (val VARIANT) RETURNS VARIANT ->
     CASE
-      WHEN current_role() IN ('data_admin', 'account_admin') THEN val
+      WHEN is_role_in_session('data_admin') OR is_role_in_session('account_admin') THEN val
       ELSE object_delete(val, 'content', 'secret_key')
     END;
 ```
+
+:::note
+`is_role_in_session`（v1.2.911 起可用）会检查用户被授予的所有角色，不依赖当前激活角色。相比 `current_role()`，用户无法通过 `SET ROLE` 切换角色来绕过脱敏。
+:::
 
 ### 第四步：绑定到 VARIANT 列
 
