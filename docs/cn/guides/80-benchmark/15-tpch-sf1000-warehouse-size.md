@@ -1,6 +1,6 @@
 ---
-title: "TPC-H SF1000（1TB）：Databend Cloud Warehouse 规格 Benchmark"
-sidebar_label: "TPC-H SF1000 Benchmark"
+title: "TPC-H SF1000 性能对比：Small / Medium / Large Warehouse"
+sidebar_label: "TPC-H SF1000 基准测试"
 slug: tpch-sf1000
 ---
 
