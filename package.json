@@ -14,8 +14,8 @@
     "dev:cn": "npm run start:cn",
     "dev:en": "npm run dev",
     "build": "npm run build:en",
-    "build:cn": "npm run generate:robots:cn && npm run generate-release-index && site=cn site_env=production docusaurus build",
-    "build:en": "npm run generate:robots:en && npm run generate-release-index && site=en site_env=production docusaurus build",
+    "build:cn": "npm run generate:robots:cn && npm run generate-release-index && site=cn site_env=production docusaurus build && site=cn node scripts/generate-llms-index.js",
+    "build:en": "npm run generate:robots:en && npm run generate-release-index && site=en site_env=production docusaurus build && site=en node scripts/generate-llms-index.js",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -26,7 +26,8 @@
     "parser-sitemap:cn": "site=cn node ./scripts/parser_sitemap.js",
     "doc-to-pdf:en": "npm run parser-sitemap:en && prince --no-warn-css --style=./src/css/print.css --input-list=./pdf/docs.databend.en-sql.txt -o ./pdf/databend-doc-en.pdf",
     "doc-to-pdf:cn": "npm run parser-sitemap:cn && prince --no-warn-css --style=./src/css/print.css --input-list=./pdf/docs.databend.cn-sql.txt -o ./pdf/databend-doc-cn.pdf",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
@@ -72,6 +73,7 @@
     "@docusaurus/theme-common": "^3.10.1",
     "@docusaurus/tsconfig": "^3.10.1",
     "@docusaurus/types": "^3.10.1",
+    "patch-package": "^8.0.1",
     "typescript": "^6.0.3"
   },
   "browserslist": {
