@@ -23,6 +23,20 @@ The size of a warehouse refers to the maximum number of concurrent queries it ca
 | 5XLarge | $256.00                | $384.00                | $0.071111111               | $0.106666667               |
 | 6XLarge | $512.00                | $768.00                | $0.142222222               | $0.213333333               |
 
+:::tip[Not sure which size to choose?]
+See how Small, Medium, and Large warehouses perform on the same workload on the [TPC-H SF1000 (1TB) Warehouse Size Benchmark](/guides/benchmark/tpch-sf1000) page.
+
+**Dataset Scale:** TPC-H Scale Factor 1000 (SF1000) represents approximately 1TB of generated data, containing about 6 billion rows across the 8 standard TPC-H tables.
+
+:::note[Overview]
+| Warehouse Size | Total Time | Speedup vs. Small |
+| -------------- | ---------: | ----------------: |
+| Small | 1173.32 s | 1.00x |
+| Medium | 537.93 s | 2.18x |
+| Large | 285.96 s | 4.10x |
+
+:::
+
 A suspended warehouse does not consume any resources. By default, Databend Cloud automatically suspends a warehouse after five minutes of inactivity to save resources and costs. You can adjust or disable this automatic suspension feature according to your preferences.
 
 ### Storage Pricing
