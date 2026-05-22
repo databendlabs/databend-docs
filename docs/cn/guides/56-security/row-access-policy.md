@@ -229,6 +229,145 @@ RETURNS BOOLEAN ->
 ALTER TABLE employees ADD ROW ACCESS POLICY rap_region_dept ON (office_region, department);
 ```
 
+## 示例：按系统限制可查询的时间范围
+
+在时序数据场景（监控指标、日志、事件流）中，不同系统对历史数据的查询范围需求不同。例如，实时告警系统只需要查最近 1 天的数据，而离线分析系统需要查最近 7 天或 15 天。Row Access Policy 可以在数据库层面强制执行这些边界 — 每个系统的服务账户只能扫描它实际需要的时间范围，防止意外全表扫描，减少资源争用。
+
+### 场景说明
+
+| 服务账户 | 被授予的角色 | 可查询时间范围 | 用途 |
+|---------|-------------|---------------|------|
+| `svc_realtime_alert` | `rap_role_1_day` | 仅最近 1 天 | 实时告警 |
+| `svc_offline_analysis` | `rap_role_1_day`、`rap_role_7_day` | 最多 7 天 | 离线分析 |
+
+### 管理员配置（以 account_admin 执行）
+
+```sql
+SET enable_experimental_row_access_policy = 1;
+
+-- 创建代表不同时间范围层级的角色
+CREATE ROLE rap_role_7_day;
+CREATE ROLE rap_role_1_day;
+
+-- 策略逻辑：检查会话中哪个角色处于激活状态，据此过滤行。
+-- CASE 从上到下求值：7 天优先检查（更宽的窗口优先级更高）。
+CREATE ROW ACCESS POLICY rap_time_range
+AS (start_time TIMESTAMP)
+RETURNS BOOLEAN ->
+  CASE
+    WHEN IS_ROLE_IN_SESSION('rap_role_7_day') THEN
+      start_time >= now() - INTERVAL 7 DAY
+    WHEN IS_ROLE_IN_SESSION('rap_role_1_day') THEN
+      start_time >= now() - INTERVAL 1 DAY
+    ELSE false
+  END;
+
+-- 示例指标表
+CREATE TABLE metrics(id INT, start_time TIMESTAMP);
+
+INSERT INTO metrics VALUES
+  (1, now() - INTERVAL 15 DAY),
+  (2, now() - INTERVAL 5 DAY),
+  (3, now() - INTERVAL 12 HOUR),
+  (4, now() - INTERVAL 1 HOUR),
+  (5, now() - INTERVAL 8 DAY);
+
+-- 绑定策略
+ALTER TABLE metrics ADD ROW ACCESS POLICY rap_time_range ON (start_time);
+
+-- 授予角色给服务账户
+GRANT ROLE rap_role_1_day TO USER svc_realtime_alert;
+
+GRANT ROLE rap_role_1_day TO USER svc_offline_analysis;
+GRANT ROLE rap_role_7_day TO USER svc_offline_analysis;
+```
+
+### 登录后的行为
+
+Databend 默认 `SET SECONDARY ROLES ALL` — 登录后所有被授予的角色都自动在 session 中激活。策略 CASE 从上到下求值，第一个命中的分支生效。
+
+### svc_realtime_alert 连接（只有 `rap_role_1_day`）
+
+登录后，所有被授予的角色都处于激活状态（secondary roles 默认 ALL）。由于该账户只有 `rap_role_1_day`，CASE 跳过 `rap_role_7_day` 分支，命中 1 天分支。它无法扩大范围，因为从未被授予 `rap_role_7_day`。
+
+```sql
+-- 实时告警系统连接（secondary roles 默认 ALL）
+SELECT id, start_time FROM metrics ORDER BY id;
+```
+
+```
+id | start_time
+---|---------------------
+ 3 | 12 hours ago
+ 4 | 1 hour ago
+```
+
+只能看到 2 行 — 最近 1 天内的数据。告警系统物理上无法扫描更早的数据。
+
+### svc_offline_analysis 连接（拥有两个角色）
+
+登录后，`rap_role_7_day` 和 `rap_role_1_day` 都在 session 中激活（secondary roles ALL）。CASE 先检查 `rap_role_7_day` — 命中，所以该账户默认看到 7 天窗口：
+
+```sql
+-- 离线分析系统连接（secondary roles ALL，两个角色都激活）
+SELECT id, start_time FROM metrics ORDER BY id;
+```
+
+```
+id | start_time
+---|---------------------
+ 2 | 5 days ago
+ 3 | 12 hours ago
+ 4 | 1 hour ago
+```
+
+可见 3 行 — 最近 7 天内的数据。
+
+**需要时缩窄到 1 天** — 例如离线系统执行一次快速的近期数据检查：
+
+```sql
+SET ROLE rap_role_1_day;
+SET SECONDARY ROLES NONE;
+
+SELECT id, start_time FROM metrics ORDER BY id;
+```
+
+```
+id | start_time
+---|---------------------
+ 3 | 12 hours ago
+ 4 | 1 hour ago
+```
+
+现在只有 2 行 — 1 天窗口。`SET SECONDARY ROLES NONE` 关闭所有 secondary roles，session 中只剩主角色（`rap_role_1_day`）。
+
+**切回 7 天窗口：**
+
+```sql
+SET ROLE rap_role_7_day;
+
+SELECT id, start_time FROM metrics ORDER BY id;
+```
+
+```
+id | start_time
+---|---------------------
+ 2 | 5 days ago
+ 3 | 12 hours ago
+ 4 | 1 hour ago
+```
+
+回到 3 行。离线分析账户可以在同一个会话中通过 `SET ROLE` 自由切换时间范围。
+
+### 为什么这样设计有效
+
+- Databend 登录后默认 `SECONDARY ROLES ALL` — 所有被授予的角色都在 session 中激活。
+- `IS_ROLE_IN_SESSION('<role>')` 检查角色是否为当前主角色**或**已激活的 secondary role。
+- CASE 表达式从上到下求值。把最宽的窗口放在最前面，这样当账户拥有多个角色时，默认优先使用最宽的窗口。
+- 账户只能激活被授予的角色。`svc_realtime_alert` 无法执行 `SET ROLE rap_role_7_day` — 数据库会拒绝。
+- 要缩窄可见范围，使用 `SET SECONDARY ROLES NONE` 关闭所有 secondary roles，再用 `SET ROLE` 选择目标层级。
+- 无需应用层代码：策略在查询规划阶段由存储层强制执行。
+
 ## 管理策略
 
 ### DESCRIBE ROW ACCESS POLICY
