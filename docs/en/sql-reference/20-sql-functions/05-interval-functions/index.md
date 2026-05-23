@@ -36,5 +36,5 @@ This section provides reference information for the interval functions in Databe
 | Function | Description | Example |
 |----------|-------------|--------|
 | [TO_DECADES](interval-functions/to-decades) | Converts a number to an interval of decades | `TO_DECADES(2)` → `20 years` |
-| [TO_CENTRIES](interval-functions/to-centries) | Converts a number to an interval of centuries | `TO_CENTRIES(1)` → `100 years` |
+| [TO_CENTURIES](interval-functions/to-centuries) | Converts a number to an interval of centuries | `TO_CENTURIES(1)` → `100 years` |
 | [TO_MILLENNIA](interval-functions/to-millennia) | Converts a number to an interval of millennia | `TO_MILLENNIA(1)` → `1000 years` |
