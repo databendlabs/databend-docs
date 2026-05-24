@@ -76,6 +76,22 @@ LIST @my_external_stage;
 LIST @~;
 ```
 
+## 使用 PATTERN 过滤 Stage 文件 {#filtering-staged-files-with-pattern}
+
+读取、列出、删除或检查 Stage 文件的命令和函数可以使用 `PATTERN` 按正则表达式过滤文件。对于 Stage 路径，`PATTERN` 匹配的是 `@<stage_name>[/<path>]` 之后的文件路径部分，而不是完整的 Stage URI。
+
+例如，对于 `@sales_stage/raw/`，Stage 文件 `@sales_stage/raw/year=2025/month=01/sales_20250101.parquet` 会作为 `year=2025/month=01/sales_20250101.parquet` 进行匹配：
+
+```sql
+LIST @sales_stage/raw/ PATTERN = 'year=2025/month=01/.*[.]parquet';
+```
+
+若要匹配 Stage 路径下的所有 `.log` 文件，可以使用如下正则表达式：
+
+```sql
+LIST @my_stage PATTERN = '.*[.]log';
+```
+
 ## 管理 Stage
 
 Databend 提供以下命令来管理 Stage 及其中的文件：

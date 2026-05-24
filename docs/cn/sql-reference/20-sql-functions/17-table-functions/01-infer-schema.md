@@ -43,7 +43,7 @@ INFER_SCHEMA(
 | 参数 | 描述 | 默认值 | 示例 |
 |-----------|-------------|---------|---------|
 | `LOCATION` | 暂存区位置：`@<stage_name>[/<path>]` | 必需 | `'@my_stage/data/'` |
-| `PATTERN` | 文件名匹配模式 | 所有文件 | `'*.csv'`, `'*.parquet'` |
+| `PATTERN` | 用于匹配 Stage 文件的正则表达式模式。它匹配的是 `@<stage_name>[/<path>]` 之后的文件路径部分。参见 [使用 PATTERN 过滤 Stage 文件](/guides/load-data/stage/what-is-stage#filtering-staged-files-with-pattern)。 | 所有文件 | `'.*[.]csv'`, `'.*[.]parquet'` |
 | `FILE_FORMAT` | 解析用的文件格式名称 | 暂存区格式 | `'csv_format'`, `'NDJSON'` |
 | `MAX_RECORDS_PRE_FILE` | 每文件采样的最大记录数 | 所有记录 | `100`, `1000` |
 | `MAX_FILE_COUNT` | 处理的最大文件数 | 所有文件 | `5`, `10` |
@@ -60,7 +60,7 @@ COPY INTO @test_parquet FROM (SELECT number FROM numbers(10)) FILE_FORMAT = (TYP
 -- 使用模式从 Parquet 文件推断模式
 SELECT * FROM INFER_SCHEMA(
     location => '@test_parquet',
-    pattern => '*.parquet'
+    pattern => '.*[.]parquet'
 );
 ```
 
@@ -86,7 +86,7 @@ CREATE FILE FORMAT csv_format TYPE = 'CSV';
 -- 使用模式和文件格式推断模式
 SELECT * FROM INFER_SCHEMA(
     location => '@test_csv',
-    pattern => '*.csv',
+    pattern => '.*[.]csv',
     file_format => 'csv_format'
 );
 ```
@@ -129,7 +129,7 @@ SELECT * FROM INFER_SCHEMA(
 -- 仅采样前 5 条记录进行模式推断
 SELECT * FROM INFER_SCHEMA(
     location => '@test_csv',
-    pattern => '*.csv',
+    pattern => '.*[.]csv',
     file_format => 'csv_format',
     max_records_pre_file => 5
 );
@@ -145,7 +145,7 @@ COPY INTO @test_ndjson FROM (SELECT number FROM numbers(10)) FILE_FORMAT = (TYPE
 -- 使用模式和 NDJSON 格式推断模式
 SELECT * FROM INFER_SCHEMA(
     location => '@test_ndjson',
-    pattern => '*.ndjson',
+    pattern => '.*[.]ndjson',
     file_format => 'NDJSON'
 );
 ```
@@ -165,7 +165,7 @@ SELECT * FROM INFER_SCHEMA(
 -- 仅采样前 5 条记录进行模式推断
 SELECT * FROM INFER_SCHEMA(
     location => '@test_ndjson',
-    pattern => '*.ndjson',
+    pattern => '.*[.]ndjson',
     file_format => 'NDJSON',
     max_records_pre_file => 5
 );
@@ -183,7 +183,7 @@ SELECT * FROM INFER_SCHEMA(
 
 SELECT * FROM INFER_SCHEMA(
     location => '@my_stage/',
-    pattern => '*.csv',
+    pattern => '.*[.]csv',
     file_format => 'csv_format'
 );
 ```
@@ -207,7 +207,7 @@ SELECT * FROM INFER_SCHEMA(
 -- 从目录中所有 CSV 文件推断模式
 SELECT * FROM INFER_SCHEMA(
     location => '@my_stage/',
-    pattern => '*.csv'
+    pattern => '.*[.]csv'
 );
 ```
 
@@ -217,7 +217,7 @@ SELECT * FROM INFER_SCHEMA(
 -- 仅处理前 5 个匹配文件
 SELECT * FROM INFER_SCHEMA(
     location => '@my_stage/',
-    pattern => '*.csv',
+    pattern => '.*[.]csv',
     max_file_count => 5
 );
 ```
@@ -245,7 +245,7 @@ SELECT * FROM INFER_SCHEMA(
 ```sql
 -- 从文件模式创建表结构
 CREATE TABLE my_table AS
-SELECT * FROM @my_stage/ (pattern=>'*.parquet')
+SELECT * FROM @my_stage/ (pattern=>'.*[.]parquet')
 LIMIT 0;
 
 -- 验证表结构
