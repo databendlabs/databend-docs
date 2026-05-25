@@ -186,7 +186,7 @@ copyOptions ::=
 
 - **FILES**：指定一个或多个待加载文件名（以逗号分隔）。
 
-- **PATTERN**：基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用于匹配文件名。参见 [示例 4：使用模式过滤文件](#example-4-filtering-files-with-pattern)。
+- **PATTERN**：基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用于匹配文件名。从 Stage 加载时，该模式匹配的是 `@<stage_name>[/<path>]` 之后的文件路径部分。参见 [使用 PATTERN 过滤 Stage 文件](/guides/load-data/stage/what-is-stage#filtering-staged-files-with-pattern) 和 [示例 4：使用模式过滤文件](#example-4-filtering-files-with-pattern)。
 
 ## 格式类型选项
 
@@ -534,20 +534,20 @@ COPY INTO mytable
     );
 ```
 
-为包含多级目录的文件路径指定模式时，请根据匹配需求选择：
+为包含多级目录的 Stage 文件路径指定模式时，请注意模式只匹配 `@<stage_name>[/<path>]` 之后的路径部分。例如，对于 `FROM @sales_stage/raw/`，文件 `@sales_stage/raw/year=2025/month=01/sales_20250101.parquet` 会作为 `year=2025/month=01/sales_20250101.parquet` 进行匹配。
 
-- 若要匹配前缀后的特定子路径，请在模式中包含该前缀（如 'multi_page/'），再指定子路径内的匹配模式（如 '\_page_1'）。
+- 若要匹配前缀后的特定子路径，请在模式中包含该前缀（如 'year=2025/month=01/'），再指定子路径内的匹配模式（如 'sales_'）。
 
 ```sql
--- 文件路径：parquet/multi_page/multi_page_1.parquet
-COPY INTO ... FROM @data/parquet/ PATTERN = 'multi_page/.*_page_1.*') ...
+-- 文件路径：raw/year=2025/month=01/sales_20250101.parquet
+COPY INTO ... FROM @sales_stage/raw/ PATTERN = 'year=2025/month=01/.*sales_.*[.]parquet') ...
 ```
 
-- 若要匹配文件路径中任意位置出现的目标模式，请在模式前后加 '.*'（如 '.*multi_page_1.\*'）以匹配路径中任意位置的 'multi_page_1'。
+- 若要匹配文件路径中任意位置出现的目标模式，请在模式前后加 '.*'（如 '.*sales_20250101.*'）以匹配路径中任意位置的 'sales_20250101'。
 
 ```sql
--- 文件路径：parquet/multi_page/multi_page_1.parquet
-COPY INTO ... FROM @data/parquet/ PATTERN ='.*multi_page_1.*') ...
+-- 文件路径：raw/year=2025/month=01/sales_20250101.parquet
+COPY INTO ... FROM @sales_stage/raw/ PATTERN = '.*sales_20250101.*') ...
 ```
 
 ### 示例 5：加载到含额外列的表

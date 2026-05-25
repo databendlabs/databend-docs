@@ -38,7 +38,7 @@ userStage ::= @~[/<path>]
 
 ### PATTERN
 
-参见 [COPY INTO table](/10-sql-commands/10-dml/dml-copy-into-table.md)。
+按正则表达式过滤 Stage 文件。它匹配的是 `@<stage_name>[/<path>]` 之后的文件路径部分。参见 [使用 PATTERN 过滤 Stage 文件](/guides/load-data/stage/what-is-stage#filtering-staged-files-with-pattern)。
 
 
 ## 示例
@@ -53,5 +53,5 @@ SELECT * FROM list_stage(location => '@my_stage/', pattern => '.*[.]log');
 +----------------+------+------------------------------------+-------------------------------+---------+
 
 -- 等同于以下语句：
-LIST @my_stage PATTERN = '.log';
+LIST @my_stage PATTERN = '.*[.]log';
 ```
