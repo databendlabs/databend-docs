@@ -58,6 +58,25 @@ The following is a list of the parameters available within the [query.settings] 
 | aggregate_spilling_memory_ratio | Controls the threshold for spilling data to disk during aggregation operations. When memory usage exceeds this percentage of the total available memory, data will be spilled to the object storage to avoid memory exhaustion. Example: if set to 60, spilling occurs when memory usage exceeds 60%. |
 | join_spilling_memory_ratio      | Controls the threshold for spilling data to disk during join operations. When memory usage exceeds this percentage of the total available memory, data will be spilled to the object storage to avoid memory exhaustion. Example: if set to 60, spilling occurs when memory usage exceeds 60%.        |
 
+## [task] Section
+
+Use the [task] section to enable private task support for self-hosted deployments:
+
+```toml
+[task]
+on = true
+```
+
+Private task support requires an Enterprise Edition license with the `private_task` feature.
+
+:::note
+When private task is enabled, `cloud_control_grpc_server_address` in the [query] section must be empty. Otherwise, Databend Query cannot start.
+:::
+
+| Parameter | Description                                                                                                      |
+| --------- | ---------------------------------------------------------------------------------------------------------------- |
+| on        | Enables private task scheduling and execution on Databend Query nodes. Defaults to `false`.                      |
+
 ## [log] Section
 
 This section can include these subsections: [log.file], [log.stderr], [log.query], and [log.tracing].
