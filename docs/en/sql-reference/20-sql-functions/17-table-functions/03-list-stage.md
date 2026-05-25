@@ -38,7 +38,7 @@ userStage ::= @~[/<path>]
 
 ### PATTERN
 
-See [COPY INTO table](/10-sql-commands/10-dml/dml-copy-into-table.md).
+Filters staged files by regular expression. It matches the file path portion after `@<stage_name>[/<path>]`. See [Filtering Staged Files with PATTERN](/guides/load-data/stage/what-is-stage#filtering-staged-files-with-pattern).
 
 
 ## Examples
@@ -53,5 +53,5 @@ SELECT * FROM list_stage(location => '@my_stage/', pattern => '.*[.]log');
 +----------------+------+------------------------------------+-------------------------------+---------+
 
 -- Equivalent to the following statement:
-LIST @my_stage PATTERN = '.log';
+LIST @my_stage PATTERN = '.*[.]log';
 ```
