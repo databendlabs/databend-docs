@@ -8,6 +8,15 @@ import EEFeature from '@site/src/components/EEFeature';
 
 行访问策略（Row Access Policy）通过在查询时过滤表中的行来保护数据。你可以集中定义行级谓词，并将其绑定到表上，确保用户只能看到满足策略条件的行。
 
+## 适用场景
+
+- **多租户 SaaS**：每个租户只能查到自己的数据，无需为每个租户建单独的表或视图。
+- **区域隔离**：销售只能看自己负责区域的订单，管理层看全部。
+- **时间窗口控制**：实时告警系统只能查最近 1 天，离线分析系统可查 7 天。
+- **合规审计**：外部审计人员只能看到特定时间段的数据。
+
+如果你需要所有用户都能看到行但敏感列值需要脱敏，请使用[脱敏策略](/guides/security/masking-policy)。
+
 :::note
 Row Access Policy 当前为实验性功能。可通过 `SET enable_experimental_row_access_policy = 1` 在当前会话启用，或通过 `SET GLOBAL enable_experimental_row_access_policy = 1` 在账号范围启用。
 :::
@@ -72,7 +81,7 @@ CREATE ROW ACCESS POLICY rap_engineering
 AS (dept STRING)
 RETURNS BOOLEAN ->
 CASE
-  WHEN current_role() = 'admin' THEN true
+  WHEN IS_ROLE_IN_SESSION('admin') THEN true
   WHEN dept = 'Engineering' THEN true
   ELSE false
 END;
@@ -403,7 +412,51 @@ ALTER TABLE employees DROP ALL ROW ACCESS POLICIES;
 - `SELECT` 会被 Row Access Policy 过滤，只返回策略可见的行。
 - `UPDATE`、`DELETE` 和 `MERGE` 在匹配目标行时会被 Row Access Policy 过滤。不可见的目标行不会被更新、删除或合并。
 - 修改或删除受保护列前，需要先解除相关策略。
-- 当前不支持 `CREATE OR REPLACE ROW ACCESS POLICY` 和 `ALTER ROW ACCESS POLICY`。
+- 当前不支持 `CREATE OR REPLACE ROW ACCESS POLICY` 和 `ALTER ROW ACCESS POLICY`，需先 DROP 再重建。
+- 策略名称在行访问策略和脱敏策略之间全局唯一。
+- 策略参数名在创建时会被规范化为小写。
+- Row Access Policy 不能应用于 ICE 类型数据库中的表。
+
+## 最佳实践
+
+### 使用 IS_ROLE_IN_SESSION() 而非 current_role()
+
+`IS_ROLE_IN_SESSION()` 检查用户被授予的所有角色，包括 session 中激活的 secondary roles。用户无法通过 `SET ROLE` 绕过策略。`current_role()` 只检查当前活跃的单个角色，可以被规避。
+
+```sql
+-- 推荐：考虑角色继承
+CASE
+  WHEN IS_ROLE_IN_SESSION('admin') THEN true
+  WHEN IS_ROLE_IN_SESSION('sales_apac') THEN region = 'APAC'
+  ELSE false
+END
+
+-- 避免：可通过 SET ROLE 绕过
+CASE WHEN current_role() = 'admin' THEN true ELSE false END
+```
+
+### CASE 分支从宽到窄排列
+
+CASE 表达式从上到下求值。把最宽松的条件放在最前面（如 admin 直接返回 true），可以为高权限角色短路求值，减少不必要的计算。
+
+### Mapping table 与被保护表放在同一 database
+
+如果策略引用了查找表（如角色到区域的映射表），将其存放在与被保护表相同的 database 中，简化权限管理，避免跨库访问问题。
+
+### 用多个角色测试
+
+绑定策略后，用不同用户/角色分别连接并对比查询结果。验证：
+- Admin 角色能看到所有行
+- 受限角色只能看到其被允许的子集
+- 没有匹配条件的角色看到零行
+
+### 用 account_admin 查看全量数据
+
+需要检查所有行时（调试、审计），使用满足策略条件的角色（如 `account_admin`），而不是反复解绑再绑定策略。
+
+### 先解绑再删除
+
+`DROP ROW ACCESS POLICY` 在策略仍绑定到表时会失败。先用 `ALTER TABLE ... DROP ROW ACCESS POLICY` 或 `DROP ALL ROW ACCESS POLICIES` 解绑，再执行 DROP。
 
 ## 权限与参考
 

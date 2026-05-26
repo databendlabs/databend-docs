@@ -8,6 +8,15 @@ import EEFeature from '@site/src/components/EEFeature';
 
 动态脱敏策略在查询时对列值进行转换，帮助你按照角色控制谁能看到真实数据、谁只能看到脱敏后的结果。
 
+## 适用场景
+
+- **客服系统**：客服能看到订单记录，但客户身份证号显示为 `3201**********1234`。
+- **数据分析**：分析师跑报表时，邮箱字段显示为 `***@***.com`，不影响聚合统计。
+- **VARIANT 日志**：所有人能查日志，但 JSON 中的 `secret_key`、`token` 字段对非管理员不可见。
+- **部分脱敏**：客服看到信用卡后四位 `****-****-****-5678` 用于核实身份。
+
+如果你需要隐藏整行而非脱敏列值，请使用[行访问策略](/guides/security/row-access-policy)。
+
 ## 脱敏策略如何工作
 
 策略会在查询阶段读取 `current_role()` 等信息并决定返回值。
@@ -260,9 +269,67 @@ ELSE delete_by_keypath(val, 'nested:secret')
 ```
 :::
 
+## 脱敏策略 vs 行访问策略
+
+| | 脱敏策略 | 行访问策略 |
+|---|---|---|
+| 作用范围 | 列级（转换值） | 表级（过滤行） |
+| 返回类型 | 必须与列类型相同 | 固定为 BOOLEAN |
+| 每表限制 | 每列一个 | 每表一个 |
+| 影响的操作 | 仅 SELECT | SELECT、UPDATE、DELETE、MERGE |
+
+同一列不能同时绑定脱敏策略和行访问策略。当你希望所有用户都能看到行但敏感字段被替换时，使用脱敏策略；当某些行应该对未授权用户完全不可见时，使用行访问策略。
+
+## 限制与要求
+
+- 一个列最多绑定一个脱敏策略。
+- 同一列不能同时绑定脱敏策略和行访问策略。
+- 策略的返回类型必须与目标列的数据类型匹配。
+- 被脱敏策略保护的列不能直接 ALTER 或 DROP——需先执行 `UNSET MASKING POLICY`。
+- 仍被表引用的策略不能 DROP。使用 `POLICY_REFERENCES()` 查找所有绑定关系。
+- 不支持 `CREATE OR REPLACE MASKING POLICY`，需先 DROP 再重建。
+- 脱敏策略不能应用于临时表、视图或 stream。
+- 脱敏仅影响读取路径（SELECT）。INSERT、UPDATE、DELETE 操作的是真实值。
+- 策略名称在脱敏策略和行访问策略之间全局唯一。
+- 策略参数名在创建时会被规范化为小写。
+
+## 最佳实践
+
+### 使用 is_role_in_session() 而非 current_role()
+
+`current_role()` 只检查当前活跃角色，用户可以通过 `SET ROLE` 切换到未受限角色绕过脱敏。`is_role_in_session()` 检查所有已授予角色，无法绕过。
+
+```sql
+-- 推荐
+CASE WHEN is_role_in_session('managers') THEN val ELSE '*********' END
+
+-- 避免：可通过 SET ROLE 绕过
+CASE WHEN current_role() = 'managers' THEN val ELSE '*********' END
+```
+
+### 条件脱敏尽量少引用额外列
+
+`USING` 子句中的每个列都会在运行时求值。如果脱敏逻辑只依赖调用者的角色，不要引入多余的条件列。
+
+### 脱敏值保持类型一致
+
+返回 `'***'` 替代 email 没问题，但如果下游有 `LENGTH()` 或 `LIKE` 判断，考虑返回固定格式如 `'***@***.com'`，避免破坏应用假设。
+
+### VARIANT 列使用 object_delete
+
+隐藏 JSON 中的特定 key 时，`object_delete(val, 'secret_key', 'token')` 比替换整个值更精确——其他字段仍然可查询。
+
+### 先解绑再删除
+
+`DROP MASKING POLICY` 在仍有列引用时会失败。先用 `POLICY_REFERENCES(POLICY_NAME => '<name>')` 查找所有绑定，逐一 `UNSET MASKING POLICY` 后再删除。
+
+### 用受限角色测试
+
+创建策略后，用 `SET ROLE` 切换到受限角色执行 SELECT 验证脱敏效果。不要只在 admin 角色下测试就认为完成了。
+
 ## 权限与参考
 
-- 将 `CREATE MASKING POLICY`（通常授予 `*.*`）赋予负责创建或替换策略的角色，创建者会自动获得策略的 OWNERSHIP。
+- 将 `CREATE MASKING POLICY`（通常授予 `*.*`）赋予负责创建策略的角色，创建者会自动获得策略的 OWNERSHIP。
 - 需要在全局授予 `APPLY MASKING POLICY`，或针对单个策略授予 `APPLY ON MASKING POLICY <policy_name>`，角色才能使用 `ALTER TABLE` 设置或解除策略；拥有 OWNERSHIP 的角色也可以执行这些操作。
 - 使用 `SHOW GRANTS ON MASKING POLICY <policy_name>` 审计哪些角色拥有 APPLY/OWNERSHIP。
 - 延伸阅读：
