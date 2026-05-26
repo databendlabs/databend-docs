@@ -92,6 +92,270 @@ AS (val STRING) RETURNS STRING ->
 ALTER TABLE customers MODIFY COLUMN ssn SET MASKING POLICY mask_ssn;
 ```
 
+## 进阶实践：端到端访问控制
+
+本节演示一个生产级配置，将 RBAC、Ownership、表权限和策略权限组合使用。看完后你会清楚：谁创建策略、谁绑定策略、谁查询数据——职责分离如何落地。
+
+### 场景
+
+一家电商公司有一张 `orders` 表，包含敏感客户数据。四个角色需要不同级别的访问：
+
+| 角色 | 职责 | 数据可见性 |
+|------|------|-----------|
+| `security_admin` | 创建和管理所有策略 | 不能直接查数据 |
+| `data_engineer` | 建表、绑定策略 | 看到全部数据（管理员级别） |
+| `analyst_apac` | 分析 APAC 区域数据 | 只看 APAC 行，手机号脱敏 |
+| `support_global` | 全球客服 | 看所有行，手机号完整可见 |
+
+### 第一步：创建角色和用户
+
+```sql
+-- 以 account_admin 执行
+
+CREATE ROLE security_admin;
+CREATE ROLE data_engineer;
+CREATE ROLE analyst_apac;
+CREATE ROLE support_global;
+
+CREATE USER 'sec_user' IDENTIFIED BY 'password123';
+CREATE USER 'eng_user' IDENTIFIED BY 'password123';
+CREATE USER 'analyst_user' IDENTIFIED BY 'password123';
+CREATE USER 'support_user' IDENTIFIED BY 'password123';
+
+GRANT ROLE security_admin TO USER 'sec_user';
+GRANT ROLE data_engineer TO USER 'eng_user';
+GRANT ROLE analyst_apac TO USER 'analyst_user';
+GRANT ROLE support_global TO USER 'support_user';
+```
+
+### 第二步：建表与 Ownership
+
+授予 `data_engineer` 建库权限，然后以该角色创建表。Ownership 自动归属创建者的角色。
+
+```sql
+-- 以 account_admin 执行
+GRANT CREATE DATABASE ON *.* TO ROLE data_engineer;
+
+-- 切换到 data_engineer
+SET ROLE data_engineer;
+
+CREATE DATABASE ecommerce;
+CREATE TABLE ecommerce.orders (
+    order_id INT,
+    customer_name STRING,
+    phone STRING,
+    region STRING,
+    amount DECIMAL(10,2),
+    created_at TIMESTAMP
+);
+
+INSERT INTO ecommerce.orders VALUES
+    (1, 'Alice', '13812345678', 'APAC', 299.00, '2025-01-15 10:00:00'),
+    (2, 'Bob', '14987654321', 'EMEA', 150.00, '2025-01-16 11:00:00'),
+    (3, 'Charlie', '13698765432', 'APAC', 520.00, '2025-01-17 09:30:00'),
+    (4, 'Diana', '15012349876', 'AMER', 89.00, '2025-01-18 14:00:00');
+```
+
+此时 `data_engineer` 拥有 `ecommerce.orders` 的 Ownership，对该表有完全控制权。
+
+### 第三步：授予策略创建权限
+
+策略创建权限是全局的（`*.*`），且必须授予角色而非用户。如果希望 `security_admin` 自己委派策略的 APPLY 权限，还需要授予 `GRANT` 权限。
+
+```sql
+-- 以 account_admin 执行
+GRANT CREATE MASKING POLICY ON *.* TO ROLE security_admin;
+GRANT CREATE ROW ACCESS POLICY ON *.* TO ROLE security_admin;
+GRANT GRANT ON *.* TO ROLE security_admin;
+```
+
+现在 `security_admin` 可以创建策略并委派 APPLY 权限，但仍然无法查询任何表。
+
+### 第四步：创建策略（以 security_admin 执行）
+
+```sql
+SET ROLE security_admin;
+SET enable_experimental_row_access_policy = 1;
+
+-- 脱敏策略：对没有 support_global 或 data_engineer 角色的用户隐藏手机号
+CREATE MASKING POLICY mask_phone
+AS (val STRING)
+RETURNS STRING ->
+  CASE
+    WHEN is_role_in_session('data_engineer') OR is_role_in_session('support_global') THEN val
+    ELSE CONCAT(SUBSTRING(val, 1, 3), '****', SUBSTRING(val, 8))
+  END;
+
+-- 行访问策略：按区域过滤
+CREATE ROW ACCESS POLICY rap_region
+AS (r STRING)
+RETURNS BOOLEAN ->
+  CASE
+    WHEN is_role_in_session('data_engineer') OR is_role_in_session('support_global') THEN true
+    WHEN is_role_in_session('analyst_apac') AND r = 'APAC' THEN true
+    ELSE false
+  END;
+```
+
+`security_admin` 现在拥有两个策略的 OWNERSHIP（自动授予）。但它无法将策略绑定到 `ecommerce.orders`，因为它没有表的 ALTER 权限。
+
+### 第五步：授予策略绑定权限
+
+策略所有者（`security_admin`）将 APPLY 权限委派给 `data_engineer`，后者拥有表并可以绑定策略。
+
+```sql
+-- 以 security_admin 执行（策略的 owner）
+GRANT APPLY ON MASKING POLICY mask_phone TO ROLE data_engineer;
+GRANT APPLY ON ROW ACCESS POLICY rap_region TO ROLE data_engineer;
+```
+
+### 第六步：先绑定脱敏策略（以 data_engineer 执行）
+
+`data_engineer` 同时拥有表的 ALTER（通过 ownership）和脱敏策略的 APPLY。两者缺一不可。
+
+```sql
+SET ROLE data_engineer;
+ALTER TABLE ecommerce.orders MODIFY COLUMN phone SET MASKING POLICY mask_phone;
+```
+
+此时表已经有列脱敏，但还没有行过滤。拥有 SELECT 的用户仍然能看到所有行，但未授权角色看到的手机号会被脱敏。
+
+### 第七步：通过角色授予表访问权限
+
+表权限授予角色，而不是直接授予用户。第一步已经把这些角色授予对应用户，因此用户的表访问权限来自角色成员关系。
+
+```sql
+-- 以 account_admin 执行
+GRANT SELECT ON ecommerce.orders TO ROLE analyst_apac;
+GRANT SELECT ON ecommerce.orders TO ROLE support_global;
+GRANT USAGE ON ecommerce.* TO ROLE analyst_apac;
+GRANT USAGE ON ecommerce.* TO ROLE support_global;
+```
+
+### 第八步：验证未绑定 Row Access Policy 时的结果
+
+**analyst_user** 拥有 `analyst_apac` 角色，因此可以查询表。由于还没有绑定 Row Access Policy，它能看到所有行；由于已经绑定脱敏策略，手机号会被脱敏。
+
+```sql
+-- 以 analyst_user 登录
+SET ROLE analyst_apac;
+SELECT * FROM ecommerce.orders;
+```
+
+```
+order_id | customer_name | phone       | region | amount | created_at
+---------|---------------|-------------|--------|--------|--------------------
+       1 | Alice         | 138****5678 | APAC   | 299.00 | 2025-01-15 10:00:00
+       2 | Bob           | 149****4321 | EMEA   | 150.00 | 2025-01-16 11:00:00
+       3 | Charlie       | 136****5432 | APAC   | 520.00 | 2025-01-17 09:30:00
+       4 | Diana         | 150****9876 | AMER   | 89.00  | 2025-01-18 14:00:00
+```
+
+### 第九步：绑定 Row Access Policy
+
+现在绑定行访问策略。它会在已有手机号脱敏的基础上增加行过滤。
+
+```sql
+-- 以 data_engineer 执行
+SET ROLE data_engineer;
+SET enable_experimental_row_access_policy = 1;
+
+ALTER TABLE ecommerce.orders ADD ROW ACCESS POLICY rap_region ON (region);
+```
+
+### 第十步：验证绑定 Row Access Policy 后的结果
+
+**analyst_user** — 只看到 APAC 行，手机号脱敏：
+
+```sql
+-- 以 analyst_user 登录
+SET ROLE analyst_apac;
+SELECT * FROM ecommerce.orders;
+```
+
+```
+order_id | customer_name | phone       | region | amount | created_at
+---------|---------------|-------------|--------|--------|--------------------
+       1 | Alice         | 138****5678 | APAC   | 299.00 | 2025-01-15 10:00:00
+       3 | Charlie       | 136****5432 | APAC   | 520.00 | 2025-01-17 09:30:00
+```
+
+**support_user** — 所有行，手机号完整可见：
+
+```sql
+-- 以 support_user 登录
+SET ROLE support_global;
+SELECT * FROM ecommerce.orders;
+```
+
+```
+order_id | customer_name | phone       | region | amount | created_at
+---------|---------------|-------------|--------|--------|--------------------
+       1 | Alice         | 13812345678 | APAC   | 299.00 | 2025-01-15 10:00:00
+       2 | Bob           | 14987654321 | EMEA   | 150.00 | 2025-01-16 11:00:00
+       3 | Charlie       | 13698765432 | APAC   | 520.00 | 2025-01-17 09:30:00
+       4 | Diana         | 15012349876 | AMER   | 89.00  | 2025-01-18 14:00:00
+```
+
+**sec_user** — 没有 SELECT 权限，拒绝访问：
+
+```sql
+-- 以 sec_user 登录
+SET ROLE security_admin;
+SELECT * FROM ecommerce.orders;
+-- ERROR: Permission denied
+```
+
+### 第十一步：撤销角色访问
+
+因为表权限授予的是角色，所以从用户上撤销角色后，不需要修改表授权，用户就会自然失去表访问权限。
+
+```sql
+-- 以 account_admin 执行
+REVOKE ROLE analyst_apac FROM USER 'analyst_user';
+
+-- 重新以 analyst_user 登录
+SELECT * FROM ecommerce.orders;
+-- ERROR: Permission denied
+```
+
+### 权限流向
+
+```
+account_admin
+  │
+  ├─ GRANT CREATE MASKING POLICY ON *.* ─────────► security_admin
+  ├─ GRANT CREATE ROW ACCESS POLICY ON *.* ─────► security_admin
+  ├─ GRANT GRANT ON *.* ────────────────────────► security_admin
+  └─ GRANT CREATE DATABASE ON *.* ──────────────► data_engineer
+                                                     │
+security_admin                                       │
+  │ (通过自动 OWNERSHIP 拥有策略)                      │
+  ├─ GRANT APPLY ON MASKING POLICY ─────────────► data_engineer
+  └─ GRANT APPLY ON ROW ACCESS POLICY ─────────► data_engineer
+                                                     │
+data_engineer                                        │
+  │ (通过自动 OWNERSHIP 拥有表)                        │
+  │ (拥有策略的 APPLY 权限)                            │
+  ├─ ALTER TABLE ... SET MASKING POLICY              │
+  └─ ALTER TABLE ... ADD ROW ACCESS POLICY           │
+                                                     │
+account_admin                                        │
+  ├─ GRANT SELECT ON ecommerce.orders ─────────► analyst_apac ──► analyst_user
+  ├─ GRANT SELECT ON ecommerce.orders ─────────► support_global ─► support_user
+  └─ REVOKE ROLE analyst_apac FROM USER ───────► analyst_user 失去访问权限
+```
+
+### 核心要点
+
+- **职责分离**：创建策略的角色（`security_admin`）不能查数据；查数据的角色（`analyst_apac`）不能修改策略。
+- **最小权限**：绑定策略需要同时拥有策略的 `APPLY` 权限和表的 `ALTER` 权限——缺一不可。
+- **脱敏和行访问相互独立**：只绑定脱敏策略会隐藏列值，但不会过滤行；再绑定 Row Access Policy 后，先过滤行，再执行脱敏。
+- **通过角色授予表访问**：用户通过 `analyst_apac` 等角色查询表；从用户撤销角色后，用户会失去访问权限，而不需要修改表授权。
+- **Ownership 自动授予**：创建者的角色自动获得新策略/表的 OWNERSHIP，无需额外 GRANT。
+- **CREATE 权限只能授予角色**：`CREATE MASKING POLICY` 和 `CREATE ROW ACCESS POLICY` 不能直接授予用户，必须先授予角色。
+- **审计配置**：用 `SHOW GRANTS ON MASKING POLICY mask_phone`、`SHOW GRANTS ON ROW ACCESS POLICY rap_region` 和 `POLICY_REFERENCES(POLICY_NAME => 'mask_phone')` 验证谁有权限、策略绑定在哪里。
+
 ## 下一步
 
 - [脱敏策略](/guides/security/masking-policy) — 完整语法、条件脱敏、VARIANT 子字段脱敏
