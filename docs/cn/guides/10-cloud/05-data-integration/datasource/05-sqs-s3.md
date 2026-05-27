@@ -414,10 +414,6 @@ aws iam get-role \
 - `put-bucket-notification-configuration` 会整体替换 bucket notification，修改前必须备份并合并已有配置。
 - S3 事件通知和 SQS 标准队列都采用至少一次投递语义，消息可能重复。
 
-:::note
-如果 SQS 队列启用了 KMS 加密，还需要为用户 IAM Role 授予对应 KMS key 的解密权限。
-:::
-
 ## 后续操作
 
 创建完成后，您可以基于该数据源创建 [Amazon SQS (S3) 集成任务](../task/04-sqs-s3.md)。

@@ -414,10 +414,6 @@ aws iam get-role \
 - `put-bucket-notification-configuration` replaces the entire bucket notification configuration. Back up and merge existing configurations before applying changes.
 - S3 event notifications and SQS standard queues both use at-least-once delivery, so messages may be duplicated.
 
-:::note
-If the SQS queue uses KMS encryption, also grant the user IAM Role decrypt permission on the corresponding KMS key.
-:::
-
 ## Next Steps
 
 After creating this data source, you can use it to create an [Amazon SQS (S3) Integration Task](../task/04-sqs-s3.md).
