@@ -76,7 +76,7 @@ LIST @my_external_stage;
 LIST @~;
 ```
 
-## 使用 PATTERN 过滤 Stage 文件 {#filtering-staged-files-with-pattern}
+## 使用 PATTERN 过滤 Stage 文件
 
 读取、列出、删除或检查 Stage 文件的命令和函数可以使用 `PATTERN` 按正则表达式过滤文件。对于 Stage 路径，`PATTERN` 匹配的是 `@<stage_name>[/<path>]` 之后的文件路径部分，而不是完整的 Stage URI。
 
