@@ -16,7 +16,7 @@ import EEFeature from '@site/src/components/EEFeature';
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS 
+CREATE MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS 
     ( <arg_name_to_mask> <arg_type_to_mask> [ , <arg_1> <arg_type_1> ... ] )
     RETURNS <arg_type_to_mask> -> <expression_on_arg_name>
     [ COMMENT = '<comment>' ]
@@ -40,7 +40,7 @@ CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
 
 | 权限 | 描述 |
 |:-----|:-----|
-| CREATE MASKING POLICY | 创建或替换脱敏策略时所需的权限（通常授予 `*.*`）。 |
+| CREATE MASKING POLICY | 创建脱敏策略时所需的权限（通常授予 `*.*`）。 |
 
 策略创建成功后，Databend 会自动将该策略的 OWNERSHIP 授予当前角色，方便与其他角色协同管理该策略。
 

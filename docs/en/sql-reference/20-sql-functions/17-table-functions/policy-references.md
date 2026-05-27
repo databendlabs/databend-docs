@@ -6,8 +6,8 @@ Returns the associations between security policies (Masking Policy or Row Access
 
 See also:
 
-- [MASKING POLICY](/guides/security/masking-policy): define column-level masking rules that appear in policy references.
-- [ROW ACCESS POLICY](/guides/security/row-access-policy): define row-level filters and query their table bindings with this function.
+- [MASKING POLICY](/guides/security/data-protection/masking-policy): define column-level masking rules that appear in policy references.
+- [ROW ACCESS POLICY](/guides/security/data-protection/row-access-policy): define row-level filters and query their table bindings with this function.
 
 ## Syntax
 

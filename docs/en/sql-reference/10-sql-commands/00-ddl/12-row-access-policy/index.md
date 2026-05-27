@@ -18,7 +18,7 @@ This page provides a comprehensive overview of Row Access Policy operations in D
 
 ## Related Topics
 
-- [Row Access Policy](/guides/security/row-access-policy)
+- [Row Access Policy](/guides/security/data-protection/row-access-policy)
 - [ALTER TABLE](/sql/sql-commands/ddl/table/alter-table#row-access-policy-operations)
 - [POLICY_REFERENCES](/sql/sql-functions/table-functions/policy-references)
 

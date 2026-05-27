@@ -17,7 +17,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ## 相关主题
 
-- [掩码策略](/guides/security/masking-policy)
+- [掩码策略](/guides/security/data-protection/masking-policy)
 
 :::note
 Databend 中的掩码策略允许您在用户没有适当权限查询时，动态转换或混淆敏感数据以保护数据。
