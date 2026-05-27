@@ -13,7 +13,9 @@ Unlike data sources, integration tasks are the executable units that actually pe
 | Task Type | Description |
 |-----------|-------------|
 | [Amazon S3](./01-s3.md) | Imports CSV, Parquet, or NDJSON files from Amazon S3 with support for one-time or continuous ingestion. |
+| [Amazon SQS (S3)](./04-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Databend. |
 | [MySQL](./02-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
+| [PostgreSQL](./03-postgres.md) | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
 
 ## Reading Guide
 
@@ -25,6 +27,7 @@ Recommended reading order:
 ## Task Type Differences
 
 - S3 tasks are designed for file import scenarios and mainly focus on file path patterns, file formats, and ingestion behavior.
-- MySQL tasks are designed for table synchronization scenarios and mainly focus on sync modes, primary keys, incremental capture, and archive scheduling.
+- SQS (S3) tasks are designed for S3 event-driven data ingestion and mainly focus on the SQS queue, S3 event filters, IAM Role, and target table.
+- MySQL and PostgreSQL tasks are designed for table synchronization scenarios and mainly focus on sync modes, primary keys, incremental capture, and archive scheduling.
 
 <IndexOverviewList />
