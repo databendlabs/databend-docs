@@ -15,7 +15,7 @@ import EEFeature from '@site/src/components/EEFeature';
 - **VARIANT 日志**：所有人能查日志，但 JSON 中的 `secret_key`、`token` 字段对非管理员不可见。
 - **部分脱敏**：客服看到信用卡后四位 `****-****-****-5678` 用于核实身份。
 
-如果你需要隐藏整行而非脱敏列值，请使用[行访问策略](/guides/security/row-access-policy)。
+如果你需要隐藏整行而非脱敏列值，请使用[行访问策略](/guides/security/data-protection/row-access-policy)。
 
 ## 脱敏策略如何工作
 

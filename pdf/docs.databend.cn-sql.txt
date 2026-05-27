@@ -119,7 +119,7 @@ https://docs.databend.cn/guides/security/access-control/privileges
 https://docs.databend.cn/guides/security/access-control/roles
 https://docs.databend.cn/guides/security/audit-trail
 https://docs.databend.cn/guides/security/fail-safe
-https://docs.databend.cn/guides/security/masking-policy
+https://docs.databend.cn/guides/security/data-protection/masking-policy
 https://docs.databend.cn/guides/security/network-policy
 https://docs.databend.cn/guides/security/password-policy
 https://docs.databend.cn/guides/security/recovery-from-operational-errors

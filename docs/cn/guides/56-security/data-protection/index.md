@@ -107,6 +107,62 @@ ALTER TABLE customers MODIFY COLUMN ssn SET MASKING POLICY mask_ssn;
 | `analyst_apac` | 分析 APAC 区域数据 | 只看 APAC 行，手机号脱敏 |
 | `support_global` | 全球客服 | 看所有行，手机号完整可见 |
 
+<details>
+<summary>全局视图（点击展开）</summary>
+
+```text
++--------------------------------------------------------------------------------+
+| ecommerce.orders (raw data)                                                    |
++----------+---------------+-------------+--------+--------+---------------------+
+| order_id | customer_name | phone       | region | amount | created_at          |
++----------+---------------+-------------+--------+--------+---------------------+
+| 1        | Alice         | 13812345678 | APAC   | 299.00 | 2025-01-15 10:00:00 |
+| 2        | Bob           | 14987654321 | EMEA   | 150.00 | 2025-01-16 11:00:00 |
+| 3        | Charlie       | 13698765432 | APAC   | 520.00 | 2025-01-17 09:30:00 |
+| 4        | Diana         | 15012349876 | AMER   |  89.00 | 2025-01-18 14:00:00 |
++---------------------------------------+----------------------------------------+
+                                        |
+                                        v
+                   +------------------------------------------------+
+                   | 1) Row Access Policy: rap_region               |
+                   |    ON (region)                                 |
+                   |                                                |
+                   |    data_engineer / support_global -> ALL       |
+                   |    analyst_apac -> region = 'APAC' only        |
+                   |    others -> NONE                              |
+                   +------------------------+-----------------------+
+                                            |
+                                            v
+                   +------------------------------------------------+
+                   | 2) Masking Policy: mask_phone                  |
+                   |    ON (phone)                                  |
+                   |                                                |
+                   |    data_engineer / support_global -> raw       |
+                   |    others -> CONCAT(LEFT(3), '****', ...)      |
+                   +------------------------+-----------------------+
+                                            |
+                                            v
+          +-------------------------+-----------------------------+-----------------------------+
+          |                         |                             |                             |
+          v                         v                             v                             v
++--------------------+ +---------------------------+ +---------------------------+ +---------------------------+
+| security_admin     | | data_engineer             | | analyst_apac              | | support_global            |
++--------------------+ +---------------------------+ +---------------------------+ +---------------------------+
+| permission denied  | | id name    phone          | | id name    phone          | | id name    phone          |
+| no SELECT          | | 1  Alice   13812345678    | | 1  Alice   138****5678    | | 1  Alice   13812345678    |
+|                    | | 2  Bob     14987654321    | | 3  Charlie 136****5432    | | 2  Bob     14987654321    |
+|                    | | 3  Charlie 13698765432    | |                           | | 3  Charlie 13698765432    |
+|                    | | 4  Diana   15012349876    | |                           | | 4  Diana   15012349876    |
+|                    | |                           | |                           | |                           |
+| 0 rows             | | 4 rows, all regions       | | 2 rows, APAC only         | | 4 rows, all regions       |
+|                    | | phone: visible            | | phone: masked             | | phone: visible            |
++--------------------+ +---------------------------+ +---------------------------+ +---------------------------+
+```
+
+</details>
+
+以下步骤展示如何从零搭建这套配置。
+
 ### 第一步：创建角色和用户
 
 ```sql
@@ -358,5 +414,5 @@ account_admin                                        │
 
 ## 下一步
 
-- [脱敏策略](/guides/security/masking-policy) — 完整语法、条件脱敏、VARIANT 子字段脱敏
-- [行访问策略](/guides/security/row-access-policy) — 完整语法、DML 行为、多参数策略、时间范围示例
+- [脱敏策略](/guides/security/data-protection/masking-policy) — 完整语法、条件脱敏、VARIANT 子字段脱敏
+- [行访问策略](/guides/security/data-protection/row-access-policy) — 完整语法、DML 行为、多参数策略、时间范围示例

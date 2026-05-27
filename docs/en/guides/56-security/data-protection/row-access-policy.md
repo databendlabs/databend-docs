@@ -15,7 +15,7 @@ Row access policies protect data by filtering table rows at query time. They let
 - **Time-window control**: a real-time alerting system can only query the last 1 day; an offline analysis system can query 7 days.
 - **Compliance auditing**: external auditors only see data from a specific time period.
 
-If you need all users to see the same rows but with certain column values redacted, use a [Masking Policy](/guides/security/masking-policy) instead.
+If you need all users to see the same rows but with certain column values redacted, use a [Masking Policy](/guides/security/data-protection/masking-policy) instead.
 
 :::note
 Row access policy is currently experimental. Enable it with `SET enable_experimental_row_access_policy = 1` for the current session or `SET GLOBAL enable_experimental_row_access_policy = 1` for the account.

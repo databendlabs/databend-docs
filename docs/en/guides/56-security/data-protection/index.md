@@ -107,6 +107,62 @@ An e-commerce company has an `orders` table with sensitive customer data. Four r
 | `analyst_apac` | Analyzes APAC region data | Only APAC rows, phone numbers masked |
 | `support_global` | Global customer support | All rows, phone numbers visible |
 
+<details>
+<summary>How It All Fits Together (click to expand)</summary>
+
+```text
++--------------------------------------------------------------------------------+
+| ecommerce.orders (raw data)                                                    |
++----------+---------------+-------------+--------+--------+---------------------+
+| order_id | customer_name | phone       | region | amount | created_at          |
++----------+---------------+-------------+--------+--------+---------------------+
+| 1        | Alice         | 13812345678 | APAC   | 299.00 | 2025-01-15 10:00:00 |
+| 2        | Bob           | 14987654321 | EMEA   | 150.00 | 2025-01-16 11:00:00 |
+| 3        | Charlie       | 13698765432 | APAC   | 520.00 | 2025-01-17 09:30:00 |
+| 4        | Diana         | 15012349876 | AMER   |  89.00 | 2025-01-18 14:00:00 |
++---------------------------------------+----------------------------------------+
+                                        |
+                                        v
+                   +------------------------------------------------+
+                   | 1) Row Access Policy: rap_region               |
+                   |    ON (region)                                 |
+                   |                                                |
+                   |    data_engineer / support_global -> ALL       |
+                   |    analyst_apac -> region = 'APAC' only        |
+                   |    others -> NONE                              |
+                   +------------------------+-----------------------+
+                                            |
+                                            v
+                   +------------------------------------------------+
+                   | 2) Masking Policy: mask_phone                  |
+                   |    ON (phone)                                  |
+                   |                                                |
+                   |    data_engineer / support_global -> raw       |
+                   |    others -> CONCAT(LEFT(3), '****', ...)      |
+                   +------------------------+-----------------------+
+                                            |
+                                            v
+          +-------------------------+-----------------------------+-----------------------------+
+          |                         |                             |                             |
+          v                         v                             v                             v
++--------------------+ +---------------------------+ +---------------------------+ +---------------------------+
+| security_admin     | | data_engineer             | | analyst_apac              | | support_global            |
++--------------------+ +---------------------------+ +---------------------------+ +---------------------------+
+| permission denied  | | id name    phone          | | id name    phone          | | id name    phone          |
+| no SELECT          | | 1  Alice   13812345678    | | 1  Alice   138****5678    | | 1  Alice   13812345678    |
+|                    | | 2  Bob     14987654321    | | 3  Charlie 136****5432    | | 2  Bob     14987654321    |
+|                    | | 3  Charlie 13698765432    | |                           | | 3  Charlie 13698765432    |
+|                    | | 4  Diana   15012349876    | |                           | | 4  Diana   15012349876    |
+|                    | |                           | |                           | |                           |
+| 0 rows             | | 4 rows, all regions       | | 2 rows, APAC only         | | 4 rows, all regions       |
+|                    | | phone: visible            | | phone: masked             | | phone: visible            |
++--------------------+ +---------------------------+ +---------------------------+ +---------------------------+
+```
+
+</details>
+
+The following steps show how to build this setup from scratch.
+
 ### Step 1: Create Roles and Users
 
 ```sql
@@ -358,5 +414,5 @@ account_admin                                        │
 
 ## Next Steps
 
-- [Masking Policy](/guides/security/masking-policy) — full syntax, conditional masking, VARIANT sub-field masking
-- [Row Access Policy](/guides/security/row-access-policy) — full syntax, DML behavior, multi-argument policies, time-range examples
+- [Masking Policy](/guides/security/data-protection/masking-policy) — full syntax, conditional masking, VARIANT sub-field masking
+- [Row Access Policy](/guides/security/data-protection/row-access-policy) — full syntax, DML behavior, multi-argument policies, time-range examples

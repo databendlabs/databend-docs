@@ -15,7 +15,7 @@ import EEFeature from '@site/src/components/EEFeature';
 - **时间窗口控制**：实时告警系统只能查最近 1 天，离线分析系统可查 7 天。
 - **合规审计**：外部审计人员只能看到特定时间段的数据。
 
-如果你需要所有用户都能看到行但敏感列值需要脱敏，请使用[脱敏策略](/guides/security/masking-policy)。
+如果你需要所有用户都能看到行但敏感列值需要脱敏，请使用[脱敏策略](/guides/security/data-protection/masking-policy)。
 
 :::note
 Row Access Policy 当前为实验性功能。可通过 `SET enable_experimental_row_access_policy = 1` 在当前会话启用，或通过 `SET GLOBAL enable_experimental_row_access_policy = 1` 在账号范围启用。

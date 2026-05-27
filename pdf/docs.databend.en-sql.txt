@@ -118,7 +118,7 @@ https://docs.databend.com/guides/security/access-control/privileges
 https://docs.databend.com/guides/security/access-control/roles
 https://docs.databend.com/guides/security/audit-trail
 https://docs.databend.com/guides/security/fail-safe
-https://docs.databend.com/guides/security/masking-policy
+https://docs.databend.com/guides/security/data-protection/masking-policy
 https://docs.databend.com/guides/security/network-policy
 https://docs.databend.com/guides/security/password-policy
 https://docs.databend.com/guides/security/recovery-from-operational-errors

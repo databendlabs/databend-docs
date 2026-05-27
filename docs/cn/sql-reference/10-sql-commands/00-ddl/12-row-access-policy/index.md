@@ -18,7 +18,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ## 相关主题
 
-- [行访问策略](/guides/security/row-access-policy)
+- [行访问策略](/guides/security/data-protection/row-access-policy)
 - [ALTER TABLE](/sql/sql-commands/ddl/table/alter-table#row-access-policy-操作)
 - [POLICY_REFERENCES](/sql/sql-functions/table-functions/policy-references)
 

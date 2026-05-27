@@ -15,7 +15,7 @@ Masking policies protect sensitive data by dynamically transforming column value
 - **VARIANT logs**: everyone can query logs, but JSON fields like `secret_key` and `token` are invisible to non-admins.
 - **Partial redaction**: show the last 4 digits of a credit card (`****-****-****-5678`) to support staff for verification.
 
-If you need to hide entire rows rather than redact column values, use a [Row Access Policy](/guides/security/row-access-policy) instead.
+If you need to hide entire rows rather than redact column values, use a [Row Access Policy](/guides/security/data-protection/row-access-policy) instead.
 
 ## How Masking Works
 
