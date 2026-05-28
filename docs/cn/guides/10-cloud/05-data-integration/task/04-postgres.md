@@ -19,7 +19,7 @@ slug: /cloud/data-integration/postgres
 
 在设置 PostgreSQL 数据集成之前，请确保您的 PostgreSQL 实例满足以下要求：
 
-- 已创建 **PostgreSQL - Credentials** 数据源
+- 已创建 **PostgreSQL - 连接凭证** 数据源
 - 目标 PostgreSQL 实例可从 Databend Cloud 访问
 - PostgreSQL 版本 10 或更高
 
@@ -88,7 +88,7 @@ CREATE PUBLICATION bend_cdc_pub FOR TABLE table1, table2;
 
 | 字段 | 必填 | 说明 |
 |------|------|------|
-| **Data Source** | 是 | 从下拉列表中选择已有的 **PostgreSQL - Credentials** 数据源 |
+| **Data Source** | 是 | 从下拉列表中选择已有的 **PostgreSQL - 连接凭证** 数据源 |
 | **Name** | 是 | 集成任务的名称 |
 | **Source Database** | — | 根据所选数据源自动显示 |
 | **Source Table** | 是 | 从 PostgreSQL 数据库中选择要同步的表 |

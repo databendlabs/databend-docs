@@ -53,6 +53,6 @@ Data Integration 页面会展示所有任务及其当前状态：
 有关具体字段和配置项，请继续阅读对应任务类型页面：
 
 - [Amazon S3 集成任务](./01-s3.md)
-- [MySQL 集成任务](./02-mysql.md)
-- [PostgreSQL 集成任务](./03-postgres.md)
-- [Amazon SQS (S3) 集成任务](./04-sqs-s3.md)
+- [MySQL 集成任务](./03-mysql.md)
+- [PostgreSQL 集成任务](./04-postgres.md)
+- [Amazon SQS (S3) 集成任务](./02-sqs-s3.md)

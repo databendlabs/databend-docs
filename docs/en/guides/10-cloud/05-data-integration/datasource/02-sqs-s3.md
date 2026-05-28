@@ -1,10 +1,10 @@
 ---
-title: Amazon SQS (S3)
+title: Amazon SQS (S3) - IAM Role
 ---
 
-This page describes how to create an `Amazon SQS (S3)` data source. This data source stores the configuration required to access an Amazon SQS queue and the corresponding S3 bucket, and is used for consuming S3 object creation events delivered from Amazon S3 to SQS.
+This page describes how to create an `Amazon SQS (S3) - IAM Role` data source. This data source stores the configuration required to access an Amazon SQS queue and the corresponding S3 bucket, and is used for consuming S3 object creation events delivered from Amazon S3 to SQS.
 
-`Amazon SQS (S3)` only stores the connection and authorization information required for SQS (S3) ingestion. It does not consume messages by itself. The actual process of reading SQS messages, parsing S3 ObjectCreated events, and writing data into Databend is performed by an [Amazon SQS (S3) Integration Task](../task/04-sqs-s3.md).
+`Amazon SQS (S3) - IAM Role` only stores the connection and authorization information required for SQS (S3) ingestion. It does not consume messages by itself. The actual process of reading SQS messages, parsing S3 ObjectCreated events, and writing data into Databend is performed by an [Amazon SQS (S3) Integration Task](../task/02-sqs-s3.md).
 
 ## Use Cases
 
@@ -13,10 +13,10 @@ This page describes how to create an `Amazon SQS (S3)` data source. This data so
 - Use S3 event notifications to drive data ingestion instead of relying only on polling an S3 path
 - Update the IAM Role, queue URL, or path scope in one place when referenced by multiple tasks
 
-## Create Amazon SQS (S3)
+## Create Amazon SQS (S3) - IAM Role
 
 1. Navigate to **Data** > **Data Sources**, then click **Create Data Source**.
-2. Select **Amazon SQS (S3)** as the service type, then fill in the connection details:
+2. Select **Amazon SQS (S3) - IAM Role** as the service type, then fill in the connection details:
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -61,13 +61,13 @@ export ROLE_NAME="databend-s3-sqs-consumer-role"
 export PREFIX="<object-key-prefix>"
 export SUFFIX="<object-key-suffix>"
 
-export DATABEND_WEBAPI_ROLE_ARN="<databend-webapi-role-arn>"
-export DATABEND_QUERY_ROLE_ARN="<databend-query-role-arn>"
+export DATABEND_SETUP_ROLE_ARN="<databend-cloud-setup-role-arn>"
+export DATABEND_LOAD_ROLE_ARN="<databend-cloud-load-role-arn>"
 export EXTERNAL_ID="<databend-cloud-org-id>"
 ```
 
 :::tip
-Use the `DATABEND_WEBAPI_ROLE_ARN` and `DATABEND_QUERY_ROLE_ARN` values shown in the Databend Cloud console or product page. In most cases, the trust policy of your IAM Role should trust both platform roles: one for console operations such as testing and preview, and one for SQL runtime.
+Use the role ARNs provided by Databend Cloud: `DATABEND_SETUP_ROLE_ARN` is the ARN of **Databend Cloud setup and validation role**, and `DATABEND_LOAD_ROLE_ARN` is the ARN of **Databend Cloud data loading role**. In most cases, the trust policy of your IAM Role should trust both platform roles.
 :::
 
 ## Step 1: Create or Get an SQS Standard Queue
@@ -234,17 +234,17 @@ Generate `trust-policy.json`. `ExternalId` is the organization ID from the Datab
 
 ```bash
 jq -n \
-  --arg databendWebapiRoleArn "$DATABEND_WEBAPI_ROLE_ARN" \
-  --arg databendQueryRoleArn "$DATABEND_QUERY_ROLE_ARN" \
+  --arg databendSetupRoleArn "$DATABEND_SETUP_ROLE_ARN" \
+  --arg databendLoadRoleArn "$DATABEND_LOAD_ROLE_ARN" \
   --arg externalId "$EXTERNAL_ID" \
   '{
     Version: "2012-10-17",
     Statement: [
       {
-        Sid: "AllowDatabendWebapiAssumeRole",
+        Sid: "AllowDatabendSetupAssumeRole",
         Effect: "Allow",
         Principal: {
-          AWS: $databendWebapiRoleArn
+          AWS: $databendSetupRoleArn
         },
         Action: "sts:AssumeRole",
         Condition: {
@@ -254,10 +254,10 @@ jq -n \
         }
       },
       {
-        Sid: "AllowDatabendQueryAssumeRole",
+        Sid: "AllowDatabendLoadAssumeRole",
         Effect: "Allow",
         Principal: {
-          AWS: $databendQueryRoleArn
+          AWS: $databendLoadRoleArn
         },
         Action: "sts:AssumeRole",
         Condition: {
@@ -416,4 +416,4 @@ aws iam get-role \
 
 ## Next Steps
 
-After creating this data source, you can use it to create an [Amazon SQS (S3) Integration Task](../task/04-sqs-s3.md).
+After creating this data source, you can use it to create an [Amazon SQS (S3) Integration Task](../task/02-sqs-s3.md).

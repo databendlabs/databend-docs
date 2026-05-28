@@ -23,9 +23,9 @@ Not every data source corresponds to an ingestion task. For example, `FeiShuBot`
 | Task Type | Description |
 |-----------|-------------|
 | [Amazon S3](./task/01-s3.md) | Imports CSV, Parquet, or NDJSON files from Amazon S3 with support for one-time or continuous ingestion. |
-| [Amazon SQS (S3)](./task/04-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Databend. |
-| [MySQL](./task/02-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes. |
-| [PostgreSQL](./task/03-postgres.md) | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes. |
+| [Amazon SQS (S3)](./task/02-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Databend. |
+| [MySQL](./task/03-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes. |
+| [PostgreSQL](./task/04-postgres.md) | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes. |
 
 ## Recommended Flow
 

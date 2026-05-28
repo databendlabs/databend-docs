@@ -53,6 +53,6 @@ Click a task to view its execution history. The run history includes:
 For field-level configuration and detailed behavior, continue with the relevant task guide:
 
 - [Amazon S3 Integration Task](./01-s3.md)
-- [Amazon SQS (S3) Integration Task](./04-sqs-s3.md)
-- [MySQL Integration Task](./02-mysql.md)
-- [PostgreSQL Integration Task](./03-postgres.md)
+- [Amazon SQS (S3) Integration Task](./02-sqs-s3.md)
+- [MySQL Integration Task](./03-mysql.md)
+- [PostgreSQL Integration Task](./04-postgres.md)

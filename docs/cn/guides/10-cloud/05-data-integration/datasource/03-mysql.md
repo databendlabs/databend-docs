@@ -1,8 +1,8 @@
 ---
-title: MySQL - Credentials
+title: MySQL - 连接凭证
 ---
 
-本页介绍如何创建 `MySQL - Credentials` 数据源。该数据源用于保存访问 MySQL 所需的连接信息，可供多个 MySQL 集成任务复用。
+本页介绍如何创建 `MySQL - 连接凭证` 数据源。该数据源用于保存访问 MySQL 所需的连接信息，可供多个 MySQL 集成任务复用。
 
 ## 使用场景
 
@@ -10,10 +10,10 @@ title: MySQL - Credentials
 - 避免在每个任务里重复填写数据库连接配置
 - 在数据库地址或账号变更后统一更新引用它的任务
 
-## 创建 MySQL - Credentials
+## 创建 MySQL - 连接凭证
 
 1. 前往 **Data** > **Data Sources**，点击 **Create Data Source**。
-2. 将服务类型选择为 **MySQL - Credentials**，然后填写连接信息：
+2. 将服务类型选择为 **MySQL - 连接凭证**，然后填写连接信息：
 
 | 字段 | 是否必填 | 说明 |
 |------|----------|------|
@@ -38,4 +38,4 @@ title: MySQL - Credentials
 
 ## 后续操作
 
-创建完成后，您可以基于该数据源创建 [MySQL 集成任务](../task/02-mysql.md)。
+创建完成后，您可以基于该数据源创建 [MySQL 集成任务](../task/03-mysql.md)。

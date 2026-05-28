@@ -1,13 +1,13 @@
 ---
 title: Amazon SQS (S3) Integration Task
-slug: /cloud/data-integration/sqs-s3-event
+slug: /cloud/data-integration/sqs-s3
 ---
 
 This page describes how to create an Amazon SQS (S3) integration task that consumes S3 object creation events from an SQS queue and writes the corresponding object data into Databend.
 
 This task is designed for S3 event-driven data ingestion. After an upstream system writes an object to S3, S3 sends an `ObjectCreated` event to SQS. Databend Cloud consumes the SQS message through AssumeRole and writes data into Databend based on the bucket and object key in the event.
 
-If you need to create reusable SQS (S3) connection settings first, see [Amazon SQS (S3)](../datasource/05-sqs-s3.md).
+If you need to create reusable SQS (S3) connection settings first, see [Amazon SQS (S3) - IAM Role](../datasource/02-sqs-s3.md).
 
 ## Use Cases
 
@@ -32,7 +32,7 @@ S3 event notifications and SQS standard queues may both produce duplicate messag
 
 Before creating an SQS (S3) integration task, make sure:
 
-- An **Amazon SQS (S3)** data source has already been created
+- An **Amazon SQS (S3) - IAM Role** data source has already been created
 - The S3 bucket has been configured with `ObjectCreated` event notification and sends events to the target SQS queue
 - The SQS queue policy allows Amazon S3 to call `sqs:SendMessage`
 - The user IAM Role allows Databend platform roles to access it through `sts:AssumeRole`
@@ -49,7 +49,7 @@ Before creating an SQS (S3) integration task, make sure:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| **Data Source** | Yes | Select an existing **Amazon SQS (S3)** data source from the dropdown |
+| **Data Source** | Yes | Select an existing **Amazon SQS (S3) - IAM Role** data source from the dropdown |
 | **Name** | Yes | Name of the integration task |
 | **File Format** | Yes | File format of the S3 objects, such as CSV, Parquet, or NDJSON |
 | **Object Key Prefix** | No | Only process object events with the specified prefix, such as `raw/events/`. This should match the data source and S3 notification filter |

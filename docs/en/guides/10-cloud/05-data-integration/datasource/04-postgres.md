@@ -37,4 +37,4 @@ This page describes how to create a `PostgreSQL - Credentials` data source. This
 
 ## Next Steps
 
-After creating this data source, you can use it to create a [PostgreSQL Integration Task](../task/03-postgres.md).
+After creating this data source, you can use it to create a [PostgreSQL Integration Task](../task/04-postgres.md).

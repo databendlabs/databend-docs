@@ -5,7 +5,7 @@ slug: /cloud/data-integration/mysql
 
 本页介绍如何创建一个 MySQL 集成任务，将 MySQL 数据库中的数据同步到 Databend。MySQL 任务支持全量 `Snapshot` 加载、持续 `Change Data Capture (CDC)`，或两者结合的模式。
 
-如需先创建可复用的 MySQL 连接配置，请参见 [MySQL - Credentials](../datasource/02-mysql.md)。
+如需先创建可复用的 MySQL 连接配置，请参见 [MySQL - 连接凭证](../datasource/03-mysql.md)。
 
 ## 同步模式
 
@@ -19,7 +19,7 @@ slug: /cloud/data-integration/mysql
 
 在配置 MySQL 数据集成前，请确保您的 MySQL 实例满足以下要求：
 
-- 已创建 **MySQL - Credentials** 数据源
+- 已创建 **MySQL - 连接凭证** 数据源
 - Databend Cloud 可以通过网络访问目标 MySQL 实例
 
 ### 启用 Binlog
@@ -62,7 +62,7 @@ FLUSH PRIVILEGES;
 
 | 字段 | 是否必填 | 说明 |
 |------|----------|------|
-| **Data Source** | 是 | 从下拉列表中选择已有的 **MySQL - Credentials** 数据源 |
+| **Data Source** | 是 | 从下拉列表中选择已有的 **MySQL - 连接凭证** 数据源 |
 | **Name** | 是 | 当前集成任务名称 |
 | **Source Database** | — | 根据所选数据源自动显示 |
 | **Source Table** | 是 | 选择要从 MySQL 数据库同步的表 |
