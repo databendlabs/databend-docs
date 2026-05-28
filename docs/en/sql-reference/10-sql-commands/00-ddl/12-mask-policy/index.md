@@ -17,7 +17,7 @@ This page provides a comprehensive overview of Masking Policy operations in Data
 
 ## Related Topics
 
-- [Masking Policy](/guides/security/masking-policy)
+- [Masking Policy](/guides/security/data-protection/masking-policy)
 
 :::note
 Masking policies in Databend allow you to protect sensitive data by dynamically transforming or obfuscating it when queried by users without proper privileges.

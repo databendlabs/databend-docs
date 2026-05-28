@@ -1,4 +1,17 @@
 const siteRedirects = [
+  // Security data protection guide reorg
+  {
+    from: '/guides/security/data-protection-overview',
+    to: '/guides/security/data-protection'
+  },
+  {
+    from: '/guides/security/masking-policy',
+    to: '/guides/security/data-protection/masking-policy'
+  },
+  {
+    from: '/guides/security/row-access-policy',
+    to: '/guides/security/data-protection/row-access-policy'
+  },
   // UDF doc consolidation (Embedded -> Scalar Function)
   {
     from: '/sql/sql-commands/ddl/udf/ddl-create-function-embedded',
