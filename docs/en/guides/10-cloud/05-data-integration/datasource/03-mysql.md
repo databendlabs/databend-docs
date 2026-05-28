@@ -38,4 +38,4 @@ This page describes how to create a `MySQL - Credentials` data source. This data
 
 ## Next Steps
 
-After creating this data source, you can use it to create a [MySQL Integration Task](../task/02-mysql.md).
+After creating this data source, you can use it to create a [MySQL Integration Task](../task/03-mysql.md).

@@ -1,13 +1,13 @@
 ---
 title: Amazon SQS (S3) 集成任务
-slug: /cloud/data-integration/sqs-s3-event
+slug: /cloud/data-integration/sqs-s3
 ---
 
 本页介绍如何创建 Amazon SQS (S3) 集成任务，消费 SQS 队列中的 S3 对象创建事件，并将对应对象数据写入 Databend。
 
 该任务面向 S3 事件驱动的数据接入场景：上游系统向 S3 写入对象后，S3 将 `ObjectCreated` 事件发送到 SQS，Databend Cloud 通过 AssumeRole 消费 SQS 消息，并基于事件中的存储桶和对象 key 将数据写入 Databend。
 
-如需先创建可复用的 SQS (S3) 连接配置，请参见 [Amazon SQS (S3)](../datasource/05-sqs-s3.md)。
+如需先创建可复用的 SQS (S3) 连接配置，请参见 [Amazon SQS (S3) - IAM Role](../datasource/02-sqs-s3.md)。
 
 ## 适用场景
 
@@ -32,7 +32,7 @@ S3 事件通知和 SQS 标准队列都可能产生重复消息。Databend 会处
 
 在创建 SQS (S3) 集成任务前，请确保：
 
-- 已创建 **Amazon SQS (S3)** 数据源
+- 已创建 **Amazon SQS (S3) - IAM Role** 数据源
 - S3 存储桶已配置 `ObjectCreated` 事件通知，并将事件发送到目标 SQS 队列
 - SQS 队列策略允许 Amazon S3 执行 `sqs:SendMessage`
 - 用户 IAM Role 允许 Databend 平台角色通过 `sts:AssumeRole` 访问
@@ -49,7 +49,7 @@ S3 事件通知和 SQS 标准队列都可能产生重复消息。Databend 会处
 
 | 字段 | 是否必填 | 说明 |
 |------|----------|------|
-| **Data Source** | 是 | 从下拉列表中选择已有的 **Amazon SQS (S3)** 数据源 |
+| **Data Source** | 是 | 从下拉列表中选择已有的 **Amazon SQS (S3) - IAM Role** 数据源 |
 | **Name** | 是 | 当前集成任务名称 |
 | **File Format** | 是 | S3 对象的文件格式，例如 CSV、Parquet 或 NDJSON |
 | **Object Key Prefix** | 否 | 仅处理指定前缀的对象事件，例如 `raw/events/`。应与数据源和 S3 notification filter 保持一致 |

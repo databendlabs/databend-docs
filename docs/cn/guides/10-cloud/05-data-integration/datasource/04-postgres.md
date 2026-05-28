@@ -2,7 +2,7 @@
 title: PostgreSQL - 连接凭证
 ---
 
-本页介绍如何创建 `PostgreSQL - Credentials` 数据源。该数据源用于存储访问 PostgreSQL 所需的连接信息，可在多个 PostgreSQL 集成任务中复用。
+本页介绍如何创建 `PostgreSQL - 连接凭证` 数据源。该数据源用于存储访问 PostgreSQL 所需的连接信息，可在多个 PostgreSQL 集成任务中复用。
 
 ## 使用场景
 
@@ -10,10 +10,10 @@ title: PostgreSQL - 连接凭证
 - 避免在每个任务中重复输入相同的数据库连接配置
 - 当数据库地址或账户发生变更时，只需在一处更新即可同步所有关联任务
 
-## 创建 PostgreSQL - Credentials
+## 创建 PostgreSQL - 连接凭证
 
 1. 进入 **Data** > **Data Sources**，点击 **Create Data Source**。
-2. 选择 **PostgreSQL - Credentials** 作为服务类型，然后填写连接信息：
+2. 选择 **PostgreSQL - 连接凭证** 作为服务类型，然后填写连接信息：
 
 | 字段 | 必填 | 说明 |
 |------|------|------|
@@ -37,4 +37,4 @@ title: PostgreSQL - 连接凭证
 
 ## 后续步骤
 
-创建数据源后，您可以使用它来创建 [PostgreSQL 集成任务](../task/03-postgres.md)。
+创建数据源后，您可以使用它来创建 [PostgreSQL 集成任务](../task/04-postgres.md)。

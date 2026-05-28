@@ -1,10 +1,10 @@
 ---
-title: Amazon SQS (S3)
+title: Amazon SQS (S3) - IAM Role
 ---
 
-本页介绍如何创建 `Amazon SQS (S3)` 数据源。该数据源用于保存访问 Amazon SQS 队列和对应 S3 存储桶所需的配置，适用于消费由 Amazon S3 发送到 SQS 的对象创建事件。
+本页介绍如何创建 `Amazon SQS (S3) - IAM Role` 数据源。该数据源用于保存访问 Amazon SQS 队列和对应 S3 存储桶所需的配置，适用于消费由 Amazon S3 发送到 SQS 的对象创建事件。
 
-`Amazon SQS (S3)` 只保存 SQS (S3) 接入所需的连接与授权信息，不会直接消费消息。实际读取 SQS 消息、解析 S3 ObjectCreated 事件并写入 Databend 的操作由 [Amazon SQS (S3) 集成任务](../task/04-sqs-s3.md) 执行。
+`Amazon SQS (S3) - IAM Role` 只保存 SQS (S3) 接入所需的连接与授权信息，不会直接消费消息。实际读取 SQS 消息、解析 S3 ObjectCreated 事件并写入 Databend 的操作由 [Amazon SQS (S3) 集成任务](../task/02-sqs-s3.md) 执行。
 
 ## 使用场景
 
@@ -13,10 +13,10 @@ title: Amazon SQS (S3)
 - 通过 S3 事件通知驱动数据接入，避免仅依赖轮询 S3 路径发现新文件
 - 在 IAM Role、队列地址或路径范围变更后统一更新引用它的任务
 
-## 创建 Amazon SQS (S3)
+## 创建 Amazon SQS (S3) - IAM Role
 
 1. 前往 **Data** > **Data Sources**，点击 **Create Data Source**。
-2. 将服务类型选择为 **Amazon SQS (S3)**，然后填写连接信息：
+2. 将服务类型选择为 **Amazon SQS (S3) - IAM Role**，然后填写连接信息：
 
 | 字段 | 是否必填 | 说明 |
 |------|----------|------|
@@ -61,13 +61,13 @@ export ROLE_NAME="databend-s3-sqs-consumer-role"
 export PREFIX="<object-key-prefix>"
 export SUFFIX="<object-key-suffix>"
 
-export DATABEND_WEBAPI_ROLE_ARN="<databend-webapi-role-arn>"
-export DATABEND_QUERY_ROLE_ARN="<databend-query-role-arn>"
+export DATABEND_SETUP_ROLE_ARN="<databend-cloud-setup-role-arn>"
+export DATABEND_LOAD_ROLE_ARN="<databend-cloud-load-role-arn>"
 export EXTERNAL_ID="<databend-cloud-org-id>"
 ```
 
 :::tip
-`DATABEND_WEBAPI_ROLE_ARN` 和 `DATABEND_QUERY_ROLE_ARN` 以 Databend Cloud 控制台或产品页面展示的值为准。通常需要在用户 IAM Role 的信任策略中同时信任这两个平台角色：一个用于控制台测试、预览等操作，另一个用于 SQL 运行时。
+使用 Databend Cloud 提供的两个角色 ARN：`DATABEND_SETUP_ROLE_ARN` 对应 **Databend Cloud setup and validation role**，`DATABEND_LOAD_ROLE_ARN` 对应 **Databend Cloud data loading role**。通常需要在用户 IAM Role 的信任策略中同时信任这两个平台角色。
 :::
 
 ## 步骤 1：创建或获取 SQS 标准队列
@@ -234,17 +234,17 @@ aws s3api get-bucket-notification-configuration \
 
 ```bash
 jq -n \
-  --arg databendWebapiRoleArn "$DATABEND_WEBAPI_ROLE_ARN" \
-  --arg databendQueryRoleArn "$DATABEND_QUERY_ROLE_ARN" \
+  --arg databendSetupRoleArn "$DATABEND_SETUP_ROLE_ARN" \
+  --arg databendLoadRoleArn "$DATABEND_LOAD_ROLE_ARN" \
   --arg externalId "$EXTERNAL_ID" \
   '{
     Version: "2012-10-17",
     Statement: [
       {
-        Sid: "AllowDatabendWebapiAssumeRole",
+        Sid: "AllowDatabendSetupAssumeRole",
         Effect: "Allow",
         Principal: {
-          AWS: $databendWebapiRoleArn
+          AWS: $databendSetupRoleArn
         },
         Action: "sts:AssumeRole",
         Condition: {
@@ -254,10 +254,10 @@ jq -n \
         }
       },
       {
-        Sid: "AllowDatabendQueryAssumeRole",
+        Sid: "AllowDatabendLoadAssumeRole",
         Effect: "Allow",
         Principal: {
-          AWS: $databendQueryRoleArn
+          AWS: $databendLoadRoleArn
         },
         Action: "sts:AssumeRole",
         Condition: {
@@ -416,4 +416,4 @@ aws iam get-role \
 
 ## 后续操作
 
-创建完成后，您可以基于该数据源创建 [Amazon SQS (S3) 集成任务](../task/04-sqs-s3.md)。
+创建完成后，您可以基于该数据源创建 [Amazon SQS (S3) 集成任务](../task/02-sqs-s3.md)。
