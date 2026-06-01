@@ -6,7 +6,7 @@ sidebar_label: Schema Evolution
 
 # Schema Evolution
 
-Schema evolution allows Databend to automatically add columns that exist in source files but are missing from the target table during `COPY INTO`. It currently supports **Parquet** and **JSON (NDJSON)** files.
+Schema evolution allows Databend to automatically add columns that exist in source files but are missing from the target table during `COPY INTO`. It currently supports **Parquet** and **NDJSON** files.
 
 ## How It Works
 
@@ -15,7 +15,7 @@ When enabled, Databend infers the source file schema before loading and appends 
 The workflow differs slightly by file format:
 
 - **Parquet**: After the table option is enabled, `COPY INTO` infers new columns directly from Parquet file schemas.
-- **JSON (NDJSON)**: After the table option is enabled, `COPY INTO` uses `AUTO` sampling values for schema inference. You can optionally add `SCHEMA_EVOLUTION = (...)` to override the file and record sampling limits.
+- **NDJSON**: After the table option is enabled, `COPY INTO` uses `AUTO` sampling values for schema inference. You can optionally add `SCHEMA_EVOLUTION = (...)` to override the file and record sampling limits.
 
 ## Enabling Schema Evolution
 
@@ -112,9 +112,9 @@ SELECT * FROM invoices ORDER BY order_id;
 
 Row 3 has `currency = NULL` because its source file does not contain that column.
 
-## JSON (NDJSON) Example
+## NDJSON Example
 
-Databend loads row-oriented JSON as `TYPE = ndjson`. NDJSON files do not have an embedded columnar schema like Parquet files, so Databend samples file content, infers fields that are missing from the target table, and appends them as nullable columns.
+Databend loads NDJSON files with `TYPE = ndjson`. NDJSON files do not have an embedded columnar schema like Parquet files, so Databend samples file content, infers fields that are missing from the target table, and appends them as nullable columns.
 
 ### Step 1: Create a Table and Stage
 
@@ -164,15 +164,15 @@ The three `SCHEMA_EVOLUTION` sampling options accept either `AUTO` or a positive
 
 If `SCHEMA_EVOLUTION` is omitted, Databend uses `AUTO` for all three sampling options. The current `AUTO` behavior samples up to 64 files, 1,000 records per file, and 10,000 records in total. These internal defaults may change in future versions. If your load is sensitive to the sampling strategy, set `SAMPLE_FILES`, `SAMPLE_RECORDS_PER_FILE`, and `SAMPLE_TOTAL_RECORDS` explicitly.
 
-### JSON Inference Rules
+### NDJSON Inference Rules
 
-When running Schema Evolution for JSON (NDJSON), Databend infers new columns using these rules:
+When running Schema Evolution for NDJSON, Databend infers new columns using these rules:
 
 - Schema is inferred only from sampled NDJSON records. Fields not covered by the sample are not added to the target table ahead of time.
 - Each line must be a JSON object. Databend uses top-level object field names as candidate column names.
 - Columns that already exist in the target table are not added again. Only fields missing from the target table are appended.
 - New field types are inferred from sampled JSON values, such as integers, floats, strings, and booleans.
-- Schema Evolution uses shallow JSON inference: if a top-level field value is an object or array, it is appended as a `VARIANT` column instead of being recursively expanded.
+- Schema Evolution uses shallow NDJSON inference: if a top-level field value is an object or array, it is appended as a `VARIANT` column instead of being recursively expanded.
 - `NULL` samples only mark the field as nullable. They do not force later non-null values to become `VARCHAR` or `VARIANT`.
 - Same-name fields across files or records are merged: integer and float conflicts become `DOUBLE`; other scalar conflicts become `VARCHAR`; any conflict involving an object, array, or `VARIANT` becomes `VARIANT`.
 - If loading encounters extra fields that were not inferred during sampling, the load fails and reports those field names. Increase `SAMPLE_FILES`, `SAMPLE_RECORDS_PER_FILE`, or `SAMPLE_TOTAL_RECORDS` and retry.
@@ -248,7 +248,7 @@ COLUMN_MATCH_MODE = CASE_SENSITIVE;
 
 ## Limitations
 
-- Currently supports **Parquet** and **JSON (NDJSON)** files.
+- Currently supports **Parquet** and **NDJSON** files.
 - New columns are appended to the end of the table and are always nullable.
 - If the same column name appears in multiple files with **different data types**, the load fails.
 - No automatic type promotion, such as `INT` to `BIGINT`.
