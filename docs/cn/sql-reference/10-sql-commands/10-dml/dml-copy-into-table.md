@@ -173,6 +173,11 @@ copyOptions ::=
   [ MAX_FILES = <num> ]
   [ RETURN_FAILED_ONLY = <bool> ]
   [ COLUMN_MATCH_MODE = { case-sensitive | case-insensitive } ]
+  [ SCHEMA_EVOLUTION = (
+      [ SAMPLE_FILES = AUTO | <positive_integer> ]
+      [ , SAMPLE_RECORDS_PER_FILE = AUTO | <positive_integer> ]
+      [ , SAMPLE_TOTAL_RECORDS = AUTO | <positive_integer> ]
+    ) ]
 
 ```
 
@@ -276,6 +281,21 @@ copyOptions ::=
 | MAX_FILES | 最大加载文件数（上限 15,000） | - |
 | RETURN_FAILED_ONLY | 仅返回失败的文件 | `false` |
 | COLUMN_MATCH_MODE | Parquet 列名匹配模式 | `case-insensitive` |
+| SCHEMA_EVOLUTION | NDJSON 专用：用于推断目标表中缺失列的采样选项。要求目标表启用 `ENABLE_SCHEMA_EVOLUTION = true`，并且执行角色拥有目标表的 `ALTER` 权限。 | `AUTO` 采样 |
+
+### SCHEMA_EVOLUTION 选项
+
+`SCHEMA_EVOLUTION` 控制 Databend 在加载前如何采样 staged NDJSON 文件。目标表启用 `ENABLE_SCHEMA_EVOLUTION = true` 后，可与 `FILE_FORMAT = (TYPE = NDJSON ...)` 搭配使用。
+
+当从 Stage 或外部位置加载并触发 Schema Evolution 推断时，执行 `COPY INTO <table>` 的角色必须拥有目标表的 `INSERT` 和 `ALTER` 权限。基于查询的 COPY（例如 `COPY INTO <table> FROM (SELECT ... FROM @stage)`）仍使用原有权限要求。
+
+| 选项 | 描述 | 取值 |
+|--------|-------------|--------|
+| SAMPLE_FILES | 采样的 staged 文件数量。 | `AUTO` 或正整数 |
+| SAMPLE_RECORDS_PER_FILE | 每个采样文件中最多采样的记录数。 | `AUTO` 或正整数 |
+| SAMPLE_TOTAL_RECORDS | 所有采样文件中最多采样的记录总数。 | `AUTO` 或正整数 |
+
+如果省略 `SCHEMA_EVOLUTION`，Databend 会对三个采样选项都使用 `AUTO`。当前 `AUTO` 行为最多采样 64 个文件、每个文件 1,000 条记录、总计 10,000 条记录。这些内部默认值未来版本可能会调整。如果加载结果对采样策略敏感，建议显式设置 `SAMPLE_FILES`、`SAMPLE_RECORDS_PER_FILE` 和 `SAMPLE_TOTAL_RECORDS`。如果采样遗漏了加载过程中出现的列，COPY 会失败并返回额外列名，你可以增大采样参数后重试。
 
 :::tip
 导入大量数据（如日志）时，建议将 `PURGE` 和 `FORCE` 均设为 `true`，可高效导入数据且无需与 Meta 服务器交互（更新已复制文件集）。但请注意，这可能导致重复数据导入。
@@ -709,7 +729,7 @@ SELECT * FROM t2;
 
 ### 示例 8：使用 Schema Evolution 加载
 
-当加载的 Parquet 文件结构包含目标表中不存在的列时，可以使用 Schema Evolution 自动添加缺失的列。首先，在表上启用 Schema Evolution：
+当加载的 Parquet 或 NDJSON 文件结构包含目标表中不存在的列时，可以使用 Schema Evolution 自动添加缺失的列。对于从 Stage 或外部位置加载并触发 Schema Evolution 推断的场景，请确保执行加载的角色拥有目标表的 `INSERT` 和 `ALTER` 权限。首先，在表上启用 Schema Evolution：
 
 ```sql
 CREATE OR REPLACE TABLE invoices(order_id INT);
@@ -717,6 +737,8 @@ CREATE OR REPLACE TABLE invoices(order_id INT);
 -- 启用 Schema Evolution
 ALTER TABLE invoices SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
 ```
+
+#### Parquet
 
 然后加载具有不同结构的 Parquet 文件。Databend 会自动添加新列，缺失的值用 `NULL` 填充：
 
@@ -726,5 +748,27 @@ COPY INTO invoices
     FROM @my_stage/
     FILE_FORMAT = (TYPE = PARQUET MISSING_FIELD_AS = FIELD_DEFAULT);
 ```
+
+#### NDJSON
+
+对于 NDJSON，`COPY INTO` 会使用默认采样值推断缺失列。仅当需要覆盖 Databend 对 staged 文件的采样方式时，才需要添加 `SCHEMA_EVOLUTION`：
+
+```sql
+CREATE OR REPLACE TABLE events(id INT);
+ALTER TABLE events SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
+
+-- 假设 @events_stage 中包含如下 NDJSON 记录：
+-- {"id":1,"city":"SF","score":9}
+COPY INTO events
+    FROM @events_stage/
+    FILE_FORMAT = (TYPE = NDJSON MISSING_FIELD_AS = FIELD_DEFAULT)
+    SCHEMA_EVOLUTION = (
+        SAMPLE_FILES = AUTO,
+        SAMPLE_RECORDS_PER_FILE = AUTO,
+        SAMPLE_TOTAL_RECORDS = AUTO
+    );
+```
+
+Databend 会采样 staged NDJSON 文件，将推断出的 `city`、`score` 等字段追加为可空列，然后加载数据。
 
 更多详细信息，请参阅 [Schema Evolution](/guides/load-data/transform/schema-evolution)。
