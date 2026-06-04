@@ -55,4 +55,4 @@ Data Integration 页面会展示所有任务及其当前状态：
 - [Amazon S3 集成任务](./01-s3.md)
 - [MySQL 集成任务](./03-mysql.md)
 - [PostgreSQL 集成任务](./04-postgres.md)
-- [Amazon SQS (S3) 集成任务](./02-sqs-s3.md)
+- [Amazon SQS (S3) 集成任务 (Beta)](./02-sqs-s3.md)

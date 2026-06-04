@@ -1,15 +1,15 @@
 ---
-title: Amazon SQS (S3) - IAM Role
+title: Amazon SQS (S3) - IAM Role (Beta)
 ---
 
 本页介绍如何创建 `Amazon SQS (S3) - IAM Role` 数据源。该数据源用于保存访问 Amazon SQS 队列和对应 S3 存储桶所需的配置，适用于消费由 Amazon S3 发送到 SQS 的对象创建事件。
 
-`Amazon SQS (S3) - IAM Role` 只保存 SQS (S3) 接入所需的连接与授权信息，不会直接消费消息。实际读取 SQS 消息、解析 S3 ObjectCreated 事件并写入 Databend 的操作由 [Amazon SQS (S3) 集成任务](../task/02-sqs-s3.md) 执行。
+`Amazon SQS (S3) - IAM Role` 只保存 SQS (S3) 接入所需的连接与授权信息，不会直接消费消息。实际读取 SQS 消息、解析 S3 ObjectCreated 事件并写入云平台的操作由 [Amazon SQS (S3) 集成任务](../task/02-sqs-s3.md) 执行。
 
 ## 使用场景
 
 - 统一管理 SQS (S3) 接入所需的队列地址、Region、IAM Role 和路径范围
-- 消费 S3 `ObjectCreated` 事件，并将对应对象数据写入 Databend
+- 消费 S3 `ObjectCreated` 事件，并将对应对象数据写入云平台
 - 通过 S3 事件通知驱动数据接入，避免仅依赖轮询 S3 路径发现新文件
 - 在 IAM Role、队列地址或路径范围变更后统一更新引用它的任务
 
@@ -23,8 +23,8 @@ title: Amazon SQS (S3) - IAM Role
 | **Name** | 是 | 当前数据源的描述性名称 |
 | **Queue URL** | 是 | SQS 标准队列 URL，例如 `https://sqs.us-east-1.amazonaws.com/123456789012/my-queue` |
 | **Queue Region** | 是 | SQS 队列所在的 AWS Region，例如 `us-east-1`。S3 存储桶必须与 SQS 队列位于同一 Region |
-| **Role ARN** | 是 | 用户 AWS 账号中允许 Databend assume 的 IAM Role ARN |
-| **External ID** | 是 | Databend Cloud 控制台中的组织 ID，用于配置 IAM Role 信任策略 |
+| **Role ARN** | 是 | 用户 AWS 账号中允许云平台 assume 的 IAM Role ARN |
+| **External ID** | 是 | 云平台控制台中的组织 ID，用于配置 IAM Role 信任策略 |
 | **Bucket** | 是 | 发送 ObjectCreated 事件的 S3 存储桶名称 |
 | **Object Key Prefix** | 否 | S3 对象 key 前缀过滤条件，应与 S3 notification filter 保持一致 |
 | **Object Key Suffix** | 否 | S3 对象 key 后缀过滤条件，应与 S3 notification filter 保持一致 |
@@ -32,7 +32,7 @@ title: Amazon SQS (S3) - IAM Role
 3. 点击 **Test Connectivity** 验证连接；如果测试成功，点击 **OK** 保存数据源。
 
 :::note
-SQS (S3) 接入推荐使用 AssumeRole 模式，不需要向 Databend 提供 AWS Access Key 和 Secret Key。用户只需要在自己的 AWS 账号中创建 IAM Role，并在信任策略中允许 Databend 平台角色通过 `sts:AssumeRole` 获取临时凭证。
+SQS (S3) 接入推荐使用 AssumeRole 模式，不需要向云平台提供 AWS Access Key 和 Secret Key。用户只需要在自己的 AWS 账号中创建 IAM Role，并在信任策略中允许云平台角色通过 `sts:AssumeRole` 获取临时凭证。
 :::
 
 ## AWS 侧配置概览
@@ -42,11 +42,11 @@ SQS (S3) 接入推荐使用 AssumeRole 模式，不需要向 Databend 提供 AWS
 1. 创建或准备一个 SQS 标准队列。
 2. 配置 SQS queue policy，允许指定 S3 存储桶向该队列发送消息。
 3. 配置 S3 bucket notification，将 `ObjectCreated` 事件发送到该 SQS 队列。
-4. 创建一个 IAM Role，允许 Databend 平台角色通过 `sts:AssumeRole` 访问。
+4. 创建一个 IAM Role，允许云平台角色通过 `sts:AssumeRole` 访问。
 5. 为该 IAM Role 绑定 S3 读取权限和 SQS 消费权限。
 6. 上传测试对象，确认 S3 能将事件投递到 SQS。
 
-请先准备以下变量。`AWS_REGION` 必须是 S3 存储桶和 SQS 队列所在的同一个 Region；`EXTERNAL_ID` 使用 Databend Cloud 控制台中的组织 ID。
+请先准备以下变量。`AWS_REGION` 必须是 S3 存储桶和 SQS 队列所在的同一个 Region；`EXTERNAL_ID` 使用云平台控制台中的组织 ID。
 
 ```bash
 export AWS_REGION="<bucket-and-sqs-region>"
@@ -56,18 +56,18 @@ export BUCKET_NAME="<your-bucket-name>"
 export BUCKET_ARN="arn:aws:s3:::$BUCKET_NAME"
 
 export QUEUE_NAME="<your-sqs-standard-queue-name>"
-export ROLE_NAME="databend-s3-sqs-consumer-role"
+export ROLE_NAME="platform-s3-sqs-consumer-role"
 
 export PREFIX="<object-key-prefix>"
 export SUFFIX="<object-key-suffix>"
 
-export DATABEND_SETUP_ROLE_ARN="<databend-cloud-setup-role-arn>"
-export DATABEND_LOAD_ROLE_ARN="<databend-cloud-load-role-arn>"
-export EXTERNAL_ID="<databend-cloud-org-id>"
+export PLATFORM_SETUP_ROLE_ARN="<platform-setup-role-arn>"
+export PLATFORM_LOAD_ROLE_ARN="<platform-load-role-arn>"
+export EXTERNAL_ID="<platform-org-id>"
 ```
 
 :::tip
-使用 Databend Cloud 提供的两个角色 ARN：`DATABEND_SETUP_ROLE_ARN` 对应 **Databend Cloud setup and validation role**，`DATABEND_LOAD_ROLE_ARN` 对应 **Databend Cloud data loading role**。通常需要在用户 IAM Role 的信任策略中同时信任这两个平台角色。
+使用云平台提供的两个角色 ARN：`PLATFORM_SETUP_ROLE_ARN` 对应 **云平台 setup and validation role**，`PLATFORM_LOAD_ROLE_ARN` 对应 **云平台 data loading role**。通常需要在用户 IAM Role 的信任策略中同时信任这两个平台角色。
 :::
 
 ## 步骤 1：创建或获取 SQS 标准队列
@@ -226,25 +226,25 @@ aws s3api get-bucket-notification-configuration \
   --bucket "$BUCKET_NAME"
 ```
 
-确认 `QueueArn` 指向目标 SQS，`Events` 包含 `s3:ObjectCreated:*`，`FilterRules` 与 Databend 数据源中的 `Object Key Prefix` / `Object Key Suffix` 保持一致。
+确认 `QueueArn` 指向目标 SQS，`Events` 包含 `s3:ObjectCreated:*`，`FilterRules` 与云平台数据源中的 `Object Key Prefix` / `Object Key Suffix` 保持一致。
 
-## 步骤 4：创建供 Databend assume 的 IAM Role
+## 步骤 4：创建供云平台 assume 的 IAM Role
 
-生成 `trust-policy.json`。`ExternalId` 使用 Databend Cloud 控制台中的组织 ID。
+生成 `trust-policy.json`。`ExternalId` 使用云平台控制台中的组织 ID。
 
 ```bash
 jq -n \
-  --arg databendSetupRoleArn "$DATABEND_SETUP_ROLE_ARN" \
-  --arg databendLoadRoleArn "$DATABEND_LOAD_ROLE_ARN" \
+  --arg platformSetupRoleArn "$PLATFORM_SETUP_ROLE_ARN" \
+  --arg platformLoadRoleArn "$PLATFORM_LOAD_ROLE_ARN" \
   --arg externalId "$EXTERNAL_ID" \
   '{
     Version: "2012-10-17",
     Statement: [
       {
-        Sid: "AllowDatabendSetupAssumeRole",
+        Sid: "AllowPlatformSetupAssumeRole",
         Effect: "Allow",
         Principal: {
-          AWS: $databendSetupRoleArn
+          AWS: $platformSetupRoleArn
         },
         Action: "sts:AssumeRole",
         Condition: {
@@ -254,10 +254,10 @@ jq -n \
         }
       },
       {
-        Sid: "AllowDatabendLoadAssumeRole",
+        Sid: "AllowPlatformLoadAssumeRole",
         Effect: "Allow",
         Principal: {
-          AWS: $databendLoadRoleArn
+          AWS: $platformLoadRoleArn
         },
         Action: "sts:AssumeRole",
         Condition: {
@@ -343,7 +343,7 @@ jq -n \
 ```bash
 aws iam put-role-policy \
   --role-name "$ROLE_NAME" \
-  --policy-name databend-s3-sqs-access \
+  --policy-name platform-s3-sqs-access \
   --policy-document file://permissions-policy.json
 ```
 
@@ -359,10 +359,10 @@ aws iam put-role-policy \
 上传一个匹配 `PREFIX` / `SUFFIX` 的测试对象：
 
 ```bash
-echo 'a,b' > /tmp/databend-test.csv
+echo 'a,b' > /tmp/sqs-s3-local-test.csv
 
-aws s3 cp /tmp/databend-test.csv \
-  "s3://$BUCKET_NAME/${PREFIX}databend-test-$(date +%s)$SUFFIX" \
+aws s3 cp /tmp/sqs-s3-local-test.csv \
+  "s3://$BUCKET_NAME/${PREFIX}sqs-s3-local-test-$(date +%s)$SUFFIX" \
   --region "$AWS_REGION"
 ```
 
@@ -380,17 +380,17 @@ aws sqs receive-message \
 确认消息中包含 `Records`，`eventSource` 为 `aws:s3`，`eventName` 为 `ObjectCreated:*`，并且 `Records[].s3.bucket.name` 和 `Records[].s3.object.key` 与测试对象匹配。
 
 :::note
-`receive-message` 不会自动删除消息，但会在 visibility timeout 内临时隐藏消息。如果希望 Databend 后续继续消费这条测试消息，请不要手动删除，等待 visibility timeout 结束后再测试数据源连通性。
+`receive-message` 不会自动删除消息，但会在 visibility timeout 内临时隐藏消息。如果希望云平台后续继续消费这条测试消息，请不要手动删除，等待 visibility timeout 结束后再测试数据源连通性。
 :::
 
-## 提供给 Databend 的信息
+## 提供给云平台的信息
 
-完成 AWS 侧配置后，请在 Databend Cloud 创建数据源时填写：
+完成 AWS 侧配置后，请在云平台创建数据源时填写：
 
 | 参数 | 说明 |
 |------|------|
-| `role_arn` | 用户 AWS 账号中允许 Databend assume 的 IAM Role ARN |
-| `external_id` | Databend Cloud 控制台中的组织 ID |
+| `role_arn` | 用户 AWS 账号中允许云平台 assume 的 IAM Role ARN |
+| `external_id` | 云平台控制台中的组织 ID |
 | `queue_url` | SQS 标准队列 URL |
 | `queue_region` | SQS 队列所在 Region |
 | `bucket` | S3 存储桶名称 |
@@ -410,7 +410,7 @@ aws iam get-role \
 - S3 存储桶与 SQS 队列应位于同一个 AWS Region。
 - SQS 队列必须是标准队列，不能使用 FIFO queue。
 - SQS 队列应专用于一个 S3 notification 规则，不要复用给其他存储桶、其他 prefix / suffix 或其他业务事件。
-- S3 notification 的存储桶、prefix 和 suffix 应与 Databend 数据源配置保持一致。
+- S3 notification 的存储桶、prefix 和 suffix 应与云平台数据源配置保持一致。
 - `put-bucket-notification-configuration` 会整体替换 bucket notification，修改前必须备份并合并已有配置。
 - S3 事件通知和 SQS 标准队列都采用至少一次投递语义，消息可能重复。
 

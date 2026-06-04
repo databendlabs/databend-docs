@@ -1,11 +1,11 @@
 ---
-title: Amazon SQS (S3) Integration Task
+title: Amazon SQS (S3) Integration Task (Beta)
 slug: /cloud/data-integration/sqs-s3
 ---
 
-This page describes how to create an Amazon SQS (S3) integration task that consumes S3 object creation events from an SQS queue and writes the corresponding object data into Databend.
+This page describes how to create an Amazon SQS (S3) integration task that consumes S3 object creation events from an SQS queue and writes the corresponding object data into Platform.
 
-This task is designed for S3 event-driven data ingestion. After an upstream system writes an object to S3, S3 sends an `ObjectCreated` event to SQS. Databend Cloud consumes the SQS message through AssumeRole and writes data into Databend based on the bucket and object key in the event.
+This task is designed for S3 event-driven data ingestion. After an upstream system writes an object to S3, S3 sends an `ObjectCreated` event to SQS. Platform consumes the SQS message through AssumeRole and writes data into Platform based on the bucket and object key in the event.
 
 If you need to create reusable SQS (S3) connection settings first, see [Amazon SQS (S3) - IAM Role](../datasource/02-sqs-s3.md).
 
@@ -19,13 +19,13 @@ If you need to create reusable SQS (S3) connection settings first, see [Amazon S
 
 1. An upstream system writes an object to an S3 bucket.
 2. S3 Event Notification sends the `ObjectCreated` event to an SQS standard queue.
-3. Databend Cloud reads messages from the SQS queue through the IAM Role configured by the user.
+3. Platform reads messages from the SQS queue through the IAM Role configured by the user.
 4. The task parses the S3 event records in the message.
-5. The task writes data into the Databend target table based on the bucket, object key, and file format in the S3 event records.
+5. The task writes data into the Platform target table based on the bucket, object key, and file format in the S3 event records.
 6. After the write succeeds, the task deletes the processed SQS message from the queue.
 
 :::note
-S3 event notifications and SQS standard queues may both produce duplicate messages. Databend handles failed retries. If your business logic requires strict deduplication, design downstream deduplication based on object information, event time, `sequencer`, or SQS message ID.
+S3 event notifications and SQS standard queues may both produce duplicate messages. Platform handles failed retries. If your business logic requires strict deduplication, design downstream deduplication based on object information, event time, `sequencer`, or SQS message ID.
 :::
 
 ## Prerequisites
@@ -35,7 +35,7 @@ Before creating an SQS (S3) integration task, make sure:
 - An **Amazon SQS (S3) - IAM Role** data source has already been created
 - The S3 bucket has been configured with `ObjectCreated` event notification and sends events to the target SQS queue
 - The SQS queue policy allows Amazon S3 to call `sqs:SendMessage`
-- The user IAM Role allows Databend platform roles to access it through `sts:AssumeRole`
+- The user IAM Role allows Platform roles to access it through `sts:AssumeRole`
 - The user IAM Role has permissions to read the target S3 objects and consume the target SQS queue
 - The SQS queue contains messages in the standard S3 Event Notification format
 - The bucket, prefix, and suffix in the S3 notification match the data source configuration
@@ -74,12 +74,12 @@ If there are no previewable S3 objects in the current path scope, the preview pa
 
 ### Step 3: Set Target Table
 
-Configure the target location in Databend:
+Configure the target location in Platform:
 
 | Field | Description |
 |-------|-------------|
-| **Warehouse** | Select the Databend Cloud warehouse used to run the SQS (S3) integration task |
-| **Target Database** | Select the target database in Databend |
+| **Warehouse** | Select the Platform warehouse used to run the SQS (S3) integration task |
+| **Target Database** | Select the target database in Platform |
 | **Target Table** | Name of the target table to write data into |
 
 The system infers column names and data types from the previewed S3 object content. Before continuing, you can review and edit the target table schema. If writing to an existing table, select the target table and verify the column mapping.
@@ -100,7 +100,7 @@ An SQS (S3) integration task is a continuously running task. After it starts, it
 
 ## Difference from Amazon S3 Integration Task
 
-| Task Type | Processed Object | Data Written to Databend | Typical Use Case |
+| Task Type | Processed Object | Data Written to Platform | Typical Use Case |
 |-----------|------------------|--------------------------|------------------|
 | Amazon S3 Integration Task | S3 file content | Business data from CSV, Parquet, or NDJSON files | File data import |
 | Amazon SQS (S3) Integration Task | S3 ObjectCreated events in SQS | S3 object data corresponding to the events | Automatic ingestion of new objects, event-driven import |

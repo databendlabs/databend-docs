@@ -1,11 +1,11 @@
 ---
-title: Amazon SQS (S3) 集成任务
+title: Amazon SQS (S3) 集成任务 (Beta)
 slug: /cloud/data-integration/sqs-s3
 ---
 
-本页介绍如何创建 Amazon SQS (S3) 集成任务，消费 SQS 队列中的 S3 对象创建事件，并将对应对象数据写入 Databend。
+本页介绍如何创建 Amazon SQS (S3) 集成任务，消费 SQS 队列中的 S3 对象创建事件，并将对应对象数据写入云平台。
 
-该任务面向 S3 事件驱动的数据接入场景：上游系统向 S3 写入对象后，S3 将 `ObjectCreated` 事件发送到 SQS，Databend Cloud 通过 AssumeRole 消费 SQS 消息，并基于事件中的存储桶和对象 key 将数据写入 Databend。
+该任务面向 S3 事件驱动的数据接入场景：上游系统向 S3 写入对象后，S3 将 `ObjectCreated` 事件发送到 SQS，云平台通过 AssumeRole 消费 SQS 消息，并基于事件中的存储桶和对象 key 将数据写入云平台。
 
 如需先创建可复用的 SQS (S3) 连接配置，请参见 [Amazon SQS (S3) - IAM Role](../datasource/02-sqs-s3.md)。
 
@@ -19,13 +19,13 @@ slug: /cloud/data-integration/sqs-s3
 
 1. 上游系统向 S3 存储桶写入对象。
 2. S3 Event Notification 将 `ObjectCreated` 事件发送到 SQS 标准队列。
-3. Databend Cloud 通过用户配置的 IAM Role 从 SQS 队列读取消息。
+3. 云平台通过用户配置的 IAM Role 从 SQS 队列读取消息。
 4. 任务解析消息中的 S3 事件记录。
-5. 任务根据 S3 事件记录中的存储桶、对象 key 和文件格式写入 Databend 目标表。
+5. 任务根据 S3 事件记录中的存储桶、对象 key 和文件格式写入云平台目标表。
 6. 写入成功后，任务从 SQS 队列删除已处理消息。
 
 :::note
-S3 事件通知和 SQS 标准队列都可能产生重复消息。Databend 会处理失败重试；如果业务需要严格去重，请结合对象信息、事件时间、`sequencer` 或 SQS 消息 ID 设计下游去重逻辑。
+S3 事件通知和 SQS 标准队列都可能产生重复消息。云平台会处理失败重试；如果业务需要严格去重，请结合对象信息、事件时间、`sequencer` 或 SQS 消息 ID 设计下游去重逻辑。
 :::
 
 ## 前置条件
@@ -35,7 +35,7 @@ S3 事件通知和 SQS 标准队列都可能产生重复消息。Databend 会处
 - 已创建 **Amazon SQS (S3) - IAM Role** 数据源
 - S3 存储桶已配置 `ObjectCreated` 事件通知，并将事件发送到目标 SQS 队列
 - SQS 队列策略允许 Amazon S3 执行 `sqs:SendMessage`
-- 用户 IAM Role 允许 Databend 平台角色通过 `sts:AssumeRole` 访问
+- 用户 IAM Role 允许云平台角色通过 `sts:AssumeRole` 访问
 - 用户 IAM Role 具有读取目标 S3 对象和消费目标 SQS 队列的权限
 - SQS 队列中保存的是标准 S3 Event Notification 消息格式
 - S3 notification 的存储桶、prefix 和 suffix 与数据源配置保持一致
@@ -74,12 +74,12 @@ S3 事件通知和 SQS 标准队列都可能产生重复消息。Databend 会处
 
 ### 步骤 3：设置目标表
 
-配置 Databend 中的目标位置：
+配置云平台中的目标位置：
 
 | 字段 | 说明 |
 |------|------|
-| **Warehouse** | 选择用于运行 SQS (S3) 集成任务的 Databend Cloud Warehouse |
-| **Target Database** | 选择 Databend 中的目标数据库 |
+| **Warehouse** | 选择用于运行 SQS (S3) 集成任务的云平台 Warehouse |
+| **Target Database** | 选择云平台中的目标数据库 |
 | **Target Table** | 写入数据的目标表名 |
 
 系统会根据预览到的 S3 对象内容推断列名和数据类型。继续之前，您可以检查并编辑目标表结构；如果写入已有表，请从现有表中选择目标表并确认列映射无误。
@@ -100,7 +100,7 @@ SQS (S3) 集成任务是持续运行任务。启动后，它会周期性从 SQS 
 
 ## 与 Amazon S3 集成任务的区别
 
-| 任务类型 | 处理对象 | 写入 Databend 的内容 | 典型用途 |
+| 任务类型 | 处理对象 | 写入云平台的内容 | 典型用途 |
 |----------|----------|----------------------|----------|
 | Amazon S3 集成任务 | S3 文件内容 | CSV、Parquet 或 NDJSON 文件中的业务数据 | 文件数据导入 |
 | Amazon SQS (S3) 集成任务 | SQS 中的 S3 ObjectCreated 事件 | 事件对应的 S3 对象数据 | 新对象自动接入、事件驱动导入 |
