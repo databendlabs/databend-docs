@@ -13,7 +13,7 @@ Unlike data sources, integration tasks are the executable units that actually pe
 | Task Type | Description |
 |-----------|-------------|
 | [Amazon S3](./01-s3.md) | Imports CSV, Parquet, or NDJSON files from Amazon S3 with support for one-time or continuous ingestion. |
-| [Amazon SQS (S3)](./02-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Databend. |
+| [Amazon SQS (S3) (Beta)](./02-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Platform. |
 | [MySQL](./03-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
 | [PostgreSQL](./04-postgres.md) | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
 
