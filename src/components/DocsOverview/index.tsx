@@ -37,6 +37,7 @@ import ChangeLog from "@site/static/icons/changelog.svg";
 import FAQ from "@site/static/icons/faq.svg";
 import MCP from "@site/static/icons/mcp.svg";
 import MySQL from "@site/static/icons/mysql.svg";
+import PG from "@site/static/icons/postgresql.svg";
 import S3 from "@site/static/icons/s3.svg";
 import { Col, Row } from "antd";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -166,6 +167,11 @@ const DocsOverview: FC = (): ReactElement => {
       icon: <MySQL width={24} />,
       text: "MySQL",
       to: "/guides/cloud/data-integration/mysql",
+    },
+    {
+      icon: <PG width={24} />,
+      text: "PostgreSQL",
+      to: "/guides/cloud/data-integration/postgres",
     },
     {
       icon: <S3 width={24} />,
