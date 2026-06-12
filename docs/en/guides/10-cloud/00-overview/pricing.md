@@ -65,13 +65,13 @@ The cloud service fee currently includes fees for the API requests. Each time yo
 
 Service hosting fees apply to the Data Integration service. Unlike a warehouse, a Data Integration service typically runs continuously (24/7) until you stop it. Billing follows the same model as warehouses: it is calculated on a **per-second basis** according to the actual running time, and the price depends on the service size and the Databend Cloud edition you use.
 
-Service sizes are derived from the Warehouse XSmall, scaled linearly: `1c4g` is 1/8 of an XSmall, `2c8g` is 1/4, and `4c16g` is 1/2. The monthly cost shown below is an estimate based on continuous 24/7 operation (720 hours per month) and is provided for reference only.
+Service sizes are derived from the Warehouse XSmall. The monthly cost shown below is an estimate based on continuous 24/7 operation (720 hours per month, assuming one month is calculated as 30 days) and is provided for reference only.
 
-| Size  | Hourly Cost (Personal) | Hourly Cost (Business) | Monthly Cost (Personal, 24/7) | Monthly Cost (Business, 24/7) |
-| ----- | ---------------------- | ---------------------- | ----------------------------- | ----------------------------- |
-| 1c4g  | $0.125                 | $0.1875                | $90                           | $135                          |
-| 2c8g  | $0.25                  | $0.375                 | $180                          | $270                          |
-| 4c16g | $0.50                  | $0.75                  | $360                          | $540                          |
+| Size    | Hourly Cost (Personal) | Hourly Cost (Business) | Monthly Cost (Personal, 24/7) | Monthly Cost (Business, 24/7) |
+| ------- | ---------------------- | ---------------------- | ----------------------------- | ----------------------------- |
+| 4XSmall | $0.125                 | $0.1875                | $90                           | $135                          |
+| 3XSmall | $0.25                  | $0.375                 | $180                          | $270                          |
+| 2XSmall | $0.50                  | $0.75                  | $360                          | $540                          |
 
 ## Example-1:
 
