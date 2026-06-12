@@ -6,6 +6,7 @@ import Card from "../BaseComponents/Card";
 import SmallCard from "./small-card";
 import Cli from "@site/static/icons/cli.svg";
 import Java from "@site/static/icons/java.svg";
+import DBeaver from "@site/static/icons/DBeaver.svg";
 import Go from "@site/static/icons/go.svg";
 import Python from "@site/static/icons/python.svg";
 import Node from "@site/static/icons/node.svg";
@@ -107,6 +108,11 @@ const DocsOverview: FC = (): ReactElement => {
       icon: <Cli />,
       text: "BendSQL",
       to: "/guides/connect/sql-clients/bendsql/",
+    },
+    {
+      icon: <DBeaver width={24} />,
+      text: "DBeaver",
+      to: "/guides/connect/sql-clients/jdbc/",
     },
     { icon: <Java />, text: "Java", to: "/developer/drivers/jdbc/" },
     { icon: <Go />, text: "Golang", to: "/developer/drivers/golang/" },
