@@ -9,23 +9,27 @@ The Data Integration feature in Databend Cloud provides a visual, no-code interf
 
 ## Key Concepts
 
-| Concept | Description |
-|---------|-------------|
+| Concept                               | Description                                                                                                                                                                                                                |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Data Sources](./datasource/index.md) | Reusable connection settings or credentials used to access external systems or send notifications, such as AWS Access Key / Secret Key, MySQL hostname / username / password, SQS (S3) queue URL, or a FeiShu bot webhook. |
-| [Integration Tasks](./task/index.md) | Executable tasks that define where data comes from, which Databend table it is written to, which runtime parameters are used, and how the task is started and monitored. |
+| [Integration Tasks](./task/index.md)  | Executable tasks that define where data comes from, which Databend table it is written to, which runtime parameters are used, and how the task is started and monitored.                                                   |
 
 Data sources do not move data by themselves. They only store the information required to access external systems. Integration tasks are the units that actually perform imports, snapshots, and continuous synchronization.
+
+:::info
+Running Data Integration tasks incurs service hosting fees, billed per second based on the actual running time of the service. For details, see [Service Hosting Pricing](/guides/cloud/overview/pricing#service-hosting-pricing).
+:::
 
 Not every data source corresponds to an ingestion task. For example, `FeiShuBot` is used for notifications rather than loading source data into Databend.
 
 ## Supported Integration Task Types
 
-| Task Type | Description |
-|-----------|-------------|
-| [Amazon S3](./task/01-s3.md) | Imports CSV, Parquet, or NDJSON files from Amazon S3 with support for one-time or continuous ingestion. |
+| Task Type                                     | Description                                                                                                  |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [Amazon S3](./task/01-s3.md)                  | Imports CSV, Parquet, or NDJSON files from Amazon S3 with support for one-time or continuous ingestion.      |
 | [Amazon SQS (S3) (Beta)](./task/02-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Platform. |
-| [MySQL](./task/03-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes. |
-| [PostgreSQL](./task/04-postgres.md) | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes. |
+| [MySQL](./task/03-mysql.md)                   | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes.                  |
+| [PostgreSQL](./task/04-postgres.md)           | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes.             |
 
 ## Recommended Flow
 

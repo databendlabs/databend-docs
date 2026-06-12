@@ -1,5 +1,5 @@
 ---
-title: 计算集群
+title: 计算集群 (Warehouse)
 ---
 
 import PlaySVG from '@site/static/img/icon/play.svg'

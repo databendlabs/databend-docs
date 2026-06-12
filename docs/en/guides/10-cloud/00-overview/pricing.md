@@ -2,11 +2,91 @@
 title: Pricing & Billing
 ---
 
-import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import PricingEN from '@site/docs/fragment/03-pricing-en.md'
-import PricingCN from '@site/docs/fragment/03-pricing-cn.md'
+Your costs on Databend Cloud consist of the following components: warehouses, storage, cloud service, and service hosting fees. This page contains information about the pricing of each component and how the billing works.
 
-<LanguageFileParse
-en={<PricingEN />}
-cn={<PricingCN />}
-/>
+## Databend Cloud Pricing
+
+This section provides pricing information on warehouse, storage, cloud service, and service hosting.
+
+### Warehouse Pricing
+
+Your warehouses incur costs when they are running (specifically, when in the Running state). The cost depends on the warehouse\'s size and running time. **Billing is calculated on a per-second basis**. For example, if you have a warehouse running for three seconds, you will be charged for that exact duration.
+
+The size of a warehouse refers to the maximum number of concurrent queries it can handle, and prices vary based on the different sizes available and the Databend Cloud edition you use.
+
+| Size    | Hourly Cost (Personal) | Hourly Cost (Business) | Per-Second Cost (Personal) | Per-Second Cost (Business) |
+| ------- | ---------------------- | ---------------------- | -------------------------- | -------------------------- |
+| XSmall  | $1.00                  | $1.50                  | $0.000277778               | $0.000416667               |
+| Small   | $2.00                  | $3.00                  | $0.000555556               | $0.000833333               |
+| Medium  | $4.00                  | $6.00                  | $0.001111111               | $0.001666667               |
+| Large   | $8.00                  | $12.00                 | $0.002222222               | $0.003333333               |
+| XLarge  | $16.00                 | $24.00                 | $0.004444444               | $0.006666667               |
+| 2XLarge | $32.00                 | $48.00                 | $0.008888889               | $0.013333333               |
+| 3XLarge | $64.00                 | $96.00                 | $0.017777778               | $0.026666667               |
+| 4XLarge | $128.00                | $192.00                | $0.035555556               | $0.053333333               |
+| 5XLarge | $256.00                | $384.00                | $0.071111111               | $0.106666667               |
+| 6XLarge | $512.00                | $768.00                | $0.142222222               | $0.213333333               |
+
+:::tip[Not sure which size to choose?]
+See how Small, Medium, and Large warehouses perform on the same workload on the [TPC-H SF1000 (1TB) Warehouse Size Benchmark](/guides/benchmark/tpch-sf1000) page.
+
+**Dataset Scale:** TPC-H Scale Factor 1000 (SF1000) represents approximately 1TB of generated data, containing about 6 billion rows across the 8 standard TPC-H tables.
+
+:::note[Overview]
+| Warehouse Size | Total Time | Speedup vs. Small |
+| -------------- | ---------: | ----------------: |
+| Small | 1173.32 s | 1.00x |
+| Medium | 537.93 s | 2.18x |
+| Large | 285.96 s | 4.10x |
+
+:::
+
+A suspended warehouse does not consume any resources. By default, Databend Cloud automatically suspends a warehouse after five minutes of inactivity to save resources and costs. You can adjust or disable this automatic suspension feature according to your preferences.
+
+### Storage Pricing
+
+Your data in Databend Cloud is physically stored in Amazon S3. Storage costs in Databend Cloud are based on Amazon S3's pricing. Currently, both the Personal Edition and Business Edition are priced at $23.00 per month per terabyte (TB).
+
+| Edition          | Price per TB per Month |
+| ---------------- | ---------------------- |
+| Personal Edition | $23.00                 |
+| Business Edition | $23.00                 |
+
+### Cloud Service Pricing
+
+The cloud service fee currently includes fees for the API requests. Each time you run a SQL query with Databend Cloud, a REST API request is sent to the `databend-query` through the [Databend HTTP handler](/developer/apis/http). In the Personal Edition, you are billed $1 for every 10,000 API requests, while in the Business Edition, the cost is $2 for every 10,000 API requests.
+
+| Edition          | Cost per 10,000 API Requests |
+| ---------------- | ---------------------------- |
+| Personal Edition | $1.00                        |
+| Business Edition | $2.00                        |
+
+### Service Hosting Pricing
+
+Service hosting fees apply to the Data Integration service. Unlike a warehouse, a Data Integration service typically runs continuously (24/7) until you stop it. Billing follows the same model as warehouses: it is calculated on a **per-second basis** according to the actual running time, and the price depends on the service size and the Databend Cloud edition you use.
+
+Service sizes are derived from the Warehouse XSmall, scaled linearly: `1c4g` is 1/8 of an XSmall, `2c8g` is 1/4, and `4c16g` is 1/2. The monthly cost shown below is an estimate based on continuous 24/7 operation (720 hours per month) and is provided for reference only.
+
+| Size  | Hourly Cost (Personal) | Hourly Cost (Business) | Monthly Cost (Personal, 24/7) | Monthly Cost (Business, 24/7) |
+| ----- | ---------------------- | ---------------------- | ----------------------------- | ----------------------------- |
+| 1c4g  | $0.125                 | $0.1875                | $90                           | $135                          |
+| 2c8g  | $0.25                  | $0.375                 | $180                          | $270                          |
+| 4c16g | $0.50                  | $0.75                  | $360                          | $540                          |
+
+## Example-1:
+
+import BillingExample from '@site/src/components/BillingExample';
+
+<BillingExample example={1} />
+
+## Example-2:
+
+<BillingExample example={2} />
+
+## Databend Cloud Billing
+
+The billing period is set for every calendar month, starting from the 1st day to the last day of the month. For your first month, the billing period will begin on the day your organization was created.
+
+To check your billing details, go to **Manage** and then click on **Billing**. From there, you can review your bills and link a credit card for payment.
+
+When billing users, Databend Cloud applies vouchers first. If multiple vouchers are available, the system prioritizes deduction from the voucher with the earliest expiration date. Please ensure vouchers are used before their expiration date.
