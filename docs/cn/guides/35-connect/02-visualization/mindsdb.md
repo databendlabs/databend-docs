@@ -9,7 +9,7 @@ Databend 和 Databend Cloud 均可作为数据源与 MindsDB 集成，从而为 
 
 ## 教程一：Databend 与 MindsDB 集成
 
-开始前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。如需了解本地安装 MindsDB 的详细信息，请参考 [https://docs.mindsdb.com/quickstart-tutorial](https://docs.mindsdb.com/quickstart-tutorial)
+开始前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。如需了解本地安装 MindsDB 的详细信息，请参考 [https://mindsdb.github.io/engine/#quickstart](https://mindsdb.github.io/engine/#quickstart)
 
 ### 步骤 1. 加载数据集到 Databend
 
@@ -50,7 +50,10 @@ parameters={
 ```
 
 :::tip
-上述 SQL 语句将 Databend 中的 `default` 数据库连接到您的 MindsDB Cloud 账户。参数说明请参考 https://docs.mindsdb.com/integrations/data-integrations/databend
+
+注意：engine 要改成 'databend'
+
+上述 SQL 语句将 Databend 中的 `default` 数据库连接到您的 MindsDB Cloud 账户。参数说明请参考 https://mindsdb.github.io/engine/#db-create
 :::
 
 2. 在 MindsDB Cloud Editor 中执行以下 SQL 语句验证集成：
@@ -104,7 +107,7 @@ WHERE (NO2 = 0.005)
 
 ## 教程二：Databend Cloud 与 MindsDB 集成
 
-开始前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。如需了解本地安装 MindsDB 的详细信息，请参考 [https://docs.mindsdb.com/quickstart-tutorial](https://docs.mindsdb.com/quickstart-tutorial)
+开始前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。如需了解本地安装 MindsDB 的详细信息，请参考 [https://mindsdb.github.io/engine/#quickstart](https://mindsdb.github.io/engine/#quickstart)
 
 ### 步骤 1. 加载数据集到 Databend Cloud
 
@@ -146,7 +149,7 @@ parameters={
 ```
 
 :::tip
-上述 SQL 语句将 Databend Cloud 中的 `default` 数据库连接到您的 MindsDB Cloud 账户。参数值可从计算集群的连接信息中获取。详情请参阅 [连接计算集群](/guides/cloud/resources/warehouses#connecting)。参数说明请参考 https://docs.mindsdb.com/integrations/data-integrations/databend
+上述 SQL 语句将 Databend Cloud 中的 `default` 数据库连接到您的 MindsDB Cloud 账户。参数值可从计算集群的连接信息中获取。详情请参阅 [连接计算集群](/guides/cloud/resources/warehouses#connecting)。参数说明请参考 https://mindsdb.github.io/engine/#db-create
 :::
 
 2. 在 MindsDB Cloud Editor 中执行以下 SQL 语句验证集成：
