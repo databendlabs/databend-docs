@@ -8,9 +8,9 @@ title: 任务管理
 
 1. 前往 **Data** > **Data Integration**，点击 **Create Task**。
 2. 选择一个已有的数据源。
-3. 根据任务类型填写源端参数，例如文件路径、源表、同步模式或过滤条件。
-4. 预览源数据，确认表结构和字段类型。
-5. 选择目标 Warehouse、目标数据库和目标表。
+3. 根据任务类型填写源端参数，例如文件路径、源表、同步模式、topic 或过滤条件。
+4. 预览源数据，确认表结构、字段类型或消息内容。
+5. 根据任务类型选择目标 Warehouse、目标数据库 / 表，或配置结果查看方式。
 6. 创建任务，并在需要时手动启动。
 
 ## 启动与停止任务
@@ -49,6 +49,7 @@ Data Integration 页面会展示所有任务及其当前状态：
 - PostgreSQL `Snapshot` 任务通常在全量导入完成后自动停止。
 - PostgreSQL `CDC Only` 和 `Snapshot + CDC` 任务会持续运行，直到手动停止。
 - SQS (S3) 任务会持续轮询 SQS 队列，消费 S3 对象创建事件并写入目标表，直到手动停止。
+- Kafka Consumer 任务会持续消费 Kafka topic，并将消息内容保存到内部对象存储，直到手动停止。
 
 有关具体字段和配置项，请继续阅读对应任务类型页面：
 
@@ -56,3 +57,4 @@ Data Integration 页面会展示所有任务及其当前状态：
 - [MySQL 集成任务](./03-mysql.md)
 - [PostgreSQL 集成任务](./04-postgres.md)
 - [Amazon SQS (S3) 集成任务 (Beta)](./02-sqs-s3.md)
+- [Kafka Consumer 集成任务 (Beta)](./05-kafka.md)
