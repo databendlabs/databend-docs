@@ -87,9 +87,14 @@ CREATE STAGE my_internal_stage;
 ```sql
 SHOW STAGES;
 
-name             |stage_type|number_of_files|creator   |comment|
------------------+----------+---------------+----------+-------+
-my_internal_stage|Internal  |              0|'root'@'%'|       |
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│        name       │ stage_type │   storage_type   │        url       │     endpoint     │ has_credentials │   has_encryption_key  │   storage_params  │  file_format_options │      creator     │  created_on │ comment │       owner      │
+│       String      │   String   │ Nullable(String) │ Nullable(String) │ Nullable(String) │     Boolean     │        Boolean        │ Nullable(Variant) │        Variant       │ Nullable(String) │  Timestamp  │  String │ Nullable(String) │
+├───────────────────┼────────────┼──────────────────┼──────────────────┼──────────────────┼─────────────────┼───────────────────────┼───────────────────┼──────────────────────┼──────────────────┼─────────────┼─────────┼──────────────────┤
+│ my_internal_stage │ Internal   │ NULL             │ NULL             │ NULL             │ false           │ false                 │ NULL              │ {"compression":"Zst… │ 'root'@'%'       │ 2026-06-16  │         │ account_admin    │
+│                   │            │                  │                  │                  │                 │                       │                   │                      │                  │ 22:21:19…   │         │                  │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
 ```
 
 ### 步骤 2：上传示例文件
@@ -166,9 +171,9 @@ CREATE STAGE my_external_stage
 ```sql
 SHOW STAGES;
 
-name             |stage_type|number_of_files|creator           |comment|
------------------+----------+---------------+------------------+-------+
-my_external_stage|External  |               |'root'@'%'|       |
+name             |stage_type|creator           |comment|
+-----------------+----------+------------------+-------+
+my_external_stage|External  |'root'@'%'|       |
 ```
 
 ### 步骤 2：上传示例文件
