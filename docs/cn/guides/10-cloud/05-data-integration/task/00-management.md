@@ -49,7 +49,7 @@ Data Integration 页面会展示所有任务及其当前状态：
 - PostgreSQL `Snapshot` 任务通常在全量导入完成后自动停止。
 - PostgreSQL `CDC Only` 和 `Snapshot + CDC` 任务会持续运行，直到手动停止。
 - SQS (S3) 任务会持续轮询 SQS 队列，消费 S3 对象创建事件并写入目标表，直到手动停止。
-- Kafka Consumer 任务会持续消费 Kafka topic，并将消息内容保存到 Databend 内部对象存储，直到手动停止。
+- Kafka Consumer 任务会持续消费 Kafka topic，并将消息内容保存到内部对象存储，直到手动停止。
 
 有关具体字段和配置项，请继续阅读对应任务类型页面：
 

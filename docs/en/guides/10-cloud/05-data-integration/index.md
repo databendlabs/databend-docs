@@ -30,7 +30,7 @@ Not every data source corresponds to an ingestion task. For example, `FeiShuBot`
 | [Amazon SQS (S3) (Beta)](./task/02-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Platform. |
 | [MySQL](./task/03-mysql.md)                   | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes.                  |
 | [PostgreSQL](./task/04-postgres.md)           | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC` modes.             |
-| [Kafka Consumer Integration Task (Beta)](./task/05-kafka.md) | Continuously consumes messages from Kafka topics and saves the message content to Databend internal object storage. |
+| [Kafka Consumer Integration Task (Beta)](./task/05-kafka.md) | Continuously consumes messages from Kafka topics and saves the message content to internal object storage. |
 
 ## Recommended Flow
 

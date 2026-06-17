@@ -3,7 +3,7 @@ title: Kafka Consumer Integration Task (Beta)
 slug: /cloud/data-integration/kafka
 ---
 
-This page describes how to create a Kafka Consumer task that continuously consumes messages from Kafka topics and saves the message content to Databend internal object storage (tenant Stage).
+This page describes how to create a Kafka Consumer task that continuously consumes messages from Kafka topics and saves the message content to internal object storage (tenant Stage).
 
 Unlike S3, MySQL, or PostgreSQL integration tasks, a Kafka Consumer task does not write directly to a regular target table. After the task is created and started, you can use the `@kafka_consumer/<task_name>/` stage path to view saved message objects and query their content with SQL.
 
@@ -12,14 +12,14 @@ If you need to create reusable Kafka connection settings first, see [Kafka - Cre
 ## Use Cases
 
 - Continuously ingest JSON messages from Kafka topics
-- Land Kafka messages in Databend internal object storage first, then query or process them with downstream SQL
+- Land Kafka messages in internal object storage first, then query or process them with downstream SQL
 - Preserve raw Kafka message objects for real-time or near-real-time data pipelines
 
 ## Workflow
 
 1. An upstream system writes messages to Kafka topics.
 2. The Kafka Consumer task reads messages from the specified topics.
-3. The task saves messages in batches to Databend internal object storage (tenant Stage).
+3. The task saves messages in batches to internal object storage (tenant Stage).
 4. Users view generated objects through `@kafka_consumer/<task_name>/`.
 5. Users query message content from the stage and perform downstream loading or transformation as needed.
 
@@ -32,7 +32,7 @@ Kafka Consumer tasks save object files that contain Kafka message content. If yo
 Before creating a Kafka Consumer task, make sure:
 
 - A **Kafka - Credentials** data source has already been created
-- Databend Cloud can access the Kafka brokers over the network
+- Platform can access the Kafka brokers over the network
 - The authentication method, TLS settings, and account information in the Kafka data source are correct
 - The Kafka user has permission to read the target topics
 - Messages in the target topics match the **Data Format** selected in the task
@@ -50,12 +50,12 @@ Before creating a Kafka Consumer task, make sure:
 | **Name** | Yes | Name of the Kafka Consumer task |
 | **Topics** | Yes | Kafka topics to consume. Separate multiple topics with commas, for example `topic-1,topic-2` |
 | **Data Format** | Yes | Kafka message data format. Currently, this is **JSON** |
-| **Start Position** | Yes | Consumer start position, such as **Latest** |
+| **Start Position** | Yes | Start position when no committed offset exists. Supports **Latest** and **Earliest** |
 | **Max Batch Bytes** | No | Maximum data size per batch. The default value is **16 MiB** |
 | **Max Batch Wait Interval** | No | Maximum wait time per batch. The default value is **1 Minute** |
 
 :::tip
-If you only want the task to consume messages produced after the task starts, set **Start Position** to **Latest**.
+**Latest** consumes only new messages, while **Earliest** starts from the earliest retained messages in Kafka. This setting applies only when the Consumer Group has no committed offset and does not reset existing offsets.
 :::
 
 ### Step 2: Preview Data
@@ -70,7 +70,7 @@ If no previewable messages are available, the page displays **No sample data ava
 
 In the **Result Viewing** step, select the **Warehouse** used to run the Kafka Consumer task.
 
-After the task starts, Kafka messages are read and saved to Databend internal object storage (tenant Stage). The page provides SQL examples. You can use `LIST @kafka_consumer/<task_name>/` to view generated objects and use stage queries to read message content.
+After the task starts, Kafka messages are read and saved to internal object storage (tenant Stage). The page provides SQL examples. You can use `LIST @kafka_consumer/<task_name>/` to view generated objects and use stage queries to read message content.
 
 ```sql
 -- List stage objects:
@@ -88,7 +88,7 @@ Click **Create** to create the task.
 
 ## Task Behavior
 
-A Kafka Consumer task is a continuously running task. After it starts, it consumes messages from the specified topics and saves the messages in batches as object files in Databend internal object storage until it is manually stopped.
+A Kafka Consumer task is a continuously running task. After it starts, it consumes messages from the specified topics and saves the messages in batches as object files in internal object storage until it is manually stopped.
 
 | Scenario | Behavior |
 |----------|----------|

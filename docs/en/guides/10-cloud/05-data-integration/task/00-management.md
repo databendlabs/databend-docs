@@ -49,7 +49,7 @@ Click a task to view its execution history. The run history includes:
 - PostgreSQL `Snapshot` tasks usually stop automatically after the full load completes.
 - PostgreSQL `CDC Only` and `Snapshot + CDC` tasks continue running until manually stopped.
 - SQS (S3) tasks continuously poll the SQS queue, consume S3 object creation events, and write data into the target table until manually stopped.
-- Kafka Consumer tasks continuously consume Kafka topics and save message content to Databend internal object storage until manually stopped.
+- Kafka Consumer tasks continuously consume Kafka topics and save message content to internal object storage until manually stopped.
 
 For field-level configuration and detailed behavior, continue with the relevant task guide:
 

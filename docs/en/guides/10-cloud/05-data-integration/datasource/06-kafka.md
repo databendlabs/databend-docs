@@ -4,7 +4,7 @@ title: Kafka - Credentials (Beta)
 
 This page describes how to create a `Kafka - Credentials` data source. This data source stores the broker addresses, authentication method, and connection credentials required to access a Kafka cluster, and can be reused by Kafka Consumer integration tasks.
 
-`Kafka - Credentials` only stores Kafka connection information. It does not consume messages by itself. The actual process of reading Kafka topic messages and writing them to Databend internal object storage is performed by a [Kafka Consumer Integration Task (Beta)](../task/05-kafka.md).
+`Kafka - Credentials` only stores Kafka connection information. It does not consume messages by itself. The actual process of reading Kafka topic messages and writing them to internal object storage is performed by a [Kafka Consumer Integration Task (Beta)](../task/05-kafka.md).
 
 ## Use Cases
 
@@ -30,7 +30,7 @@ This page describes how to create a `Kafka - Credentials` data source. This data
 
 ## Configuration Recommendations
 
-- Create a dedicated Kafka user for Databend Cloud instead of sharing an application account.
+- Create a dedicated Kafka user for the platform instead of sharing an application account.
 - Enable **TLS encryption** if your Kafka cluster requires encrypted connections.
 - If you select **SASL/PLAIN**, make sure the Kafka user is allowed to read the topics that will be consumed by downstream tasks.
 - Run **Test Connectivity** before saving the data source to verify the broker addresses, network access, and authentication settings.

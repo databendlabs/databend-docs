@@ -16,7 +16,7 @@ Unlike data sources, integration tasks are the executable units that actually pe
 | [Amazon SQS (S3) (Beta)](./02-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Platform. |
 | [MySQL](./03-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
 | [PostgreSQL](./04-postgres.md) | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
-| [Kafka Consumer Integration Task (Beta)](./05-kafka.md) | Continuously consumes messages from Kafka topics and saves the message content to Databend internal object storage. |
+| [Kafka Consumer Integration Task (Beta)](./05-kafka.md) | Continuously consumes messages from Kafka topics and saves the message content to internal object storage. |
 
 ## Reading Guide
 

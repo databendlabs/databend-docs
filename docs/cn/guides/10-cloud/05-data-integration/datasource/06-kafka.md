@@ -4,7 +4,7 @@ title: Kafka - Credentials (Beta)
 
 本页介绍如何创建 `Kafka - Credentials` 数据源。该数据源用于保存访问 Kafka 集群所需的 broker 地址、认证方式和连接凭据，可供 Kafka Consumer 任务复用。
 
-`Kafka - Credentials` 只保存 Kafka 连接信息，不会直接消费消息。实际读取 Kafka topic 消息并写入 Databend 内部对象存储的操作由 [Kafka Consumer 集成任务 (Beta)](../task/05-kafka.md) 执行。
+`Kafka - Credentials` 只保存 Kafka 连接信息，不会直接消费消息。实际读取 Kafka topic 消息并写入内部对象存储的操作由 [Kafka Consumer 集成任务 (Beta)](../task/05-kafka.md) 执行。
 
 ## 使用场景
 
@@ -30,7 +30,7 @@ title: Kafka - Credentials (Beta)
 
 ## 配置建议
 
-- 建议为 Databend Cloud 创建专用 Kafka 用户，避免与业务应用共享账号。
+- 建议为云平台创建专用 Kafka 用户，避免与业务应用共享账号。
 - 如果 Kafka 集群要求加密连接，请启用 **TLS encryption**。
 - 如果选择 **SASL/PLAIN**，请确认 Kafka 集群已允许该用户访问后续任务需要消费的 topic。
 - 建议在保存数据源前先执行 **Test Connectivity**，以确认 broker 地址、网络访问和认证信息配置正确。
