@@ -5,36 +5,26 @@ sidebar_label: "阿里云私网连接"
 
 # 如何设置阿里云私网连接
 
-1. 提供计划使用 PrivateLink 的 AccountID（主账号 ID）
+1. 在 **Connect to Databend Cloud** 对话框中获取终端节点服务名称
 
-![AccountID](/img/cloud/privatelink/aliyun/accountid.png)
+   例如: `com.aliyuncs.privatelink.cn-beijing.epsrv-2zelaf38jasnuv54go9j`
 
-2. 等待 Databend Cloud 将 AccountID 加入到白名单
+2. 准备一个开放 443 端口的安全组
 
-3. Databend Cloud 提供终端节点服务名称
+   ![Security Group](/img/cloud/privatelink/aliyun/security-group.png)
 
-例如: `com.aliyuncs.privatelink.cn-beijing.epsrv-2zelaf38jasnuv54go9j`
+3. 到 aliyun 控制台创建终端节点
 
-4. 准备一个开放 443 端口的安全组
+   https://vpc.console.aliyun.com/endpoint/cn-beijing/endpoints/new
+   输入第一步获取的终端节点服务名称并点击验证
+   ![Create Endpoint](/img/cloud/privatelink/aliyun/create-endpoint.png)
+   点击最下方的【确定创建】
 
-![Security Group](/img/cloud/privatelink/aliyun/security-group.png)
+4. 开启自定义服务域名
 
-5. 到 aliyun 控制台创建终端节点
+   ![Custom Service Domain](/img/cloud/privatelink/aliyun/endpoint-domain.png)
 
-https://vpc.console.aliyun.com/endpoint/cn-beijing/endpoints/new
-输入第三步 Databend Cloud 提供的终端节点服务名称并点击验证
-![Create Endpoint](/img/cloud/privatelink/aliyun/create-endpoint.png)
-点击最下方的【确定创建】
-
-6. 通知 Databend Cloud 并等待通过连接请求
-
-![Request](/img/cloud/privatelink/aliyun/request.png)
-
-7. 开启自定义服务域名
-
-![Custom Service Domain](/img/cloud/privatelink/aliyun/endpoint-domain.png)
-
-8. 验证终端连接可用
+5. 验证终端连接可用
 
 ```bash
 curl -v https://gw.aliyun-cn-beijing.default.databend.cn/status | jq

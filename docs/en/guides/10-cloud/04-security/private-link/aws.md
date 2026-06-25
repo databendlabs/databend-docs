@@ -5,25 +5,21 @@ sidebar_label: "AWS PrivateLink"
 
 # How to Setup AWS PrivateLink
 
-1. Provide the AWS account ID you are planning to connect to Databend Cloud:
-
-   For example: `123456789012`
-
-2. Verify your VPC settings
+1. Verify your VPC settings
 
    ![VPC Settings](/img/cloud/privatelink/aws/vpc-settings.png)
 
    Ensure `Enable DNS resolution` and `Enable DNS hostnames` are checked.
 
-3. Wait for cloud admin adding your account to whitelist, and get a service name for the cluster to connect to:
+2. Get the service name to connect to from the **Connect to Databend Cloud** dialog:
 
    For example: `com.amazonaws.vpce.us-east-2.vpce-svc-0123456789abcdef0`
 
-4. Prepare a security group with tcp 443 port open:
+3. Prepare a security group with tcp 443 port open:
 
    ![Security Group](/img/cloud/privatelink/aws/security-group.png)
 
-5. Goto AWS Console:
+4. Goto AWS Console:
 
    https://us-east-2.console.aws.amazon.com/vpcconsole/home?region=us-east-2#Endpoints:
 
@@ -39,15 +35,11 @@ sidebar_label: "AWS PrivateLink"
 
    ![Create Endpoint Done](/img/cloud/privatelink/aws/create-endpoint-4.png)
 
-6. Wait for cloud admin approving your connect request:
-
-   ![Request](/img/cloud/privatelink/aws/request.png)
-
-7. Wait for the PrivateLink creation:
+6. Wait for the PrivateLink creation:
 
    ![Creation](/img/cloud/privatelink/aws/creation.png)
 
-8. Modify private DNS name setting:
+7. Modify private DNS name setting:
 
    ![DNS Menu](/img/cloud/privatelink/aws/dns-1.png)
 
@@ -57,7 +49,7 @@ sidebar_label: "AWS PrivateLink"
 
    Wait for changes to apply.
 
-9. Verify accessing Databend Cloud via PrivateLink:
+8. Verify accessing Databend Cloud via PrivateLink:
 
    ![Verify DNS](/img/cloud/privatelink/aws/verify-1.png)
 
