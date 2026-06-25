@@ -4,8 +4,8 @@ title: SQL Function Reference
 
 Databend provides comprehensive SQL functions for all types of data processing. Functions are organized by importance and usage frequency.
 
-:::tip Can't find the function you need?
-If none of the built-in functions below cover your logic, you can define your own with [User-Defined Functions (UDFs)](../10-sql-commands/00-ddl/10-udf/index.md). UDFs let you implement custom scalar, aggregate, and table functions using SQL expressions, Python, or JavaScript, then call them just like any built-in function. See [Extending with User-Defined Functions](#extending-with-user-defined-functions) below.
+:::tip
+**Can't find the function you need?** If none of the built-in functions below cover your logic, you can define your own with [User-Defined Functions (UDFs)](../10-sql-commands/00-ddl/10-udf/index.md). UDFs let you implement custom scalar, aggregate, and table functions using SQL expressions, Python, or JavaScript, then call them just like any built-in function. See [Extending with User-Defined Functions](#extending-with-user-defined-functions) below.
 :::
 
 ## Core Data Functions
