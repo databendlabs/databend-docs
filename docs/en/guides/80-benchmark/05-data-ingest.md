@@ -21,7 +21,7 @@ We conducted four specific benchmarks to evaluate Databend Cloud versus Snowflak
 
 ## Benchmark Conditions
 
-Conducted on a `Small-Size` warehouse (16vCPU, AWS us-east-2) using data from the same S3 bucket.
+Conducted on a `Small-Size` warehouse (AWS us-east-2) using data from the same S3 bucket.
 
 ## Performance and Cost Comparison
 

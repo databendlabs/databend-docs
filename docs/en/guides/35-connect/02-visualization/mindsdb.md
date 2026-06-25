@@ -50,6 +50,9 @@ parameters={
 ```
 
 :::tip
+
+Note: "engine" should be changed to 'databend'.
+
 The SQL statements above connect the database `default` in Databend to your MindsDB Cloud account. For explanations about the parameters, refer to https://mindsdb.github.io/engine/#db-create
 :::
 
