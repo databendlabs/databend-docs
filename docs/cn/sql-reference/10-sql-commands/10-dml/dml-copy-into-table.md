@@ -145,27 +145,37 @@ formatTypeOptions ::=
   [ ERROR_ON_COLUMN_COUNT_MISMATCH = TRUE | FALSE ]
   [ EMPTY_FIELD_AS = null | string | field_default ]
   [ BINARY_FORMAT = HEX | BASE64 ]
+  [ TRIM_SPACE = TRUE | FALSE ]
+  [ ENCODING = '<encoding_label>' ]
+  [ ENCODING_ERROR_MODE = STRICT | REPLACE ]
   
   /* TSV 专用选项 */
   [ RECORD_DELIMITER = '<character>' ]
   [ FIELD_DELIMITER = '<character>' ]
+  [ TRIM_SPACE = TRUE | FALSE ]
+  [ ENCODING = '<encoding_label>' ]
+  [ ENCODING_ERROR_MODE = STRICT | REPLACE ]
   
   /* NDJSON 专用选项 */
   [ NULL_FIELD_AS = NULL | FIELD_DEFAULT ]
   [ MISSING_FIELD_AS = ERROR | NULL | FIELD_DEFAULT ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
   [ ALLOW_DUPLICATE_KEYS = TRUE | FALSE ]
   
   /* PARQUET 专用选项 */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
+  [ USE_LOGIC_TYPE = TRUE | FALSE ]
   
   /* ORC 专用选项 */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
   
   /* AVRO 专用选项 */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
+  [ USE_LOGIC_TYPE = TRUE | FALSE ]
 
 copyOptions ::=
-  [ SIZE_LIMIT = <num> ]
   [ PURGE = <bool> ]
   [ FORCE = <bool> ]
   [ DISABLE_VARIANT_CHECK = <bool> ]
@@ -181,12 +191,6 @@ copyOptions ::=
 
 ```
 
-:::note
-对于远程文件，你可以使用 glob 模式指定多个文件。例如：
-- `ontime_200{6,7,8}.csv` 表示 `ontime_2006.csv`、`ontime_2007.csv`、`ontime_2008.csv`
-- `ontime_200[6-8].csv` 表示相同的文件
-:::
-
 ## 关键参数
 
 - **FILES**：指定一个或多个待加载文件名（以逗号分隔）。
@@ -195,7 +199,7 @@ copyOptions ::=
 
 ## 格式类型选项
 
-`FILE_FORMAT` 参数支持多种文件类型，每种类型都有专属的格式选项。下表列出各支持格式的可用选项：
+`FILE_FORMAT` 参数支持多种文件类型，每种类型都有专属的格式选项。下表列出各支持格式的可用选项。完整说明请参见 [文件格式选项](../../00-sql-reference/50-file-format-options.md)。
 
 <Tabs>
 <TabItem value="common" label="通用选项" default>
@@ -222,6 +226,9 @@ copyOptions ::=
 | ERROR_ON_COLUMN_COUNT_MISMATCH | 列数不匹配时报错 | TRUE |
 | EMPTY_FIELD_AS | 空字段的处理方式 | null |
 | BINARY_FORMAT | 二进制数据的编码格式（HEX 或 BASE64） | HEX |
+| TRIM_SPACE | 去除字段前后 ASCII 空白字符 | FALSE |
+| ENCODING | 源文件字符集编码 | UTF-8 |
+| ENCODING_ERROR_MODE | 无效字节的处理方式：STRICT 或 REPLACE | STRICT |
 
 </TabItem>
 
@@ -231,6 +238,14 @@ copyOptions ::=
 |--------|-------------|--------|
 | RECORD_DELIMITER | 分隔记录的字符 | 换行符 |
 | FIELD_DELIMITER | 分隔字段的字符 | 制表符 (\t) |
+| SKIP_HEADER | 跳过的标题行数 | 0 |
+| TRIM_SPACE | 去除字段前后 ASCII 空白字符 | FALSE |
+| NAN_DISPLAY | 表示 NaN 值的字符串 | NaN |
+| NULL_DISPLAY | 表示 NULL 值的字符串 | \N |
+| EMPTY_FIELD_AS | 空字段的处理方式 | FIELD_DEFAULT |
+| ERROR_ON_COLUMN_COUNT_MISMATCH | 列数不匹配时报错 | TRUE |
+| ENCODING | 源文件字符集编码 | UTF-8 |
+| ENCODING_ERROR_MODE | 无效字节的处理方式：STRICT 或 REPLACE | STRICT |
 
 </TabItem>
 
@@ -240,6 +255,7 @@ copyOptions ::=
 |--------|-------------|--------|
 | NULL_FIELD_AS | 空字段的处理方式 | NULL |
 | MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+| NULL_IF | 视为 NULL 的字符串列表 | 空 |
 | ALLOW_DUPLICATE_KEYS | 是否允许对象键重复 | FALSE |
 
 </TabItem>
@@ -249,6 +265,8 @@ copyOptions ::=
 | 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+| NULL_IF | 视为 NULL 的字符串列表 | 空 |
+| USE_LOGIC_TYPE | 使用 Parquet 逻辑类型推断列类型 | TRUE |
 
 </TabItem>
 
@@ -265,6 +283,8 @@ copyOptions ::=
 | 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+| NULL_IF | 视为 NULL 的字符串列表 | 空 |
+| USE_LOGIC_TYPE | 使用 Avro 逻辑类型推断列类型 | TRUE |
 
 </TabItem>
 </Tabs>
@@ -273,7 +293,6 @@ copyOptions ::=
 
 | 参数 | 描述 | 默认值 |
 |-----------|-------------|----------|
-| SIZE_LIMIT | 最大加载行数 | `0`（无限制） |
 | PURGE | 成功加载后删除文件 | `false` |
 | FORCE | 允许重新加载重复文件 | `false`（跳过重复） |
 | DISABLE_VARIANT_CHECK | 将无效 JSON 替换为 null | `false`（无效 JSON 时报错） |
@@ -383,8 +402,7 @@ COPY INTO mytable
         FIELD_DELIMITER = ',',
         RECORD_DELIMITER = '\n',
         SKIP_HEADER = 1
-    )
-    SIZE_LIMIT = 10;
+    );
 ```
 
 **使用 IAM 角色（生产环境推荐）**

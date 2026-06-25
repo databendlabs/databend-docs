@@ -16,9 +16,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 CREATE [ OR REPLACE ] STAGE [ IF NOT EXISTS ] <internal_stage_name>
   [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC } [ formatTypeOptions ]
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO | LANCE } [ formatTypeOptions ]
        ) ]
-  [ COPY_OPTIONS = ( copyOptions ) ]
   [ COMMENT = '<string_literal>' ]
 
 -- 外部 Stage
@@ -26,9 +25,8 @@ CREATE STAGE [ IF NOT EXISTS ] <external_stage_name>
     externalStageParams
   [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC } [ formatTypeOptions ]
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO | LANCE } [ formatTypeOptions ]
        ) ]
-  [ COPY_OPTIONS = ( copyOptions ) ]
   [ COMMENT = '<string_literal>' ]
 ```
 
@@ -58,19 +56,6 @@ externalStageParams ::=
 
 详情请参见 [Input & Output File Formats](../../../00-sql-reference/50-file-format-options.md)。
 
-### copyOptions
-
-```sql
-copyOptions ::=
-  [ SIZE_LIMIT = <num> ]
-  [ PURGE = <bool> ]
-```
-
-| 参数                 | 描述                                                                          | 是否必须 |
-| :------------------- | :---------------------------------------------------------------------------- | :------- |
-| `SIZE_LIMIT = <num>` | 大于 0 的数字，指定单个 COPY 语句最多加载的数据行数。默认为 `0`。             | 可选     |
-| `PURGE = <bool>`     | 设为 true 表示文件成功加载到表后，命令会清理 Stage 中的文件。默认为 `false`。 | 可选     |
-
 ## 访问控制要求
 
 | 权限  | 对象类型 | 描述                                               |
@@ -90,10 +75,11 @@ CREATE STAGE my_internal_stage;
 
 DESC STAGE my_internal_stage;
 
-name             |stage_type|stage_params                                                  |copy_options                                                                                                                                                  |file_format_options             |number_of_files|creator           |comment|
------------------+----------+--------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------+---------------+------------------+-------+
-my_internal_stage|Internal  |StageParams { storage: Fs(StorageFsConfig { root: "_data" }) }|CopyOptions { on_error: AbortNum(1), size_limit: 0, max_files: 0, split_size: 0, purge: false, single: false, max_file_size: 0, disable_variant_check: false }|Parquet(ParquetFileFormatParams)|              0|'root'@'127.0.0.1'|       |
-
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│       name        │ stage_type │ storage_type │ url  │ endpoint │ has_credentials │ has_encryption_key │ storage_params │ file_format_options │  creator │         created_on         │ comment │     owner     │
+├───────────────────┼────────────┼──────────────┼──────┼──────────┼─────────────────┼────────────────────┼────────────────┼─────────────────────┼──────────┼────────────────────────────┼─────────┼───────────────┤
+│ my_internal_stage │ Internal   │ NULL         │ NULL │ NULL     │ false           │ false              │ NULL           │ {"compression":...} │ root@%   │ 2026-06-16 22:21:19.000000 │         │ account_admin │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 示例 2：使用 Connection 创建外部 Stage
@@ -113,11 +99,12 @@ CREATE STAGE my_s3_stage
   CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 
 DESC STAGE my_s3_stage;
-+-------------+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------+--------------------------------------------------------------------------------------------------------------------+---------+
-| name        | stage_type | stage_params                                                                                                                                                           | copy_options                                  | file_format_options                                                                                                | comment |
-+-------------+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------+--------------------------------------------------------------------------------------------------------------------+---------+
-| my_s3_stage | External   | StageParams { storage: S3(StageS3Storage { bucket: "load", path: "/files/", credentials_aws_key_id: "", credentials_aws_secret_key: "", encryption_master_key: "" }) } | CopyOptions { on_error: None, size_limit: 0 } | FileFormatOptions { format: Csv, skip_header: 0, field_delimiter: ",", record_delimiter: "\n", compression: None } |         |
-+-------------+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------+--------------------------------------------------------------------------------------------------------------------+---------+
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│    name     │ stage_type │ storage_type │       url        │ endpoint │ has_credentials │ has_encryption_key │   storage_params      │ file_format_options │ creator │         created_on         │ comment │     owner     │
+├─────────────┼────────────┼──────────────┼──────────────────┼──────────┼─────────────────┼────────────────────┼───────────────────────┼─────────────────────┼─────────┼────────────────────────────┼─────────┼───────────────┤
+│ my_s3_stage │ External   │ s3           │ s3://load/files/ │ NULL     │ true            │ false              │ {"bucket":"load",...} │ {"compression":...} │ root@%  │ 2026-06-16 22:21:19.000000 │         │ account_admin │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 示例 3：使用 AWS IAM 用户创建外部 Stage
