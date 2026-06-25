@@ -4,6 +4,10 @@ title: SQL Function Reference
 
 Databend provides comprehensive SQL functions for all types of data processing. Functions are organized by importance and usage frequency.
 
+:::tip Can't find the function you need?
+If none of the built-in functions below cover your logic, you can define your own with [User-Defined Functions (UDFs)](../10-sql-commands/00-ddl/10-udf/index.md). UDFs let you implement custom scalar, aggregate, and table functions using SQL expressions, Python, or JavaScript, then call them just like any built-in function. See [Extending with User-Defined Functions](#extending-with-user-defined-functions) below.
+:::
+
 ## Core Data Functions
 
 | Category                                                     | Description                              |
@@ -71,3 +75,16 @@ Databend provides comprehensive SQL functions for all types of data processing. 
 | [Data Anonymization Functions](./19-data-anonymization-functions/index.md) | Data masking and anonymization utilities    |
 | [Test Functions](./19-test-functions/index.md)                             | Testing and debugging utilities             |
 | [Other Functions](./20-other-functions/index.md)                           | Miscellaneous helpers and utilities         |
+
+## Extending with User-Defined Functions
+
+When the built-in functions above don't cover your specific logic, define your own with [User-Defined Functions (UDFs)](../10-sql-commands/00-ddl/10-udf/index.md). Once created, a UDF is called exactly like a built-in function in your queries.
+
+| Function Type                                                                                 | Use It When                                                                  |
+| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [Scalar Function (SQL)](../10-sql-commands/00-ddl/10-udf/ddl-create-function.md)              | You want to reuse a SQL expression across queries (math, string formatting). |
+| [Scalar Function (Python/JavaScript)](../10-sql-commands/00-ddl/10-udf/ddl-create-function.md) | Your logic needs control flow, external libraries, or advanced algorithms.   |
+| [Aggregate Function](../10-sql-commands/00-ddl/10-udf/ddl-create-aggregate-function.md)       | You need a custom aggregation that built-in aggregates can't express.        |
+| [Table Function](../10-sql-commands/00-ddl/10-udf/ddl-create-table-function.md)               | You want a reusable, parameterized query that returns a result set.          |
+
+For a full comparison of UDF types and syntax, see [User-Defined Function](../10-sql-commands/00-ddl/10-udf/index.md).

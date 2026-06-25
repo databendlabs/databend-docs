@@ -4,6 +4,10 @@ title: User-Defined Function
 
 User-Defined Functions (UDFs) in Databend allow you to create custom operations tailored to your specific data processing needs. This page highlights the commands you will use most often and helps you choose the right function type for your use case.
 
+:::tip Check the built-in functions first
+Databend ships hundreds of built-in functions covering math, strings, dates, JSON, aggregation, and more. Before writing a UDF, browse the [SQL Function Reference](../../../20-sql-functions/index.md) to see if one already does what you need. Reach for a UDF when the built-ins can't express your logic.
+:::
+
 ## Function Management Commands
 
 | Command | Description |
