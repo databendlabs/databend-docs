@@ -15,14 +15,14 @@ Connect AI assistants to Databend through the [Model Context Protocol](https://m
 - Explore databases, tables, schemas, warehouses, and your account identity.
 - Run queries and inspect results directly from your AI assistant.
 
-There are two ways to connect:
+Which one you use depends on your deployment:
 
-| Option | Best for | Auth |
+| Option | Use when | Auth |
 | ------ | -------- | ---- |
-| **Hosted MCP server (recommended)** | Databend Cloud users | OAuth sign-in, no token to manage |
-| **Local `mcp-databend` server** | Self-hosted Databend, or DSN-based setups | DSN (username/password) |
+| **Hosted MCP server** | You are on Databend Cloud | OAuth sign-in, no token to manage |
+| **Local `mcp-databend` server** | You run self-hosted Databend, or want a fixed DSN-based account | DSN (username/password) |
 
-## Hosted MCP Server (Recommended)
+## Hosted MCP Server (Databend Cloud)
 
 Databend Cloud runs a managed remote MCP server. You point your client at a single URL and sign in through your browser — there is no DSN to assemble, no token to paste, and nothing to install locally. Access is scoped to your Databend Cloud account and the organization (and optional SQL role) you pick at sign-in.
 
@@ -167,10 +167,10 @@ For the full privilege list and grant syntax, see [Access Control](/guides/secur
 
 `execute_sql` runs arbitrary SQL — it is **not limited to read-only**. What the agent can actually do is governed by the RBAC privileges of your Databend Cloud account and the SQL role bound to the session. For AI agents, bind the session to a [read-only role](#recommended-a-read-only-role) at sign-in.
 
-## Self-Hosted: Local `mcp-databend` Server
+## Local `mcp-databend` Server
 
-:::tip[Using Databend Cloud?]
-Prefer the [hosted MCP server](#hosted-mcp-server-recommended) above. It needs no local install and no DSN. The steps below are for **self-hosted Databend**, or when you need a fixed DSN-based account (for example, CI pipelines).
+:::tip[On Databend Cloud?]
+You can use the [hosted MCP server](#hosted-mcp-server-databend-cloud) above instead — no local install and no DSN. The steps below are required for **self-hosted Databend**, and also work on Cloud when you need a fixed DSN-based account (for example, CI pipelines).
 :::
 
 [mcp-databend](https://github.com/databendlabs/mcp-databend) is a local MCP server you run on your own machine and point at Databend with a DSN.

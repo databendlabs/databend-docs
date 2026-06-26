@@ -2,8 +2,8 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 # MCP Server for Databend
 
-:::caution[Legacy approach]
-This tutorial uses the **local** `mcp-databend` server with a DSN. If you are on Databend Cloud, use the **hosted MCP server** instead — point your AI client at `https://mcp.databend.com/mcp` and sign in through your browser, with no DSN or local install. See [MCP Client Integration](03-mcp-integration.md). The local server below remains useful for self-hosted Databend.
+:::tip[On Databend Cloud?]
+This tutorial uses the **local** `mcp-databend` server with a DSN, which is the way to connect **self-hosted Databend**. If you are on Databend Cloud, you can instead use the **hosted MCP server** — point your AI client at `https://mcp.databend.com/mcp` and sign in through your browser, with no DSN or local install. See [MCP Client Integration](03-mcp-integration.md).
 :::
 
 [mcp-databend](https://github.com/databendlabs/mcp-databend) is an MCP (Model Context Protocol) server that enables AI assistants to interact directly with your Databend database using natural language.

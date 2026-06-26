@@ -28,6 +28,6 @@ MCP（Model Context Protocol）服务器让 AI 助手能够用自然语言查询
 
 **[外部函数指南](01-external-functions.md)** —— 通过示例学习如何创建和部署自定义 AI 函数
 
-**[MCP Client 集成](03-mcp-integration.md)** —— 将 AI 助手连接到托管的 Databend Cloud MCP Server（推荐），或为自托管 Databend 运行本地 `mcp-databend` Server
+**[MCP Client 集成](03-mcp-integration.md)** —— 将 AI 助手连接到托管的 Databend Cloud MCP Server，或为自托管 Databend 运行本地 `mcp-databend` Server
 
-**[MCP 服务器指南](02-mcp.md)** —— 旧方案：使用本地 mcp-databend 构建对话式 BI 工具
+**[MCP 服务器指南](02-mcp.md)** —— 使用本地 mcp-databend 构建对话式 BI 工具（也是连接自托管 Databend 的方式）

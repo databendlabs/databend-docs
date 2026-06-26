@@ -28,6 +28,6 @@ The Model Context Protocol (MCP) server enables AI assistants to interact with y
 
 **[External Functions Guide](01-external-functions.md)** - Learn how to create and deploy custom AI functions with practical examples and implementation guidance
 
-**[MCP Client Integration](03-mcp-integration.md)** - Connect your AI assistant to the hosted Databend Cloud MCP server (recommended), or run the local `mcp-databend` server for self-hosted Databend
+**[MCP Client Integration](03-mcp-integration.md)** - Connect your AI assistant to the hosted Databend Cloud MCP server, or run the local `mcp-databend` server for self-hosted Databend
 
-**[MCP Server Guide](02-mcp.md)** - Legacy: build a conversational BI tool using the local mcp-databend server
+**[MCP Server Guide](02-mcp.md)** - Build a conversational BI tool using the local mcp-databend server (also the way to connect self-hosted Databend)

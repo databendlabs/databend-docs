@@ -15,14 +15,14 @@ import TabItem from '@theme/TabItem';
 - 探索数据库、表、Schema、计算集群以及账号身份。
 - 直接在 AI 助手中执行查询并查看结果。
 
-有两种接入方式：
+使用哪一种取决于你的部署方式：
 
 | 方式 | 适用场景 | 认证 |
 | ---- | -------- | ---- |
-| **托管 MCP Server（推荐）** | Databend Cloud 用户 | OAuth 登录，无需管理 token |
-| **本地 `mcp-databend` Server** | 自托管 Databend，或基于 DSN 的场景 | DSN（用户名/密码） |
+| **托管 MCP Server** | 使用 Databend Cloud | OAuth 登录，无需管理 token |
+| **本地 `mcp-databend` Server** | 自托管 Databend，或需要固定 DSN 账号 | DSN（用户名/密码） |
 
-## 托管 MCP Server（推荐）
+## 托管 MCP Server（Databend Cloud）
 
 Databend Cloud 提供托管的远程 MCP Server。你只需将客户端指向一个 URL 并在浏览器中登录即可，无需拼接 DSN、无需粘贴 token、本地也不用安装任何东西。访问范围限定在你的 Databend Cloud 账号，以及登录时所选择的组织（和可选的 SQL role）。
 
@@ -167,10 +167,10 @@ GRANT ROLE ai_readonly TO USER '<your_account_email>';
 
 `execute_sql` 执行任意 SQL，**不限于只读**。Agent 实际能执行的操作由你 Databend Cloud 账号的 RBAC 权限以及会话绑定的 SQL role 决定。对于 AI Agent，建议在登录时将会话绑定到一个[只读 role](#推荐创建只读-role)。
 
-## 自托管：本地 `mcp-databend` Server
+## 本地 `mcp-databend` Server
 
 :::tip[使用 Databend Cloud？]
-请优先使用上面的[托管 MCP Server](#托管-mcp-server推荐)，无需本地安装、无需 DSN。下面的步骤适用于**自托管 Databend**，或需要固定 DSN 账号的场景（例如 CI 流水线）。
+你也可以使用上面的[托管 MCP Server](#托管-mcp-serverdatabend-cloud)，无需本地安装、无需 DSN。下面的步骤是**自托管 Databend** 的必需方式，在 Cloud 上需要固定 DSN 账号时（例如 CI 流水线）同样适用。
 :::
 
 [mcp-databend](https://github.com/databendlabs/mcp-databend) 是一个在本机运行的 MCP Server，通过 DSN 连接到 Databend。
