@@ -294,10 +294,4 @@ uv tool run --from mcp-databend@latest mcp-databend
 | `list_tables`    | 列出表，可按数据库过滤。                                                   |
 | `describe_table` | 查看表结构。                                                               |
 
-`list_*` 和 `describe_table` 只是常用元数据查询的便捷封装。其余操作 —— 包括 Stage 和 Connection —— 都通过 `execute_sql` 完成，因为它们本质都是 SQL 语句：
-
-- **Stage：** [`SHOW STAGES`](/sql/sql-commands/ddl/stage/ddl-show-stages)、[`LIST @<stage>`](/sql/sql-commands/ddl/stage/ddl-list-stage)、[`CREATE STAGE`](/sql/sql-commands/ddl/stage/ddl-create-stage)。
-- **Connection：** [`SHOW CONNECTIONS`](/sql/sql-commands/ddl/connection/show-connections)、[`CREATE CONNECTION`](/sql/sql-commands/ddl/connection/create-connection)。
-- **Task、COPY、MERGE** 以及绑定 role 允许执行的任何其他 DDL/DML。
-
-本地 `mcp-databend` Server 在这一点上是一样的 —— 它的 `show_stages`、`list_stage_files`、`create_stage`、`show_connections` 工具都只是上述 SQL 的薄封装。
+`list_*` 和 `describe_table` 是常用元数据查询的快捷方式。其余操作 —— Stage、Connection、定时任务、`COPY`、`MERGE`，以及绑定 role 允许执行的任何其他操作 —— 都可以通过 `execute_sql` 完成。例如，让 Agent “列出我的 Stage”或“创建一个到 S3 的 Connection”，它会执行对应的 SQL（[`SHOW STAGES`](/sql/sql-commands/ddl/stage/ddl-show-stages)、[`CREATE CONNECTION`](/sql/sql-commands/ddl/connection/create-connection) 等）。

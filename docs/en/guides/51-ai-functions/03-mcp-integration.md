@@ -294,10 +294,4 @@ The hosted Cloud server exposes a focused set of tools:
 | `list_tables`    | List tables, optionally filtered by database.                               |
 | `describe_table` | Get table schema information.                                               |
 
-The `list_*` and `describe_table` tools are convenience wrappers around common metadata queries. Anything else — including stage and connection operations — is done through `execute_sql`, since those are all SQL statements:
-
-- **Stages:** [`SHOW STAGES`](/sql/sql-commands/ddl/stage/ddl-show-stages), [`LIST @<stage>`](/sql/sql-commands/ddl/stage/ddl-list-stage), [`CREATE STAGE`](/sql/sql-commands/ddl/stage/ddl-create-stage).
-- **Connections:** [`SHOW CONNECTIONS`](/sql/sql-commands/ddl/connection/show-connections), [`CREATE CONNECTION`](/sql/sql-commands/ddl/connection/create-connection).
-- **Tasks, COPY, MERGE,** and any other DDL/DML the bound role is allowed to run.
-
-The local `mcp-databend` server is the same in this respect — its `show_stages`, `list_stage_files`, `create_stage`, and `show_connections` tools are thin wrappers over the SQL above.
+The `list_*` and `describe_table` tools are shortcuts for common metadata lookups. Everything else — stages, connections, scheduled tasks, `COPY`, `MERGE`, and any other operation your bound role is allowed to run — is available through `execute_sql`. For example, ask the agent to "list my stages" or "create a connection to S3" and it runs the corresponding SQL ([`SHOW STAGES`](/sql/sql-commands/ddl/stage/ddl-show-stages), [`CREATE CONNECTION`](/sql/sql-commands/ddl/connection/create-connection), and so on).
