@@ -74,6 +74,17 @@ url = "https://mcp.databend.cn/mcp"
 
 </TabItem>
 
+<TabItem value="kimi-code" label="Kimi Code">
+
+```bash
+kimi mcp add --transport http --auth oauth databend https://mcp.databend.cn/mcp
+kimi mcp auth databend
+```
+
+`kimi mcp add --auth oauth` 以 OAuth 模式注册 server；`kimi mcp auth databend` 完成浏览器登录。
+
+</TabItem>
+
 <TabItem value="cursor" label="Cursor">
 
 添加到 `~/.cursor/mcp.json`：

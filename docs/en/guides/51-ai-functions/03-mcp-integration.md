@@ -74,6 +74,17 @@ url = "https://mcp.databend.com/mcp"
 
 </TabItem>
 
+<TabItem value="kimi-code" label="Kimi Code">
+
+```bash
+kimi mcp add --transport http --auth oauth databend https://mcp.databend.com/mcp
+kimi mcp auth databend
+```
+
+`kimi mcp add --auth oauth` registers the server in OAuth mode; `kimi mcp auth databend` completes the browser sign-in.
+
+</TabItem>
+
 <TabItem value="cursor" label="Cursor">
 
 Add to `~/.cursor/mcp.json`:
