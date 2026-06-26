@@ -107,9 +107,29 @@ Run **MCP: Open User Configuration** to open `mcp.json` (or create `.vscode/mcp.
 
 </TabItem>
 
+<TabItem value="gemini-cli" label="Gemini CLI">
+
+```bash
+gemini mcp add --transport http databend https://mcp.databend.com/mcp
+```
+
+Or add to `~/.gemini/settings.json` — use `httpUrl` (the Streamable HTTP endpoint), not `url` (which Gemini treats as SSE):
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "httpUrl": "https://mcp.databend.com/mcp"
+    }
+  }
+}
+```
+
+</TabItem>
+
 <TabItem value="generic" label="Other clients">
 
-Any client that accepts a remote MCP server URL works the same way — fill in the server URL and let the client negotiate OAuth:
+Any client that accepts a remote MCP server URL works the same way — enter the server URL (using the client's Streamable HTTP field) and let it run the OAuth sign-in:
 
 ```json
 {
@@ -159,6 +179,10 @@ GRANT ROLE ai_readonly TO USER '<your_account_email>';
 ```
 
 For the full privilege list and grant syntax, see [Access Control](/guides/security/access-control), [GRANT](/sql/sql-commands/ddl/user/grant), and [CREATE ROLE](/sql/sql-commands/ddl/user/user-create-role).
+
+:::note
+If your organization has [Warehouse Access Control](/guides/cloud/resources/warehouses#warehouse-access-control) enabled, a warehouse only accepts roles assigned to it. Make sure `ai_readonly` is assigned to the warehouse the agent will use (in the warehouse's **Advanced Options**), otherwise queries fail after you pick the role at sign-in.
+:::
 
 ### Organization and role scope
 
@@ -256,6 +280,97 @@ Add to `~/.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:443/database?warehouse=your_warehouse",
+        "DATABEND_MCP_SAFE_MODE": "true"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="kimi-code" label="Kimi Code">
+
+```bash
+kimi mcp add --transport stdio databend \
+  --env DATABEND_DSN='databend://user:password@host:443/database?warehouse=your_warehouse' \
+  --env DATABEND_MCP_SAFE_MODE=true \
+  -- uv tool run --from mcp-databend@latest mcp-databend
+```
+
+Or add to `~/.kimi/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:443/database?warehouse=your_warehouse",
+        "DATABEND_MCP_SAFE_MODE": "true"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="gemini-cli" label="Gemini CLI">
+
+Add to `~/.gemini/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:443/database?warehouse=your_warehouse",
+        "DATABEND_MCP_SAFE_MODE": "true"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="claude-desktop" label="Claude Desktop">
+
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, or `%APPDATA%\Claude\claude_desktop_config.json` on Windows:
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:443/database?warehouse=your_warehouse",
+        "DATABEND_MCP_SAFE_MODE": "true"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="vscode" label="VS Code">
+
+Run **MCP: Open User Configuration** to open `mcp.json` (or create `.vscode/mcp.json` in your workspace) and add:
+
+```json
+{
+  "servers": {
     "databend": {
       "command": "uv",
       "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],

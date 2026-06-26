@@ -107,9 +107,29 @@ url = "https://mcp.databend.cn/mcp"
 
 </TabItem>
 
+<TabItem value="gemini-cli" label="Gemini CLI">
+
+```bash
+gemini mcp add --transport http databend https://mcp.databend.cn/mcp
+```
+
+或添加到 `~/.gemini/settings.json` —— 使用 `httpUrl`（Streamable HTTP 端点），不要用 `url`（Gemini 将其视为 SSE）：
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "httpUrl": "https://mcp.databend.cn/mcp"
+    }
+  }
+}
+```
+
+</TabItem>
+
 <TabItem value="generic" label="其他客户端">
 
-任何支持远程 MCP Server URL 的客户端都以相同方式接入 —— 填入 Server 地址，让客户端自动协商 OAuth：
+任何支持远程 MCP Server URL 的客户端都以相同方式接入 —— 填入 Server 地址（使用客户端的 Streamable HTTP 字段），让它完成 OAuth 登录：
 
 ```json
 {
@@ -159,6 +179,10 @@ GRANT ROLE ai_readonly TO USER '<your_account_email>';
 ```
 
 完整的权限列表与授权语法，参阅 [访问控制](/guides/security/access-control)、[GRANT](/sql/sql-commands/ddl/user/grant) 和 [CREATE ROLE](/sql/sql-commands/ddl/user/user-create-role)。
+
+:::note
+如果你的组织启用了[计算集群访问控制](/guides/cloud/resources/warehouses#warehouse-access-control)，则计算集群只接受被分配给它的 role。请确保 `ai_readonly` 已分配给 Agent 将使用的计算集群（在该集群的 **Advanced Options** 中），否则在登录时选择该 role 后查询会失败。
+:::
 
 ### 组织与 role 范围
 
@@ -256,6 +280,97 @@ claude mcp add databend \
 ```json
 {
   "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:443/database?warehouse=your_warehouse",
+        "DATABEND_MCP_SAFE_MODE": "true"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="kimi-code" label="Kimi Code">
+
+```bash
+kimi mcp add --transport stdio databend \
+  --env DATABEND_DSN='databend://user:password@host:443/database?warehouse=your_warehouse' \
+  --env DATABEND_MCP_SAFE_MODE=true \
+  -- uv tool run --from mcp-databend@latest mcp-databend
+```
+
+或添加到 `~/.kimi/mcp.json`：
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:443/database?warehouse=your_warehouse",
+        "DATABEND_MCP_SAFE_MODE": "true"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="gemini-cli" label="Gemini CLI">
+
+添加到 `~/.gemini/settings.json`：
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:443/database?warehouse=your_warehouse",
+        "DATABEND_MCP_SAFE_MODE": "true"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="claude-desktop" label="Claude Desktop">
+
+添加到 macOS 的 `~/Library/Application Support/Claude/claude_desktop_config.json`，或 Windows 的 `%APPDATA%\Claude\claude_desktop_config.json`：
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:443/database?warehouse=your_warehouse",
+        "DATABEND_MCP_SAFE_MODE": "true"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="vscode" label="VS Code">
+
+运行 **MCP: Open User Configuration** 打开 `mcp.json`（或在工作区创建 `.vscode/mcp.json`），添加：
+
+```json
+{
+  "servers": {
     "databend": {
       "command": "uv",
       "args": ["tool", "run", "--from", "mcp-databend@latest", "mcp-databend"],
