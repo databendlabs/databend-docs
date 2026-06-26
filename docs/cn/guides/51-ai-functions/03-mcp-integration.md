@@ -192,7 +192,7 @@ GRANT ROLE ai_readonly TO USER '<your_account_email>';
 完整的权限列表与授权语法，参阅 [访问控制](/guides/security/access-control)、[GRANT](/sql/sql-commands/ddl/user/grant) 和 [CREATE ROLE](/sql/sql-commands/ddl/user/user-create-role)。
 
 :::note
-如果你的组织启用了[计算集群访问控制](/guides/cloud/resources/warehouses#warehouse-access-control)，则计算集群只接受被分配给它的 role。请确保 `ai_readonly` 已分配给 Agent 将使用的计算集群（在该集群的 **Advanced Options** 中），否则在登录时选择该 role 后查询会失败。
+如果你的组织启用了[计算集群访问控制](/guides/cloud/resources/warehouses#计算集群访问控制)，则计算集群只接受被分配给它的 role。请确保 `ai_readonly` 已分配给 Agent 将使用的计算集群（在该集群的 **Advanced Options** 中），否则在登录时选择该 role 后查询会失败。
 :::
 
 ### 组织与 role 范围
