@@ -163,6 +163,19 @@ GRANT ROLE ai_readonly TO USER '<your_account_email>';
 - 一个会话绑定**单一组织** —— 即登录时所选的那个。要操作其他组织，需**重新授权**（触发客户端的重新连接/重新登录，或让 token 自然过期），然后在同意页选择另一个组织。
 - 如果登录时选择了 SQL role，会话将被**限制在该 role 之内**。Agent 无法在会话中提权到更宽的 role。在服务端撤销或降级该 role，会在下次 token 续期时生效。
 
+如需**同时操作多个组织（或多个账号）**，可以添加多个**名字不同、地址相同**的 server 条目，在各自的浏览器授权流程中分别选择不同的组织（或用不同账号登录）：
+
+```json
+{
+  "mcpServers": {
+    "databend-org-a": { "url": "https://mcp.databend.cn/mcp" },
+    "databend-org-b": { "url": "https://mcp.databend.cn/mcp" }
+  }
+}
+```
+
+每个条目各自持有一份绑定单一组织的 token，因此两个连接可以并存使用。前提是你的 MCP 客户端按 server 条目分别存储 OAuth 凭据（多数客户端如此）；若某个客户端按 URL 缓存 token，则两个条目会共用同一份凭据，此方式失效。
+
 ### 权限
 
 `execute_sql` 执行任意 SQL，**不限于只读**。Agent 实际能执行的操作由你 Databend Cloud 账号的 RBAC 权限以及会话绑定的 SQL role 决定。对于 AI Agent，建议在登录时将会话绑定到一个[只读 role](#推荐创建只读-role)。

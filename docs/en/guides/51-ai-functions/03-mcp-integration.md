@@ -163,6 +163,19 @@ For the full privilege list and grant syntax, see [Access Control](/guides/secur
 - A session is bound to a **single organization** — the one you chose at sign-in. To act on a different org, **re-authorize** (trigger your client's reconnect/re-login, or let the token expire) and pick another org on the consent page.
 - If you selected a SQL role at sign-in, the session is **capped at that role**. The agent cannot escalate to a broader role within the session. Revoking or downgrading the role on the server takes effect on the next token refresh.
 
+To work with **several organizations (or accounts) at once**, add multiple server entries with **different names but the same URL**, and authorize each to a different org (or sign in with a different account) during its browser flow:
+
+```json
+{
+  "mcpServers": {
+    "databend-org-a": { "url": "https://mcp.databend.com/mcp" },
+    "databend-org-b": { "url": "https://mcp.databend.com/mcp" }
+  }
+}
+```
+
+Each entry holds its own token bound to one org, so both stay usable side by side. This works as long as your MCP client stores OAuth credentials per server entry (most do); a client that caches tokens by URL would share one credential across both entries.
+
 ### Permissions
 
 `execute_sql` runs arbitrary SQL — it is **not limited to read-only**. What the agent can actually do is governed by the RBAC privileges of your Databend Cloud account and the SQL role bound to the session. For AI agents, bind the session to a [read-only role](#recommended-a-read-only-role) at sign-in.
