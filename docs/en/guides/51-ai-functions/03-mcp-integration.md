@@ -58,7 +58,11 @@ The first time a tool is called, Claude Code opens your browser to complete the 
 
 <TabItem value="codex" label="Codex">
 
-Add to `~/.codex/config.toml`:
+```bash
+codex mcp add databend --url https://mcp.databend.com/mcp
+```
+
+Or add to `~/.codex/config.toml`:
 
 ```toml
 [mcp_servers.databend]

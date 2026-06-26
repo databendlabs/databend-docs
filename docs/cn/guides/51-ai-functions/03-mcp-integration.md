@@ -58,7 +58,11 @@ claude mcp add databend https://mcp.databend.cn/mcp
 
 <TabItem value="codex" label="Codex">
 
-添加到 `~/.codex/config.toml`：
+```bash
+codex mcp add databend --url https://mcp.databend.cn/mcp
+```
+
+或添加到 `~/.codex/config.toml`：
 
 ```toml
 [mcp_servers.databend]
