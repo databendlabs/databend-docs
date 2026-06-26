@@ -56,6 +56,19 @@ claude mcp add databend https://mcp.databend.cn/mcp
 
 </TabItem>
 
+<TabItem value="codex" label="Codex">
+
+添加到 `~/.codex/config.toml`：
+
+```toml
+[mcp_servers.databend]
+url = "https://mcp.databend.cn/mcp"
+```
+
+首次连接时，Codex 会打开浏览器完成 OAuth 登录。
+
+</TabItem>
+
 <TabItem value="cursor" label="Cursor">
 
 添加到 `~/.cursor/mcp.json`：

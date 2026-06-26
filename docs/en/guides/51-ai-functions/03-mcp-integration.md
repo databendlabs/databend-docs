@@ -56,6 +56,19 @@ The first time a tool is called, Claude Code opens your browser to complete the 
 
 </TabItem>
 
+<TabItem value="codex" label="Codex">
+
+Add to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.databend]
+url = "https://mcp.databend.com/mcp"
+```
+
+Codex opens your browser for the OAuth sign-in on first connect.
+
+</TabItem>
+
 <TabItem value="cursor" label="Cursor">
 
 Add to `~/.cursor/mcp.json`:
