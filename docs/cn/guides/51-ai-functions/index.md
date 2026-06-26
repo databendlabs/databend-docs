@@ -16,18 +16,18 @@ Databend 提供两种方式实现 AI/ML 能力：使用自有基础设施构建 
 
 ## MCP 服务器 —— 用自然语言查数据
 
-MCP（Model Context Protocol）服务器让 AI 助手能够用自然语言查询 Databend 数据库，非常适合构建对话式 BI 工具。
+MCP（Model Context Protocol）服务器让 AI 助手能够用自然语言查询 Databend 数据库，非常适合构建对话式 BI 工具。在 Databend Cloud 上，将 AI 客户端指向**托管 MCP Server** 并在浏览器中登录即可 —— 无需 DSN、无需本地安装。
 
 | 特性 | 优势 |
 |---------|----------|
 | **自然语言查询** | 用日常语言提问即可获取数据 |
-| **AI 助手集成** | 支持 Claude、ChatGPT 及自定义 Agent |
-| **即时洞察** | 实时从数据中获取分析结论 |
+| **AI 助手集成** | 支持 Claude、Cursor、Codex 及自定义 Agent |
+| **OAuth 登录** | 一个 URL 即可接入，无需管理 token |
 
 ## 快速上手
 
 **[外部函数指南](01-external-functions.md)** —— 通过示例学习如何创建和部署自定义 AI 函数
 
-**[MCP 服务器指南](02-mcp.md)** —— 使用 mcp-databend 构建自然语言驱动的 BI 工具
+**[MCP Client 集成](03-mcp-integration.md)** —— 将 AI 助手连接到托管的 Databend Cloud MCP Server（推荐），或为自托管 Databend 运行本地 `mcp-databend` Server
 
-**[MCP Client 集成](03-mcp-integration.md)** —— 配置通用 MCP 客户端（如 Codex）连接 Databend
+**[MCP 服务器指南](02-mcp.md)** —— 旧方案：使用本地 mcp-databend 构建对话式 BI 工具
