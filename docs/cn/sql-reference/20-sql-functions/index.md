@@ -4,6 +4,10 @@ title: SQL 函数参考
 
 Databend 为各类数据处理提供了全面的 SQL 函数。函数按重要性和使用频率组织。
 
+:::tip
+**没找到需要的函数？** 如果下面的内置函数都无法覆盖你的逻辑，可以通过[用户自定义函数（UDF）](../10-sql-commands/00-ddl/10-udf/index.md)自行定义。UDF 支持使用 SQL 表达式、Python 或 JavaScript 实现自定义的标量、聚合和表函数，创建后即可像内置函数一样直接调用。详见下方[使用用户自定义函数扩展](#使用用户自定义函数扩展)。
+:::
+
 ## 核心数据函数
 
 | 类别                                               | 描述                     |
@@ -71,3 +75,16 @@ Databend 为各类数据处理提供了全面的 SQL 函数。函数按重要性
 | [数据匿名化函数](./19-data-anonymization-functions/index.md) | 数据脱敏与匿名化工具   |
 | [测试函数](./19-test-functions/index.md)                     | 测试与调试工具         |
 | [其他函数](./20-other-functions/index.md)                    | 杂项辅助与实用工具     |
+
+## 使用用户自定义函数扩展
+
+当上述内置函数无法满足你的特定逻辑时，可以通过[用户自定义函数（UDF）](../10-sql-commands/00-ddl/10-udf/index.md)自行定义。创建后，UDF 在查询中的调用方式与内置函数完全相同。
+
+| 函数类型                                                                                       | 适用场景                                               |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| [标量函数（SQL）](../10-sql-commands/00-ddl/10-udf/ddl-create-function.md)                     | 想在多个查询中复用某个 SQL 表达式（数学、字符串格式化）。 |
+| [标量函数（Python/JavaScript）](../10-sql-commands/00-ddl/10-udf/ddl-create-function.md)        | 逻辑需要控制流、外部库或高级算法。                     |
+| [聚合函数](../10-sql-commands/00-ddl/10-udf/ddl-create-aggregate-function.md)                  | 需要内置聚合函数无法表达的自定义聚合。                 |
+| [表函数](../10-sql-commands/00-ddl/10-udf/ddl-create-table-function.md)                        | 想要一个可复用、带参数并返回结果集的查询。             |
+
+各 UDF 类型的完整对比与语法，请参见[用户自定义函数](../10-sql-commands/00-ddl/10-udf/index.md)。
