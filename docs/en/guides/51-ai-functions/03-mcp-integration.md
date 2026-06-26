@@ -30,7 +30,7 @@ Databend Cloud runs a managed remote MCP server. You point your client at a sing
 
 ### Connect with a single URL
 
-Most MCP clients support remote servers over Streamable HTTP. Add the server URL and the client handles OAuth automatically: on first connect it opens your browser, you log in to Databend Cloud, choose an organization, and click **Allow**. The client stores the resulting token and refreshes it silently — you never handle the token yourself.
+Most MCP clients support remote servers over Streamable HTTP. You add the server URL, then complete a one-time OAuth sign-in in your browser — log in to Databend Cloud, choose an organization, and click **Allow**. Some clients open the browser automatically; others need an explicit login step (see the per-client tabs below). Once signed in, the client stores the token and refreshes it silently — you never handle the token yourself.
 
 <Tabs groupId="mcp-clients">
 
@@ -52,7 +52,7 @@ This writes the server entry into your client's config file and triggers the bro
 claude mcp add --transport http databend https://mcp.databend.com/mcp
 ```
 
-The first time a tool is called, Claude Code opens your browser to complete the OAuth sign-in.
+Adding the server only registers it. Complete the OAuth sign-in by running `/mcp` inside Claude Code (or `claude mcp login databend` on the command line) and following the browser prompts.
 
 </TabItem>
 
@@ -60,6 +60,7 @@ The first time a tool is called, Claude Code opens your browser to complete the 
 
 ```bash
 codex mcp add databend --url https://mcp.databend.com/mcp
+codex mcp login databend
 ```
 
 Or add to `~/.codex/config.toml`:
@@ -69,13 +70,7 @@ Or add to `~/.codex/config.toml`:
 url = "https://mcp.databend.com/mcp"
 ```
 
-If you edited `config.toml` directly, trigger the OAuth sign-in with:
-
-```bash
-codex mcp login databend
-```
-
-(The `codex mcp add --url` command starts this flow for you.)
+`codex mcp add --url` (or editing `config.toml`) only registers the server. Run `codex mcp login databend` to complete the OAuth sign-in in your browser.
 
 </TabItem>
 
@@ -136,7 +131,7 @@ Config field names differ between clients (`url`, `serverUrl`, transport flags, 
 
 ### How sign-in works
 
-On first connect your client receives an authorization challenge and opens `https://app.databend.com` in your browser:
+When you start the OAuth sign-in (automatically or via your client's login step), the browser opens `https://app.databend.com`:
 
 1. Log in to Databend Cloud (if you are not already).
 2. On the consent page, pick the **organization** the MCP session should act on.

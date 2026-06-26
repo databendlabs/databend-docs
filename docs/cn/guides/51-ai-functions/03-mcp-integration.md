@@ -30,7 +30,7 @@ Databend Cloud 提供托管的远程 MCP Server。你只需将客户端指向一
 
 ### 用一个 URL 接入
 
-大多数 MCP 客户端通过 Streamable HTTP 支持远程 Server。只需填入 Server 地址，客户端会自动处理 OAuth：首次连接时打开浏览器，你登录 Databend Cloud、选择组织、点击 **Allow**。客户端保存得到的 token 并在过期时静默续期 —— 你自始至终不需要接触 token。
+大多数 MCP 客户端通过 Streamable HTTP 支持远程 Server。你先填入 Server 地址，然后在浏览器中完成一次性的 OAuth 登录 —— 登录 Databend Cloud、选择组织、点击 **Allow**。部分客户端会自动打开浏览器，其余客户端需要一个显式的登录步骤（见下方各客户端标签页）。登录后，客户端保存 token 并在过期时静默续期 —— 你自始至终不需要接触 token。
 
 <Tabs groupId="mcp-clients">
 
@@ -52,7 +52,7 @@ npx add-mcp https://mcp.databend.cn/mcp
 claude mcp add --transport http databend https://mcp.databend.cn/mcp
 ```
 
-首次调用工具时，Claude Code 会打开浏览器完成 OAuth 登录。
+添加 server 只是完成注册。在 Claude Code 中运行 `/mcp`（或在命令行运行 `claude mcp login databend`）并按浏览器提示完成 OAuth 登录。
 
 </TabItem>
 
@@ -60,6 +60,7 @@ claude mcp add --transport http databend https://mcp.databend.cn/mcp
 
 ```bash
 codex mcp add databend --url https://mcp.databend.cn/mcp
+codex mcp login databend
 ```
 
 或添加到 `~/.codex/config.toml`：
@@ -69,13 +70,7 @@ codex mcp add databend --url https://mcp.databend.cn/mcp
 url = "https://mcp.databend.cn/mcp"
 ```
 
-如果你直接编辑 `config.toml`，需手动触发 OAuth 登录：
-
-```bash
-codex mcp login databend
-```
-
-（使用 `codex mcp add --url` 命令则会自动发起该流程。）
+`codex mcp add --url`（或编辑 `config.toml`）只是注册 server。运行 `codex mcp login databend` 在浏览器中完成 OAuth 登录。
 
 </TabItem>
 
@@ -136,7 +131,7 @@ codex mcp login databend
 
 ### 登录流程
 
-首次连接时，客户端会收到一个授权挑战并在浏览器中打开 `https://app.databend.cn`：
+当你发起 OAuth 登录时（自动或通过客户端的登录步骤），浏览器会打开 `https://app.databend.cn`：
 
 1. 登录 Databend Cloud（如尚未登录）。
 2. 在同意页选择该 MCP 会话所作用的**组织**。
