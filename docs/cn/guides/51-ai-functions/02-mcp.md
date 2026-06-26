@@ -6,6 +6,10 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 # 集成 MCP Server
 
+:::tip[使用 Databend Cloud？]
+本教程使用**本地** `mcp-databend` Server 配合 DSN，这也是连接**自托管 Databend** 的方式。如果你使用 Databend Cloud，也可以改用**托管 MCP Server** —— 将 AI 客户端指向 `https://mcp.databend.cn/mcp` 并在浏览器中登录，无需 DSN、无需本地安装。参阅 [MCP Client 集成](03-mcp-integration.md)。
+:::
+
 [mcp-databend](https://github.com/databendlabs/mcp-databend) 是一个 MCP（Model Context Protocol）服务器，使 AI 助手能够使用自然语言直接与你的 Databend 数据库交互。
 
 ## mcp-databend 能做什么
