@@ -49,7 +49,7 @@ npx add-mcp https://mcp.databend.cn/mcp
 <TabItem value="claude-code" label="Claude Code">
 
 ```bash
-claude mcp add databend https://mcp.databend.cn/mcp
+claude mcp add --transport http databend https://mcp.databend.cn/mcp
 ```
 
 首次调用工具时，Claude Code 会打开浏览器完成 OAuth 登录。
@@ -69,7 +69,13 @@ codex mcp add databend --url https://mcp.databend.cn/mcp
 url = "https://mcp.databend.cn/mcp"
 ```
 
-首次连接时，Codex 会打开浏览器完成 OAuth 登录。
+如果你直接编辑 `config.toml`，需手动触发 OAuth 登录：
+
+```bash
+codex mcp login databend
+```
+
+（使用 `codex mcp add --url` 命令则会自动发起该流程。）
 
 </TabItem>
 
@@ -91,12 +97,13 @@ url = "https://mcp.databend.cn/mcp"
 
 <TabItem value="vscode" label="VS Code">
 
-打开 **Preferences: Open User Settings (JSON)**，添加：
+运行 **MCP: Open User Configuration** 打开 `mcp.json`（或在工作区创建 `.vscode/mcp.json`），添加：
 
 ```json
 {
-  "mcp.servers": {
+  "servers": {
     "databend": {
+      "type": "http",
       "url": "https://mcp.databend.cn/mcp"
     }
   }
@@ -160,7 +167,7 @@ GRANT ROLE ai_readonly TO USER '<your_account_email>';
 
 ### 组织与 role 范围
 
-- 一个会话绑定**单一组织** —— 即登录时所选的那个。要操作其他组织，需**重新授权**（触发客户端的重新连接/重新登录，或让 token 自然过期），然后在同意页选择另一个组织。
+- 一个会话绑定**单一组织** —— 即登录时所选的那个。要操作其他组织，需**重新授权**：清除该 server 已存储的凭据（或使用客户端的登出/重新登录命令，例如 `codex mcp login databend`），让下次连接重新打开浏览器，然后在同意页选择另一个组织。仅仅等待 token 过期**不行** —— 客户端会静默续期并仍绑定到原来的组织。
 - 如果登录时选择了 SQL role，会话将被**限制在该 role 之内**。Agent 无法在会话中提权到更宽的 role。在服务端撤销或降级该 role，会在下次 token 续期时生效。
 
 如需**同时操作多个组织（或多个账号）**，可以添加多个**名字不同、地址相同**的 server 条目，在各自的浏览器授权流程中分别选择不同的组织（或用不同账号登录）：

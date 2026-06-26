@@ -49,7 +49,7 @@ This writes the server entry into your client's config file and triggers the bro
 <TabItem value="claude-code" label="Claude Code">
 
 ```bash
-claude mcp add databend https://mcp.databend.com/mcp
+claude mcp add --transport http databend https://mcp.databend.com/mcp
 ```
 
 The first time a tool is called, Claude Code opens your browser to complete the OAuth sign-in.
@@ -69,7 +69,13 @@ Or add to `~/.codex/config.toml`:
 url = "https://mcp.databend.com/mcp"
 ```
 
-Codex opens your browser for the OAuth sign-in on first connect.
+If you edited `config.toml` directly, trigger the OAuth sign-in with:
+
+```bash
+codex mcp login databend
+```
+
+(The `codex mcp add --url` command starts this flow for you.)
 
 </TabItem>
 
@@ -91,12 +97,13 @@ Add to `~/.cursor/mcp.json`:
 
 <TabItem value="vscode" label="VS Code">
 
-Open **Preferences: Open User Settings (JSON)** and add:
+Run **MCP: Open User Configuration** to open `mcp.json` (or create `.vscode/mcp.json` in your workspace) and add:
 
 ```json
 {
-  "mcp.servers": {
+  "servers": {
     "databend": {
+      "type": "http",
       "url": "https://mcp.databend.com/mcp"
     }
   }
@@ -160,7 +167,7 @@ For the full privilege list and grant syntax, see [Access Control](/guides/secur
 
 ### Organization and role scope
 
-- A session is bound to a **single organization** — the one you chose at sign-in. To act on a different org, **re-authorize** (trigger your client's reconnect/re-login, or let the token expire) and pick another org on the consent page.
+- A session is bound to a **single organization** — the one you chose at sign-in. To act on a different org, **re-authorize**: clear the stored credential for the server (or use your client's logout/re-login command, such as `codex mcp login databend`) so the next connect reopens the browser, then pick another org on the consent page. Simply waiting for the token to expire does **not** work — the client refreshes it silently and stays bound to the same org.
 - If you selected a SQL role at sign-in, the session is **capped at that role**. The agent cannot escalate to a broader role within the session. Revoking or downgrading the role on the server takes effect on the next token refresh.
 
 To work with **several organizations (or accounts) at once**, add multiple server entries with **different names but the same URL**, and authorize each to a different org (or sign in with a different account) during its browser flow:
