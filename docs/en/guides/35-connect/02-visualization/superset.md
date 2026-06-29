@@ -23,12 +23,11 @@ These steps involve creating a customized Superset Docker image with Databend in
 1. Starts with the official Superset Docker image as the foundational base. Edit the Dockerfile, permissions are elevated to install essential packages.
 
 ```shell title='Dockerfile'
-FROM apache/superset
-# Switching to root to install the required packages
+FROM apache/superset:6.1.0
 USER root
-RUN pip install databend-py 
-RUN pip install databend-sqlalchemy
-# Switching back to using the `superset` user
+RUN uv pip install --python /app/.venv/bin/python --no-cache \
+        "databend-driver==0.34.0" \
+        "databend-sqlalchemy==0.5.5"
 USER superset
 ```
 
@@ -49,7 +48,19 @@ docker run -d -p 8080:8088 -e "SUPERSET_SECRET_KEY=<your_secret_key>" --name sup
 
 ### Setting Up Superset
 
-1. Create an administrator user.
+1. Apply any necessary database migrations to ensure that the Superset database schema is up to date.
+
+```shell
+docker exec -it superset superset db upgrade
+```
+
+2. Initializes Superset.
+
+```shell
+docker exec -it superset superset init
+```
+
+3. Create an administrator user.
 
 ```shell
 docker exec -it superset superset fab create-admin \
@@ -58,18 +69,6 @@ docker exec -it superset superset fab create-admin \
            --lastname Admin \
            --email admin@superset.com \
            --password admin
-```
-
-2. Apply any necessary database migrations to ensure that the Superset database schema is up to date.
-
-```shell
-docker exec -it superset superset db upgrade
-```
-
-3. Initializes Superset.
-
-```shell
-docker exec -it superset superset init
 ```
 
 </StepContent>
@@ -89,6 +88,10 @@ docker exec -it superset superset init
 ![Alt text](/img/integration/superset-select-other.png)
 
 4. On the **BASIC** tab, set a display name, for example, `Databend`, and then enter the URI to connect to Databend Cloud. The URI follows the format: `databend://<host>`, where` <host>` corresponds to the host field in your warehouse's connection information. For information on how to obtain the connection details, refer to [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting-to-a-warehouse).
+
+:::note
+The Databend data source does not yet support configuring the connection with individual parameters (separate host, port, username, password fields). You must connect using the SQLAlchemy DSN, i.e., enter the URI directly in the `databend://<host>` format.
+:::
 
 ![Alt text](/img/integration/superset-uri.png)
 
