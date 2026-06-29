@@ -86,10 +86,10 @@ docker exec -it superset superset fab create-admin \
 
 ![Alt text](/img/integration/superset-select-other.png)
 
-4. 在 **BASIC** 选项卡中，设置显示名称（例如 `Databend`），然后输入连接 Databend Cloud 的 URI。URI 格式为：`databend://<host>`，其中 `<host>` 对应您计算集群连接信息中的 host 字段。有关如何获取连接详情的说明，请参阅 [连接到计算集群](/guides/cloud/resources/warehouses#connecting-to-a-warehouse)。
+4. 在 **BASIC** 选项卡中，设置显示名称（例如 `Databend`），然后输入连接 Databend Cloud 的完整 SQLAlchemy DSN。DSN 格式为：`databend://<username>:<password>@<host>:443/<database>?warehouse=<warehouse_name>`，其中各字段对应您计算集群的连接信息。有关如何获取连接详情的说明，请参阅 [连接到计算集群](/guides/cloud/resources/warehouses#connecting-to-a-warehouse)。
 
 :::note
-目前 Databend 数据源还不支持通过参数（host、端口、用户名、密码等单独字段）配置连接，您必须使用 SQLAlchemy DSN 的方式进行连接，即直接填写 `databend://<host>` 格式的 URI。
+目前 Databend 数据源还不支持通过参数（host、端口、用户名、密码等单独字段）配置连接，您必须使用完整的 SQLAlchemy DSN 进行连接，即在 URI 中包含用户名、密码、数据库和 warehouse 等信息：`databend://<username>:<password>@<host>:443/<database>?warehouse=<warehouse_name>`。
 :::
 
 ![Alt text](/img/integration/superset-uri.png)

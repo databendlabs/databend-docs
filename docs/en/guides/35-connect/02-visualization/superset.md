@@ -87,10 +87,10 @@ docker exec -it superset superset fab create-admin \
 
 ![Alt text](/img/integration/superset-select-other.png)
 
-4. On the **BASIC** tab, set a display name, for example, `Databend`, and then enter the URI to connect to Databend Cloud. The URI follows the format: `databend://<host>`, where` <host>` corresponds to the host field in your warehouse's connection information. For information on how to obtain the connection details, refer to [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting-to-a-warehouse).
+4. On the **BASIC** tab, set a display name, for example, `Databend`, and then enter the full SQLAlchemy DSN to connect to Databend Cloud. The DSN follows the format: `databend://<username>:<password>@<host>:443/<database>?warehouse=<warehouse_name>`, where each field corresponds to your warehouse's connection information. For information on how to obtain the connection details, refer to [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting-to-a-warehouse).
 
 :::note
-The Databend data source does not yet support configuring the connection with individual parameters (separate host, port, username, password fields). You must connect using the SQLAlchemy DSN, i.e., enter the URI directly in the `databend://<host>` format.
+The Databend data source does not yet support configuring the connection with individual parameters (separate host, port, username, password fields). You must connect using the full SQLAlchemy DSN, which includes the username, password, database, and warehouse in the URI: `databend://<username>:<password>@<host>:443/<database>?warehouse=<warehouse_name>`.
 :::
 
 ![Alt text](/img/integration/superset-uri.png)
