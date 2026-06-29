@@ -133,6 +133,11 @@ const DocsOverview: FC = (): ReactElement => {
 
   const loadDataItems: CardItem[] = [
     { icon: <Kafka />, text: "Kafka", to: "/guides/load-data/load-db/kafka/" },
+    {
+      icon: <Kafka />,
+      text: "Kafka(Integration)",
+      to: "/guides/cloud/data-integration/kafka",
+    },
     { icon: <Dbt />, text: "dbt", to: "/guides/load-data/load-db/dbt/" },
     {
       icon: <Airbyte />,
