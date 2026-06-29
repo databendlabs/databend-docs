@@ -890,7 +890,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/guides/security/masking-policy</loc>
+    <loc>https://docs.databend.com/guides/security/data-protection/masking-policy</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

@@ -1,0 +1,339 @@
+---
+title: 动态脱敏
+---
+import IndexOverviewList from '@site/src/components/IndexOverviewList';
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='MASKING POLICY'/>
+
+动态脱敏策略在查询时对列值进行转换，帮助你按照角色控制谁能看到真实数据、谁只能看到脱敏后的结果。
+
+## 适用场景
+
+- **客服系统**：客服能看到订单记录，但客户身份证号显示为 `3201**********1234`。
+- **数据分析**：分析师跑报表时，邮箱字段显示为 `***@***.com`，不影响聚合统计。
+- **VARIANT 日志**：所有人能查日志，但 JSON 中的 `secret_key`、`token` 字段对非管理员不可见。
+- **部分脱敏**：客服看到信用卡后四位 `****-****-****-5678` 用于核实身份。
+
+如果你需要隐藏整行而非脱敏列值，请使用[行访问策略](/guides/security/data-protection/row-access-policy)。
+
+## 脱敏策略如何工作
+
+策略会在查询阶段读取 `current_role()` 等信息并决定返回值。
+
+**Managers 查看真实数据**
+```sql
+id | email           |
+---|-----------------|
+ 2 | eric@example.com|
+ 1 | sue@example.com |
+```
+
+**其他角色看到掩码**
+```sql
+id | email    |
+---|----------|
+ 2 | *********|
+ 1 | *********|
+```
+
+### 核心特性
+
+- **查询时生效**：仅在 SELECT 中转换值。
+- **逻辑灵活**：可结合 `current_role()` 或其他表达式判断。
+- **列级控制**：策略附着在列上，可跨表复用。
+- **不改原值**：存储中的真实数据不会被修改。
+
+## 全流程示例
+
+下面的步骤展示了如何为列添加脱敏保护。
+
+### 1. 创建目标表
+
+```sql
+CREATE TABLE user_info (id INT, email STRING NOT NULL);
+```
+
+### 2. 定义脱敏策略
+
+```sql
+CREATE MASKING POLICY email_mask
+AS (val STRING)
+RETURNS STRING ->
+CASE
+  WHEN current_role() IN ('MANAGERS') THEN val
+  ELSE '*********'
+END;
+```
+
+### 3. 绑定到列
+
+```sql
+ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
+```
+
+### 4. 写入并查询
+
+```sql
+INSERT INTO user_info VALUES (1, 'user@example.com');
+SELECT * FROM user_info;
+```
+
+**返回结果**
+
+```sql
+id | email
+---|----------
+ 1 | *********
+```
+
+## 读写行为
+
+脱敏策略只影响读取路径。INSERT/UPDATE/DELETE 始终写入真实值，保证应用逻辑和存储一致。
+
+```sql
+-- 写入真实数据
+INSERT INTO user_info VALUES (2, 'admin@example.com');
+
+-- 读取时应用脱敏
+SELECT * FROM user_info WHERE id = 2;
+```
+
+**返回结果**
+
+```sql
+id | email
+---|----------
+ 2 | *********
+```
+
+## 管理策略
+
+### DESCRIBE MASKING POLICY
+
+查看策略的创建时间、签名、返回类型及定义。
+
+```sql
+DESCRIBE MASKING POLICY email_mask;
+```
+
+**返回结果**
+
+```sql
+Name       | Created On                  | Signature    | Return Type | Body                                                     | Comment
+-----------+-----------------------------+--------------+-------------+----------------------------------------------------------+---------
+email_mask | 2025-11-19 10:29:06.005 UTC | (val STRING) | STRING      | CASE WHEN current_role() IN('MANAGERS') THEN val ELSE... |
+```
+
+### DROP MASKING POLICY
+
+删除不再需要的策略（删除前需先从所有列上解除）。
+
+```sql
+DROP MASKING POLICY [IF EXISTS] email_mask;
+```
+
+### 解除列上的策略
+
+```sql
+ALTER TABLE user_info MODIFY COLUMN email UNSET MASKING POLICY;
+```
+
+## 条件脱敏（Conditional Masking）
+
+使用 `USING` 子句可以让策略引用其他列。例如根据 `is_vip` 字段判断是否需要掩码：
+
+```sql
+CREATE MASKING POLICY vip_mask
+AS (val STRING, is_vip BOOLEAN)
+RETURNS STRING ->
+CASE
+  WHEN is_vip = true THEN val
+  ELSE '*********'
+END;
+
+ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY vip_mask USING (email, is_vip);
+INSERT INTO user_info (id, email, is_vip)
+VALUES (1, 'vip@example.com', true), (2, 'normal@example.com', false);
+SELECT * FROM user_info;
+```
+
+**返回结果**
+
+```sql
+id | email              | is_vip
+---|--------------------|-------
+ 1 | vip@example.com    | true
+ 2 | *********          | false
+```
+
+## Variant 字段级脱敏
+
+在脱敏策略中，`object_delete` 用于隐藏 VARIANT 列中的指定 key。该脱敏效果对所有访问方式（下标、`json_path_query`、`get_path`、CAST、`json_object_keys`）保持一致：被隐藏的 key 会表现为 NULL 或被完全剔除。
+
+### 第一步：创建表并插入示例数据
+
+```sql
+CREATE TABLE events (
+  id INT,
+  data VARIANT
+);
+
+INSERT INTO events VALUES
+  (1, parse_json('{"name": "alice", "content": "secret data", "secret_key": "sk_123", "age": 30}')),
+  (2, parse_json('{"name": "bob", "content": "private info", "secret_key": "sk_456", "age": 25}'));
+```
+
+### 第二步：创建角色
+
+```sql
+-- 可以看到完整 VARIANT 数据的角色
+CREATE ROLE data_admin;
+
+-- 看不到敏感字段的角色
+CREATE ROLE data_reader;
+```
+
+### 第三步：创建脱敏策略
+
+```sql
+-- 对没有 data_admin 角色的用户隐藏 'content' 和 'secret_key'
+CREATE MASKING POLICY mask_variant_sensitive
+  AS (val VARIANT) RETURNS VARIANT ->
+    CASE
+      WHEN is_role_in_session('data_admin') OR is_role_in_session('account_admin') THEN val
+      ELSE object_delete(val, 'content', 'secret_key')
+    END;
+```
+
+:::note
+`is_role_in_session`（v1.2.911 起可用）会检查用户被授予的所有角色，不依赖当前激活角色。相比 `current_role()`，用户无法通过 `SET ROLE` 切换角色来绕过脱敏。
+:::
+
+### 第四步：绑定到 VARIANT 列
+
+```sql
+ALTER TABLE events MODIFY COLUMN data SET MASKING POLICY mask_variant_sensitive;
+```
+
+### 第五步：授权
+
+```sql
+GRANT SELECT ON default.events TO ROLE data_admin;
+GRANT SELECT ON default.events TO ROLE data_reader;
+GRANT ROLE data_admin TO USER 'admin_user';
+GRANT ROLE data_reader TO USER 'normal_user';
+```
+
+### 第六步：验证
+
+```sql
+-- 以 data_admin 身份查询：完整数据可见
+SET ROLE data_admin;
+SELECT data FROM events;
+-- {"age":30,"content":"secret data","name":"alice","secret_key":"sk_123"}
+-- {"age":25,"content":"private info","name":"bob","secret_key":"sk_456"}
+
+-- 以 data_reader 身份查询：敏感字段已删除
+SET ROLE data_reader;
+
+SELECT data FROM events;
+-- {"age":30,"name":"alice"}
+-- {"age":25,"name":"bob"}
+
+SELECT data['content'] FROM events;
+-- NULL
+-- NULL
+
+SELECT data['name'] FROM events;
+-- "alice"
+-- "bob"
+
+SELECT json_path_query_first(data, '$.content') FROM events;
+-- NULL
+
+SELECT data::STRING FROM events;
+-- {"age":30,"name":"alice"}
+
+SELECT json_object_keys(data) FROM events;
+-- ["age","name"]
+
+SELECT * FROM events WHERE data['content'] IS NOT NULL;
+-- （空结果）
+```
+
+:::tip
+如需隐藏嵌套 key，使用 `delete_by_keypath`：
+```sql
+ELSE delete_by_keypath(val, 'nested:secret')
+```
+:::
+
+## 脱敏策略 vs 行访问策略
+
+| | 脱敏策略 | 行访问策略 |
+|---|---|---|
+| 作用范围 | 列级（转换值） | 表级（过滤行） |
+| 返回类型 | 必须与列类型相同 | 固定为 BOOLEAN |
+| 每表限制 | 每列一个 | 每表一个 |
+| 影响的操作 | 仅 SELECT | SELECT、UPDATE、DELETE、MERGE |
+
+同一列不能同时绑定脱敏策略和行访问策略。当你希望所有用户都能看到行但敏感字段被替换时，使用脱敏策略；当某些行应该对未授权用户完全不可见时，使用行访问策略。
+
+## 限制与要求
+
+- 一个列最多绑定一个脱敏策略。
+- 同一列不能同时绑定脱敏策略和行访问策略。
+- 策略的返回类型必须与目标列的数据类型匹配。
+- 被脱敏策略保护的列不能直接 ALTER 或 DROP——需先执行 `UNSET MASKING POLICY`。
+- 仍被表引用的策略不能 DROP。使用 `POLICY_REFERENCES()` 查找所有绑定关系。
+- 不支持 `CREATE OR REPLACE MASKING POLICY`，需先 DROP 再重建。
+- 脱敏策略不能应用于临时表、视图或 stream。
+- 脱敏仅影响读取路径（SELECT）。INSERT、UPDATE、DELETE 操作的是真实值。
+- 策略名称在脱敏策略和行访问策略之间全局唯一。
+- 策略参数名在创建时会被规范化为小写。
+
+## 最佳实践
+
+### 使用 is_role_in_session() 而非 current_role()
+
+`current_role()` 只检查当前活跃角色，用户可以通过 `SET ROLE` 切换到未受限角色绕过脱敏。`is_role_in_session()` 检查所有已授予角色，无法绕过。
+
+```sql
+-- 推荐
+CASE WHEN is_role_in_session('managers') THEN val ELSE '*********' END
+
+-- 避免：可通过 SET ROLE 绕过
+CASE WHEN current_role() = 'managers' THEN val ELSE '*********' END
+```
+
+### 条件脱敏尽量少引用额外列
+
+`USING` 子句中的每个列都会在运行时求值。如果脱敏逻辑只依赖调用者的角色，不要引入多余的条件列。
+
+### 脱敏值保持类型一致
+
+返回 `'***'` 替代 email 没问题，但如果下游有 `LENGTH()` 或 `LIKE` 判断，考虑返回固定格式如 `'***@***.com'`，避免破坏应用假设。
+
+### VARIANT 列使用 object_delete
+
+隐藏 JSON 中的特定 key 时，`object_delete(val, 'secret_key', 'token')` 比替换整个值更精确——其他字段仍然可查询。
+
+### 先解绑再删除
+
+`DROP MASKING POLICY` 在仍有列引用时会失败。先用 `POLICY_REFERENCES(POLICY_NAME => '<name>')` 查找所有绑定，逐一 `UNSET MASKING POLICY` 后再删除。
+
+### 用受限角色测试
+
+创建策略后，用 `SET ROLE` 切换到受限角色执行 SELECT 验证脱敏效果。不要只在 admin 角色下测试就认为完成了。
+
+## 权限与参考
+
+- 将 `CREATE MASKING POLICY`（通常授予 `*.*`）赋予负责创建策略的角色，创建者会自动获得策略的 OWNERSHIP。
+- 需要在全局授予 `APPLY MASKING POLICY`，或针对单个策略授予 `APPLY ON MASKING POLICY <policy_name>`，角色才能使用 `ALTER TABLE` 设置或解除策略；拥有 OWNERSHIP 的角色也可以执行这些操作。
+- 使用 `SHOW GRANTS ON MASKING POLICY <policy_name>` 审计哪些角色拥有 APPLY/OWNERSHIP。
+- 延伸阅读：
+  - [User & Role](/sql/sql-commands/ddl/user)
+  - [CREATE MASKING POLICY](/sql/sql-commands/ddl/mask-policy/create-mask-policy)
+  - [ALTER TABLE](/sql/sql-commands/ddl/table/alter-table#column-operations)
+  - [Masking Policy Commands](/sql/sql-commands/ddl/mask-policy)

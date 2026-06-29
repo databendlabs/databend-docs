@@ -6,7 +6,8 @@ title: POLICY_REFERENCES
 
 另请参阅：
 
-- [MASKING POLICY](/guides/security/masking-policy)
+- [MASKING POLICY](/guides/security/data-protection/masking-policy)：定义列级脱敏规则，并可通过本函数查询引用关系。
+- [ROW ACCESS POLICY](/guides/security/data-protection/row-access-policy)：定义行级过滤规则，并可通过本函数查询表绑定关系。
 
 ## 语法
 

@@ -73,6 +73,26 @@ The user stage can serve as a convenient repository for your data files that do 
 LIST @~;
 ```
 
+## Filtering Staged Files with PATTERN
+
+Commands and functions that read, list, remove, or inspect staged files can use `PATTERN` to filter files by regular expression. For staged locations, `PATTERN` matches the file path portion after `@<stage_name>[/<path>]`, not the full stage URI.
+
+:::note
+Glob patterns (e.g., `ontime_200{6,7,8}.csv` or `ontime_200[6-8].csv`) in file paths are only supported for HTTP-based external locations. S3 and other object-storage locations do not support glob expansion in file paths — use `PATTERN` with a regular expression instead.
+:::
+
+For example, with `@sales_stage/raw/`, the staged file `@sales_stage/raw/year=2025/month=01/sales_20250101.parquet` is matched as `year=2025/month=01/sales_20250101.parquet`:
+
+```sql
+LIST @sales_stage/raw/ PATTERN = 'year=2025/month=01/.*[.]parquet';
+```
+
+To match all `.log` files under a stage path, use a regular expression such as:
+
+```sql
+LIST @my_stage PATTERN = '.*[.]log';
+```
+
 ## Managing Stages
 
 Databend provides a variety of commands to assist you in managing stages and the files staged within them:

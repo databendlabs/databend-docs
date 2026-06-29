@@ -35,6 +35,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | **[Network Policy](12-network-policy/index.md)** | Control network access to databases |
 | **[Mask Policy](12-mask-policy/index.md)** | Apply data masking for sensitive information |
 | **[Password Policy](12-password-policy/index.md)** | Enforce password requirements and rotation |
+| **[Row Access Policy](12-row-access-policy/index.md)** | Filter table rows with centralized row-level predicates |
 
 ## Data Integration & Processing
 

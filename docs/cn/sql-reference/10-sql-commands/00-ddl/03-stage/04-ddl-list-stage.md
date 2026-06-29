@@ -17,6 +17,8 @@ sidebar_position: 4
 LIST { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>' ]
 ```
 
+`PATTERN` 按正则表达式过滤 Stage 文件。它匹配的是 `@<stage_name>[/<path>]` 之后的文件路径部分。参见 [使用 PATTERN 过滤 Stage 文件](/guides/load-data/stage/what-is-stage#filtering-staged-files-with-pattern)。
+
 ## 示例
 
 下面的 Stage 包含一个名为 **books.parquet** 的文件和一个名为 **2023** 的文件夹。
@@ -58,10 +60,10 @@ LIST @my_internal_stage/2023/;
 +-----------------+------+------------------------------------+-------------------------------+---------+
 ```
 
-要列出 Stage 中所有扩展名为 *.log 的文件，请运行以下命令：
+要列出 Stage 中所有扩展名为 `.log` 的文件，请运行以下命令：
 
 ```sql
-LIST @my_internal_stage PATTERN = '.log';
+LIST @my_internal_stage PATTERN = '.*[.]log';
 +----------------+------+------------------------------------+-------------------------------+---------+
 |      name      | size |                md5                 |         last_modified         | creator |
 +----------------+------+------------------------------------+-------------------------------+---------+

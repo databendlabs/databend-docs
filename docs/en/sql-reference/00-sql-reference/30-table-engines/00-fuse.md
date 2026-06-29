@@ -223,3 +223,20 @@ Below are the available Fuse Engine options, grouped by their purpose:
   ```
 
 ---
+
+### `enable_schema_evolution`
+- **Syntax:**
+  `enable_schema_evolution = True / False`
+- **Description:**
+  Controls whether the table schema can be automatically evolved during `COPY INTO` operations. When enabled (set to `True`), Databend automatically adds missing columns to the table when loading Parquet files whose schemas contain columns not present in the destination table. Missing values for existing rows are filled with `NULL`. For more information, see [Schema Evolution](/guides/load-data/transform/schema-evolution).
+
+  **Examples:**
+  ```sql
+  -- Enable schema evolution for an existing table
+  ALTER TABLE invoices SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
+
+  -- Create a new table with schema evolution enabled
+  CREATE OR REPLACE TABLE invoices (order_id INT) ENABLE_SCHEMA_EVOLUTION = true;
+  ```
+
+---

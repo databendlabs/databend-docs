@@ -145,27 +145,37 @@ formatTypeOptions ::=
   [ ERROR_ON_COLUMN_COUNT_MISMATCH = TRUE | FALSE ]
   [ EMPTY_FIELD_AS = null | string | field_default ]
   [ BINARY_FORMAT = HEX | BASE64 ]
+  [ TRIM_SPACE = TRUE | FALSE ]
+  [ ENCODING = '<encoding_label>' ]
+  [ ENCODING_ERROR_MODE = STRICT | REPLACE ]
   
   /* TSV 专用选项 */
   [ RECORD_DELIMITER = '<character>' ]
   [ FIELD_DELIMITER = '<character>' ]
+  [ TRIM_SPACE = TRUE | FALSE ]
+  [ ENCODING = '<encoding_label>' ]
+  [ ENCODING_ERROR_MODE = STRICT | REPLACE ]
   
   /* NDJSON 专用选项 */
   [ NULL_FIELD_AS = NULL | FIELD_DEFAULT ]
   [ MISSING_FIELD_AS = ERROR | NULL | FIELD_DEFAULT ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
   [ ALLOW_DUPLICATE_KEYS = TRUE | FALSE ]
   
   /* PARQUET 专用选项 */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
+  [ USE_LOGIC_TYPE = TRUE | FALSE ]
   
   /* ORC 专用选项 */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
   
   /* AVRO 专用选项 */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
+  [ USE_LOGIC_TYPE = TRUE | FALSE ]
 
 copyOptions ::=
-  [ SIZE_LIMIT = <num> ]
   [ PURGE = <bool> ]
   [ FORCE = <bool> ]
   [ DISABLE_VARIANT_CHECK = <bool> ]
@@ -173,24 +183,23 @@ copyOptions ::=
   [ MAX_FILES = <num> ]
   [ RETURN_FAILED_ONLY = <bool> ]
   [ COLUMN_MATCH_MODE = { case-sensitive | case-insensitive } ]
+  [ SCHEMA_EVOLUTION = (
+      [ SAMPLE_FILES = AUTO | <positive_integer> ]
+      [ , SAMPLE_RECORDS_PER_FILE = AUTO | <positive_integer> ]
+      [ , SAMPLE_TOTAL_RECORDS = AUTO | <positive_integer> ]
+    ) ]
 
 ```
-
-:::note
-对于远程文件，你可以使用 glob 模式指定多个文件。例如：
-- `ontime_200{6,7,8}.csv` 表示 `ontime_2006.csv`、`ontime_2007.csv`、`ontime_2008.csv`
-- `ontime_200[6-8].csv` 表示相同的文件
-:::
 
 ## 关键参数
 
 - **FILES**：指定一个或多个待加载文件名（以逗号分隔）。
 
-- **PATTERN**：基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用于匹配文件名。参见 [示例 4：使用模式过滤文件](#example-4-filtering-files-with-pattern)。
+- **PATTERN**：基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用于匹配文件名。从 Stage 加载时，该模式匹配的是 `@<stage_name>[/<path>]` 之后的文件路径部分。参见 [使用 PATTERN 过滤 Stage 文件](/guides/load-data/stage/what-is-stage#filtering-staged-files-with-pattern) 和 [示例 4：使用模式过滤文件](#example-4-filtering-files-with-pattern)。
 
 ## 格式类型选项
 
-`FILE_FORMAT` 参数支持多种文件类型，每种类型都有专属的格式选项。下表列出各支持格式的可用选项：
+`FILE_FORMAT` 参数支持多种文件类型，每种类型都有专属的格式选项。下表列出各支持格式的可用选项。完整说明请参见 [文件格式选项](../../00-sql-reference/50-file-format-options.md)。
 
 <Tabs>
 <TabItem value="common" label="通用选项" default>
@@ -217,6 +226,9 @@ copyOptions ::=
 | ERROR_ON_COLUMN_COUNT_MISMATCH | 列数不匹配时报错 | TRUE |
 | EMPTY_FIELD_AS | 空字段的处理方式 | null |
 | BINARY_FORMAT | 二进制数据的编码格式（HEX 或 BASE64） | HEX |
+| TRIM_SPACE | 去除字段前后 ASCII 空白字符 | FALSE |
+| ENCODING | 源文件字符集编码 | UTF-8 |
+| ENCODING_ERROR_MODE | 无效字节的处理方式：STRICT 或 REPLACE | STRICT |
 
 </TabItem>
 
@@ -226,6 +238,14 @@ copyOptions ::=
 |--------|-------------|--------|
 | RECORD_DELIMITER | 分隔记录的字符 | 换行符 |
 | FIELD_DELIMITER | 分隔字段的字符 | 制表符 (\t) |
+| SKIP_HEADER | 跳过的标题行数 | 0 |
+| TRIM_SPACE | 去除字段前后 ASCII 空白字符 | FALSE |
+| NAN_DISPLAY | 表示 NaN 值的字符串 | NaN |
+| NULL_DISPLAY | 表示 NULL 值的字符串 | \N |
+| EMPTY_FIELD_AS | 空字段的处理方式 | FIELD_DEFAULT |
+| ERROR_ON_COLUMN_COUNT_MISMATCH | 列数不匹配时报错 | TRUE |
+| ENCODING | 源文件字符集编码 | UTF-8 |
+| ENCODING_ERROR_MODE | 无效字节的处理方式：STRICT 或 REPLACE | STRICT |
 
 </TabItem>
 
@@ -235,6 +255,7 @@ copyOptions ::=
 |--------|-------------|--------|
 | NULL_FIELD_AS | 空字段的处理方式 | NULL |
 | MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+| NULL_IF | 视为 NULL 的字符串列表 | 空 |
 | ALLOW_DUPLICATE_KEYS | 是否允许对象键重复 | FALSE |
 
 </TabItem>
@@ -244,6 +265,8 @@ copyOptions ::=
 | 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+| NULL_IF | 视为 NULL 的字符串列表 | 空 |
+| USE_LOGIC_TYPE | 使用 Parquet 逻辑类型推断列类型 | TRUE |
 
 </TabItem>
 
@@ -260,6 +283,8 @@ copyOptions ::=
 | 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+| NULL_IF | 视为 NULL 的字符串列表 | 空 |
+| USE_LOGIC_TYPE | 使用 Avro 逻辑类型推断列类型 | TRUE |
 
 </TabItem>
 </Tabs>
@@ -268,7 +293,6 @@ copyOptions ::=
 
 | 参数 | 描述 | 默认值 |
 |-----------|-------------|----------|
-| SIZE_LIMIT | 最大加载行数 | `0`（无限制） |
 | PURGE | 成功加载后删除文件 | `false` |
 | FORCE | 允许重新加载重复文件 | `false`（跳过重复） |
 | DISABLE_VARIANT_CHECK | 将无效 JSON 替换为 null | `false`（无效 JSON 时报错） |
@@ -276,6 +300,21 @@ copyOptions ::=
 | MAX_FILES | 最大加载文件数（上限 15,000） | - |
 | RETURN_FAILED_ONLY | 仅返回失败的文件 | `false` |
 | COLUMN_MATCH_MODE | Parquet 列名匹配模式 | `case-insensitive` |
+| SCHEMA_EVOLUTION | NDJSON 专用：用于推断目标表中缺失列的采样选项。要求目标表启用 `ENABLE_SCHEMA_EVOLUTION = true`，并且执行角色拥有目标表的 `ALTER` 权限。 | `AUTO` 采样 |
+
+### SCHEMA_EVOLUTION 选项
+
+`SCHEMA_EVOLUTION` 控制 Databend 在加载前如何采样 staged NDJSON 文件。目标表启用 `ENABLE_SCHEMA_EVOLUTION = true` 后，可与 `FILE_FORMAT = (TYPE = NDJSON ...)` 搭配使用。
+
+当从 Stage 或外部位置加载并触发 Schema Evolution 推断时，执行 `COPY INTO <table>` 的角色必须拥有目标表的 `INSERT` 和 `ALTER` 权限。基于查询的 COPY（例如 `COPY INTO <table> FROM (SELECT ... FROM @stage)`）仍使用原有权限要求。
+
+| 选项 | 描述 | 取值 |
+|--------|-------------|--------|
+| SAMPLE_FILES | 采样的 staged 文件数量。 | `AUTO` 或正整数 |
+| SAMPLE_RECORDS_PER_FILE | 每个采样文件中最多采样的记录数。 | `AUTO` 或正整数 |
+| SAMPLE_TOTAL_RECORDS | 所有采样文件中最多采样的记录总数。 | `AUTO` 或正整数 |
+
+如果省略 `SCHEMA_EVOLUTION`，Databend 会对三个采样选项都使用 `AUTO`。当前 `AUTO` 行为最多采样 64 个文件、每个文件 1,000 条记录、总计 10,000 条记录。这些内部默认值未来版本可能会调整。如果加载结果对采样策略敏感，建议显式设置 `SAMPLE_FILES`、`SAMPLE_RECORDS_PER_FILE` 和 `SAMPLE_TOTAL_RECORDS`。如果采样遗漏了加载过程中出现的列，COPY 会失败并返回额外列名，你可以增大采样参数后重试。
 
 :::tip
 导入大量数据（如日志）时，建议将 `PURGE` 和 `FORCE` 均设为 `true`，可高效导入数据且无需与 Meta 服务器交互（更新已复制文件集）。但请注意，这可能导致重复数据导入。
@@ -363,8 +402,7 @@ COPY INTO mytable
         FIELD_DELIMITER = ',',
         RECORD_DELIMITER = '\n',
         SKIP_HEADER = 1
-    )
-    SIZE_LIMIT = 10;
+    );
 ```
 
 **使用 IAM 角色（生产环境推荐）**
@@ -534,20 +572,20 @@ COPY INTO mytable
     );
 ```
 
-为包含多级目录的文件路径指定模式时，请根据匹配需求选择：
+为包含多级目录的 Stage 文件路径指定模式时，请注意模式只匹配 `@<stage_name>[/<path>]` 之后的路径部分。例如，对于 `FROM @sales_stage/raw/`，文件 `@sales_stage/raw/year=2025/month=01/sales_20250101.parquet` 会作为 `year=2025/month=01/sales_20250101.parquet` 进行匹配。
 
-- 若要匹配前缀后的特定子路径，请在模式中包含该前缀（如 'multi_page/'），再指定子路径内的匹配模式（如 '\_page_1'）。
+- 若要匹配前缀后的特定子路径，请在模式中包含该前缀（如 'year=2025/month=01/'），再指定子路径内的匹配模式（如 'sales_'）。
 
 ```sql
--- 文件路径：parquet/multi_page/multi_page_1.parquet
-COPY INTO ... FROM @data/parquet/ PATTERN = 'multi_page/.*_page_1.*') ...
+-- 文件路径：raw/year=2025/month=01/sales_20250101.parquet
+COPY INTO ... FROM @sales_stage/raw/ PATTERN = 'year=2025/month=01/.*sales_.*[.]parquet') ...
 ```
 
-- 若要匹配文件路径中任意位置出现的目标模式，请在模式前后加 '.*'（如 '.*multi_page_1.\*'）以匹配路径中任意位置的 'multi_page_1'。
+- 若要匹配文件路径中任意位置出现的目标模式，请在模式前后加 '.*'（如 '.*sales_20250101.*'）以匹配路径中任意位置的 'sales_20250101'。
 
 ```sql
--- 文件路径：parquet/multi_page/multi_page_1.parquet
-COPY INTO ... FROM @data/parquet/ PATTERN ='.*multi_page_1.*') ...
+-- 文件路径：raw/year=2025/month=01/sales_20250101.parquet
+COPY INTO ... FROM @sales_stage/raw/ PATTERN = '.*sales_20250101.*') ...
 ```
 
 ### 示例 5：加载到含额外列的表
@@ -706,3 +744,49 @@ SELECT * FROM t2;
 │ 6                │ null              │
 └──────────────────────────────────────┘
 ```
+
+### 示例 8：使用 Schema Evolution 加载
+
+当加载的 Parquet 或 NDJSON 文件结构包含目标表中不存在的列时，可以使用 Schema Evolution 自动添加缺失的列。对于从 Stage 或外部位置加载并触发 Schema Evolution 推断的场景，请确保执行加载的角色拥有目标表的 `INSERT` 和 `ALTER` 权限。首先，在表上启用 Schema Evolution：
+
+```sql
+CREATE OR REPLACE TABLE invoices(order_id INT);
+
+-- 启用 Schema Evolution
+ALTER TABLE invoices SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
+```
+
+#### Parquet
+
+然后加载具有不同结构的 Parquet 文件。Databend 会自动添加新列，缺失的值用 `NULL` 填充：
+
+```sql
+-- 假设 @my_stage 中包含带有额外列（如 amount、currency）的 Parquet 文件
+COPY INTO invoices
+    FROM @my_stage/
+    FILE_FORMAT = (TYPE = PARQUET MISSING_FIELD_AS = FIELD_DEFAULT);
+```
+
+#### NDJSON
+
+对于 NDJSON，`COPY INTO` 会使用默认采样值推断缺失列。仅当需要覆盖 Databend 对 staged 文件的采样方式时，才需要添加 `SCHEMA_EVOLUTION`：
+
+```sql
+CREATE OR REPLACE TABLE events(id INT);
+ALTER TABLE events SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
+
+-- 假设 @events_stage 中包含如下 NDJSON 记录：
+-- {"id":1,"city":"SF","score":9}
+COPY INTO events
+    FROM @events_stage/
+    FILE_FORMAT = (TYPE = NDJSON MISSING_FIELD_AS = FIELD_DEFAULT)
+    SCHEMA_EVOLUTION = (
+        SAMPLE_FILES = AUTO,
+        SAMPLE_RECORDS_PER_FILE = AUTO,
+        SAMPLE_TOTAL_RECORDS = AUTO
+    );
+```
+
+Databend 会采样 staged NDJSON 文件，将推断出的 `city`、`score` 等字段追加为可空列，然后加载数据。
+
+更多详细信息，请参阅 [Schema Evolution](/guides/load-data/transform/schema-evolution)。

@@ -16,6 +16,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 - [GRANT](10-grant.md)
 - [SHOW GRANTS](22-show-grants.md)
 
+> 使用 `REVOKE` 变更角色与权限后，执行 [SYSTEM FLUSH PRIVILEGES](../../50-administration-cmds/flush-privileges.md) 可立即让所有查询节点刷新缓存。
+
 ## 语法
 
 ### 撤销权限
@@ -181,6 +183,34 @@ REVOKE ROLE role1 FROM USER user1;
 ```sql
 SHOW GRANTS FOR user1;
 ```
+
+:::tip 为什么 revoke 之后 `default_role` 还在？
+`default_role` 是用户属性，不是授权。`REVOKE` 移除的是角色成员关系，不会重置 `default_role`。看个例子：
+
+```sql
+CREATE ROLE analyst;
+CREATE USER bob IDENTIFIED BY 'password123' WITH DEFAULT_ROLE = 'analyst';
+GRANT ROLE analyst TO bob;
+
+DESC USER bob;
++------+----------+----------------------+--------------+---------+
+| name | hostname | auth_type            | default_role | roles   |
++------+----------+----------------------+--------------+---------+
+| bob  | %        | double_sha1_password | analyst      | analyst |
++------+----------+----------------------+--------------+---------+
+
+REVOKE ROLE analyst FROM bob;
+
+DESC USER bob;
++------+----------+----------------------+--------------+-------+
+| name | hostname | auth_type            | default_role | roles |
++------+----------+----------------------+--------------+-------+
+| bob  | %        | double_sha1_password | analyst      |       |
++------+----------+----------------------+--------------+-------+
+```
+
+注意 `roles` 已经空了，但 `default_role` 还在。此时用户已经没有 `analyst` 的权限了。要清理的话，执行 `ALTER USER bob WITH DEFAULT_ROLE = 'public'`。
+:::
 
 ### 示例 4：撤销脱敏策略权限
 

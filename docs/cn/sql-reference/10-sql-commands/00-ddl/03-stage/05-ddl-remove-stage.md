@@ -31,7 +31,7 @@ externalStage ::= @<external_stage_name>[/<file>]
 
 ### PATTERN = 'regex_pattern'
 
-一个正则表达式模式字符串，用单引号括起来，用于按文件名过滤要删除的文件。
+一个正则表达式模式字符串，用单引号括起来，用于过滤要删除的 Stage 文件。它匹配的是 `@<stage_name>[/<path>]` 之后的文件路径部分。参见 [使用 PATTERN 过滤 Stage 文件](/guides/load-data/stage/what-is-stage#filtering-staged-files-with-pattern)。
 
 ## 示例
 

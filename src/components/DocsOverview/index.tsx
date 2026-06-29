@@ -6,6 +6,7 @@ import Card from "../BaseComponents/Card";
 import SmallCard from "./small-card";
 import Cli from "@site/static/icons/cli.svg";
 import Java from "@site/static/icons/java.svg";
+import DBeaver from "@site/static/icons/DBeaver.svg";
 import Go from "@site/static/icons/go.svg";
 import Python from "@site/static/icons/python.svg";
 import Node from "@site/static/icons/node.svg";
@@ -37,6 +38,7 @@ import ChangeLog from "@site/static/icons/changelog.svg";
 import FAQ from "@site/static/icons/faq.svg";
 import MCP from "@site/static/icons/mcp.svg";
 import MySQL from "@site/static/icons/mysql.svg";
+import PG from "@site/static/icons/postgresql.svg";
 import S3 from "@site/static/icons/s3.svg";
 import { Col, Row } from "antd";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -107,6 +109,11 @@ const DocsOverview: FC = (): ReactElement => {
       text: "BendSQL",
       to: "/guides/connect/sql-clients/bendsql/",
     },
+    {
+      icon: <DBeaver width={24} />,
+      text: "DBeaver",
+      to: "/guides/connect/sql-clients/jdbc/",
+    },
     { icon: <Java />, text: "Java", to: "/developer/drivers/jdbc/" },
     { icon: <Go />, text: "Golang", to: "/developer/drivers/golang/" },
     { icon: <Python />, text: "Python", to: "/developer/drivers/python/" },
@@ -126,6 +133,11 @@ const DocsOverview: FC = (): ReactElement => {
 
   const loadDataItems: CardItem[] = [
     { icon: <Kafka />, text: "Kafka", to: "/guides/load-data/load-db/kafka/" },
+    {
+      icon: <Kafka />,
+      text: "Kafka(Integration)",
+      to: "/guides/cloud/data-integration/kafka",
+    },
     { icon: <Dbt />, text: "dbt", to: "/guides/load-data/load-db/dbt/" },
     {
       icon: <Airbyte />,
@@ -166,6 +178,11 @@ const DocsOverview: FC = (): ReactElement => {
       icon: <MySQL width={24} />,
       text: "MySQL",
       to: "/guides/cloud/data-integration/mysql",
+    },
+    {
+      icon: <PG width={24} />,
+      text: "PostgreSQL",
+      to: "/guides/cloud/data-integration/postgres",
     },
     {
       icon: <S3 width={24} />,

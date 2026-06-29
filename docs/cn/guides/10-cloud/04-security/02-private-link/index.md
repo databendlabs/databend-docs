@@ -17,6 +17,10 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 ## 工作原理
 
-当 Databend Cloud 审批了您计划接入的云账户或项目后，您即可创建指向所在区域 Databend 服务的私有终端节点。启用私有 DNS 后，Databend Cloud 域名会解析到这些私有 IP，所有会话都会自动通过安全的私有链路传输。
+从 **Connect to Databend Cloud** 对话框中获取 PrivateLink 服务名称，即可创建指向该服务的私有终端节点。云厂商会自动分配私有 IP 并接受终端节点请求，启用私有 DNS 后，Databend Cloud 域名会解析到这些私有 IP，所有会话都会自动通过安全的私有链路传输。
+
+![Connect](/img/documents/connect.png)
+
+![Connect](/img/documents/connect2.png)
 
 <IndexOverviewList />

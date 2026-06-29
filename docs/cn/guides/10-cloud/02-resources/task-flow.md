@@ -1,5 +1,5 @@
 ---
-title: Task Flow（任务流）
+title: 任务流（Task Flow）
 ---
 
 Task Flow 是 Databend Cloud 内置的工作流编排功能。你可以将多个 SQL 任务组织成有向无环图（DAG），统一调度、监控和管理，无需引入任何外部编排工具。

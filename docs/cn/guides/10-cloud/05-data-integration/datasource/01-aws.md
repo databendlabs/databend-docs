@@ -1,8 +1,8 @@
 ---
-title: AWS - Credentials
+title: Amazon S3 - 访问凭证
 ---
 
-本页介绍如何创建 `AWS - Credentials` 数据源。该数据源用于保存访问 Amazon S3 所需的凭据，可供多个 S3 集成任务复用。
+本页介绍如何创建 `Amazon S3 - 访问凭证` 数据源。该数据源用于保存访问 Amazon S3 所需的凭据，可供多个 S3 集成任务复用。
 
 ## 使用场景
 
@@ -10,10 +10,10 @@ title: AWS - Credentials
 - 避免在每个任务里重复填写同一组 S3 访问凭据
 - 在凭据轮换后统一更新引用它的任务
 
-## 创建 AWS - Credentials
+## 创建 Amazon S3 - 访问凭证
 
 1. 前往 **Data** > **Data Sources**，点击 **Create Data Source**。
-2. 将服务类型选择为 **AWS - Credentials**，然后填写凭据信息：
+2. 将服务类型选择为 **Amazon S3 - 访问凭证**，然后填写凭据信息：
 
 | 字段 | 是否必填 | 说明 |
 |------|----------|------|

@@ -12,11 +12,14 @@ Data sources do not execute synchronization by themselves. Their role is to cent
 
 | Type | Purpose |
 |------|---------|
-| [AWS - Credentials](./01-aws.md) | Stores the Access Key and Secret Key required to access Amazon S3. These credentials can be reused across multiple S3 import tasks. |
-| [MySQL - Credentials](./02-mysql.md) | Stores the host, port, username, password, and database information required to access MySQL. These settings can be reused across multiple MySQL sync tasks. |
-| [FeiShuBot](./03-feishu.md) | Stores a FeiShu bot webhook and message template for task failure notifications and similar scenarios. |
+| [Amazon S3 - Credentials](./01-aws.md) | Stores the Access Key and Secret Key required to access Amazon S3. These credentials can be reused across multiple S3 import tasks. |
+| [Amazon SQS (S3) - IAM Role (Beta)](./02-sqs-s3.md) | Stores the queue URL, Region, IAM Role, and S3 path scope required for SQS (S3) ingestion. It can be used to consume S3 object creation events. |
+| [MySQL - Credentials](./03-mysql.md) | Stores the host, port, username, password, and database information required to access MySQL. These settings can be reused across multiple MySQL sync tasks. |
+| [PostgreSQL - Credentials](./04-postgres.md) | Stores the host, port, username, password, and database information required to access PostgreSQL. These settings can be reused across multiple PostgreSQL sync tasks. |
+| [FeiShuBot](./05-feishu.md) | Stores a FeiShu bot webhook and message template for task failure notifications and similar scenarios. |
+| [Kafka - Credentials (Beta)](./06-kafka.md) | Stores the broker addresses, authentication method, and connection credentials required to access Kafka. These settings can be reused by Kafka Consumer tasks. |
 
-Not every data source corresponds to an integration task. For example, `FeiShuBot` is used for notification configuration, while `AWS - Credentials` and `MySQL - Credentials` are referenced by actual data import or synchronization tasks.
+Not every data source corresponds to an integration task. For example, `FeiShuBot` is used for notification configuration, while `Amazon S3 - Credentials`, `Amazon SQS (S3) - IAM Role`, `MySQL - Credentials`, `PostgreSQL - Credentials`, and `Kafka - Credentials` are referenced by actual import, synchronization, or event-consuming tasks.
 
 ## Managing Data Sources
 

@@ -154,3 +154,6 @@ SELECT METADATA$FILENAME, METADATA$FILE_ROW_NUMBER, $1, <FROM Clause>
 - [查询 Avro 文件](./04-querying-avro.md)
 - [查询 CSV 文件](./01-querying-csv.md)
 - [查询 TSV 文件](./02-querying-tsv.md)
+
+## Schema Evolution
+- [Schema Evolution](./07-schema-evolution.md) — 加载 Parquet 文件时自动向表中添加新列。

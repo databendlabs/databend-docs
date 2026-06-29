@@ -145,27 +145,36 @@ formatTypeOptions ::=
   [ ERROR_ON_COLUMN_COUNT_MISMATCH = TRUE | FALSE ]
   [ EMPTY_FIELD_AS = null | string | field_default ]
   [ BINARY_FORMAT = HEX | BASE64 ]
+  [ TRIM_SPACE = TRUE | FALSE ]
+  [ ENCODING = '<encoding_label>' ]
+  [ ENCODING_ERROR_MODE = STRICT | REPLACE ]
   
   /* TSV specific options */
   [ RECORD_DELIMITER = '<character>' ]
   [ FIELD_DELIMITER = '<character>' ]
+  [ TRIM_SPACE = TRUE | FALSE ]
+  [ ENCODING = '<encoding_label>' ]
+  [ ENCODING_ERROR_MODE = STRICT | REPLACE ]
   
   /* NDJSON specific options */
   [ NULL_FIELD_AS = NULL | FIELD_DEFAULT ]
   [ MISSING_FIELD_AS = ERROR | NULL | FIELD_DEFAULT ]
-  [ ALLOW_DUPLICATE_KEYS = TRUE | FALSE ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
   
   /* PARQUET specific options */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
+  [ USE_LOGIC_TYPE = TRUE | FALSE ]
   
   /* ORC specific options */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
   
   /* AVRO specific options */
   [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  [ NULL_IF = ('value1', 'value2', ...) ]
+  [ USE_LOGIC_TYPE = TRUE | FALSE ]
 
 copyOptions ::=
-  [ SIZE_LIMIT = <num> ]
   [ PURGE = <bool> ]
   [ FORCE = <bool> ]
   [ DISABLE_VARIANT_CHECK = <bool> ]
@@ -173,24 +182,23 @@ copyOptions ::=
   [ MAX_FILES = <num> ]
   [ RETURN_FAILED_ONLY = <bool> ]
   [ COLUMN_MATCH_MODE = { case-sensitive | case-insensitive } ]
+  [ SCHEMA_EVOLUTION = (
+      [ SAMPLE_FILES = AUTO | <positive_integer> ]
+      [ , SAMPLE_RECORDS_PER_FILE = AUTO | <positive_integer> ]
+      [ , SAMPLE_TOTAL_RECORDS = AUTO | <positive_integer> ]
+    ) ]
 
 ```
-
-:::note
-For remote files, you can use glob patterns to specify multiple files. For example:
-- `ontime_200{6,7,8}.csv` represents `ontime_2006.csv`, `ontime_2007.csv`, `ontime_2008.csv`
-- `ontime_200[6-8].csv` represents the same files
-:::
 
 ## Key Parameters
 
 - **FILES**: Specifies one or more file names (separated by commas) to be loaded.
 
-- **PATTERN**: A [PCRE2](https://www.pcre.org/current/doc/html/)-based regular expression pattern string that specifies file names to match. See [Example 4: Filtering Files with Pattern](#example-4-filtering-files-with-pattern).
+- **PATTERN**: A [PCRE2](https://www.pcre.org/current/doc/html/)-based regular expression pattern string that specifies file names to match. When loading from a stage, the pattern matches the part of the file path after `@<stage_name>[/<path>]`. See [Filtering Staged Files with PATTERN](/guides/load-data/stage/what-is-stage#filtering-staged-files-with-pattern) and [Example 4: Filtering Files with Pattern](#example-4-filtering-files-with-pattern).
 
 ## Format Type Options
 
-The `FILE_FORMAT` parameter supports different file types, each with specific formatting options. Below are the available options for each supported file format:
+The `FILE_FORMAT` parameter supports different file types, each with specific formatting options. Below are the available options for each supported file format. For full details on all options, see [Input & Output File Formats](../../00-sql-reference/50-file-format-options.md).
 
 <Tabs>
 <TabItem value="common" label="Common Options" default>
@@ -217,6 +225,9 @@ These options are available for all file formats:
 | ERROR_ON_COLUMN_COUNT_MISMATCH | Error if column count doesn't match | TRUE |
 | EMPTY_FIELD_AS | How to handle empty fields | null |
 | BINARY_FORMAT | Encoding format(HEX or BASE64) for binary data | HEX |
+| TRIM_SPACE | Trim leading/trailing ASCII whitespace from fields | FALSE |
+| ENCODING | Character set encoding of source file | UTF-8 |
+| ENCODING_ERROR_MODE | How to handle invalid bytes: STRICT or REPLACE | STRICT |
 
 </TabItem>
 
@@ -226,6 +237,14 @@ These options are available for all file formats:
 |--------|-------------|--------|
 | RECORD_DELIMITER | Character(s) separating records | newline |
 | FIELD_DELIMITER | Character(s) separating fields | tab (\t) |
+| SKIP_HEADER | Number of header lines to skip | 0 |
+| TRIM_SPACE | Trim leading/trailing ASCII whitespace from fields | FALSE |
+| NAN_DISPLAY | String representing NaN values | NaN |
+| NULL_DISPLAY | String representing NULL values | \N |
+| EMPTY_FIELD_AS | How to handle empty fields | FIELD_DEFAULT |
+| ERROR_ON_COLUMN_COUNT_MISMATCH | Error if column count doesn't match | TRUE |
+| ENCODING | Character set encoding of source file | UTF-8 |
+| ENCODING_ERROR_MODE | How to handle invalid bytes: STRICT or REPLACE | STRICT |
 
 </TabItem>
 
@@ -235,7 +254,7 @@ These options are available for all file formats:
 |--------|-------------|--------|
 | NULL_FIELD_AS | How to handle null fields | NULL |
 | MISSING_FIELD_AS | How to handle missing fields | ERROR |
-| ALLOW_DUPLICATE_KEYS | Allow duplicate object keys | FALSE |
+| NULL_IF | List of strings treated as NULL | empty |
 
 </TabItem>
 
@@ -244,6 +263,8 @@ These options are available for all file formats:
 | Option | Description | Default |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | How to handle missing fields | ERROR |
+| NULL_IF | List of strings treated as NULL | empty |
+| USE_LOGIC_TYPE | Use Parquet logical types for column type inference | TRUE |
 
 </TabItem>
 
@@ -260,6 +281,8 @@ These options are available for all file formats:
 | Option | Description | Default |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | How to handle missing fields | ERROR |
+| NULL_IF | List of strings treated as NULL | empty |
+| USE_LOGIC_TYPE | Use Avro logical types for column type inference | TRUE |
 
 </TabItem>
 </Tabs>
@@ -268,7 +291,6 @@ These options are available for all file formats:
 
 | Parameter | Description | Default |
 |-----------|-------------|----------|
-| SIZE_LIMIT | Maximum rows of data to load | `0` (no limit) |
 | PURGE | Purges files after successful load | `false` |
 | FORCE | Allows reloading of duplicate files | `false` (skips duplicates) |
 | DISABLE_VARIANT_CHECK | Replaces invalid JSON with null | `false` (fails on invalid JSON) |
@@ -276,6 +298,21 @@ These options are available for all file formats:
 | MAX_FILES | Maximum number of files to load (up to 15,000) | - |
 | RETURN_FAILED_ONLY | Only returns failed files in output | `false` |
 | COLUMN_MATCH_MODE | For Parquet: column name matching mode | `case-insensitive` |
+| SCHEMA_EVOLUTION | For NDJSON: sampling options used to infer columns that are missing from the target table. Requires `ENABLE_SCHEMA_EVOLUTION = true` and the `ALTER` privilege on the target table. | `AUTO` sampling |
+
+### SCHEMA_EVOLUTION Options
+
+`SCHEMA_EVOLUTION` controls how Databend samples staged NDJSON files before loading. Use it with `FILE_FORMAT = (TYPE = NDJSON ...)` when the target table has `ENABLE_SCHEMA_EVOLUTION = true`.
+
+When schema evolution inference runs for a stage or location load, the role that runs `COPY INTO <table>` must have both `INSERT` and `ALTER` privileges on the target table. Query-based COPY, such as `COPY INTO <table> FROM (SELECT ... FROM @stage)`, keeps the existing privilege requirements.
+
+| Option | Description | Values |
+|--------|-------------|--------|
+| SAMPLE_FILES | Number of staged files to sample. | `AUTO` or a positive integer |
+| SAMPLE_RECORDS_PER_FILE | Maximum number of records sampled from each selected file. | `AUTO` or a positive integer |
+| SAMPLE_TOTAL_RECORDS | Maximum number of records sampled across all selected files. | `AUTO` or a positive integer |
+
+If `SCHEMA_EVOLUTION` is omitted, Databend uses `AUTO` for all three sampling options. The current `AUTO` behavior samples up to 64 files, 1,000 records per file, and 10,000 records in total. These internal defaults may change in future versions. If your load is sensitive to the sampling strategy, set `SAMPLE_FILES`, `SAMPLE_RECORDS_PER_FILE`, and `SAMPLE_TOTAL_RECORDS` explicitly. If the sample misses a column that appears later during loading, COPY fails and reports the extra column names so you can increase the sampling values.
 
 :::tip
 When importing large volumes of data, such as logs, it is recommended to set both `PURGE` and `FORCE` to `true`. This ensures efficient data import without the need for interaction with the Meta server (updating the copied-files set). However, it is important to be aware that this may lead to duplicate data imports.
@@ -363,8 +400,7 @@ COPY INTO mytable
         FIELD_DELIMITER = ',',
         RECORD_DELIMITER = '\n',
         SKIP_HEADER = 1
-    )
-    SIZE_LIMIT = 10;
+    );
 ```
 
 **Using IAM Role (Recommended for Production)**
@@ -534,20 +570,20 @@ COPY INTO mytable
     );
 ```
 
-When specifying the pattern for a file path including multiple folders, consider your matching criteria:
+When specifying the pattern for staged files in paths with multiple folders, remember that the pattern matches only the path portion after `@<stage_name>[/<path>]`. For example, with `FROM @sales_stage/raw/`, the file `@sales_stage/raw/year=2025/month=01/sales_20250101.parquet` is matched as `year=2025/month=01/sales_20250101.parquet`.
 
-- If you want to match a specific subpath following a prefix, include the prefix in the pattern (e.g., 'multi_page/') and then specify the pattern you want to match within that subpath (e.g., '\_page_1').
+- If you want to match a specific subpath following a prefix, include the prefix in the pattern (e.g., 'year=2025/month=01/') and then specify the pattern you want to match within that subpath (e.g., 'sales_').
 
 ```sql
--- File path: parquet/multi_page/multi_page_1.parquet
-COPY INTO ... FROM @data/parquet/ PATTERN = 'multi_page/.*_page_1.*') ...
+-- File path: raw/year=2025/month=01/sales_20250101.parquet
+COPY INTO ... FROM @sales_stage/raw/ PATTERN = 'year=2025/month=01/.*sales_.*[.]parquet') ...
 ```
 
-- If you want to match any part of the file path that contains the desired pattern, use '.*' before and after the pattern (e.g., '.*multi_page_1.\*') to match any occurrences of 'multi_page_1' within the path.
+- If you want to match any part of the file path that contains the desired pattern, use '.*' before and after the pattern (e.g., '.*sales_20250101.*') to match any occurrences of 'sales_20250101' within the path.
 
 ```sql
--- File path: parquet/multi_page/multi_page_1.parquet
-COPY INTO ... FROM @data/parquet/ PATTERN ='.*multi_page_1.*') ...
+-- File path: raw/year=2025/month=01/sales_20250101.parquet
+COPY INTO ... FROM @sales_stage/raw/ PATTERN = '.*sales_20250101.*') ...
 ```
 
 ### Example 5: Loading to Table with Extra Columns
@@ -706,3 +742,49 @@ SELECT * FROM t2;
 │ 6                │ null              │
 └──────────────────────────────────────┘
 ```
+
+### Example 8: Loading with Schema Evolution
+
+When loading Parquet or NDJSON files whose schemas contain columns not present in the target table, you can use schema evolution to automatically add the missing columns. For stage or location loads that run schema evolution inference, make sure the loading role has `INSERT` and `ALTER` privileges on the target table. First, enable schema evolution on the table:
+
+```sql
+CREATE OR REPLACE TABLE invoices(order_id INT);
+
+-- Enable schema evolution
+ALTER TABLE invoices SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
+```
+
+#### Parquet
+
+Then load Parquet files with different schemas. Databend automatically adds new columns and fills missing values with `NULL`:
+
+```sql
+-- Assume @my_stage contains Parquet files with extra columns (e.g., amount, currency)
+COPY INTO invoices
+    FROM @my_stage/
+    FILE_FORMAT = (TYPE = PARQUET MISSING_FIELD_AS = FIELD_DEFAULT);
+```
+
+#### NDJSON
+
+For NDJSON, `COPY INTO` uses default sampling values to infer missing columns. Add `SCHEMA_EVOLUTION` only when you want to override how Databend samples staged files:
+
+```sql
+CREATE OR REPLACE TABLE events(id INT);
+ALTER TABLE events SET OPTIONS(ENABLE_SCHEMA_EVOLUTION = true);
+
+-- Assume @events_stage contains NDJSON records such as:
+-- {"id":1,"city":"SF","score":9}
+COPY INTO events
+    FROM @events_stage/
+    FILE_FORMAT = (TYPE = NDJSON MISSING_FIELD_AS = FIELD_DEFAULT)
+    SCHEMA_EVOLUTION = (
+        SAMPLE_FILES = AUTO,
+        SAMPLE_RECORDS_PER_FILE = AUTO,
+        SAMPLE_TOTAL_RECORDS = AUTO
+    );
+```
+
+Databend samples the staged NDJSON files, appends inferred fields such as `city` and `score` as nullable columns, and then loads the data.
+
+For more details, see [Schema Evolution](/guides/load-data/transform/schema-evolution).

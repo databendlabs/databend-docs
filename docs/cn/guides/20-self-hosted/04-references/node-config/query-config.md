@@ -58,6 +58,25 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 | aggregate_spilling_memory_ratio | 聚合操作触发磁盘溢出的内存阈值百分比。当内存使用超过总可用内存的该百分比时，数据将溢出到对象存储以避免内存耗尽。例如设为 60，则内存使用超过 60% 时触发溢出。 |
 | join_spilling_memory_ratio | Join 操作触发磁盘溢出的内存阈值百分比。当内存使用超过总可用内存的该百分比时，数据将溢出到对象存储以避免内存耗尽。例如设为 60，则内存使用超过 60% 时触发溢出。 |
 
+## [task] 部分
+
+在私有化部署中，可使用 [task] 部分启用私有化 Task：
+
+```toml
+[task]
+on = true
+```
+
+私有化 Task 需要带有 `private_task` 功能的企业版 License。
+
+:::note
+启用私有化 Task 时，[query] 部分中的 `cloud_control_grpc_server_address` 必须为空，否则 Databend Query 将无法启动。
+:::
+
+| 参数 | 描述 |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| on | 是否在 Databend Query 节点上启用私有化 Task 调度与执行，默认为 `false`。 |
+
 ## [log] 部分
 
 该部分可包含以下子部分：[log.file]、[log.stderr]、[log.query] 和 [log.tracing]。

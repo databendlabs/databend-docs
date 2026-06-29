@@ -32,6 +32,22 @@ In Databend Cloud, warehouses are available in various sizes, each defined by th
 
 To choose the appropriate warehouse size, Databend recommends starting with a smaller size. Smaller warehouses may take longer to execute SQL tasks compared to medium or large ones. If you find that query execution is taking too long (for example, several minutes), consider scaling up to a medium or large warehouse for faster results.
 
+:::tip[Not sure which size to choose?]
+
+See how Small, Medium, and Large warehouses perform on the same workload on the [TPC-H SF1000 (1TB) Warehouse Size Benchmark](/guides/benchmark/tpch-sf1000) page.
+
+**Dataset Scale:** TPC-H Scale Factor 1000 (SF1000) represents approximately 1TB of generated data, containing about 6 billion rows across the 8 standard TPC-H tables.
+
+:::note[Overview]
+
+| Warehouse Size | Total Time | Speedup vs. Small |
+| -------------- | ---------: | ----------------: |
+| Small          |  1173.32 s |             1.00x |
+| Medium         |   537.93 s |             2.18x |
+| Large          |   285.96 s |             4.10x |
+
+:::
+
 ## Managing Warehouses
 
 An organization can have as many warehouses as needed. The **Warehouses** page displays all the warehouses in your organization and allows you to manage them. Please note that only `account_admin` can create or delete a warehouse.

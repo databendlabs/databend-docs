@@ -4,16 +4,19 @@ title: Integration Tasks
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-An integration task in Databend Cloud defines how data flows from a source into a target table in Databend. Each task references an existing data source and specifies source settings, a target warehouse, a target database / table, and runtime parameters that are specific to the task type.
+An integration task in Databend Cloud defines how data flows from a source into Databend. Each task references an existing data source and specifies source settings, a target location or result viewing method, and runtime parameters that are specific to the task type.
 
-Unlike data sources, integration tasks are the executable units that actually perform data movement and synchronization. Data sources store access settings, while tasks handle scheduling, ingestion, synchronization, stopping, resuming, and monitoring.
+Unlike data sources, integration tasks are the executable units that actually perform data movement, synchronization, or message consumption. Data sources store access settings, while tasks handle scheduling, ingestion, synchronization, consumption, stopping, resuming, and monitoring.
 
 ## Supported Task Types
 
 | Task Type | Description |
 |-----------|-------------|
 | [Amazon S3](./01-s3.md) | Imports CSV, Parquet, or NDJSON files from Amazon S3 with support for one-time or continuous ingestion. |
-| [MySQL](./02-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
+| [Amazon SQS (S3) (Beta)](./02-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Platform. |
+| [MySQL](./03-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
+| [PostgreSQL](./04-postgres.md) | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
+| [Kafka Consumer Integration Task (Beta)](./05-kafka.md) | Continuously consumes messages from Kafka topics and saves the message content to internal object storage. |
 
 ## Reading Guide
 
@@ -25,6 +28,8 @@ Recommended reading order:
 ## Task Type Differences
 
 - S3 tasks are designed for file import scenarios and mainly focus on file path patterns, file formats, and ingestion behavior.
-- MySQL tasks are designed for table synchronization scenarios and mainly focus on sync modes, primary keys, incremental capture, and archive scheduling.
+- SQS (S3) tasks are designed for S3 event-driven data ingestion and mainly focus on the SQS queue, S3 event filters, IAM Role, and target table.
+- MySQL and PostgreSQL tasks are designed for table synchronization scenarios and mainly focus on sync modes, primary keys, incremental capture, and archive scheduling.
+- Kafka Consumer tasks are designed for message consumption scenarios and mainly focus on topics, start position, batch size, batch wait interval, and tenant Stage queries.
 
 <IndexOverviewList />
