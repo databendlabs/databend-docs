@@ -23,12 +23,11 @@ Databend 通过两个 Python 库与 Superset 集成：[databend-py](https://gith
 1. 以官方 Superset Docker 镜像为基础。编辑 Dockerfile，提升权限以安装必要的软件包。
 
 ```shell title='Dockerfile'
-FROM apache/superset
-# 切换到 root 用户安装所需软件包
+FROM apache/superset:6.1.0
 USER root
-RUN pip install databend-py 
-RUN pip install databend-sqlalchemy
-# 切换回使用 'superset' 用户
+RUN uv pip install --python /app/.venv/bin/python --no-cache \
+        "databend-driver==0.34.0" \
+        "databend-sqlalchemy==0.5.5"
 USER superset
 ```
 
@@ -49,7 +48,19 @@ docker run -d -p 8080:8088 -e "SUPERSET_SECRET_KEY=<your_secret_key>" --name sup
 
 ### 配置 Superset
 
-1. 创建管理员用户。
+1. 应用必要的数据库迁移，确保 Superset 数据库架构是最新的。
+
+```shell
+docker exec -it superset superset db upgrade
+```
+
+2. 初始化 Superset。
+
+```shell
+docker exec -it superset superset init
+```
+
+3. 创建管理员用户。
 
 ```shell
 docker exec -it superset superset fab create-admin \
@@ -59,19 +70,6 @@ docker exec -it superset superset fab create-admin \
            --email admin@superset.com \
            --password admin
 ```
-
-2. 应用必要的数据库迁移，确保 Superset 数据库架构是最新的。
-
-```shell
-docker exec -it superset superset db upgrade
-```
-
-3. 初始化 Superset。
-
-```shell
-docker exec -it superset superset init
-```
-
 </StepContent>
 <StepContent number="3">
 
@@ -88,7 +86,11 @@ docker exec -it superset superset init
 
 ![Alt text](/img/integration/superset-select-other.png)
 
-4. 在 **BASIC** 选项卡中，设置显示名称（例如 `Databend`），然后输入连接 Databend Cloud 的 URI。URI 格式为：`databend://<host>`，其中 `<host>` 对应您计算集群连接信息中的 host 字段。有关如何获取连接详情的说明，请参阅 [连接到计算集群](/guides/cloud/resources/warehouses#connecting-to-a-warehouse)。
+4. 在 **BASIC** 选项卡中，设置显示名称（例如 `Databend`），然后输入连接 Databend Cloud 的完整 SQLAlchemy DSN。DSN 格式为：`databend://<username>:<password>@<host>:443/<database>?warehouse=<warehouse_name>`，其中各字段对应您计算集群的连接信息。有关如何获取连接详情的说明，请参阅 [连接到计算集群](/guides/cloud/resources/warehouses#connecting-to-a-warehouse)。
+
+:::note
+目前 Databend 数据源还不支持通过参数（host、端口、用户名、密码等单独字段）配置连接，您必须使用完整的 SQLAlchemy DSN 进行连接，即在 URI 中包含用户名、密码、数据库和 warehouse 等信息：`databend://<username>:<password>@<host>:443/<database>?warehouse=<warehouse_name>`。
+:::
 
 ![Alt text](/img/integration/superset-uri.png)
 
