@@ -43,12 +43,39 @@ _my_databend
 默认情况下，Databend 以小写形式存储未引用的标识符，并按输入的方式存储双引号标识符。换句话说，Databend 将对象名称（如数据库、表和列）视为不区分大小写。 如果希望 Databend 将它们视为区分大小写，请使用双引号将其引起来。
 
 :::note
-Databend 允许您控制标识符的大小写敏感性。 有两个关键设置可用：
+默认情况下，Databend 采用 PostgreSQL 风格的标识符大小写规则：未加引号的标识符会被折叠为小写，而双引号标识符则保留原始大小写并区分大小写。这一行为由两个设置控制：
 
-- unquoted_ident_case_sensitive：设置为 1 时，此选项保留未引用标识符的字符大小写，确保它们区分大小写。 如果保留默认值 0，则未引用的标识符仍不区分大小写，并转换为小写。
+- `unquoted_ident_case_sensitive`：默认值为 `0`，即未引用标识符不区分大小写，并被折叠为小写。将其设置为 `1` 时，保留未引用标识符的大小写，使其区分大小写。
 
-- quoted_ident_case_sensitive：通过将此选项设置为 0，您可以指示双引号标识符不应保留字符的大小写，从而使其不区分大小写。
+- `quoted_ident_case_sensitive`：默认值为 `1`，即双引号标识符保留字符大小写、区分大小写。将其设置为 `0` 时，双引号标识符不区分大小写。
+
+如果您希望使用 MySQL 风格、无论是否加引号都不区分大小写的行为，可以将 `unquoted_ident_case_sensitive` 和 `quoted_ident_case_sensitive` 都设置为 `0`。
 :::
+
+### 为什么 `SELECT *` 能成功，而 `SELECT <列名>` 却失败
+
+一个常见的困惑来自这样的表：它的列是用保留大小写的引号（双引号或反引号）创建的，例如 `"Employee_ID"`。在默认设置下，`SELECT *` 能正常返回数据，但按列名引用时，无论大小写怎么写都会失败：
+
+```sql
+-- 创建时保留了列名大小写
+CREATE TABLE xxxTable ("Employee_ID" INT, "Department" VARCHAR);
+INSERT INTO xxxTable VALUES (1, 'Eng');
+
+-- 成功：没有按名称引用任何列
+SELECT * FROM xxxTable;
+
+-- 失败：未引用的列名被折叠为小写（employee_id / department），
+-- 与存储的 "Employee_ID" / "Department" 不匹配
+SELECT Employee_ID FROM xxxTable;
+SELECT employee_id FROM xxxTable;
+
+-- 成功：双引号保留了大小写，与存储的列名匹配
+SELECT "Employee_ID" FROM xxxTable;
+```
+
+这是因为 `unquoted_ident_case_sensitive` 默认值为 `0`，所以 `Employee_ID` 和 `employee_id` 都会被解析为 `employee_id`，而该列并不存在。要确认列名的实际大小写，可以运行 `DESC xxxTable;` 或 `SHOW CREATE TABLE xxxTable;`。
+
+为避免此问题，您可以用双引号并按创建时的确切大小写引用列名；更推荐的做法是，在创建数据库、表和列时只使用小写字母、数字和下划线（不加引号）。
 
 此示例演示了 Databend 在创建和列出数据库时如何处理标识符的大小写：
 
