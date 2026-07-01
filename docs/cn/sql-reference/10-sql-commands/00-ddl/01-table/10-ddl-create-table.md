@@ -13,21 +13,21 @@ import EEFeature from '@site/src/components/EEFeature';
 
 在许多数据库中，创建表是最复杂的操作之一，因为你可能需要：
 
-- 手动指定引擎  
-- 手动指定索引  
-- 甚至指定数据分区或分片  
+- 手动指定引擎
+- 手动指定索引
+- 甚至指定数据分区或分片
 
 Databend 以“开箱即用”为设计目标，创建表时无需上述任何操作。此外，CREATE TABLE 语句提供以下选项，帮助你在不同场景下轻松建表：
 
-- [CREATE TABLE](#create-table)：从零开始创建表。  
-- [CREATE TABLE ... LIKE](#create-table--like)：按已有表的列定义创建新表。  
-- [CREATE TABLE ... AS](#create-table--as)：创建表并将 SELECT 查询结果作为数据插入。  
+- [CREATE TABLE](#create-table)：从零开始创建表。
+- [CREATE TABLE ... LIKE](#create-table--like)：按已有表的列定义创建新表。
+- [CREATE TABLE ... AS](#create-table--as)：创建表并将 SELECT 查询结果作为数据插入。
 
 另请参阅：
 
-- [CREATE TEMP TABLE](10-ddl-create-temp-table.md)  
-- [CREATE TRANSIENT TABLE](10-ddl-create-transient-table.md)  
-- [CREATE EXTERNAL TABLE](10-ddl-create-table-external-location.md)  
+- [CREATE TEMP TABLE](10-ddl-create-temp-table.md)
+- [CREATE TRANSIENT TABLE](10-ddl-create-transient-table.md)
+- [CREATE EXTERNAL TABLE](10-ddl-create-table-external-location.md)
 
 ## CREATE TABLE
 
@@ -50,10 +50,10 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 
 :::note
 
-- 关于 Databend 支持的数据类型，参见 [数据类型](../../../00-sql-reference/10-data-types/index.md)。  
-- 建议列名避免特殊字符；如必须使用，请用反引号包裹，例如：CREATE TABLE price(\`$CA\` int);  
+- 关于 Databend 支持的数据类型，参见 [数据类型](../../../00-sql-reference/10-data-types/index.md)。
+- 建议列名避免特殊字符；如必须使用，请用反引号包裹，例如：CREATE TABLE price(\`$CA\` int);
 - Databend 会自动将列名转为小写。例如列名 _Total_ 在结果中显示为 _total_。  
-:::
+  :::
 
 ## CREATE TABLE ... LIKE
 
@@ -74,6 +74,7 @@ LIKE [db.]origin_table_name
 create transient table t_new like t_old;
 create table t_new compression='lz4' like t_old;
 ```
+
 :::
 
 ## CREATE TABLE ... AS
@@ -95,6 +96,7 @@ AS SELECT query
 create transient table t_new as select * from t_old;
 create table t_new compression='lz4' as select * from t_old;
 ```
+
 :::
 
 ## 列的可空性
@@ -105,11 +107,11 @@ create table t_new compression='lz4' as select * from t_old;
 
 `DEFAULT <expr>` 为列设置默认值，支持：
 
-- 固定常量，如 `Marketing`  
-- 无入参的标量表达式，如 `1 + 1`、`NOW()`、`UUID()`  
-- 序列动态值，如 `NEXTVAL(staff_id_seq)`  
-  - NEXTVAL 必须独立使用，不支持 `NEXTVAL(seq1) + 1`  
-  - 需具备相应序列权限  
+- 固定常量，如 `Marketing`
+- 无入参的标量表达式，如 `1 + 1`、`NOW()`、`UUID()`
+- 序列动态值，如 `NEXTVAL(staff_id_seq)`
+  - NEXTVAL 必须独立使用，不支持 `NEXTVAL(seq1) + 1`
+  - 需具备相应序列权限
 
 ## 自增列
 
@@ -128,17 +130,17 @@ create table t_new compression='lz4' as select * from t_old;
 
 **参数：**
 
-- `start_num`：起始值（默认 1）  
-- `step_num`：步长（默认 1）  
-- `ORDER`：保证单调递增（可能有间隙）  
-- `NOORDER`：不保证顺序（默认）  
+- `start_num`：起始值（默认 1）
+- `step_num`：步长（默认 1）
+- `ORDER`：保证单调递增（可能有间隙）
+- `NOORDER`：不保证顺序（默认）
 
 **要点：**
 
-- 内部由序列实现  
-- 删除列时关联序列一并删除  
-- 未指定值时自动生成  
-- `AUTOINCREMENT` 与 `IDENTITY` 等价  
+- 内部由序列实现
+- 删除列时关联序列一并删除
+- 未指定值时自动生成
+- `AUTOINCREMENT` 与 `IDENTITY` 等价
 
 **示例：**
 
@@ -158,8 +160,8 @@ SELECT * FROM users;
 
 计算列通过标量表达式由其他列生成，支持两种类型：
 
-- **STORED**：值持久化存储，依赖列变更时自动更新  
-- **VIRTUAL**：查询时实时计算，节省存储  
+- **STORED**：值持久化存储，依赖列变更时自动更新
+- **VIRTUAL**：查询时实时计算，节省存储
 
 **语法：**
 
@@ -196,11 +198,13 @@ CREATE TABLE employees (
 
 Databend 语法与 MySQL 的差异主要在数据类型及部分索引提示。
 
+与 MySQL 不同，Databend 默认采用 PostgreSQL 风格的标识符大小写规则：未引用的列名会被转换为小写，而双引号包裹的列名则保留原始大小写且区分大小写。因此，如果建表时使用了保留大小写的引用列名（例如 `"Employee_ID"`），`SELECT *` 可以正常返回数据，但 `SELECT Employee_ID` 或 `SELECT employee_id` 会失败。有关大小写规则、相关设置以及如何排查此类问题，请参阅 [SQL 标识符](/sql/sql-reference/sql-identifiers#标识符大小写规则)。
+
 ## 访问控制要求
 
-| 权限   | 对象类型   | 描述     |
-|:-------|:-----------|:---------|
-| CREATE | 全局、表   | 创建表   |
+| 权限   | 对象类型 | 描述   |
+| :----- | :------- | :----- |
+| CREATE | 全局、表 | 创建表 |
 
 创建表时，用户或 [current_role](/guides/security/access-control/roles) 需具备 CREATE [权限](/guides/security/access-control/privileges#table-privileges)。
 

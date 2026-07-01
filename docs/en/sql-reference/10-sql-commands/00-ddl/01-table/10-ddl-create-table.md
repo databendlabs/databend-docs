@@ -217,15 +217,15 @@ Choose **STORED** for frequently queried columns where performance matters. Choo
 
 Databend's syntax is difference from MySQL mainly in the data type and some specific index hints.
 
+Unlike MySQL, Databend follows PostgreSQL-style identifier casing by default: unquoted column names are folded to lowercase, while double-quoted names preserve their case and are case-sensitive. This is why a table created with quoted, case-preserving column names (e.g. `"Employee_ID"`) can return rows for `SELECT *` but fail for `SELECT Employee_ID` or `SELECT employee_id`. See [SQL Identifiers](/sql/sql-reference/sql-identifiers#identifier-casing-rules) for the casing rules, the related settings, and how to troubleshoot this behavior.
+
 ## Access control requirements
 
-| Privilege | Object Type   | Description            |
-|:----------|:--------------|:-----------------------|
-| CREATE    | Global, Table | Creates a table.       |
-
+| Privilege | Object Type   | Description      |
+| :-------- | :------------ | :--------------- |
+| CREATE    | Global, Table | Creates a table. |
 
 To create a table, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE [privilege](/guides/security/access-control/privileges#table-privileges).
-
 
 ## Examples
 
