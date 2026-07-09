@@ -41,19 +41,29 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 
 ## 示例
 
+### 创建基础数据库
+
 以下示例创建一个名为 `test` 的数据库：
 
 ```sql
 CREATE DATABASE test;
 ```
 
-以下示例创建一个指定默认存储连接和路径的数据库：
+### 创建带默认存储连接的数据库
+
+以下示例先使用 AWS IAM 角色创建连接，再创建一个以该连接作为默认存储的数据库。相比访问密钥，使用 IAM 角色更安全，因为无需在 Databend 中存储凭证。
 
 ```sql
-CREATE CONNECTION my_s3 STORAGE_TYPE = 's3' ACCESS_KEY_ID = '<key>' SECRET_ACCESS_KEY = '<secret>';
+CREATE CONNECTION my_s3
+    STORAGE_TYPE = 's3'
+    ROLE_ARN = 'arn:aws:iam::987654321987:role/databend-test';
 
 CREATE DATABASE analytics OPTIONS (
     DEFAULT_STORAGE_CONNECTION = 'my_s3',
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics/'
 );
 ```
+
+:::info
+在 Databend Cloud 中使用 IAM 角色时，需要在你的 AWS 账户与 Databend Cloud 之间建立信任关系。详情请参阅 [使用 AWS IAM 角色进行身份验证](/guides/cloud/security/iam-role)。
+:::
