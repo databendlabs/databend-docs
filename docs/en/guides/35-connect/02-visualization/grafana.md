@@ -7,12 +7,103 @@ sidebar_position: 1
 
 Databend Cloud and Databend can integrate with Grafana in two ways:
 
-- **Loki Protocol (Recommended for Databend Cloud)**: Use Grafana's built-in Loki data source to connect to Databend Cloud via Loki-compatible API endpoints.
-- **Custom Plugin**: Use the [Grafana Databend Data Source Plugin](https://github.com/databendlabs/grafana-databend-datasource) for direct SQL access.
+- **Databend Data Source Plugin (Recommended)**: Use the [Grafana Databend Data Source Plugin](https://github.com/databendlabs/grafana-databend-datasource) for direct SQL access, with a query builder, metrics, logs, traces, alerting, and annotations. Works with both self-hosted Databend and Databend Cloud.
+- **Loki Protocol**: Use Grafana's built-in Loki data source to connect to Databend Cloud via Loki-compatible API endpoints.
 
-## Using Loki Protocol (Recommended)
+## Using the Databend Data Source Plugin (Recommended)
 
-Databend Cloud provides a Loki-compatible API that allows you to use Grafana's native Loki data source without installing additional plugins. This is the recommended approach for most use cases.
+The [Grafana Databend Data Source Plugin](https://github.com/databendlabs/grafana-databend-datasource) provides direct SQL access to Databend and includes:
+
+- **SQL Editor** — Full SQL query editor with macro support and template variables
+- **Query Builder** — Visual query builder with database/table/column selectors, filters, aggregation, and ordering
+- **Metrics** — Time series visualization with the `$__timeInterval` macro
+- **Logs** — Native logs support with configurable time/level/message columns
+- **Traces** — Native traces support with configurable span/trace ID columns
+- **Alerting** — Grafana alerting support
+- **Annotations** — Query-based annotations
+
+### Step 1. Set up Environment
+
+Before you start, ensure you have:
+
+- Grafana installed. Refer to the official installation guide: [https://grafana.com/docs/grafana/latest/setup-grafana/installation](https://grafana.com/docs/grafana/latest/setup-grafana/installation)
+- Either:
+  - A local Databend instance (follow the [Deployment Guide](/guides/self-hosted) to deploy)
+  - Or Databend Cloud access with connection information for a warehouse (see [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting))
+
+### Step 2. Modify Grafana Configuration
+
+The plugin is not yet signed, so you need to allow Grafana to load it. Add the following lines to your `grafana.ini` file:
+
+```ini
+[plugins]
+allow_loading_unsigned_plugins = databendlabs-databend-datasource
+```
+
+Alternatively, set it via environment variable:
+
+```bash
+GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=databendlabs-databend-datasource
+```
+
+### Step 3. Install the Grafana Databend Data Source Plugin
+
+1. Find the latest release on the [Releases](https://github.com/databendlabs/grafana-databend-datasource/releases) page.
+
+2. Download the plugin archive and extract it into your Grafana plugins directory. For example, using release `v1.4.9`:
+
+```shell
+curl -fLo /tmp/grafana-databend-datasource.zip https://github.com/databendlabs/grafana-databend-datasource/releases/download/v1.4.9/databendlabs-databend-datasource-1.4.9.zip
+unzip /tmp/grafana-databend-datasource.zip -d /var/lib/grafana/plugins
+rm /tmp/grafana-databend-datasource.zip
+```
+
+  When running Grafana in Docker, mount the plugin and set the environment variable instead:
+
+  ```yaml
+  services:
+    grafana:
+      image: grafana/grafana:latest
+      environment:
+        - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=databendlabs-databend-datasource
+      volumes:
+        - ./databendlabs-databend-datasource:/var/lib/grafana/plugins/databendlabs-databend-datasource
+  ```
+
+3. Restart Grafana to load the plugin.
+
+4. Navigate to the **Plugins** page in the Grafana UI, for example, `http://localhost:3000/plugins`, and ensure the plugin is installed.
+
+![Plugins](/img/integration/grafana-plugins.png)
+![Plugin detail](/img/integration/grafana-plugin-detail.png)
+
+### Step 4. Configure Data Source
+
+1. Go to the `Add new connection` page, for example, `http://localhost:3000/connections/add-new-connection?search=databend`, search for `databend`, and select it.
+
+2. Click **Add new data source** on the top right corner of the page.
+
+3. Input the `DSN` field for your Databend instance. For example:
+   - Self-hosted: `databend://root:@localhost:8000/default?sslmode=disable`
+   - Databend Cloud: `databend://cloudapp:******@tnxxxxxxx.gw.aws-us-east-2.default.databend.com:443/default?warehouse=xsmall-fsta`
+
+4. Optionally, input the `SQL User Password` field to override the password in the `DSN` field.
+
+5. Click **Save & test**. If the page displays "Data source is working", the data source has been successfully created.
+
+### Step 5. Test Queries
+
+1. Create a new dashboard and add a panel.
+
+2. Select your Databend data source.
+
+3. Write SQL queries using the SQL editor, or use the visual query builder to retrieve and visualize your data. The plugin supports macros such as `$__timeFilter(col)` and `$__timeInterval(col)` for time-based queries — see the [plugin README](https://github.com/databendlabs/grafana-databend-datasource#macros) for the full list.
+
+4. Configure the panel visualization options as needed.
+
+## Using Loki Protocol (Alternative)
+
+Databend Cloud provides a Loki-compatible API that allows you to use Grafana's native Loki data source without installing additional plugins. This is a good option when you only need log visualization via LogQL.
 
 :::note
 The Loki protocol feature requires activation. Please contact support to enable this feature for your account.
@@ -124,70 +215,3 @@ For detailed information on obtaining connection details, see [Connecting to a W
 4. Customize the visualization as needed using Grafana's panel options.
 
 ![Test Loki Query with Explore](/img/connect/grafana-test-loki-query-with-explore.png)
-
-## Using Custom Plugin (Alternative)
-
-For advanced use cases requiring direct SQL access or when working with self-hosted Databend, you can use the Grafana Databend Data Source Plugin.
-
-### Step 1. Set up Environment
-
-Before you start, ensure you have:
-
-- Grafana installed. Refer to the official installation guide: [https://grafana.com/docs/grafana/latest/setup-grafana/installation](https://grafana.com/docs/grafana/latest/setup-grafana/installation)
-- Either:
-  - A local Databend instance (follow the [Deployment Guide](/guides/self-hosted) to deploy)
-  - Or Databend Cloud access with connection information for a warehouse (see [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting))
-
-### Step 2. Modify Grafana Configuration
-
-Add the following lines to your `grafana.ini` file:
-
-```ini
-[plugins]
-allow_loading_unsigned_plugins = databend-datasource
-```
-
-### Step 3. Install the Grafana Databend Data Source Plugin
-
-1. Find the latest release on [GitHub Release](https://github.com/databendlabs/grafana-databend-datasource/releases).
-
-2. Get the download URL for the plugin zip package, for example, `https://github.com/databendlabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip`.
-
-3. Get the Grafana plugins folder and unzip the downloaded zip package into it:
-
-```shell
-curl -fLo /tmp/grafana-databend-datasource.zip https://github.com/databendlabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip
-unzip /tmp/grafana-databend-datasource.zip -d /var/lib/grafana/plugins
-rm /tmp/grafana-databend-datasource.zip
-```
-
-4. Restart Grafana to load the plugin.
-
-5. Navigate to the **Plugins** page in the Grafana UI, for example, `http://localhost:3000/plugins`, and ensure the plugin is installed.
-
-![Plugins](/img/integration/grafana-plugins.png)
-![Plugin detail](/img/integration/grafana-plugin-detail.png)
-
-### Step 4. Configure Data Source
-
-1. Go to the `Add new connection` page, for example, `http://localhost:3000/connections/add-new-connection?search=databend`, search for `databend`, and select it.
-
-2. Click **Add new data source** on the top right corner of the page.
-
-3. Input the `DSN` field for your Databend instance. For example:
-   - Self-hosted: `databend://root:@localhost:8000?sslmode=disable`
-   - Databend Cloud: `databend://cloudapp:******@tnxxxxxxx.gw.aws-us-east-2.default.databend.com:443/default?warehouse=xsmall-fsta`
-
-4. Optionally, input the `SQL User Password` field to override the password in the `DSN` field.
-
-5. Click **Save & test**. If the page displays "Data source is working", the data source has been successfully created.
-
-### Step 5. Test Queries
-
-1. Create a new dashboard and add a panel.
-
-2. Select your Databend data source.
-
-3. Write SQL queries to retrieve and visualize your data.
-
-4. Configure the panel visualization options as needed.
