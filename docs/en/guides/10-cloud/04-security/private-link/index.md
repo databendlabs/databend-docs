@@ -20,3 +20,7 @@ PrivateLink-style private endpoints offered by major clouds (AWS PrivateLink, Az
 Grab the PrivateLink service name from the **Connect to Databend Cloud** dialog, then create a private endpoint that points to it. The cloud provider automatically allocates private IP addresses and accepts the endpoint, and once private DNS is enabled, your Databend Cloud domains resolve to those addresses so every session stays on the secure, private path.
 
 <IndexOverviewList />
+
+![Connect](/img/documents/connect.png)
+
+![Connect](/img/documents/connect2.png)

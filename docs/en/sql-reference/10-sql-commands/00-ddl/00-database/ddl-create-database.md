@@ -42,19 +42,29 @@ To create a database, the user performing the operation or the [current_role](/g
 
 ## Examples
 
+### Creating a Basic Database
+
 The following example creates a database named `test`:
 
 ```sql
 CREATE DATABASE test;
 ```
 
-The following example creates a database with a default storage connection and path:
+### Creating a Database with a Default Storage Connection
+
+The following example creates a connection using an AWS IAM role and then creates a database that uses this connection as its default storage. Using an IAM role is more secure than access keys because it doesn't require storing credentials in Databend.
 
 ```sql
-CREATE CONNECTION my_s3 STORAGE_TYPE = 's3' ACCESS_KEY_ID = '<key>' SECRET_ACCESS_KEY = '<secret>';
+CREATE CONNECTION my_s3
+    STORAGE_TYPE = 's3'
+    ROLE_ARN = 'arn:aws:iam::987654321987:role/databend-test';
 
 CREATE DATABASE analytics OPTIONS (
     DEFAULT_STORAGE_CONNECTION = 'my_s3',
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics/'
 );
 ```
+
+:::info
+To use IAM roles with Databend Cloud, you need to set up a trust relationship between your AWS account and Databend Cloud. See [Authenticate with AWS IAM Role](/guides/cloud/security/iam-role) for detailed instructions.
+:::

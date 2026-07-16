@@ -10,5 +10,6 @@ Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentat
 
 [**Databend**](https://github.com/databendlabs/databend) is an open-source, cloud-native data warehouse built in Rust and fully based on object storage, evolved from a single analytics engine into a unified multimodal database. With a unified optimizer, compute, and storage engine, it supports **BI Analytics**, **AI Vectors**, **Full-Text Search**, and **Geospatial Analysis** on one platform through Snowflake-compatible SQL, and enables real-time data ingestion, transformation, and analysis via Stream + Task.
 
+{/*raws: https://raw.githubusercontent.com/databendlabs/databend-docs/refs/heads/main/src/components/DocsOverview/index.tsx*/}
 
 <DocsOverview />
