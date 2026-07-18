@@ -31,3 +31,5 @@ MCP（Model Context Protocol）服务器让 AI 助手能够用自然语言查询
 **[MCP Client 集成](03-mcp-integration.md)** —— 将 AI 助手连接到托管的 Databend Cloud MCP Server，或为自托管 Databend 运行本地 `mcp-databend` Server
 
 **[MCP 服务器指南](02-mcp.md)** —— 使用本地 mcp-databend 构建对话式 BI 工具（也是连接自托管 Databend 的方式）
+
+**[AI 文档处理流水线](04-document-pipeline.md)** —— 将 S3 中的 PDF 和图片依次经过 OCR、实体抽取和 Embedding，最终实现全文检索和向量检索
