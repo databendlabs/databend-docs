@@ -52,7 +52,7 @@ from databend_udf import udf, UDFServer
 
 @udf(
     input_types=["INT", "INT"],
-    result_type="INT",
+    result_type="INT NULL",
     skip_null=True,
 )
 def gcd(x: int, y: int) -> int:
@@ -89,7 +89,7 @@ For Databend Cloud, expose the Flight server on HTTPS with gRPC/HTTP2 support, t
 
 ```sql
 CREATE FUNCTION gcd AS (INT, INT)
-    RETURNS INT
+    RETURNS INT NULL
     LANGUAGE python
     HANDLER = 'gcd'
     ADDRESS = 'http://127.0.0.1:8815';
