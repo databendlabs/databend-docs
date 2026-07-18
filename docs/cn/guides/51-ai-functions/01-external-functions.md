@@ -34,19 +34,16 @@ model = SentenceTransformer('all-mpnet-base-v2')  # 768 维向量
 
 @udf(
     input_types=["STRING"],
-    result_type="ARRAY(FLOAT)",
+    result_type="VECTOR(768)",
 )
-def ai_embed_768(inputs: list[str], headers) -> list[list[float]]:
-    """为输入文本生成 768 维嵌入"""
-    try:
-        # 在单个批次中处理输入
-        embeddings = model.encode(inputs)
-        # 转换为列表格式
-        return [embedding.tolist() for embedding in embeddings]
-    except Exception as e:
-        print(f"Error generating embeddings: {e}")
-        # 发生错误时返回空列表
-        return [[] for _ in inputs]
+def ai_embed_768(text: str) -> list[float]:
+    """为输入文本生成 768 维嵌入。"""
+    embedding = model.encode(
+        text or "",
+        normalize_embeddings=True,
+        show_progress_bar=False,
+    )
+    return embedding.tolist()
 
 if __name__ == '__main__':
     print("Starting embedding UDF server on port 8815...")
@@ -57,9 +54,9 @@ if __name__ == '__main__':
 
 ```sql
 -- 在 Databend 中注册外部函数
-CREATE OR REPLACE FUNCTION ai_embed_768 (STRING)
-    RETURNS ARRAY(FLOAT)
-    LANGUAGE PYTHON
+CREATE OR REPLACE FUNCTION ai_embed_768 AS (STRING)
+    RETURNS VECTOR(768)
+    LANGUAGE python
     HANDLER = 'ai_embed_768'
     ADDRESS = 'https://your-ml-server.example.com';
 

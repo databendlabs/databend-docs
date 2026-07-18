@@ -256,6 +256,16 @@
   }
 }
 
+// Keep long code examples compact while preserving titles and copy buttons
+// outside the scrollable <pre> element. Short code blocks remain unchanged.
+@media screen {
+  .theme-doc-markdown.markdown div[class^="codeBlockContent_"] pre {
+    max-height: min(46.8rem, 70vh);
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+}
+
 // margin
 .margin-top--lg {
   --ifm-card-border-radius: 0.5rem;

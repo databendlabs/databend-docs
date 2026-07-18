@@ -22,6 +22,22 @@ Build powerful AI/ML capabilities by connecting Databend with your own infrastru
 2. **Register Function**: Connect your server to Databend with `CREATE FUNCTION`
 3. **Use in SQL**: Call your custom AI functions directly in SQL queries
 
+## Databend Cloud Network Requirements
+
+External functions use **Arrow Flight over gRPC/HTTP2**, not REST.
+
+1. Expose the UDF server on HTTPS with a public TLS certificate and gRPC/HTTP2 support.
+2. Open **Support → Create New Ticket** and add the hostname to the tenant **UDF server allowlist**.
+3. If the firewall is locked down, allow Databend Cloud egress addresses on TCP 443.
+
+`CREATE FUNCTION` fails with `Unallowed UDF server address` until the host is allowlisted, and it also verifies the remote schema, so the endpoint must be online.
+
+Keep the local `UDFServer` gRPC listener private; terminate TLS at a gRPC load balancer:
+
+```text
+Databend Cloud → HTTPS/HTTP2 :443 → UDFServer gRPC :8815
+```
+
 ## Example: Text Embedding Function
 
 ```python
@@ -34,19 +50,16 @@ model = SentenceTransformer('all-mpnet-base-v2')  # 768-dimensional vectors
 
 @udf(
     input_types=["STRING"],
-    result_type="ARRAY(FLOAT)",
+    result_type="VECTOR(768)",
 )
-def ai_embed_768(inputs: list[str], headers) -> list[list[float]]:
-    """Generate 768-dimensional embeddings for input texts"""
-    try:
-        # Process inputs in a single batch
-        embeddings = model.encode(inputs)
-        # Convert to list format
-        return [embedding.tolist() for embedding in embeddings]
-    except Exception as e:
-        print(f"Error generating embeddings: {e}")
-        # Return empty lists in case of error
-        return [[] for _ in inputs]
+def ai_embed_768(text: str) -> list[float]:
+    """Generate a 768-dimensional embedding for the input text."""
+    embedding = model.encode(
+        text or "",
+        normalize_embeddings=True,
+        show_progress_bar=False,
+    )
+    return embedding.tolist()
 
 if __name__ == '__main__':
     print("Starting embedding UDF server on port 8815...")
@@ -57,11 +70,15 @@ if __name__ == '__main__':
 
 ```sql
 -- Register the external function in Databend
-CREATE OR REPLACE FUNCTION ai_embed_768 (STRING)
-    RETURNS ARRAY(FLOAT)
-    LANGUAGE PYTHON
+CREATE OR REPLACE FUNCTION ai_embed_768 AS (STRING)
+    RETURNS VECTOR(768)
+    LANGUAGE python
     HANDLER = 'ai_embed_768'
     ADDRESS = 'https://your-ml-server.example.com';
+
+-- Registration connects to the Flight endpoint and validates its schema.
+SELECT VECTOR_DIMS(ai_embed_768('health check'));
+-- 768
 
 -- Use the custom embedding in queries
 SELECT

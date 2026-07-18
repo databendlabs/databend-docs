@@ -39,7 +39,7 @@ This example walks through a complete end-to-end setup for an external function 
 
 ### Step 1: Set Up the Python UDF Server
 
-Install the `databend-udf` package:
+External functions communicate over Apache Arrow Flight (gRPC/HTTP2), not REST. Install the `databend-udf` package:
 
 ```bash
 pip install databend-udf
@@ -52,7 +52,7 @@ from databend_udf import udf, UDFServer
 
 @udf(
     input_types=["INT", "INT"],
-    result_type="INT",
+    result_type="INT NULL",
     skip_null=True,
 )
 def gcd(x: int, y: int) -> int:
@@ -72,17 +72,30 @@ Start the server:
 python udf_server.py
 ```
 
-### Step 2: Register the Function in Databend
+### Step 2: Expose and Allow the Server
+
+For local or self-hosted testing, configure every Databend query node:
+
+```toml
+[query]
+enable_udf_server = true
+udf_server_allow_insecure = true
+udf_server_allow_list = ["http://127.0.0.1:8815"]
+```
+
+For Databend Cloud, expose the Flight server on HTTPS with gRPC/HTTP2 support, then open **Support → Create New Ticket** to add the hostname to the tenant **UDF server allowlist**. Until then, `CREATE FUNCTION` fails with `Unallowed UDF server address`.
+
+### Step 3: Register the Function in Databend
 
 ```sql
 CREATE FUNCTION gcd AS (INT, INT)
-    RETURNS INT
+    RETURNS INT NULL
     LANGUAGE python
     HANDLER = 'gcd'
-    ADDRESS = 'http://localhost:8815';
+    ADDRESS = 'http://127.0.0.1:8815';
 ```
 
-### Step 3: Call the Function
+### Step 4: Call the Function
 
 ```sql
 SELECT gcd(48, 18);
