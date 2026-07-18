@@ -124,13 +124,13 @@ Stage 凭证由 Databend 通过 `STAGE_LOCATION` 注入：规划阶段会把 Ext
 sudo apt-get update && sudo apt-get install -y tesseract-ocr
 
 python -m pip install \
-  'databend-udf==0.2.20' \
-  'boto3==1.43.48' \
-  'pymupdf==1.28.0' \
-  'pillow==12.3.0' \
-  'pytesseract==0.3.13' \
-  'spacy==3.8.13' \
-  'sentence-transformers==5.6.0'
+  databend-udf \
+  boto3 \
+  pymupdf \
+  pillow \
+  pytesseract \
+  spacy \
+  sentence-transformers
 python -m spacy download en_core_web_sm
 ```
 

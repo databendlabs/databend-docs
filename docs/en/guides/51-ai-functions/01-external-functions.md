@@ -24,7 +24,7 @@ Build powerful AI/ML capabilities by connecting Databend with your own infrastru
 
 ## Databend Cloud Network Requirements
 
-Databend external functions use **Apache Arrow Flight over gRPC/HTTP2**, not a REST API. The example below uses `databend-udf==0.2.20`. For Databend Cloud:
+Databend external functions use **Apache Arrow Flight over gRPC/HTTP2**, not a REST API. For Databend Cloud:
 
 1. Deploy the UDF server behind an HTTPS endpoint with a publicly trusted TLS certificate and gRPC/HTTP2 support.
 2. In the Cloud console, select **Support → Create New Ticket** and ask for the endpoint hostname to be added to your tenant's **UDF server allowlist**.

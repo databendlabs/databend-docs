@@ -42,7 +42,7 @@ This example walks through a complete end-to-end setup for an external function 
 External functions communicate over Apache Arrow Flight (gRPC/HTTP2), not REST. Install the `databend-udf` package:
 
 ```bash
-pip install 'databend-udf==0.2.20'
+pip install databend-udf
 ```
 
 Create a file `udf_server.py` with the following content:
