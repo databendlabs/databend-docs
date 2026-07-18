@@ -24,15 +24,15 @@ Build powerful AI/ML capabilities by connecting Databend with your own infrastru
 
 ## Databend Cloud Network Requirements
 
-Databend external functions use **Apache Arrow Flight over gRPC/HTTP2**, not a REST API. For Databend Cloud:
+External functions use **Arrow Flight over gRPC/HTTP2**, not REST.
 
-1. Deploy the UDF server behind an HTTPS endpoint with a publicly trusted TLS certificate and gRPC/HTTP2 support.
-2. In the Cloud console, select **Support → Create New Ticket** and ask for the endpoint hostname to be added to your tenant's **UDF server allowlist**.
-3. If your firewall restricts inbound traffic, ask Support for your region's Databend Cloud egress addresses and allow them on TCP port 443.
+1. Expose the UDF server on HTTPS with a public TLS certificate and gRPC/HTTP2 support.
+2. Open **Support → Create New Ticket** and add the hostname to the tenant **UDF server allowlist**.
+3. If the firewall is locked down, allow Databend Cloud egress addresses on TCP 443.
 
-The allowlist matches the URL hostname. A missing entry causes `CREATE FUNCTION` to fail with `Unallowed UDF server address`. `CREATE FUNCTION` also connects to the endpoint immediately and verifies the remote Arrow schema, so the endpoint must be online before registration.
+`CREATE FUNCTION` fails with `Unallowed UDF server address` until the host is allowlisted, and it also verifies the remote schema, so the endpoint must be online.
 
-The Python `UDFServer` listens for unencrypted gRPC by default. Keep that listener private and terminate TLS at a gRPC-capable load balancer or reverse proxy:
+Keep the local `UDFServer` gRPC listener private; terminate TLS at a gRPC load balancer:
 
 ```text
 Databend Cloud → HTTPS/HTTP2 :443 → UDFServer gRPC :8815

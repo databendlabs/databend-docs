@@ -25,9 +25,7 @@ ai_documents
 - The UDF hostname added to your tenant's UDF server allowlist.
 
 :::important[Databend Cloud network setup]
-Before `CREATE FUNCTION`, open **Support → Create New Ticket** and ask Databend Cloud to add the UDF hostname (for example `document-udf.example.com`) to the tenant **UDF server allowlist**. Otherwise you get `Unallowed UDF server address`.
-
-The endpoint needs a public TLS certificate and **Apache Arrow Flight over gRPC/HTTP2**. Plain HTTPS/REST or HTTP/1-only proxies will not work. If the firewall is locked down, ask Support for your region's Databend Cloud egress addresses and allow TCP 443.
+External functions use **Arrow Flight over gRPC/HTTP2** (not REST). Expose the UDF on HTTPS, then open **Support → Create New Ticket** to add the hostname to the tenant **UDF server allowlist**. Otherwise `CREATE FUNCTION` returns `Unallowed UDF server address`. If needed, allow Databend Cloud egress on TCP 443.
 :::
 
 This tutorial uses `s3://my-ai-data/incoming/`. Replace the path and credentials for your environment.

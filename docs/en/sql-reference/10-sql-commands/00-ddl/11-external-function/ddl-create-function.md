@@ -83,7 +83,7 @@ udf_server_allow_insecure = true
 udf_server_allow_list = ["http://127.0.0.1:8815"]
 ```
 
-For Databend Cloud, expose the Flight server behind an HTTPS endpoint with a publicly trusted TLS certificate and gRPC/HTTP2 support. Then select **Support → Create New Ticket** in the Cloud console and ask for the endpoint hostname to be added to the tenant's **UDF server allowlist**. `CREATE FUNCTION` fails with `Unallowed UDF server address` until this is done.
+For Databend Cloud, expose the Flight server on HTTPS with gRPC/HTTP2 support, then open **Support → Create New Ticket** to add the hostname to the tenant **UDF server allowlist**. Until then, `CREATE FUNCTION` fails with `Unallowed UDF server address`.
 
 ### Step 3: Register the Function in Databend
 

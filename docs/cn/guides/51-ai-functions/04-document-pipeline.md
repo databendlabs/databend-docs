@@ -25,9 +25,7 @@ ai_documents
 - 将 UDF 主机名加入租户的 UDF Server Allowlist。
 
 :::important[Databend Cloud 网络配置]
-执行 `CREATE FUNCTION` 前，登录 Databend Cloud，进入 **Support → Create New Ticket**，申请将 UDF 主机名（例如 `document-udf.example.com`）加入租户 **UDF Server Allowlist**。否则会返回 `Unallowed UDF server address`。
-
-Endpoint 必须使用公共信任的 TLS 证书，并支持 **基于 gRPC/HTTP2 的 Apache Arrow Flight**。普通 HTTPS/REST 或仅 HTTP/1 的反向代理无法工作。若防火墙限制入站，请向 Support 获取所在区域的 Databend Cloud 出站地址，并放通 TCP 443。
+外部函数使用 **Arrow Flight over gRPC/HTTP2**（不是 REST）。请将 UDF 以 HTTPS 暴露，并在 **Support → Create New Ticket** 中申请把主机名加入租户 **UDF Server Allowlist**；否则 `CREATE FUNCTION` 会返回 `Unallowed UDF server address`。如有防火墙限制，放通 Databend Cloud 出站地址的 TCP 443。
 :::
 
 本教程使用 `s3://my-ai-data/incoming/`。请按实际环境替换路径和凭证。
