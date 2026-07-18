@@ -93,6 +93,10 @@ Shared knowledge-base table + vector search. Configure visibility once; search S
 ```sql
 SET enable_experimental_row_access_policy = 1;
 
+CREATE ROLE IF NOT EXISTS admin;
+CREATE ROLE IF NOT EXISTS sales;
+CREATE ROLE IF NOT EXISTS finance;
+
 CREATE TABLE knowledge_docs (
   doc_id    BIGINT,
   title     STRING,
@@ -123,19 +127,25 @@ END;
 ALTER TABLE knowledge_docs
 ADD ROW ACCESS POLICY rap_knowledge_docs ON (dept, is_public);
 
--- Same SQL for every role; policy filters rows before ranking
+GRANT SELECT ON knowledge_docs TO ROLE sales;
+GRANT SELECT ON knowledge_docs TO ROLE finance;
+
+-- Activate one role for the session, then run the same search SQL
+SET ROLE sales;
+SET SECONDARY ROLES NONE;
+
 SELECT doc_id, title,
-       cosine_distance(embedding, [0.88, 0.12, 0.08, 0.05]::VECTOR(4)) AS dist
+       round(cosine_distance(embedding, [0.88, 0.12, 0.08, 0.05]::VECTOR(4)), 4) AS dist
 FROM knowledge_docs
 ORDER BY dist
 LIMIT 10;
 ```
 
-| As `sales` | As `finance` |
-|------------|--------------|
-| 1 Sales contract template `0.0250` | 3 Public company handbook `0.6448` |
-| 4 Competitor pricing notes `0.0304` | 5 Internal audit checklist `0.6625` |
-| 3 Public company handbook `0.6448` | 2 Q2 financial draft `0.7245` |
+| As `sales` | As `finance` (`SET ROLE finance`) |
+|------------|-------------------------------------|
+| 1 Sales contract template `0.0009` | 3 Public company handbook `0.6731` |
+| 4 Competitor pricing notes `0.0011` | 5 Internal audit checklist `0.6855` |
+| 3 Public company handbook `0.6731` | 2 Q2 financial draft `0.7504` |
 
 ### Time-range access by role
 

@@ -93,6 +93,10 @@ ADD ROW ACCESS POLICY rap_region_dept ON (office_region, department);
 ```sql
 SET enable_experimental_row_access_policy = 1;
 
+CREATE ROLE IF NOT EXISTS admin;
+CREATE ROLE IF NOT EXISTS sales;
+CREATE ROLE IF NOT EXISTS finance;
+
 CREATE TABLE knowledge_docs (
   doc_id    BIGINT,
   title     STRING,
@@ -123,19 +127,25 @@ END;
 ALTER TABLE knowledge_docs
 ADD ROW ACCESS POLICY rap_knowledge_docs ON (dept, is_public);
 
--- 各角色共用同一条 SQL；策略先滤行，再排序
+GRANT SELECT ON knowledge_docs TO ROLE sales;
+GRANT SELECT ON knowledge_docs TO ROLE finance;
+
+-- 为当前会话激活一个角色，再执行同一条检索 SQL
+SET ROLE sales;
+SET SECONDARY ROLES NONE;
+
 SELECT doc_id, title,
-       cosine_distance(embedding, [0.88, 0.12, 0.08, 0.05]::VECTOR(4)) AS dist
+       round(cosine_distance(embedding, [0.88, 0.12, 0.08, 0.05]::VECTOR(4)), 4) AS dist
 FROM knowledge_docs
 ORDER BY dist
 LIMIT 10;
 ```
 
-| `sales` | `finance` |
-|---------|-----------|
-| 1 Sales contract template `0.0250` | 3 Public company handbook `0.6448` |
-| 4 Competitor pricing notes `0.0304` | 5 Internal audit checklist `0.6625` |
-| 3 Public company handbook `0.6448` | 2 Q2 financial draft `0.7245` |
+| `sales` | `finance`（`SET ROLE finance`） |
+|---------|----------------------------------|
+| 1 Sales contract template `0.0009` | 3 Public company handbook `0.6731` |
+| 4 Competitor pricing notes `0.0011` | 5 Internal audit checklist `0.6855` |
+| 3 Public company handbook `0.6731` | 2 Q2 financial draft `0.7504` |
 
 ### 按角色限制可查询时间范围
 
