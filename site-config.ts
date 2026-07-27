@@ -7,7 +7,7 @@ export const siteConfig = {
     cloudLink: 'https://app.databend.cn',
     docsHomeLink: 'https://docs.databend.cn',
     algolia: {
-      askAi: 'oZ2gEdzflDvN',
+      askAi: 'RzaWYd5JMqa8',
       appId: "FUCSAUXK2Q",
       apiKey: "0f200c10999f19584ec9e31b5caa9065",
       indexName: "databend",
@@ -21,7 +21,7 @@ export const siteConfig = {
     cloudLink: 'https://app.databend.com',
     docsHomeLink: 'https://docs.databend.com',
     algolia: {
-      askAi: 'f2nql6AG9fqs',
+      askAi: 'qJl44MMtmV1W',
       appId: "XA8ZCKIEYU",
       apiKey: "81e5ee11f82ed1c5de63ef7ea0551abf",
       indexName: "databend",
