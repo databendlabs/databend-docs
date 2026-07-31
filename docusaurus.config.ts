@@ -304,7 +304,7 @@ const config: Config = {
             },
             {
               label: "llms.txt",
-              to: `/llms.txt`,
+              to: `${siteConfig[lang].docsHomeLink}/llms.txt`,
             },
           ],
         },
