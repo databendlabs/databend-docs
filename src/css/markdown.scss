@@ -321,8 +321,15 @@
     font-size: 0.7em;
     padding: 0.2em 0.4em;
   }
+  h1 {
+    font-size: 1.3rem !important;
+  }
+  h2 {
+    font-size: 1.1em !important;
+  }
   h1,
   h2 {
+    margin-top: 8px !important;
     margin-bottom: 12px !important;
   }
 }
