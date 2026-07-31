@@ -13,7 +13,7 @@ import X from "@site/static/icons/x.svg";
 import Slack from "@site/static/icons/slack.svg";
 import YouTube from "@site/static/icons/youtube.svg";
 import Bili from "@site/static/icons/bili.svg";
-import GongzhonghaoImg from "@site/static/img/databend-gongzhonghao.jpeg";
+import OfficialAccounts from "@site/static/img/wechat-offical.jpeg";
 import SalesImg from "@site/static/img/sales.jpeg";
 import { Tooltip } from "antd";
 import Contact from "@site/static/icons/contact.svg";
@@ -95,7 +95,7 @@ const JoinCommunity: FC<TProps> = ({
       icon: (
         <img
           style={{ borderRadius: "6px", height: "100%", width: "100%" }}
-          src={GongzhonghaoImg}
+          src={OfficialAccounts}
         ></img>
       ),
     },
@@ -167,9 +167,35 @@ const JoinCommunity: FC<TProps> = ({
             </h6>
             <a
               href="tel:18516888139"
-              className={clsx("community-group", styles.CommunityGroup)}
+              title="全国统一销售热线"
+              className={clsx("sales-phone", styles.SalesPhone)}
             >
-              185 1688 8139
+              <span className={styles.PhoneIcon}>
+                <span className={styles.Ripple}></span>
+                <span className={styles.Ripple}></span>
+                <span className={styles.RingIcon}>
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                </span>
+              </span>
+              <span className={styles.PhoneInfo}>
+                <span className={styles.PhoneLabel}>全国统一销售热线</span>
+                <span className={styles.PhoneNumber}>185 1688 8139</span>
+                <span className={styles.PhoneMeta}>
+                  7×24 小时 <i>|</i> 企业级 SLA
+                </span>
+              </span>
             </a>
           </div>
         ) : (
