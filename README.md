@@ -62,6 +62,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 <FunctionDescription description="Introduced or updated: v1.2.34"/>
 ```
 
+## For AI Detection
+
+[https://docs.databend.com/llms.txt](https://docs.databend.com/llms.txt)
+
 ## Need Help?
 
 If you have any questions or need support, please feel free to reach out via email:
