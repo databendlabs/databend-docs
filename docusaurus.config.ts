@@ -302,6 +302,10 @@ const config: Config = {
               label: "Blog",
               to: `${siteConfig[lang].homeLink}/blog`,
             },
+            {
+              label: "llms.txt",
+              to: `${siteConfig[lang].docsHomeLink}/llms.txt`,
+            },
           ],
         },
         {
