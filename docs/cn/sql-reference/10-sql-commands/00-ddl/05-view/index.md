@@ -9,7 +9,7 @@ title: 视图（View）
 | 命令 | 描述 |
 |---------|-------------|
 | [CREATE VIEW](ddl-create-view.md) | 基于查询创建新视图 |
-| [ALTER VIEW](ddl-alter-view.md) | 修改现有视图 |
+| [ALTER VIEW](ddl-alter-view.md) | 为现有视图分配或移除 Tag |
 | [DROP VIEW](ddl-drop-view.md) | 删除视图 |
 
 ## 视图信息
