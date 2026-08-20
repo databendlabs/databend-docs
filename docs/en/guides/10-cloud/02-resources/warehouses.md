@@ -217,7 +217,7 @@ Databend Cloud supports multiple connection methods to meet your specific needs.
 
 To obtain the connection information for a warehouse:
 
-1. Click **Connect** on the **Overview** page.
+1. Click **Connect** on the **Home** page.
 2. Select the database and warehouse you wish to connect to. The connection information will update based on your selection.
 3. The connection details include a SQL user named `cloudapp` with a randomly generated password. Databend Cloud does not store this password. Be sure to copy and save it securely. If you forget the password, click **Reset** to generate a new one(It requires an Admin to reset.).
 
