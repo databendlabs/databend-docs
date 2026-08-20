@@ -151,7 +151,7 @@ For connections to Databend Cloud, you can use the default `cloudapp` user or an
 
 BendSQL allows you to connect to both Databend Cloud and self-hosted Databend instances.
 
-### Customize Connections with a DSN 
+### Customize Connections with a DSN
 
 A DSN (Data Source Name) is a simple yet powerful way to configure and manage your Databend connection in BendSQL using a single URI-style string. This method allows you to embed your credentials and connection settings directly into your environment, streamlining the connection process.
 
@@ -162,7 +162,7 @@ databend[+flight]://user[:password]@host[:port]/[database][?sslmode=disable][&ar
 ```
 
 | Common DSN Parameters | Description                          |
-|-----------------------|--------------------------------------|
+| --------------------- | ------------------------------------ |
 | `tenant`              | Tenant ID, Databend Cloud only.      |
 | `warehouse`           | Warehouse name, Databend Cloud only. |
 | `sslmode`             | Set to `disable` if not using TLS.   |
@@ -170,7 +170,7 @@ databend[+flight]://user[:password]@host[:port]/[database][?sslmode=disable][&ar
 | `connect_timeout`     | Connect timeout in seconds.          |
 
 | RestAPI Client Parameters   | Description                                                                                                                   |
-|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | `wait_time_secs`            | Request wait time for page, default is `1`.                                                                                   |
 | `max_rows_in_buffer`        | Maximum rows for page buffer.                                                                                                 |
 | `max_rows_per_page`         | Maximum response rows for a single page.                                                                                      |
@@ -178,7 +178,7 @@ databend[+flight]://user[:password]@host[:port]/[database][?sslmode=disable][&ar
 | `presign`                   | Enable presign for data loading. Options: `auto`, `detect`, `on`, `off`. Default is `auto` (only enabled for Databend Cloud). |
 
 | FlightSQL Client Parameters | Description                                                          |
-|-----------------------------|----------------------------------------------------------------------|
+| --------------------------- | -------------------------------------------------------------------- |
 | `query_timeout`             | Query timeout in seconds.                                            |
 | `tcp_nodelay`               | Defaults to `true`.                                                  |
 | `tcp_keepalive`             | TCP keepalive in seconds (default is `3600`, set to `0` to disable). |
@@ -203,16 +203,16 @@ databend+flight://root:@localhost:8900/database1?connect_timeout=10
 
 The best practice for connecting to Databend Cloud is to obtain your DSN from Databend Cloud and export it as an environment variable. To obtain your DSN:
 
-1. Log in to Databend Cloud and click **Connect** on the **Overview** page.
+1. Log in to Databend Cloud and click **Connect** on the **Home** page.
 
 2. Select the database and warehouse you want to connect to.
 
 3. Your DSN will be automatically generated in the **Examples** section. Below the DSN, you'll find a BendSQL snippet that exports the DSN as an environment variable named `BENDSQL_DSN` and launches BendSQL with the correct configuration. You can copy and paste it directly into your terminal.
 
-  ```bash title='Example'
-  export BENDSQL_DSN="databend://cloudapp:******@tn3ftqihs.gw.aws-us-east-2.default.databend.com:443/information_schema?warehouse=small-xy2t"
-  bendsql
-  ```
+```bash title='Example'
+export BENDSQL_DSN="databend://cloudapp:******@tn3ftqihs.gw.aws-us-east-2.default.databend.com:443/information_schema?warehouse=small-xy2t"
+bendsql
+```
 
 ### Connect to Self-hosted Databend
 

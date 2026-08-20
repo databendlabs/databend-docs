@@ -181,7 +181,7 @@ CREATE TABLE aws_billing (
 
 本步骤将在 Databend Cloud 中通过几次点击完成数据加载。
 
-1. 在 Databend Cloud 内，选择 **Overview** > **Load Data** 打开数据导入向导。
+1. 在 Databend Cloud 内，选择 **首页** > **加载数据** 打开数据导入向导。
 2. 选择 **An existing table** 作为目标表，点击 **Load from a URL** 并输入数据集地址 `https://datasets.databend.com/aws-billing.parquet`。
 
 ![alt text](@site/static/img/documents/tutorials/aws-billing-1.png)

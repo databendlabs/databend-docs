@@ -203,7 +203,7 @@ databend+flight://root:@localhost:8900/database1?connect_timeout=10
 
 连接到 Databend Cloud 的最佳实践是从 Databend Cloud 获取您的 DSN 并将其导出为环境变量。要获取您的 DSN：
 
-1. 登录到 Databend Cloud，然后单击 **Overview** 页面上的 **Connect**。
+1. 登录到 Databend Cloud，然后单击 **首页** 页面上的 **链接**。
 
 2. 选择要连接的数据库和计算集群。
 

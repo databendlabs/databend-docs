@@ -2,13 +2,14 @@
 title: "仪表盘使用指南"
 sidebar_label: "使用仪表盘"
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
 本教程将加载、分析并为数据集“纽约时报 Covid-19 数据”创建一个 Dashboard。该数据集每日更新美国全国的病例、死亡和其他相关指标，可从国家、州、县等不同维度展现 2022 年疫情的全貌。
 
 | 字段   | 说明                         |
-|--------|------------------------------|
+| ------ | ---------------------------- |
 | date   | 已累积 Covid-19 数据的日期。 |
 | county | 数据所属的县。               |
 | state  | 数据所属的州。               |
@@ -25,7 +26,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 加载数据集
 
-1. 在 Databend Cloud 的 **Overview** 页面点击 **Load Data**。
+1. 在 Databend Cloud 的 **首页** 页面点击 **加载数据**。
 2. 在弹出的向导中选择 **A new table**，然后在 **Load sample data** 下拉列表中选择 **Covid-19 Data from New York Times.CSV**：
 
 ![Alt text](@site/static/public/img/cloud/dashboard-1.png)

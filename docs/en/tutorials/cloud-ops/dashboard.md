@@ -2,19 +2,20 @@
 title: "Databend Cloud: Dashboard Tour"
 sidebar_label: "Dashboard"
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
 In this tutorial, we'll load, analyze, and create a dashboard for a dataset named "Covid-19 Data from New York Times". The dataset comprises daily updated information on Covid-19 cases, deaths, and other pertinent statistics for the entire United States. It offers a comprehensive view of the pandemic's impact at the national, state, and county levels, providing detailed insights into the Covid-19 situation across various regions throughout the year 2022.
 
-| Field    | Description                                       |
-|----------|---------------------------------------------------|
-| date     | The date of the reported cumulative Covid-19 data.|
-| county   | The name of the county for the data entry.        |
-| state    | The name of the state for the data entry.         |
-| fips     | The FIPS code associated with the location.      |
-| cases    | The cumulative number of confirmed Covid-19 cases.|
-| deaths   | The cumulative number of deaths due to Covid-19.  |
+| Field  | Description                                        |
+| ------ | -------------------------------------------------- |
+| date   | The date of the reported cumulative Covid-19 data. |
+| county | The name of the county for the data entry.         |
+| state  | The name of the state for the data entry.          |
+| fips   | The FIPS code associated with the location.        |
+| cases  | The cumulative number of confirmed Covid-19 cases. |
+| deaths | The cumulative number of deaths due to Covid-19.   |
 
 ### Step 1: Preparing Data
 
@@ -25,7 +26,7 @@ The dataset "Covid-19 Data from New York Times" is a built-in sample dataset tha
 
 ### Loading Dataset
 
-1. In Databend Cloud, click the **Load Data** button on the **Overview** page.
+1. In Databend Cloud, click the **Load Data** button on the **Home** page.
 2. On the page that opens, choose the **A new table** radio button, and then select **Covid-19 Data from New York Times.CSV** from the **Load sample data** dropdown menu:
 
 ![Alt text](@site/static/public/img/cloud/dashboard-1.png)
@@ -39,7 +40,6 @@ The dataset "Covid-19 Data from New York Times" is a built-in sample dataset tha
 </StepContent>
 
 <StepContent number="2">
-
 
 ### Handling NULLs
 
@@ -65,7 +65,6 @@ WHERE date IS NULL OR country IS NULL OR state IS NULL OR fips IS NULL OR cases 
 </StepContent>
 
 <StepContent number="2">
-
 
 ### Handling Duplicates
 
@@ -109,7 +108,6 @@ WHERE date = '2022-12-31';
 
 <StepContent number="2">
 
-
 ### Total Deaths by State in 2022
 
 1. Run the following SQL statement in a worksheet:
@@ -147,7 +145,6 @@ WHERE date = '2022-12-31' AND state = 'Virgin Islands';
 </StepContent>
 
 <StepContent number="4">
-
 
 ### Cumulative Cases & Deaths per Month in St. John
 
