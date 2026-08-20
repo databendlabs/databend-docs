@@ -9,7 +9,7 @@ This page provides a comprehensive overview of view operations in Databend, orga
 | Command | Description |
 |---------|-------------|
 | [CREATE VIEW](ddl-create-view.md) | Creates a new view based on a query |
-| [ALTER VIEW](ddl-alter-view.md) | Modifies an existing view |
+| [ALTER VIEW](ddl-alter-view.md) | Assigns or removes tags on an existing view |
 | [DROP VIEW](ddl-drop-view.md) | Removes a view |
 
 ## View Information
