@@ -11,6 +11,7 @@ title: 视图（View）
 | [CREATE VIEW](ddl-create-view.md) | 基于查询创建新视图 |
 | [ALTER VIEW](ddl-alter-view.md) | 修改现有视图 |
 | [DROP VIEW](ddl-drop-view.md) | 删除视图 |
+| [物化视图](materialized-view.md) | 创建并维护由物理存储支持的物化视图 |
 
 ## 视图信息
 
