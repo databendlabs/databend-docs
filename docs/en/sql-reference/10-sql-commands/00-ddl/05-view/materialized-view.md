@@ -3,6 +3,10 @@ title: Materialized Views
 sidebar_position: 6
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.934"/>
+
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MATERIALIZED VIEW'/>

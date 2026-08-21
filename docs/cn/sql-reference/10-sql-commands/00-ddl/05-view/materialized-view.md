@@ -3,6 +3,10 @@ title: 物化视图（Materialized View）
 sidebar_position: 6
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="引入或更新于：v1.2.934"/>
+
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='物化视图'/>
