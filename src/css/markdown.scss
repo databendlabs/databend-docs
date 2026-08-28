@@ -231,19 +231,22 @@
     }
   }
 
-  button {
-    background-color: var(--bg-copy-button-white);
-    border: none;
-    &:hover {
-      background-color: var(--bg-hover-copy);
-      opacity: 1;
-      svg {
-        color: #fff;
+  .theme-code-block {
+    button {
+      background-color: var(--bg-copy-button-white);
+      border: none;
+
+      &:hover {
+        background-color: var(--bg-hover-copy);
+        opacity: 1;
+
+        svg {
+          color: #fff;
+        }
       }
     }
-  }
-  .theme-code-block:hover {
-    button {
+
+    &:hover button {
       opacity: 1 !important;
       color: #000;
     }
