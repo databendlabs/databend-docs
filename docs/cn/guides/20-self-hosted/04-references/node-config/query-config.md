@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="引入或更新：v1.2.901"/>
+<FunctionDescription description="Introduced or updated: v1.2.935"/>
 
 本页介绍 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中可用的 Query 节点配置。
 
@@ -76,6 +76,27 @@ on = true
 | 参数 | 描述 |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | on | 是否在 Databend Query 节点上启用私有化 Task 调度与执行，默认为 `false`。 |
+
+## [lineage] 部分
+
+数据血缘是[企业版功能](/guides/self-hosted/editions/enterprise/features)。私有化部署需要企业版或试用版许可证。
+
+使用 `[lineage]` 配置捕获并持久化对象级和列级数据血缘：
+
+```toml
+[lineage]
+on = true
+# retention = 720
+```
+
+请在所有 Query 节点上使用相同配置，并在修改配置后重启节点。
+
+| 参数 | 描述 |
+|------|------|
+| on | 是否启用血缘捕获和持久化，默认为 `false`。 |
+| retention | 可选的 DML 血缘保留时长，单位为小时。省略时永久保留血缘。 |
+
+有关使用方法，请参见[数据血缘](/guides/data-management/data-lineage)。
 
 ## [log] 部分
 
