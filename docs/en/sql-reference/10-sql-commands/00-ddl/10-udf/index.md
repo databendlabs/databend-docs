@@ -12,7 +12,7 @@ User-Defined Functions (UDFs) in Databend allow you to create custom operations 
 
 | Command | Description |
 |---------|-------------|
-| [CREATE SCALAR FUNCTION](ddl-create-function.md) | Scalar UDF (SQL/Python/JavaScript) |
+| [CREATE SCALAR FUNCTION](ddl-create-function.md) | Scalar UDF (SQL/Python/JavaScript/WASM) |
 | [CREATE AGGREGATE FUNCTION](ddl-create-aggregate-function.md) | Script UDAF (JavaScript/Python runtimes) |
 | [CREATE TABLE FUNCTION](ddl-create-table-function.md) | SQL-only table function returning result sets |
 | [SHOW USER FUNCTIONS](ddl-show-user-functions.md) | Lists all user-defined functions |
@@ -21,10 +21,10 @@ User-Defined Functions (UDFs) in Databend allow you to create custom operations 
 
 ## Function Type Comparison
 
-| Feature | Scalar (SQL) | Scalar (Python/JavaScript) | Aggregate (Script) | Tabular SQL |
+| Feature | Scalar (SQL) | Scalar (Python/JavaScript/WASM) | Aggregate (Script) | Tabular SQL |
 |---------|-------------|----------------------------|--------------------|------------|
 | **Return Type** | Single value | Single value | Single value | Table/ResultSet |
-| **Language** | SQL expressions | Python/JavaScript | JavaScript/Python runtimes | SQL queries |
+| **Language** | SQL expressions | Python/JavaScript/WASM | JavaScript/Python runtimes | SQL queries |
 | **Performance** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 | **Enterprise Required** | No | Python runtime only | Python runtime only | No |
 | **Package Support** | No | Python: Yes (PACKAGES) | Python: Yes (PACKAGES) | No |
@@ -45,4 +45,9 @@ CREATE FUNCTION func_name(param TYPE) RETURNS TABLE(...) AS $$ query $$;
 CREATE FUNCTION func_name(param TYPE) RETURNS TYPE
 LANGUAGE python
 HANDLER = 'handler' AS $$ code $$;
+
+-- Scalar Function (WASM module in a stage)
+CREATE OR REPLACE FUNCTION func_name(param TYPE) RETURNS TYPE
+LANGUAGE wasm
+HANDLER = 'handler' AS $$@stage/module.wasm$$;
 ```
