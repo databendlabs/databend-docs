@@ -276,7 +276,7 @@ const config: Config = {
           items: [
             {
               label: "Visit Databend",
-              to: `${siteConfig[lang].homeLink}`,
+              to: `${siteConfig[lang].homeLink}?loc=footermenu`,
             },
             {
               label: "Products",
@@ -292,7 +292,7 @@ const config: Config = {
             },
             {
               label: "Downloads",
-              to: `${siteConfig[lang].homeLink}/download`,
+              to: `${siteConfig[lang].homeLink}/download?loc=footermenu`,
             },
             {
               label: "Developer",
@@ -300,7 +300,7 @@ const config: Config = {
             },
             {
               label: "Blog",
-              to: `${siteConfig[lang].homeLink}/blog`,
+              to: `${siteConfig[lang].homeLink}/blog?loc=footermenu`,
             },
             {
               label: "llms.txt",

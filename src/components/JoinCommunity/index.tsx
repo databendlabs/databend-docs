@@ -206,7 +206,7 @@ const JoinCommunity: FC<TProps> = ({
             <div className={clsx("community-group", styles.CommunityGroup)}>
               <Link
                 title="Contact Us"
-                to="https://www.databend.com/contact-us/"
+                to="https://www.databend.com/contact-us/?loc=docfooter"
                 target="_blank"
               >
                 <div className={clsx("community-item", styles.communityItem)}>
@@ -218,7 +218,7 @@ const JoinCommunity: FC<TProps> = ({
               </Link>
               <Link
                 title="Explore Databend Cloud"
-                to="https://app.databend.com/register/"
+                to="https://app.databend.com/register/?loc=docfooter"
                 target="_blank"
               >
                 <div className={clsx("community-item", styles.communityItem)}>

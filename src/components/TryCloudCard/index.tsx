@@ -20,7 +20,7 @@ const TryCloudCard: FC = (): ReactElement => {
   };
   const lines = [
     $t(
-      "Multimodal, object-storage-native warehouse for BI, vectors, search, and geo."
+      "Multimodal, object-storage-native warehouse for BI, vectors, search, and geo.",
     ),
     $t("Snowflake-compatible SQL with automatic scaling."),
     $t("Sign up and get $200 in credits."),
@@ -47,8 +47,8 @@ const TryCloudCard: FC = (): ReactElement => {
           <a
             href={
               isChina
-                ? "https://app.databend.cn/register?r=doc-card"
-                : "https://app.databend.com/register/?r=doc-card"
+                ? "https://app.databend.cn/register?loc=doc-card"
+                : "https://app.databend.com/register/locr=doc-card"
             }
             target="_blank"
             rel="noreferrer"
