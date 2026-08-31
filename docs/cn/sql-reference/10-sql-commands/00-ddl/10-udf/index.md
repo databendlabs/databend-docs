@@ -12,7 +12,7 @@ Databend 中的用户自定义函数（User-Defined Function，UDF）允许您�
 
 | 命令 | 描述 |
 |---|---|
-| [CREATE SCALAR FUNCTION](ddl-create-function.md) | 标量函数（SQL/Python/JavaScript） |
+| [CREATE SCALAR FUNCTION](ddl-create-function.md) | 标量函数（SQL/Python/JavaScript/WASM） |
 | [CREATE AGGREGATE FUNCTION](ddl-create-aggregate-function.md) | 脚本 UDAF（JavaScript/Python 运行时） |
 | [CREATE TABLE FUNCTION](ddl-create-table-function.md) | 纯 SQL 表函数（返回结果集） |
 | [SHOW USER FUNCTIONS](ddl-show-user-functions.md) | 列出所有用户自定义函数 |
@@ -21,10 +21,10 @@ Databend 中的用户自定义函数（User-Defined Function，UDF）允许您�
 
 ## 函数类型对比
 
-| 特性 | 标量（SQL） | 标量（Python/JavaScript） | 聚合（脚本） | 表格（SQL） |
+| 特性 | 标量（SQL） | 标量（Python/JavaScript/WASM） | 聚合（脚本） | 表格（SQL） |
 |---|---|---|---|---|
 | **返回类型** | 单个值 | 单个值 | 单个值 | 表/结果集 |
-| **语言** | SQL 表达式 | Python/JavaScript | JavaScript/Python 运行时 | SQL 查询 |
+| **语言** | SQL 表达式 | Python/JavaScript/WASM | JavaScript/Python 运行时 | SQL 查询 |
 | **性能** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 | **需要企业版** | 否 | Python 运行时需要 | Python 运行时需要 | 否 |
 | **包支持** | 否 | Python：支持 PACKAGES | Python：支持 PACKAGES | 否 |
@@ -45,4 +45,9 @@ CREATE FUNCTION func_name(param TYPE) RETURNS TABLE(...) AS $$ query $$;
 CREATE FUNCTION func_name(param TYPE) RETURNS TYPE
 LANGUAGE python
 HANDLER = 'handler' AS $$ code $$;
+
+-- 标量函数（Stage 中的 WASM 模块）
+CREATE OR REPLACE FUNCTION func_name(param TYPE) RETURNS TYPE
+LANGUAGE wasm
+HANDLER = 'handler' AS $$@stage/module.wasm$$;
 ```
