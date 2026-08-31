@@ -12,6 +12,7 @@ title: 视图（View）
 | [ALTER VIEW](ddl-alter-view.md) | 为现有视图分配或移除 Tag |
 | [DROP VIEW](ddl-drop-view.md) | 删除视图 |
 | [物化视图](materialized-view.md) | 创建并维护由物理存储支持的物化视图 |
+| [REFRESH LINEAGE](refresh-lineage.md) | 回填或校准现有视图的血缘关系 |
 
 ## 视图信息
 
