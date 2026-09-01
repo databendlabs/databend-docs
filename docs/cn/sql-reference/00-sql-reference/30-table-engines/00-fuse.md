@@ -31,6 +31,7 @@ Databend 使用 Fuse Engine 作为其默认存储引擎，提供类似于 Git �
 CREATE TABLE <table_name> (
   <column_definitions>
 ) [ENGINE = FUSE]
+[PARTITION BY (<expr> [, <expr>, ...] )]
 [CLUSTER BY (<expr> [, <expr>, ...] )]
 [<Options>];
 ```
@@ -45,6 +46,13 @@ CREATE TABLE <table_name> (
 
 - **描述：**
   如果未显式指定引擎，Databend 将自动默认使用 Fuse Engine 创建表，这等效于 `ENGINE = FUSE`。
+
+---
+
+#### `PARTITION BY`
+
+- **描述：**
+  使用一个或多个确定性表达式对数据进行物理隔离，并支持分区级裁剪。每个表达式只能引用一个源列。有关分区策略和示例，请参见 [Fuse 表分区](/guides/performance/partition-by)。
 
 ---
 
@@ -114,6 +122,27 @@ CREATE TABLE <table_name> (
   `row_per_block = <n>`
 - **描述：**
   指定文件中的最大行数。默认为 1,000,000。
+
+---
+
+### `write_distribution_mode`
+
+- **语法：**
+  `write_distribution_mode = 'none' | 'hash'`
+- **描述：**
+  控制分区表在写入前是否按计算后的分区键重新分发数据。默认值 `none` 保留原有 Writer 分布；`hash` 会将分区值相同的行路由到同一个 Writer，有助于减少分布式或高并发写入产生的小 Block 碎片，但会引入网络 Shuffle。`hash` 模式必须与 `PARTITION BY` 一同使用。
+
+  **示例：**
+  ```sql
+  CREATE TABLE customer_events (
+      customer_id BIGINT,
+      event_time TIMESTAMP
+  )
+  PARTITION BY (BUCKET(32, customer_id))
+  WRITE_DISTRIBUTION_MODE = 'hash';
+  ```
+
+  使用建议参见 [Fuse 表分区](/guides/performance/partition-by#hash-distributed-writes)。
 
 ---
 

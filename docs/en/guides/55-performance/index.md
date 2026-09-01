@@ -9,6 +9,7 @@ Databend primarily accelerates query performance through **various indexing tech
 | Feature | Purpose | When to Use |
 |---------|---------|------------|
 | [**Cluster Key**](00-cluster-key.md) | Automatically organize data physically for optimal query performance | When you have large tables with frequent filtering on specific columns, especially time-series or categorical data |
+| [**Table Partitioning**](partition-by.md) | Physically isolate data and prune partitions before scanning | When large tables are commonly filtered by time, tenant, region, or a bucketed high-cardinality key |
 | [**Query Result Cache**](query-result-cache.md) | Automatically store and reuse results of identical queries | When your applications run the same analytical queries repeatedly, such as in dashboards or scheduled reports |
 | [**Virtual Column**](01-virtual-column.md) | Automatically accelerate access to fields within JSON/VARIANT data | When you frequently query specific paths within semi-structured data and need sub-second response times |
 | [**Aggregating Index**](02-aggregating-index.md) | Precompute and store common aggregation results | When your analytical workloads frequently run SUM, COUNT, AVG queries on large datasets |
@@ -20,6 +21,7 @@ Databend primarily accelerates query performance through **various indexing tech
 | Feature | Community | Enterprise | Cloud |
 |---------|-----------|------------|-------|
 | Cluster Key | ✅ | ✅ | ✅ |
+| Table Partitioning | ✅ | ✅ | ✅ |
 | Query Result Cache | ✅ | ✅ | ✅ |
 | Virtual Column | ❌ | ✅ | ✅ |
 | Aggregating Index | ✅ | ✅ | ✅ |

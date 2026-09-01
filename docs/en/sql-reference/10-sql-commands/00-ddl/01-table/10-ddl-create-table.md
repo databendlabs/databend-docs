@@ -46,7 +46,44 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
     <column_name> <data_type> ...
     ...
 )
+[ ENGINE = FUSE ]
+[ PARTITION BY ( <expr> [ , <expr> ... ] ) ]
+[ CLUSTER BY ( <expr> [ , <expr> ... ] ) ]
+[ <fuse_engine_option> = <value> ... ]
 ```
+
+### Fuse Table Partitioning
+
+`PARTITION BY` physically separates a Fuse table using one or more partition expressions. Databend preserves partition boundaries during writes and maintenance operations and uses partition metadata to prune unrelated data before scanning.
+
+```sql
+CREATE TABLE events (
+    event_id   BIGINT,
+    event_time TIMESTAMP,
+    tenant_id  BIGINT
+)
+PARTITION BY (DATE_TRUNC(day, event_time))
+CLUSTER BY (tenant_id, event_time);
+```
+
+Each expression must be deterministic and reference exactly one source column. Specify multiple expressions for a composite key:
+
+```sql
+PARTITION BY (DATE_TRUNC(month, event_time), BUCKET(16, tenant_id))
+```
+
+For high-cardinality keys, [`BUCKET()`](/sql/sql-functions/hash-functions/bucket) maps values to a fixed number of hash partitions. `WRITE_DISTRIBUTION_MODE = 'hash'` can additionally route identical partition values to the same writer during distributed ingestion:
+
+```sql
+CREATE TABLE customer_events (
+    customer_id BIGINT,
+    event_time  TIMESTAMP
+)
+PARTITION BY (BUCKET(32, customer_id))
+WRITE_DISTRIBUTION_MODE = 'hash';
+```
+
+The hash write mode requires `PARTITION BY`; its default value is `'none'`. See [Partitioning Fuse Tables](/guides/performance/partition-by) for strategy selection, limitations, and complete examples.
 
 :::note
 

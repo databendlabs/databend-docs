@@ -283,6 +283,46 @@ CREATE TABLE t(id INT);
 ALTER TABLE t COMMENT = 'new-comment';
 ```
 
+## Partitioning a Fuse Table
+
+Adds a physical partition key to an existing Fuse table.
+
+### Syntax
+
+```sql
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+PARTITION BY ( <expr> [ , <expr> ... ] )
+```
+
+### Usage Notes
+
+- Each partition expression must be deterministic and reference exactly one source column.
+- Existing rows remain visible but are not rewritten or backfilled with partition metadata. Writes after the alteration use the partitioned layout.
+- A partition key can be added only once. Repeating the same normalized definition succeeds without changes; replacing it with a different key is not supported.
+- Columns referenced by the partition key cannot be dropped or have their data types changed. Renaming a referenced column updates the partition expression.
+- `IF EXISTS` suppresses the error when the catalog, database, or table does not exist.
+- This operation is supported only for Fuse Engine tables.
+
+### Example
+
+```sql
+CREATE TABLE events (
+    event_id   BIGINT,
+    event_time TIMESTAMP,
+    payload    VARIANT
+);
+
+-- Existing data is left in its current layout.
+ALTER TABLE events
+PARTITION BY (DATE_TRUNC(day, event_time));
+
+-- New writes use daily physical partitions.
+INSERT INTO events VALUES
+    (1, '2026-07-08 10:00:00', PARSE_JSON('{"type":"login"}'));
+```
+
+For key selection, hash partitioning, and query-pruning examples, see [Partitioning Fuse Tables](/guides/performance/partition-by).
+
 ## Fuse Engine Options
 
 Sets or unsets [Fuse Engine options](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options) for a table.
