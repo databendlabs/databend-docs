@@ -40,6 +40,7 @@ This page provides reference information for the table functions in Databend. Ta
 | [TASK_HISTROY](./task_histroy.md) | Shows task execution history | `SELECT * FROM TASK_HISTROY('mytask')` |
 | [POLICY_REFERENCES](./policy-references.md) | Returns associations between security policies and tables/views | `SELECT * FROM POLICY_REFERENCES(POLICY_NAME => 'mypolicy')` |
 | [TAG_REFERENCES](./tag-references.md) | Returns tags assigned to a database object | `SELECT * FROM TAG_REFERENCES('mydb.mytable', 'TABLE')` |
+| [GET_LINEAGE](./get-lineage.md) | Returns upstream or downstream object and column lineage | `SELECT * FROM GET_LINEAGE('mydb.mytable', 'TABLE', 'UPSTREAM')` |
 
 ## Storage Engine Functions
 
