@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="Introduced or updated: v1.2.901"/>
+<FunctionDescription description="Introduced or updated: v1.2.935"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -76,6 +76,27 @@ When private task is enabled, `cloud_control_grpc_server_address` in the [query]
 | Parameter | Description                                                                                                      |
 | --------- | ---------------------------------------------------------------------------------------------------------------- |
 | on        | Enables private task scheduling and execution on Databend Query nodes. Defaults to `false`.                      |
+
+## [lineage] Section
+
+Data lineage is an [Enterprise Edition feature](/guides/self-hosted/editions/enterprise/features). Self-hosted deployments require an enterprise or trial license.
+
+Use the `[lineage]` section to capture and persist object-level and column-level data lineage:
+
+```toml
+[lineage]
+on = true
+# retention = 720
+```
+
+Configure the same values on every Query node and restart the nodes after changing the configuration.
+
+| Parameter | Description |
+|-----------|-------------|
+| on | Enables lineage capture and persistence. Defaults to `false`. |
+| retention | Optional retention period for DML lineage, in hours. If omitted, lineage is retained permanently. |
+
+For usage instructions, see [Data Lineage](/guides/data-management/data-lineage).
 
 ## [log] Section
 

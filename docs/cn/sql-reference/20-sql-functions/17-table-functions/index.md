@@ -31,6 +31,7 @@ title: 表函数 (Table Functions)
 | [FUSE_VACUUM_TEMPORARY_TABLE](./fuse-vacuum-temporary-table.md) | 清理临时表 | `SELECT * FROM FUSE_VACUUM_TEMPORARY_TABLE()` |
 | [FUSE_AMEND](./fuse-amend.md) | 执行数据修正操作 | `SELECT * FROM FUSE_AMEND()` |
 | [TAG_REFERENCES](./tag-references.md) | 返回指定对象上分配的所有 Tag | `SELECT * FROM TAG_REFERENCES('default.users', 'TABLE')` |
+| [GET_LINEAGE](./get-lineage.md) | 返回对象和列的上游或下游血缘 | `SELECT * FROM GET_LINEAGE('mydb.mytable', 'TABLE', 'UPSTREAM')` |
 
 ## Iceberg 集成函数
 
