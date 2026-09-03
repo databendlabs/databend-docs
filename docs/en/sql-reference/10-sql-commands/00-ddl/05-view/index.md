@@ -12,6 +12,7 @@ This page provides a comprehensive overview of view operations in Databend, orga
 | [ALTER VIEW](ddl-alter-view.md) | Assigns or removes tags on an existing view |
 | [DROP VIEW](ddl-drop-view.md) | Removes a view |
 | [Materialized Views](materialized-view.md) | Creates and maintains a materialized view backed by physical storage |
+| [REFRESH LINEAGE](refresh-lineage.md) | Backfills or reconciles lineage for existing views |
 
 ## View Information
 
