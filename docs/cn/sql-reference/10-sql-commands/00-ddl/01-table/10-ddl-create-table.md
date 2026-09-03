@@ -46,7 +46,44 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
     <column_name> <data_type> ...
     ...
 )
+[ ENGINE = FUSE ]
+[ PARTITION BY ( <expr> [ , <expr> ... ] ) ]
+[ CLUSTER BY ( <expr> [ , <expr> ... ] ) ]
+[ <fuse_engine_option> = <value> ... ]
 ```
+
+### Fuse 表分区
+
+`PARTITION BY` 使用一个或多个分区表达式对 Fuse 表进行物理隔离。Databend 会在写入和维护操作中保留分区边界，并通过分区元数据在扫描前裁剪无关数据。
+
+```sql
+CREATE TABLE events (
+    event_id   BIGINT,
+    event_time TIMESTAMP,
+    tenant_id  BIGINT
+)
+PARTITION BY (DATE_TRUNC(day, event_time))
+CLUSTER BY (tenant_id, event_time);
+```
+
+每个表达式必须是确定性的，并且只能引用一个源列。复合分区键需要分别列出多个表达式：
+
+```sql
+PARTITION BY (DATE_TRUNC(month, event_time), BUCKET(16, tenant_id))
+```
+
+对于高基数键，[`BUCKET()`](/sql/sql-functions/hash-functions/bucket) 可将其映射到固定数量的哈希分区。`WRITE_DISTRIBUTION_MODE = 'hash'` 还能在分布式导入时，将分区值相同的行路由到同一个 Writer：
+
+```sql
+CREATE TABLE customer_events (
+    customer_id BIGINT,
+    event_time  TIMESTAMP
+)
+PARTITION BY (BUCKET(32, customer_id))
+WRITE_DISTRIBUTION_MODE = 'hash';
+```
+
+哈希写入模式必须与 `PARTITION BY` 一同使用，默认值为 `'none'`。有关分区策略、限制和完整示例，请参见 [Fuse 表分区](/guides/performance/partition-by)。
 
 :::note
 

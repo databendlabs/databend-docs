@@ -30,6 +30,7 @@ Ideal for:
 CREATE TABLE <table_name> (
   <column_definitions>
 ) [ENGINE = FUSE]
+[PARTITION BY (<expr> [, <expr>, ...] )]
 [CLUSTER BY (<expr> [, <expr>, ...] )]
 [<Options>];
 ```
@@ -43,6 +44,12 @@ Below are the main parameters for creating a Fuse Engine table:
 #### `ENGINE`
 - **Description:**
   If an engine is not explicitly specified, Databend will automatically default to using the Fuse Engine to create tables, which is equivalent to `ENGINE = FUSE`.
+
+---
+
+#### `PARTITION BY`
+- **Description:**
+  Physically separates data using one or more deterministic expressions and enables partition-level pruning. Each expression must reference exactly one source column. For strategy selection and examples, see [Partitioning Fuse Tables](/guides/performance/partition-by).
 
 ---
 
@@ -106,6 +113,26 @@ Below are the available Fuse Engine options, grouped by their purpose:
   `row_per_block = <n>`
 - **Description:**
   Specifies the maximum number of rows in a file. Defaults to 1,000,000.
+
+---
+
+### `write_distribution_mode`
+- **Syntax:**
+  `write_distribution_mode = 'none' | 'hash'`
+- **Description:**
+  Controls whether a partitioned write redistributes rows by the evaluated partition key before writing. The default, `none`, keeps the existing writer distribution. `hash` routes rows with the same partition value to the same writer, which can reduce small-block fragmentation during distributed or highly parallel ingestion, at the cost of a network shuffle. The `hash` mode requires a `PARTITION BY` clause.
+
+  **Example:**
+  ```sql
+  CREATE TABLE customer_events (
+      customer_id BIGINT,
+      event_time TIMESTAMP
+  )
+  PARTITION BY (BUCKET(32, customer_id))
+  WRITE_DISTRIBUTION_MODE = 'hash';
+  ```
+
+  For guidance, see [Partitioning Fuse Tables](/guides/performance/partition-by#hash-distributed-writes).
 
 ---
 

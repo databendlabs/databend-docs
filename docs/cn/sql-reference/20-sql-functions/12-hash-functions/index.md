@@ -17,6 +17,7 @@ title: 哈希函数
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|--------|
+| [BUCKET](bucket.md) | 将值稳定映射到固定桶，用于物理分区 | `BUCKET(16, customer_id)` → `0` 至 `15` 范围内的整数 |
 | [XXHASH32](xxhash32.md) | 计算 xxHash32 32 位哈希值 | `XXHASH32('1234567890')` → `3768853052` |
 | [XXHASH64](xxhash64.md) | 计算 xxHash64 64 位哈希值 | `XXHASH64('1234567890')` → `12237639266330420150` |
 | [SIPHASH64](siphash64.md) / [SIPHASH](siphash.md) | 计算 SipHash-2-4 64 位哈希值 | `SIPHASH64('1234567890')` → `2917646445633666330` |
