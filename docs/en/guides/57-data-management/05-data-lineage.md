@@ -22,7 +22,7 @@ Databend records both object-level and column-level relationships:
 
 ## Enable Data Lineage
 
-Databend Cloud manages lineage configuration for warehouses that provide the **Lineage** tab. For a self-hosted deployment, add the following section to `databend-query.toml` on every Query node, then restart the nodes:
+Databend Cloud manages lineage configuration for warehouses that provide the **Lineage (Data &gt; Databases &gt; {databaseName} &gt; {tableName})** tab. For a self-hosted deployment, add the following section to `databend-query.toml` on every Query node, then restart the nodes:
 
 ```toml title="databend-query.toml"
 [lineage]
