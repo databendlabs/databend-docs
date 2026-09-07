@@ -256,7 +256,7 @@ const DocsOverview: FC = (): ReactElement => {
       to: `${homeLink}/contact-us/`,
     },
     { icon: <Cases />, text: $t("Use Cases"), to: `${homeLink}/use-cases/` },
-    { icon: <FAQ />, text: $t("FAQ"), to: "/" },
+    // { icon: <FAQ />, text: $t("FAQ"), to: "/" },
     { icon: <ChangeLog />, text: $t("Changelog"), to: "/release-notes/" },
   ];
 
