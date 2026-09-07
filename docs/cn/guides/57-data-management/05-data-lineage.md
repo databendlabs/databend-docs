@@ -22,7 +22,7 @@ Databend 会记录对象级和列级关系：
 
 ## 启用数据血缘
 
-对于提供 **Lineage（数据 &gt; 数据库 &gt; {databaseName} &gt; {tableName}）** 页签的 Databend Cloud Warehouse，血缘配置由服务管理。私有化部署需要在每个 Query 节点的 `databend-query.toml` 中添加以下配置，然后重启节点：
+对于提供 **Lineage（数据 &gt; 数据库 &gt; databaseName &gt; tableName）** 页签的 Databend Cloud Warehouse，血缘配置由服务管理。私有化部署需要在每个 Query 节点的 `databend-query.toml` 中添加以下配置，然后重启节点：
 
 ```toml title="databend-query.toml"
 [lineage]
