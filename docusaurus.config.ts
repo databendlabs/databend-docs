@@ -292,7 +292,7 @@ const config: Config = {
             },
             {
               label: "Downloads",
-              to: `${siteConfig[lang].homeLink}/download?loc=docfootermenu`,
+              to: `https://github.com/databendlabs/databend/releases/`,
             },
             {
               label: "Developer",
