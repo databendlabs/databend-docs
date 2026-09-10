@@ -1,4 +1,13 @@
 const siteRedirects = [
+  // Renamed dropped-object cleanup command
+  {
+    from: '/sql/sql-commands/ddl/table/vacuum-drop-table',
+    to: '/sql/sql-commands/ddl/table/vacuum-dropped-objects'
+  },
+  {
+    from: '/sql/sql-commands/administration-cmds/vacuum-drop-table',
+    to: '/sql/sql-commands/administration-cmds/vacuum-dropped-objects'
+  },
   // Security data protection guide reorg
   {
     from: '/guides/security/data-protection-overview',

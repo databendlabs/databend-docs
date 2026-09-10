@@ -3,131 +3,92 @@ title: Data Purge and Recycle
 sidebar_label: Data Recycle
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.940"/>
+
 ## Overview
 
-In Databend, data is not immediately deleted when you run `DROP`, `TRUNCATE`, or `DELETE` commands. This enables Databend's time travel feature, allowing you to access previous states of your data. However, this approach means that storage space is not automatically freed up after these operations.
+Deleting rows or dropping a table does not necessarily release its storage immediately. Databend retains historical data and dropped objects for recovery. VACUUM reclaims storage once data becomes eligible for cleanup.
 
-```
-Before DELETE:                After DELETE:                 After VACUUM:
-+----------------+           +----------------+           +----------------+
-| Current Data   |           | New Version    |           | Current Data   |
-|                |           | (After DELETE) |           | (After DELETE) |
-+----------------+           +----------------+           +----------------+
-| Historical Data|           | Historical Data|           |                |
-| (Time Travel)  |           | (Original Data)|           |                |
-+----------------+           +----------------+           +----------------+
-                             Storage not freed            Storage freed
-```
+The VACUUM commands below require an [Enterprise license](/guides/self-hosted/editions/enterprise/features). Cleaned history and dropped objects cannot be recovered.
 
-## VACUUM Commands and Cleanup Scope
+## Choose a Cleanup Scope
 
-Databend provides three VACUUM commands with **different cleanup scopes**. Understanding what each command cleans is crucial for data management.
+| Command | Cleanup scope | Effect |
+|---------|---------------|--------|
+| [VACUUM TABLE](/sql/sql-commands/ddl/table/vacuum-table) | One writable FUSE table | Removes eligible history while preserving the table and current data. |
+| [VACUUM TABLES](/sql/sql-commands/administration-cmds/vacuum-tables) | Writable FUSE tables in a specified database, or all non-system databases in the current catalog | Performs the same historical cleanup in bulk. |
+| [VACUUM DROPPED OBJECTS](/sql/sql-commands/ddl/table/vacuum-dropped-objects) | Dropped objects in a specified database, or all databases in the current catalog, including dropped databases | Removes eligible dropped objects, their storage, and their metadata. |
+| [VACUUM TEMPORARY FILES](/sql/sql-commands/administration-cmds/vacuum-temp-files) | Tenant temporary spill files and inactive temporary-table sessions | Cleans temporary storage. |
+| [VACUUM ALL](/sql/sql-commands/administration-cmds/vacuum-all) | Table history, dropped objects, then temporary files | Runs the three cleanup steps in order using their respective retention rules. |
 
-```
-VACUUM DROP TABLE
-├── Target: Dropped tables (after DROP TABLE command)
-├── S3 Storage: ✅ Removes ALL data (files, segments, blocks, indexes, statistics)  
-├── Meta Service: ✅ Removes ALL metadata (schema, permissions, records)
-└── Result: Complete table removal - CANNOT be recovered
+Single-table cleanup requires `SUPER` access to the table. Database-scoped batch or dropped-object cleanup requires `SUPER` access to that database. Batch table and dropped-object cleanup without FROM, VACUUM ALL, and temporary-file cleanup require global `SUPER` privilege.
 
-VACUUM TABLE
-├── Target: Historical data and orphan files for active tables
-├── S3 Storage: ✅ Removes old snapshots, orphan segments/blocks, indexes/stats
-├── Meta Service: ❌ Preserves table structure and current metadata
-└── Result: Table stays active, only history cleaned
+Batch table cleanup skips non-FUSE and read-only tables. Ordinary per-table failures are logged and other tables are processed; cancellation and errors listing databases or tables can stop the operation. These commands do not return result sets.
 
-VACUUM TEMPORARY FILES  
-├── Target: Temporary spill files from queries (joins, sorts, aggregates)
-├── S3 Storage: ✅ Removes temp files from crashed/interrupted queries
-├── Meta Service: ❌ No metadata (temp files don't have any)
-└── Result: Storage cleanup only, rarely needed
-```
-
----
-
-> **🚨 Critical**: Only `VACUUM DROP TABLE` affects the meta service. Other commands only clean storage files.
-
-## Using VACUUM Commands
-
-The VACUUM command family is the primary method for cleaning data in Databend ([Enterprise Edition Feature](/guides/self-hosted/editions/enterprise/features)).
-
-### VACUUM DROP TABLE
-
-Permanently removes dropped tables from both storage and metadata.
+## Clean Table History
 
 ```sql
-VACUUM DROP TABLE [FROM <database_name>] [DRY RUN [SUMMARY]] [LIMIT <file_count>];
+VACUUM TABLE default.my_table;
 ```
 
-**Options:**
-- `FROM <database_name>`: Restrict to a specific database
-- `DRY RUN [SUMMARY]`: Preview files to be removed without actually deleting them
-- `LIMIT <file_count>`: Limit the number of files to be vacuumed
-
-**Examples:**
+Compaction combines small blocks and segments. To compact first and then reclaim eligible historical storage:
 
 ```sql
--- Preview files that would be removed
-VACUUM DROP TABLE DRY RUN;
-
--- Preview summary of files that would be removed
-VACUUM DROP TABLE DRY RUN SUMMARY;
-
--- Remove dropped tables from the "default" database
-VACUUM DROP TABLE FROM default;
-
--- Remove up to 1000 files from dropped tables
-VACUUM DROP TABLE LIMIT 1000;
+OPTIMIZE TABLE default.my_table COMPACT;
+VACUUM TABLE default.my_table;
 ```
 
-### VACUUM TABLE
-
-Removes historical data and orphan files for active tables (storage-only cleanup).
+For batch cleanup:
 
 ```sql
-VACUUM TABLE <table_name> [DRY RUN [SUMMARY]];
+-- One database
+VACUUM TABLES FROM default;
+
+-- All non-system databases in the current catalog
+VACUUM TABLES;
 ```
 
-**Options:**
-- `DRY RUN [SUMMARY]`: Preview files to be removed without actually deleting them
-
-**Examples:**
+## Clean Dropped Objects
 
 ```sql
--- Preview files that would be removed
-VACUUM TABLE my_table DRY RUN;
+-- One database
+VACUUM DROPPED OBJECTS FROM default;
 
--- Preview summary of files that would be removed
-VACUUM TABLE my_table DRY RUN SUMMARY;
-
--- Remove historical data from my_table
-VACUUM TABLE my_table;
+-- All databases in the current catalog, including dropped databases
+VACUUM DROPPED OBJECTS;
 ```
 
-### VACUUM TEMPORARY FILES
+This removes eligible dropped objects and their metadata as well as storage. They can no longer be recovered with UNDROP.
 
-Removes temporary spill files created during query execution.
+## Clean Temporary Files or Run All Steps
 
 ```sql
 VACUUM TEMPORARY FILES;
 ```
 
-> **Note**: Rarely needed during normal operation since Databend automatically handles cleanup. Manual cleanup is typically only required when Databend crashes during query execution.
-
-## Adjusting Data Retention Time
-
-The VACUUM commands remove data files older than the `DATA_RETENTION_TIME_IN_DAYS` setting. By default, Databend retains historical data for 1 day (24 hours). You can adjust this setting:
+To run table-history, dropped-object, and temporary-file cleanup in sequence:
 
 ```sql
--- Change retention period to 2 days
-SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
-
--- Check current retention setting
-SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
+VACUUM ALL;
 ```
 
-| Edition                                  | Default Retention | Maximum Retention |
-| ---------------------------------------- | ----------------- | ---------------- |
-| Databend Community & Enterprise Editions | 1 day (24 hours)  | 90 days          |
-| Databend Cloud (Personal)                | 1 day (24 hours)  | 1 day (24 hours) |
-| Databend Cloud (Business)                | 1 day (24 hours)  | 90 days          |
+A failure propagated by a step prevents later steps from running. Cleanup already completed is not rolled back.
+
+## Retention and Protection
+
+For table history and dropped objects, use `data_retention_time_in_days` (1 day by default). For example, set a 2-day retention period for the current session:
+
+```sql
+SET data_retention_time_in_days = 2;
+SHOW SETTINGS LIKE 'data_retention_time_in_days';
+```
+
+Active-table cleanup preserves snapshots and data referenced by unexpired snapshot tags, including tags with no expiration. Expired tags no longer protect history; VACUUM attempts to remove them without aborting cleanup if tag deletion fails.
+
+Temporary spill files have a separate retention period of 3 days by default. Override it with RETAIN; this option does not set the lifetime of temporary-table sessions:
+
+```sql
+VACUUM TEMPORARY FILES RETAIN 2 DAYS;
+```
