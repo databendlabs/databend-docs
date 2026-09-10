@@ -4,11 +4,11 @@ sidebar_position: 8
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.395"/>
+<FunctionDescription description="Introduced or updated: v1.2.940"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-在 Databend 中优化表，即通过合并或清理历史数据来节省存储空间并提升查询性能。
+OPTIMIZE TABLE 通过合并较小的 Segment 和 Block 提升查询性能。合并后，如需回收符合清理条件的历史数据占用的存储空间，请使用 [VACUUM TABLE](91-vacuum-table.md)。
 
 <DetailsWrap>
 
@@ -16,7 +16,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
   <summary>为何需要优化？</summary>
     <div>Databend 使用 Parquet 格式将数据存储在表中，并按块（Block）组织。此外，Databend 支持时间回溯（Time Travel）功能，每次修改表的操作都会生成一个 Parquet 文件，用于捕获并反映对表的变更。</div><br/>
 
-   <div>随着时间推移，表会累积大量 Parquet 文件，可能导致性能下降和存储需求增加。为优化表性能，可在不再需要时删除历史 Parquet 文件。这种优化有助于提升查询性能并减少表占用的存储空间。</div>
+   <div>随着表中较小的 Block 和 Segment 不断累积，查询可能需要读取更多文件和元数据。数据合并将它们合并为更大的单元，减少这部分开销。历史文件会保留到符合 VACUUM TABLE 清理条件时。</div>
 </details>
 
 </DetailsWrap>
@@ -159,7 +159,7 @@ OPTIMIZE TABLE [database.]table_name COMPACT [LIMIT <segment_count>]
 ```
 通过合并小块和段为较大块和段来优化表数据。
 
-- 该命令会为最新表数据创建新快照（含合并后的段和块），不影响现有存储文件，故需清理历史数据后才会释放存储空间。
+- 该命令会为最新表数据创建新快照（含合并后的段和块），不影响现有存储文件，因此需在合并后使用 [VACUUM TABLE](91-vacuum-table.md) 回收符合条件的历史数据占用的存储空间。
 
 - 根据表大小，执行可能耗时较长。
 
@@ -170,4 +170,10 @@ OPTIMIZE TABLE [database.]table_name COMPACT [LIMIT <segment_count>]
 **示例**
 ```sql
 OPTIMIZE TABLE my_database.my_table COMPACT LIMIT 50;
+```
+先合并数据，再清理符合条件的历史文件：
+
+```sql
+OPTIMIZE TABLE my_database.my_table COMPACT;
+VACUUM TABLE my_database.my_table;
 ```

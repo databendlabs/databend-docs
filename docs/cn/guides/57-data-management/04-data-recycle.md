@@ -3,131 +3,92 @@ title: 数据清理与回收
 sidebar_label: 数据回收
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.940"/>
+
 ## 概述
 
-在 Databend 中，当您运行 `DROP`、`TRUNCATE` 或 `DELETE` 命令时，数据不会立即被删除。这使得 Databend 的时间旅行（Time Travel）功能得以实现，允许您访问数据的先前状态。然而，这种方法也意味着在这些操作之后，存储空间不会自动释放。
+删除行或删除表不一定会立即释放存储空间。Databend 会保留历史数据和已删除对象，以便恢复。VACUUM 在数据符合清理条件后回收存储空间。
 
-```
-DELETE 前:                    DELETE 后:                     VACUUM 后:
-+----------------+           +----------------+           +----------------+
-|   当前数据     |           |    新版本      |           |   当前数据     |
-|                |           | （DELETE 后）   |           | （DELETE 后）   |
-+----------------+           +----------------+           +----------------+
-|   历史数据     |           |   历史数据     |           |                |
-|  （时间旅行）  |           |  （原始数据）  |           |                |
-+----------------+           +----------------+           +----------------+
-                             存储未释放                     存储已释放
-```
+以下 VACUUM 命令需要[企业版许可证](/guides/self-hosted/editions/enterprise/features)。清理后的历史数据和已删除对象无法恢复。
 
-## VACUUM 命令与清理范围
+## 选择清理范围
 
-Databend 提供了三种具有**不同清理范围**的 VACUUM 命令。了解每个命令清理的内容对于数据管理至关重要。
+| 命令 | 清理范围 | 效果 |
+|------|----------|------|
+| [VACUUM TABLE](/sql/sql-commands/ddl/table/vacuum-table) | 单个可写 FUSE 表 | 清理符合条件的历史数据，保留表及其当前数据。 |
+| [VACUUM TABLES](/sql/sql-commands/administration-cmds/vacuum-tables) | 指定数据库或当前 Catalog 所有非系统数据库中的可写 FUSE 表 | 批量执行相同的历史数据清理。 |
+| [VACUUM DROPPED OBJECTS](/sql/sql-commands/ddl/table/vacuum-dropped-objects) | 指定数据库或当前 Catalog 所有数据库中的已删除对象，包括已删除的数据库 | 清理符合条件的已删除对象及其存储和元数据。 |
+| [VACUUM TEMPORARY FILES](/sql/sql-commands/administration-cmds/vacuum-temp-files) | 租户的临时溢出文件和非活动临时表会话 | 清理临时存储。 |
+| [VACUUM ALL](/sql/sql-commands/administration-cmds/vacuum-all) | 依次清理表历史数据、已删除对象和临时文件 | 按各步骤的保留规则依次执行三项清理。 |
 
-```
-VACUUM DROP TABLE
-├── 目标：已删除的表（执行 DROP TABLE 命令后）
-├── S3 存储：✅ 移除所有数据（文件、段、块、索引、统计信息）
-├── Meta Service：✅ 移除所有元数据（模式、权限、记录）
-└── 结果：彻底移除表 - 无法恢复
+单表清理需要对该表具有 `SUPER` 访问权限。指定数据库的批量清理或已删除对象清理需要对该数据库具有 `SUPER` 访问权限。未指定 FROM 的批量表清理和已删除对象清理、VACUUM ALL 以及临时文件清理需要全局 `SUPER` 权限。
 
-VACUUM TABLE
-├── 目标：活跃表的历史数据和孤立文件
-├── S3 存储：✅ 移除旧快照、孤立的段/块、索引/统计信息
-├── Meta Service：❌ 保留表结构和当前元数据
-└── 结果：表保持活跃，仅清理历史数据
+批量表清理跳过非 FUSE 表和只读表。普通的单表失败会记录到日志中，并继续处理其他表；取消操作以及列出数据库或表时发生的错误可能中止执行。这些命令均不返回结果集。
 
-VACUUM TEMPORARY FILES
-├── 目标：查询产生的临时溢出文件（连接、排序、聚合）
-├── S3 存储：✅ 移除因查询崩溃/中断产生的临时文件
-├── Meta Service：❌ 无元数据（临时文件不含元数据）
-└── 结果：仅清理存储，很少需要
-```
-
----
-
-> **🚨 关键**：只有 `VACUUM DROP TABLE` 会影响 Meta Service。其他命令仅清理存储文件。
-
-## 使用 VACUUM 命令
-
-VACUUM 命令系列是 Databend 中清理数据的主要方法（[企业版功能](/guides/self-hosted/editions/enterprise/features)）。
-
-### VACUUM DROP TABLE
-
-从存储和元数据中永久移除已删除的表。
+## 清理表历史数据
 
 ```sql
-VACUUM DROP TABLE [FROM <database_name>] [DRY RUN [SUMMARY]] [LIMIT <file_count>];
+VACUUM TABLE default.my_table;
 ```
 
-**选项：**
-- `FROM <database_name>`：限制在特定数据库内
-- `DRY RUN [SUMMARY]`：预览将要移除的文件，而不实际删除它们
-- `LIMIT <file_count>`：限制要清理的文件数量
-
-**示例：**
+数据合并会合并较小的 Block 和 Segment。先合并数据，再回收符合条件的历史数据占用的存储空间：
 
 ```sql
--- 预览将被移除的文件
-VACUUM DROP TABLE DRY RUN;
-
--- 预览将被移除文件的摘要
-VACUUM DROP TABLE DRY RUN SUMMARY;
-
--- 从 "default" 数据库中移除已删除的表
-VACUUM DROP TABLE FROM default;
-
--- 从已删除的表中最多移除 1000 个文件
-VACUUM DROP TABLE LIMIT 1000;
+OPTIMIZE TABLE default.my_table COMPACT;
+VACUUM TABLE default.my_table;
 ```
 
-### VACUUM TABLE
-
-为活跃表移除历史数据和孤立文件（仅清理存储）。
+批量清理：
 
 ```sql
-VACUUM TABLE <table_name> [DRY RUN [SUMMARY]];
+-- One database
+VACUUM TABLES FROM default;
+
+-- All non-system databases in the current catalog
+VACUUM TABLES;
 ```
 
-**选项：**
-- `DRY RUN [SUMMARY]`：预览将要移除的文件，而不实际删除它们
-
-**示例：**
+## 清理已删除对象
 
 ```sql
--- 预览将被移除的文件
-VACUUM TABLE my_table DRY RUN;
+-- One database
+VACUUM DROPPED OBJECTS FROM default;
 
--- 预览将被移除文件的摘要
-VACUUM TABLE my_table DRY RUN SUMMARY;
-
--- 从 my_table 表中移除历史数据
-VACUUM TABLE my_table;
+-- All databases in the current catalog, including dropped databases
+VACUUM DROPPED OBJECTS;
 ```
 
-### VACUUM TEMPORARY FILES
+命令会清理符合条件的已删除对象及其元数据和存储。清理后无法再通过 UNDROP 恢复。
 
-移除查询执行期间创建的临时溢出文件。
+## 清理临时文件或执行全部步骤
 
 ```sql
 VACUUM TEMPORARY FILES;
 ```
 
-> **注意**：在正常操作中很少需要，因为 Databend 会自动处理清理工作。通常只有在 Databend 于查询执行期间崩溃时才需要手动清理。
-
-## 调整数据保留时间
-
-VACUUM 命令会移除早于 `DATA_RETENTION_TIME_IN_DAYS` 设置的数据文件。默认情况下，Databend 会保留 1 天（24 小时）的历史数据。您可以调整此设置：
+依次执行表历史数据、已删除对象和临时文件清理：
 
 ```sql
--- 将保留期更改为 2 天
-SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
-
--- 检查当前的保留期设置
-SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
+VACUUM ALL;
 ```
 
-| 版本 | 默认保留期 | 最长保留期 |
-| ---------------------------------------- | ----------------- | ---------------- |
-| Databend Community & Enterprise Editions | 1 天（24 小时） | 90 天 |
-| Databend Cloud（Personal） | 1 天（24 小时） | 1 天（24 小时） |
-| Databend Cloud（Business） | 1 天（24 小时） | 90 天 |
+若某一步骤向上传递错误，后续步骤将不再执行。已完成的清理不会回滚。
+
+## 保留期与保护规则
+
+表历史数据和已删除对象使用 `data_retention_time_in_days` 设置（默认为 1 天）。例如，为当前会话设置 2 天的保留期：
+
+```sql
+SET data_retention_time_in_days = 2;
+SHOW SETTINGS LIKE 'data_retention_time_in_days';
+```
+
+活动表清理会保留未过期快照标签引用的快照及数据，包括未设置过期时间的标签。过期标签不再保护历史数据；VACUUM 会尝试删除过期标签，标签删除失败不会中止清理。
+
+临时溢出文件采用独立的保留期，默认为 3 天。可使用 RETAIN 覆盖该值；此选项不设置临时表会话的存活时间：
+
+```sql
+VACUUM TEMPORARY FILES RETAIN 2 DAYS;
+```

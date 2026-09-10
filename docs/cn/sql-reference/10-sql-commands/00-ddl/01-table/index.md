@@ -40,13 +40,15 @@ title: 表
 | [TRUNCATE TABLE](40-ddl-truncate-table.md) | 清空表数据，保留表结构 | [FLASHBACK TABLE](70-flashback-table.md) |
 | [DROP TABLE](20-ddl-drop-table.md) | 删除表 | [UNDROP TABLE](21-ddl-undrop-table.md) |
 | [VACUUM TABLE](91-vacuum-table.md) | 永久删除表的历史数据文件（企业版） | 不可恢复 |
-| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | 永久删除已删除表的数据文件（企业版） | 不可恢复 |
+| [VACUUM DROPPED OBJECTS](91-vacuum-dropped-objects.md) | 永久清理符合条件的已删除对象及其存储和元数据（企业版） | 不可恢复 |
+| [VACUUM TABLES](../../50-administration-cmds/09-vacuum-tables.md) | 批量清理指定数据库或当前 Catalog 中表的符合条件的历史数据（企业版） | 不可恢复 |
+| [VACUUM ALL](../../50-administration-cmds/09-vacuum-all.md) | 清理表历史数据、已删除对象和临时文件（企业版） | 不可恢复 |
 
 ## 优化表
 
 | 命令 | 描述 |
 |---------|-------------|
-| [OPTIMIZE TABLE](60-optimize-table.md) | 压缩或清理历史数据以节省存储空间并提升查询性能 |
+| [OPTIMIZE TABLE](60-optimize-table.md) | 合并 Segment 和 Block，提升查询性能 |
 | [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md) | 配置 Cluster Key 以提升大表查询性能 |
 
 :::note

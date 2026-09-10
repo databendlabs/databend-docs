@@ -41,8 +41,10 @@ This page provides reference information for the system administration commands 
 | Command | Description |
 |---------|-------------|
 | **[VACUUM TABLE](09-vacuum-table.md)** | Reclaim storage space from tables |
-| **[VACUUM DROP TABLE](09-vacuum-drop-table.md)** | Clean up dropped table data |
-| **[VACUUM TEMP FILES](09-vacuum-temp-files.md)** | Remove temporary files |
+| **[VACUUM DROPPED OBJECTS](09-vacuum-dropped-objects.md)** | Clean up eligible dropped objects and their storage and metadata |
+| **[VACUUM TABLES](09-vacuum-tables.md)** | Clean table history across a database or the current catalog |
+| **[VACUUM ALL](09-vacuum-all.md)** | Clean table history, dropped objects, and temporary files |
+| **[VACUUM TEMPORARY FILES](09-vacuum-temp-files.md)** | Remove temporary files |
 | **[VACUUM VIRTUAL COLUMN](10-vacuum-virtual-column.md)** | Remove obsolete virtual column files |
 | **[SHOW INDEXES](show-indexes.md)** | Display table indexes |
 

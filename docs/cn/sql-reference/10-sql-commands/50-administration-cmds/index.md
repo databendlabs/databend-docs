@@ -41,8 +41,10 @@ title: 管理命令
 | 命令 | 说明 |
 |---------|-------------|
 | **[VACUUM TABLE](09-vacuum-table.md)** | 回收表的存储空间 |
-| **[VACUUM DROP TABLE](09-vacuum-drop-table.md)** | 清理已删除表的数据 |
-| **[VACUUM TEMP FILES](09-vacuum-temp-files.md)** | 移除临时文件 |
+| **[VACUUM DROPPED OBJECTS](09-vacuum-dropped-objects.md)** | 清理符合条件的已删除对象及其存储和元数据 |
+| **[VACUUM TABLES](09-vacuum-tables.md)** | 批量清理指定数据库或当前 Catalog 中的表历史数据 |
+| **[VACUUM ALL](09-vacuum-all.md)** | 清理表历史数据、已删除对象和临时文件 |
+| **[VACUUM TEMPORARY FILES](09-vacuum-temp-files.md)** | 移除临时文件 |
 | **[VACUUM VIRTUAL COLUMN](10-vacuum-virtual-column.md)** | 删除过期的虚拟列文件 |
 | **[SHOW INDEXES](show-indexes.md)** | 显示表索引（Index） |
 

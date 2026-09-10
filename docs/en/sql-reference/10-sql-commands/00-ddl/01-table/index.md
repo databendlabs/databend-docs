@@ -40,13 +40,15 @@ This page provides a comprehensive overview of table operations in Databend, org
 | [TRUNCATE TABLE](40-ddl-truncate-table.md) | Removes all data from a table while preserving the table's schema | [FLASHBACK TABLE](70-flashback-table.md) |
 | [DROP TABLE](20-ddl-drop-table.md) | Deletes a table | [UNDROP TABLE](21-ddl-undrop-table.md) |
 | [VACUUM TABLE](91-vacuum-table.md) | Permanently removes historical data files of a table (Enterprise Edition) | Not recoverable |
-| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | Permanently removes data files of dropped tables (Enterprise Edition) | Not recoverable |
+| [VACUUM DROPPED OBJECTS](91-vacuum-dropped-objects.md) | Permanently removes eligible dropped objects and their storage and metadata (Enterprise Edition) | Not recoverable |
+| [VACUUM TABLES](../../50-administration-cmds/09-vacuum-tables.md) | Cleans eligible history from tables across a database or the current catalog (Enterprise Edition) | Not recoverable |
+| [VACUUM ALL](../../50-administration-cmds/09-vacuum-all.md) | Cleans table history, dropped objects, and temporary files (Enterprise Edition) | Not recoverable |
 
 ## Table Optimization
 
 | Command | Description |
 |---------|-------------|
-| [OPTIMIZE TABLE](60-optimize-table.md) | Compacts or purges historical data to save storage space and enhance query performance |
+| [OPTIMIZE TABLE](60-optimize-table.md) | Compacts segments and blocks to enhance query performance |
 | [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md) | Configures a cluster key to enhance query performance for large tables |
 
 :::note
