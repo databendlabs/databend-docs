@@ -16,6 +16,7 @@ Unlike data sources, integration tasks are the executable units that actually pe
 | [Amazon SQS (S3) (Beta)](./02-sqs-s3.md) | Consumes S3 object creation events from an SQS queue and writes the corresponding object data into Platform. |
 | [MySQL](./03-mysql.md) | Synchronizes table data from MySQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
 | [PostgreSQL](./04-postgres.md) | Synchronizes table data from PostgreSQL using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
+| [TiDB (Beta)](./06-tidb.md) | Synchronizes table data from TiDB using `Snapshot`, `CDC Only`, or `Snapshot + CDC`. |
 | [Kafka Consumer Integration Task (Beta)](./05-kafka.md) | Continuously consumes messages from Kafka topics and saves the message content to internal object storage. |
 
 ## Reading Guide
@@ -29,7 +30,7 @@ Recommended reading order:
 
 - S3 tasks are designed for file import scenarios and mainly focus on file path patterns, file formats, and ingestion behavior.
 - SQS (S3) tasks are designed for S3 event-driven data ingestion and mainly focus on the SQS queue, S3 event filters, IAM Role, and target table.
-- MySQL and PostgreSQL tasks are designed for table synchronization scenarios and mainly focus on sync modes, primary keys, incremental capture, and archive scheduling.
+- MySQL, PostgreSQL, and TiDB tasks are designed for table synchronization scenarios and mainly focus on sync modes, primary keys, incremental capture, and archive scheduling.
 - Kafka Consumer tasks are designed for message consumption scenarios and mainly focus on topics, start position, batch size, batch wait interval, and tenant Stage queries.
 
 <IndexOverviewList />
