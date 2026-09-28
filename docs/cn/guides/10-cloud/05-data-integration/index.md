@@ -30,6 +30,7 @@ Databend Cloud 的 Data Integration 功能通过可视化、无代码界面，�
 | [Amazon SQS (S3) (Beta)](./task/02-sqs-s3.md) | 消费 SQS 队列中的 S3 对象创建事件，并将对应对象数据写入云平台。                  |
 | [MySQL](./task/03-mysql.md)                   | 从 MySQL 同步表数据，支持 `Snapshot`、`CDC Only` 和 `Snapshot + CDC` 模式。      |
 | [PostgreSQL](./task/04-postgres.md)           | 从 PostgreSQL 同步表数据，支持 `Snapshot`、`CDC Only` 和 `Snapshot + CDC` 模式。 |
+| [TiDB (Beta)](./task/06-tidb.md)               | 从 TiDB 同步表数据，支持 `Snapshot`、`CDC Only` 和 `Snapshot + CDC` 模式。      |
 | [Kafka Consumer 集成任务 (Beta)](./task/05-kafka.md) | 从 Kafka topic 持续消费消息，并将消息内容保存到内部对象存储。 |
 
 ## 推荐使用流程
