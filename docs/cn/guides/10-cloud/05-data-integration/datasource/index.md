@@ -16,10 +16,11 @@ Databend Cloud 数据源表示与外部系统建立的一条连接，其中保�
 | [Amazon SQS (S3) - IAM Role (Beta)](./02-sqs-s3.md) | 保存 SQS (S3) 接入所需的队列地址、Region、IAM Role 和 S3 路径范围，可用于消费 S3 对象创建事件。 |
 | [MySQL - 连接凭证](./03-mysql.md) | 保存访问 MySQL 所需的主机、端口、用户名、密码和数据库信息，可供多个 MySQL 同步任务复用。 |
 | [PostgreSQL - 连接凭证](./04-postgres.md) | 保存访问 PostgreSQL 所需的主机、端口、用户名、密码和数据库信息，可供多个 PostgreSQL 同步任务复用。 |
+| [TiDB (Beta)](./07-tidb.md) | 保存 TiDB Cloud Lake 读取 TiDB 集群暂存数据所需的对象存储位置、凭据和可选事件队列，可供多个 TiDB 同步任务复用。 |
 | [FeiShuBot](./05-feishu.md) | 保存飞书机器人地址和消息模板，用于任务失败通知等场景。 |
 | [Kafka - Credentials (Beta)](./06-kafka.md) | 保存访问 Kafka 集群所需的 broker 地址、认证方式和连接凭据，可供 Kafka Consumer 任务复用。 |
 
-并非每种数据源都会对应一类集成任务。例如，`FeiShuBot` 用于通知配置，而 `Amazon S3 - 访问凭证`、`Amazon SQS (S3) - IAM Role`、`MySQL - 连接凭证`、`PostgreSQL - 连接凭证` 和 `Kafka - Credentials` 则会被实际的数据导入、同步或事件消费任务引用。
+并非每种数据源都会对应一类集成任务。例如，`FeiShuBot` 用于通知配置，而 `Amazon S3 - 访问凭证`、`Amazon SQS (S3) - IAM Role`、`MySQL - 连接凭证`、`PostgreSQL - 连接凭证`、`TiDB - Credentials` 和 `Kafka - Credentials` 则会被实际的数据导入、同步或事件消费任务引用。
 
 ## 管理数据源
 
