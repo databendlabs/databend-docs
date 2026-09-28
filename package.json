@@ -41,6 +41,8 @@
     "ahooks": "^3.8.0",
     "antd": "6.0.0",
     "axios": "^1.16.0",
+    "baseline-browser-mapping": "^2.11.26",
+    "caniuse-lite": "^1.0.30001812",
     "clsx": "^2.0.0",
     "copy-to-clipboard": "^3.3.3",
     "copyforjs": "^1.0.6",
