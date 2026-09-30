@@ -18,7 +18,6 @@ TiDB 数据源只保存对象存储连接信息，不会直接连接 TiDB 服务
 TiDB Cloud 通过 Dumpling 导出全量快照，通过 TiCDC 导出增量变更到对象存储桶。由于 TiDB Cloud 各版本之间存在差异，我们建议针对不同版本采用特定的配置方式，以保持配置简洁并确保数据兼容性。
 
 - **Premium / BYOC**：使用 [TiDB Cloud 控制台 **Data Pipeline**](https://docs.pingcap.com/tidbcloud/data-pipeline-sink-to-lake/?plan=premium) 界面统一管理和配置导入导出。
-- **Essential** 用户：使用控制台的 **Export** 和 **Changefeed** 功能[分别配置 Dumpling 和 TiCDC](https://docs.pingcap.com/tidbcloud/data-pipeline-essential-sink-to-lake/?plan=essential)。
 - **Dedicated**：请参阅[集成指南](https://docs.pingcap.com/tidbcloud/data-pipeline-dedicated-sink-to-lake/)了解推荐方式。
 
 ## 创建 TiDB 数据源

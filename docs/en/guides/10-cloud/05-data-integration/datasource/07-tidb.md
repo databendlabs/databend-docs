@@ -16,7 +16,6 @@ A **TiDB** data source stores the object storage location, credentials, and opti
 TiDB Cloud exports full snapshots (Dumpling) and incremental changes (TiCDC) to an object storage bucket. Due to the differences across TiDB Cloud plans, we recommend a specific setup path for each plan to keep configuration minimal and ensure data compatibility.
 
 - **Premium / BYOC**: use the [TiDB Cloud console **Data Pipeline**](https://docs.pingcap.com/tidbcloud/data-pipeline-sink-to-lake/?plan=premium) UI to set up and manage export and import in one place.
-- **Essential** users who prefer manual setup: use the console **Export** and **Changefeed** features to [configure Dumpling and TiCDC individually](https://docs.pingcap.com/tidbcloud/data-pipeline-essential-sink-to-lake/?plan=essential).
 - **Dedicated**: follow [the dedicated integration guide](https://docs.pingcap.com/tidbcloud/data-pipeline-dedicated-sink-to-lake/) for the recommended approach.
 ## Create TiDB Data Source
 
