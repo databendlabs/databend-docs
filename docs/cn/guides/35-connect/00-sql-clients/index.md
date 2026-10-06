@@ -8,4 +8,5 @@ Databend 原生支持命令行和图形界面 SQL 客户端，根据您的工作
 |-------|------|---------|
 | [**BendSQL**](/guides/connect/sql-clients/bendsql) | 命令行 | 开发者、脚本、自动化 |
 | [**DBeaver**](/guides/connect/sql-clients/jdbc) | 图形界面 | 可视化查询、数据探索 |
+| [**LibreDB Studio**](https://github.com/libredb/libredb-studio) | Web 图形界面 | 浏览器内查询、库表结构浏览、可自托管 |
 
