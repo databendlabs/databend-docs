@@ -5,12 +5,12 @@ pagination_prev: null
 pagination_next: null
 ---
 
-import { Redirect } from '@docusaurus/router';
-
 <head>
   <link rel="canonical" href="/guides/cloud/cloud-agent" />
 </head>
 
-<Redirect to="/guides/cloud/cloud-agent" />
+:::info
+The AI-Powered Features previously described on this page are no longer available. They have been replaced by **Cloud Agent**.
 
-AI-Powered Features have been replaced by [Cloud Agent](/guides/cloud/cloud-agent). Redirecting…
+👉 See [Cloud Agent](/guides/cloud/cloud-agent) for the latest AI capabilities in Databend Cloud.
+:::
