@@ -125,6 +125,54 @@ REFRESH LINEAGE FOR ALL VIEWS;
 
 该命令会校准 `default` Catalog 中所有视图的血缘关系。结果只显示需要变更或无法处理的视图，不显示未发生变化的视图。执行命令需要全局 `SUPER` 权限。有关输出列的详细说明，请参见 [`REFRESH LINEAGE`](/sql/sql-commands/ddl/view/refresh-lineage)。
 
+## 导出到 OpenMetadata
+
+如需在 [OpenMetadata](https://open-metadata.org) 中查看 Databend 的血缘，可以使用 [databend-openmetadata-ingestion](https://github.com/databendcloud/databend-openmetadata-ingestion)。该工具读取 Databend 系统表和 `system_history.lineage_history`，并通过 REST API 将结果推送到 OpenMetadata。它兼容 OpenMetadata 1.x 和 2.x，无需安装服务端插件或自定义 Ingestion 镜像。
+
+:::note
+该工具目前仅支持导入**元数据**（Catalog、数据库、表、视图和列）和**血缘**（表级和列级）。OpenMetadata 官方 Databend Connector 正在开发中。
+:::
+
+前提条件：
+
+- Python 3.10 或更高版本。
+- Databend 已启用数据血缘和历史表，确保 `system_history.lineage_history` 存在。
+- Databend 用户拥有 `system.*` 和 `system_history.lineage_history` 的 `SELECT` 权限。
+- OpenMetadata Bot 的 JWT Token。可以使用 `init-bot` 命令创建一个最小权限的 Bot。
+
+安装工具：
+
+```bash
+git clone https://github.com/databendcloud/databend-openmetadata-ingestion.git
+cd databend-openmetadata-ingestion
+pip install -e .
+```
+
+将 `config.example.yaml` 复制为 `config.yaml`，并配置 Databend DSN 和 OpenMetadata 地址：
+
+```yaml title="config.yaml"
+databend:
+  dsn: "databend://user:${DATABEND_PASSWORD}@<host>:443/?sslmode=enable"
+
+openmetadata:
+  host: "http://<openmetadata-host>:8585/api"
+  jwt_token: "${OM_JWT_TOKEN}"
+
+service:
+  name: databend_prod
+```
+
+然后执行同步：
+
+```bash
+export OM_JWT_TOKEN=<bot-token>
+bend-om -c config.yaml init-service   # 在 OpenMetadata 中创建或更新 Databend 服务
+bend-om -c config.yaml metadata       # 全量同步 Catalog、数据库、表和列
+bend-om -c config.yaml lineage        # 增量同步血缘；添加 --full 可重放全部历史
+```
+
+请先执行 `metadata` 再执行 `lineage`：如果血缘边的任一端点在 OpenMetadata 中尚不存在，该血缘边会被跳过。如需让 OpenMetadata 保持最新，可以使用 cron 或 Airflow 定期调度这两个命令。完整配置说明请参见项目 [README](https://github.com/databendcloud/databend-openmetadata-ingestion)。
+
 ## 使用限制
 
 - `GET_LINEAGE` 最多可遍历五跳关系。

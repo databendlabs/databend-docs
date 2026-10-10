@@ -125,6 +125,54 @@ REFRESH LINEAGE FOR ALL VIEWS;
 
 The refresh reconciles lineage for all views in the `default` catalog. It reports only views that need changes or could not be processed; unchanged views are omitted. The command requires the global `SUPER` privilege. See [`REFRESH LINEAGE`](/sql/sql-commands/ddl/view/refresh-lineage) for output details.
 
+## Export to OpenMetadata
+
+To view Databend lineage in [OpenMetadata](https://open-metadata.org), use [databend-openmetadata-ingestion](https://github.com/databendcloud/databend-openmetadata-ingestion). The tool reads Databend system tables and `system_history.lineage_history` and pushes the results to OpenMetadata through its REST API. It works with OpenMetadata 1.x and 2.x servers without a server plugin or a custom ingestion image.
+
+:::note
+The tool currently supports **metadata** (catalogs, databases, tables, views, and columns) and **lineage** (table-level and column-level) ingestion only. An official Databend connector for OpenMetadata is under development.
+:::
+
+Requirements:
+
+- Python 3.10 or later.
+- Data lineage and history tables enabled in Databend, so that `system_history.lineage_history` exists.
+- A Databend user with `SELECT` on `system.*` and `system_history.lineage_history`.
+- An OpenMetadata bot JWT token. The `init-bot` command can create a least-privilege bot for you.
+
+Install the tool:
+
+```bash
+git clone https://github.com/databendcloud/databend-openmetadata-ingestion.git
+cd databend-openmetadata-ingestion
+pip install -e .
+```
+
+Copy `config.example.yaml` to `config.yaml`, and set the Databend DSN and OpenMetadata host:
+
+```yaml title="config.yaml"
+databend:
+  dsn: "databend://user:${DATABEND_PASSWORD}@<host>:443/?sslmode=enable"
+
+openmetadata:
+  host: "http://<openmetadata-host>:8585/api"
+  jwt_token: "${OM_JWT_TOKEN}"
+
+service:
+  name: databend_prod
+```
+
+Then run the sync:
+
+```bash
+export OM_JWT_TOKEN=<bot-token>
+bend-om -c config.yaml init-service   # create or update the Databend service in OpenMetadata
+bend-om -c config.yaml metadata       # full sync of catalogs, databases, tables, and columns
+bend-om -c config.yaml lineage        # incremental lineage sync; add --full to replay all history
+```
+
+Run `metadata` before `lineage`, because lineage edges are skipped if either endpoint does not yet exist in OpenMetadata. To keep OpenMetadata up to date, schedule both commands with cron or Airflow. For all options, see the project [README](https://github.com/databendcloud/databend-openmetadata-ingestion).
+
 ## Limitations
 
 - `GET_LINEAGE` traverses at most five hops.
