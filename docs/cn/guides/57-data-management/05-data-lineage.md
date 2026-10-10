@@ -127,10 +127,12 @@ REFRESH LINEAGE FOR ALL VIEWS;
 
 ## 导出到 OpenMetadata
 
-如需在 [OpenMetadata](https://open-metadata.org) 中查看 Databend 的血缘，可以使用 [databend-openmetadata-ingestion](https://github.com/databendcloud/databend-openmetadata-ingestion)。该工具读取 Databend 系统表和 `system_history.lineage_history`，通过 REST API 将元数据（数据库、表、视图和列）和血缘（表级和列级）推送到 OpenMetadata。安装、配置和使用方法请参见项目 [README](https://github.com/databendcloud/databend-openmetadata-ingestion)。
+如需在 [OpenMetadata](https://open-metadata.org) 中查看 Databend 的血缘，可以使用 [databend-openmetadata-ingestion](https://github.com/databendcloud/databend-openmetadata-ingestion)。该工具通过 REST API 将 Databend 的元数据（数据库、表、视图和列）和血缘（表级和列级）推送到 OpenMetadata。安装、配置和使用方法请参见项目 [README](https://github.com/databendcloud/databend-openmetadata-ingestion)。
 
 :::note
-该工具目前仅支持导入元数据和血缘。OpenMetadata 官方 Databend Connector 正在开发中。
+- 该工具目前仅支持导入元数据和血缘。OpenMetadata 官方 Databend Connector 正在开发中。
+- 请先执行 `metadata` 再执行 `lineage`。如果血缘边的任一端点在 OpenMetadata 中尚不存在，该血缘边会被跳过。
+- 如需让 OpenMetadata 保持最新，可以使用 cron 或 Airflow 定期调度这两个命令。
 :::
 
 ## 使用限制
