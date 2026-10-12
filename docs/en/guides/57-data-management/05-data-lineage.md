@@ -125,6 +125,16 @@ REFRESH LINEAGE FOR ALL VIEWS;
 
 The refresh reconciles lineage for all views in the `default` catalog. It reports only views that need changes or could not be processed; unchanged views are omitted. The command requires the global `SUPER` privilege. See [`REFRESH LINEAGE`](/sql/sql-commands/ddl/view/refresh-lineage) for output details.
 
+## Export to OpenMetadata
+
+To view Databend lineage in [OpenMetadata](https://open-metadata.org), use [databend-openmetadata-ingestion](https://github.com/databendcloud/databend-openmetadata-ingestion). The tool pushes metadata (databases, tables, views, and columns) and lineage (table-level and column-level) from Databend to OpenMetadata through its REST API. For installation, configuration, and usage, see the project [README](https://github.com/databendcloud/databend-openmetadata-ingestion).
+
+:::note
+- The tool currently supports metadata and lineage ingestion only. An official Databend connector for OpenMetadata is under development.
+- Run `metadata` before `lineage`. A lineage edge is skipped if either of its endpoints does not yet exist in OpenMetadata.
+- To keep OpenMetadata up to date, schedule both commands with cron or Airflow.
+:::
+
 ## Limitations
 
 - `GET_LINEAGE` traverses at most five hops.
