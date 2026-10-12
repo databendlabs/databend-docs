@@ -19,7 +19,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | Component | Description |
 |-----------|-------------|
 | **[Cluster Key](06-clusterkey/index.md)** | Define data clustering for query optimization |
-| **[Aggregating Index](07-aggregating-index/index.md)** | Pre-compute aggregations for faster queries |
+| **[Aggregating Index](07-aggregating-index/index.md)** | Replaced by [Materialized Views](05-view/materialized-view.md) |
 | **[Inverted Index](07-inverted-index/index.md)** | Full-text search index for text columns |
 | **[Ngram Index](07-ngram-index/index.md)** | Substring search index for LIKE patterns |
 | **[Spatial Index](07-spatial-index/index.md)** | Spatial pruning index for GEOMETRY columns |

@@ -1,4 +1,21 @@
 const siteRedirects = [
+  // Aggregating indexes replaced by materialized views
+  {
+    from: '/sql/sql-commands/ddl/aggregating-index/create-aggregating-index',
+    to: '/sql/sql-commands/ddl/view/materialized-view'
+  },
+  {
+    from: '/sql/sql-commands/ddl/aggregating-index/refresh-aggregating-index',
+    to: '/sql/sql-commands/ddl/view/materialized-view'
+  },
+  {
+    from: '/sql/sql-commands/ddl/aggregating-index/drop-aggregating-index',
+    to: '/sql/sql-commands/ddl/view/materialized-view'
+  },
+  {
+    from: '/guides/performance/aggregating-index',
+    to: '/sql/sql-commands/ddl/view/materialized-view'
+  },
   // Renamed dropped-object cleanup command
   {
     from: '/sql/sql-commands/ddl/table/vacuum-drop-table',

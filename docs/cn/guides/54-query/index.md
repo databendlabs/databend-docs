@@ -8,7 +8,7 @@ CityDrive Intelligence 记录每一次行车过程的视频。通过后台处理
 
 | 指南 | 涵盖内容 |
 |-------|----------------|
-| [SQL 分析](./00-sql-analytics.md) | 基础表设计、过滤、连接、窗口函数及聚合索引 |
+| [SQL 分析](./00-sql-analytics.md) | 基础表设计、过滤、连接、窗口函数及物化视图 |
 | [JSON 与搜索](./01-json-search.md) | 加载 `frame_metadata_catalog`，执行 Elasticsearch 风格的 `QUERY()`，并关联位图标签 |
 | [向量搜索](./02-vector-db.md) | 存储向量嵌入，运行余弦相似度搜索，并关联风险指标 |
 | [地理空间分析](./03-geo-analytics.md) | 利用 `GEOMETRY` 类型，进行距离/多边形过滤及红绿灯关联查询 |
