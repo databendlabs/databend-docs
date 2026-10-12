@@ -300,11 +300,11 @@ Docs: [Window functions](/sql/sql-functions/window-functions).
 
 ---
 
-## 6. Aggregating Index Boost
-Persist frequently used summaries for dashboards.
+## 6. Materialized Views {/* #6-aggregating-index-boost */}
+Aggregating indexes have been replaced by materialized views. Persist frequently used summaries for dashboards with a materialized view:
 
 ```sql
-CREATE OR REPLACE AGGREGATING INDEX idx_video_event_summary
+CREATE OR REPLACE MATERIALIZED VIEW video_event_summary
 AS
 SELECT video_id,
        event_tag,
@@ -312,34 +312,19 @@ SELECT video_id,
        AVG(risk_score) AS avg_risk
 FROM frame_events
 GROUP BY video_id, event_tag;
+
+REFRESH MATERIALIZED VIEW video_event_summary;
 ```
 
-When analysts rerun a familiar KPI, the optimizer serves it from the index:
+Query the materialized view directly to reuse its summary:
 
 ```sql
-SELECT v.route_name,
-       e.event_tag,
-       COUNT(*)        AS event_count,
-       AVG(e.risk_score) AS avg_risk
-FROM frame_events e
-JOIN citydrive_videos v USING (video_id)
-WHERE v.capture_date >= '2025-01-01'
-GROUP BY v.route_name, e.event_tag
+SELECT video_id, event_tag, event_count, avg_risk
+FROM video_event_summary
 ORDER BY avg_risk DESC;
 ```
 
-Sample output:
-
-```
-route_name         | event_tag      | event_count | avg_risk
-Downtown Loop      | hard_brake     | 1           | 0.81
-Port Perimeter     | lane_merge     | 1           | 0.74
-Downtown Loop      | pedestrian     | 1           | 0.67
-CBD Night Sweep    | night_lowlight | 1           | 0.63
-Airport Connector  | hard_brake     | 1           | 0.59
-```
-
-Docs: [Aggregating Index](/guides/performance/aggregating-index) and [EXPLAIN](/sql/sql-commands/explain-cmds/explain).
+Docs: [Materialized Views](/sql/sql-commands/ddl/view/materialized-view).
 
 ---
 

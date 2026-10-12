@@ -300,11 +300,11 @@ VID-MISSING-001 | FRAME-0501 | 10          | 0.25       | 0.25
 
 ---
 
-## 6. 聚合索引加速
-持久化常用的仪表盘汇总数据。
+## 6. 物化视图 {/* #6-聚合索引加速 */}
+聚合索引已被物化视图替代。使用物化视图持久化常用的仪表盘汇总数据：
 
 ```sql
-CREATE OR REPLACE AGGREGATING INDEX idx_video_event_summary
+CREATE OR REPLACE MATERIALIZED VIEW video_event_summary
 AS
 SELECT video_id,
        event_tag,
@@ -312,34 +312,19 @@ SELECT video_id,
        AVG(risk_score) AS avg_risk
 FROM frame_events
 GROUP BY video_id, event_tag;
+
+REFRESH MATERIALIZED VIEW video_event_summary;
 ```
 
-当分析师再次查询相同的 KPI 时，优化器会直接从索引中读取数据：
+直接查询物化视图，复用其中的汇总结果：
 
 ```sql
-SELECT v.route_name,
-       e.event_tag,
-       COUNT(*)        AS event_count,
-       AVG(e.risk_score) AS avg_risk
-FROM frame_events e
-JOIN citydrive_videos v USING (video_id)
-WHERE v.capture_date >= '2025-01-01'
-GROUP BY v.route_name, e.event_tag
+SELECT video_id, event_tag, event_count, avg_risk
+FROM video_event_summary
 ORDER BY avg_risk DESC;
 ```
 
-示例输出：
-
-```
-route_name         | event_tag      | event_count | avg_risk
-Downtown Loop      | hard_brake     | 1           | 0.81
-Port Perimeter     | lane_merge     | 1           | 0.74
-Downtown Loop      | pedestrian     | 1           | 0.67
-CBD Night Sweep    | night_lowlight | 1           | 0.63
-Airport Connector  | hard_brake     | 1           | 0.59
-```
-
-文档：[Aggregating Index](/guides/performance/aggregating-index) 和 [EXPLAIN](/sql/sql-commands/explain-cmds/explain)。
+文档：[物化视图](/sql/sql-commands/ddl/view/materialized-view)。
 
 ---
 

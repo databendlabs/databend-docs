@@ -19,7 +19,7 @@ title: DDL（Data Definition Language）命令
 | 组件 | 描述 |
 |-----------|-------------|
 | **[聚簇键 (Cluster Key)](06-clusterkey/index.md)** | 为查询优化定义数据聚簇 |
-| **[聚合索引 (Aggregating Index)](07-aggregating-index/index.md)** | 预计算聚合以加快查询速度 |
+| **[聚合索引 (Aggregating Index)](07-aggregating-index/index.md)** | 已被[物化视图](05-view/materialized-view.md)替代 |
 | **[倒排索引 (Inverted Index)](07-inverted-index/index.md)** | 用于文本列的全文搜索索引 |
 | **[Ngram 索引 (Ngram Index)](07-ngram-index/index.md)** | 用于 LIKE 模式的子字符串搜索索引 |
 | **[空间索引 (Spatial Index)](07-spatial-index/index.md)** | 用于 `GEOMETRY` 列的空间裁剪索引 |

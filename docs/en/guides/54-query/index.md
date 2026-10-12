@@ -8,7 +8,7 @@ This guide set shows how Databend keeps all those workloads in one warehouse—n
 
 | Guide | What it covers |
 |-------|----------------|
-| [SQL Analytics](./00-sql-analytics.md) | Base tables, filters, joins, windows, aggregating indexes |
+| [SQL Analytics](./00-sql-analytics.md) | Base tables, filters, joins, windows, materialized views |
 | [JSON & Search](./01-json-search.md) | Load `frame_metadata_catalog`, run Elasticsearch `QUERY()`, link bitmap tags |
 | [Vector Search](./02-vector-db.md) | Persist embeddings, run cosine search, join risk metrics |
 | [Geo Analytics](./03-geo-analytics.md) | Use `GEOMETRY`, distance/polygon filters, traffic-light joins |
