@@ -11,7 +11,9 @@ import TabItem from '@theme/TabItem';
 Creates a connection to external storage.
 
 :::warning
-IMPORTANT: When objects (stages, tables, etc.) use a connection, they copy and store the connection's parameters permanently. If you later modify the connection using CREATE OR REPLACE CONNECTION, existing objects will continue using the old parameters. To update objects with new connection parameters, you must drop and recreate those objects.
+Stages and tables usually copy the connection parameters when you create them. Replacing the connection does not update those stored parameters. Recreate the object or use its supported connection-update command to change them.
+
+A Share does not copy the connection parameters. It uses the current connection when a consumer reads data. See [Connections for Data Sharing](#data-sharing).
 :::
 
 ## Syntax
@@ -149,6 +151,17 @@ To create a connection, the user performing the operation or the [current_role](
 ## Update Table Connections
 
 To switch an existing table to a new connection, use [`ALTER TABLE ... CONNECTION`](/sql/sql-commands/ddl/table/alter-table#external-table-connection). This command rebinds external tables to a different connection without recreating the table.
+
+## Connections for Data Sharing {/* #data-sharing */}
+
+A [Share](/sql/sql-commands/ddl/share) uses a connection of the provider tenant. When a consumer reads a shared table, Databend uses the credentials of this connection. The consumer does not get the credentials.
+
+- The storage type of the connection must be the same as the storage type of the granted tables.
+- S3, Azure Blob, and GCS connections can supply credentials. An `fs` connection without parameters uses the file system configuration of the provider.
+- To change the credentials for consumer reads, create a new connection. Then use `ALTER SHARE ... SET CONNECTION`. This does not change the connection of a provider table with an external location.
+- Do not drop a connection that a Share uses. If Databend cannot find the connection, reads fail.
+
+For more information, see [Storage and Connections](/guides/data-management/data-sharing#storage-and-connections).
 
 ## Examples
 

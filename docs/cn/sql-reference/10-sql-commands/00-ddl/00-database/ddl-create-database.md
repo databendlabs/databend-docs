@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.866"/>
+<FunctionDescription description="引入或更新于：v1.2.949"/>
 
 创建数据库。
 
@@ -17,6 +17,9 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
         DEFAULT_STORAGE_CONNECTION = '<connection_name>',
         DEFAULT_STORAGE_PATH = '<path>'
     ) ]
+
+CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
+    FROM SHARE <provider_tenant>.<share_name>
 ```
 
 ## 参数
@@ -25,6 +28,7 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 |:------------------------------|:------------------------------------------------------------------------------------------------------------------------------|
 | `DEFAULT_STORAGE_CONNECTION`  | 已有连接的名称（通过 `CREATE CONNECTION` 创建），作为该数据库中表的默认存储连接。                                               |
 | `DEFAULT_STORAGE_PATH`        | 该数据库中表的默认存储路径 URI（如 `s3://bucket/path/`），必须以 `/` 结尾，且与连接的存储类型匹配。                            |
+| `FROM SHARE`                  | 基于 Share 创建只读的共享数据库。`provider_tenant` 是提供方的租户 ID。参见[基于 Share 创建数据库](#from-share)。 |
 
 :::note
 - `DEFAULT_STORAGE_CONNECTION` 与 `DEFAULT_STORAGE_PATH` 必须同时指定，单独指定其中一个会报错。
@@ -38,6 +42,26 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 | CREATE DATABASE | 全局      | 创建数据库。 |
 
 要创建数据库，执行操作的用户或[当前角色（current_role）](/guides/security/access-control/roles)必须拥有 CREATE DATABASE [权限（privilege）](/guides/security/access-control/privileges)。
+
+使用 `FROM SHARE` 时，消费方租户还必须是该 Share 的消费方账号。在自托管 Databend 中，许可证必须包含 `DataSharing` 功能。
+
+## 基于 Share 创建数据库 {/* #from-share */}
+
+在消费方租户中使用 `FROM SHARE`。Databend 基于提供方的 Share 创建只读的共享数据库。
+
+- 如果租户 ID 包含大写字母或特殊字符，将 ID 放在反引号中。
+- 在默认 catalog 中创建共享数据库。不要在 `FROM SHARE` 中使用 `ENGINE` 或 `OPTIONS`。
+- 创建数据库时，Databend 检查 Share。Share 必须存在，消费方租户必须是消费方账号，且 Share 必须授权了数据库。任一条件不满足时，语句失败。
+- 每次查询时，Databend 会再次检查授权。
+- 共享表为只读。
+- `DROP DATABASE` 只删除共享数据库，提供方数据不变。
+- 如果已存在同名数据库，`IF NOT EXISTS` 不执行任何操作，Databend 不检查 Share。
+
+:::caution
+`OR REPLACE` 会替换同名数据库，包括含有数据的本地数据库。Databend 在替换数据库前检查 Share。
+:::
+
+要求和操作步骤参见[数据共享](/guides/data-management/data-sharing)。
 
 ## 示例
 
@@ -62,6 +86,15 @@ CREATE DATABASE analytics OPTIONS (
     DEFAULT_STORAGE_CONNECTION = 'my_s3',
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics/'
 );
+```
+
+### 基于 Share 创建数据库
+
+以下示例基于提供方租户 `provider_acct` 的 Share `sales_share` 创建共享数据库：
+
+```sql
+CREATE DATABASE shared_orders FROM SHARE provider_acct.sales_share;
+SELECT * FROM shared_orders.orders;
 ```
 
 :::info

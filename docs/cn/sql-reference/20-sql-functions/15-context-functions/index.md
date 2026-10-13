@@ -10,6 +10,7 @@ title: Context Functions（上下文函数）
 |----------|-------------|--------|
 | [CONNECTION_ID](connection-id.md) | 返回当前连接的连接 ID | `CONNECTION_ID()` → `42` |
 | [CURRENT_USER](current-user.md) | 返回当前连接的用户名和主机 | `CURRENT_USER()` → `'root'@'%'` |
+| [CURRENT_TENANT_ID](current-tenant-id.md) | 返回当前已认证的租户 ID | `CURRENT_TENANT_ID()` → `'provider_acct'` |
 | [LAST_QUERY_ID](last-query-id.md) | 返回最后执行查询的查询 ID | `LAST_QUERY_ID()` → `'01890a5d-ac96-7cc6-8128-01d71ab8b93e'` |
 
 ## Database Context Functions（数据库上下文函数）

@@ -17,6 +17,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 - [REVOKE](11-revoke.md)
 - [SHOW GRANTS](22-show-grants.md)
+- [GRANT TO SHARE](../22-share/grant-share.md)：将提供方数据库/表授权给 Share。
 
 > 使用 `GRANT` 或 `REVOKE` 变更角色与权限后，执行 [SYSTEM FLUSH PRIVILEGES](../../50-administration-cmds/flush-privileges.md) 可立即让所有查询节点刷新缓存。
 

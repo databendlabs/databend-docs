@@ -16,6 +16,7 @@ See also:
 
 - [REVOKE](11-revoke.md)
 - [SHOW GRANTS](22-show-grants.md)
+- [GRANT TO SHARE](../22-share/grant-share.md) for provider database/table grants to a Share.
 
 > After changing privileges or roles with `GRANT`, run [SYSTEM FLUSH PRIVILEGES](../../50-administration-cmds/flush-privileges.md) to broadcast the updates to every query node immediately.
 

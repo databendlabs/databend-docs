@@ -15,6 +15,7 @@ See also:
 
 - [GRANT](10-grant.md)
 - [SHOW GRANTS](22-show-grants.md)
+- [REVOKE FROM SHARE](../22-share/revoke-share.md) for revoking a Share's provider database/table grants.
 
 > After changing privileges or roles with `REVOKE`, run [SYSTEM FLUSH PRIVILEGES](../../50-administration-cmds/flush-privileges.md) to broadcast the updates to every query node immediately.
 

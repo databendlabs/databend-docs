@@ -11,7 +11,9 @@ import TabItem from '@theme/TabItem';
 创建到外部存储的连接。
 
 :::warning
-重要提示：当对象（如 Stage、表等）使用连接时，它们会永久复制并存储该连接的参数。如果之后使用 CREATE OR REPLACE CONNECTION 修改连接，现有对象将继续使用旧参数。要使用新的连接参数更新对象，必须删除并重新创建这些对象。
+创建 Stage 和表时，它们通常复制连接参数。替换连接不会更新这些已存储参数。需要重新创建对象，或使用该对象支持的连接更新命令。
+
+Share 不复制连接参数。消费方读取数据时，Share 使用当前连接。参见[数据共享连接](#data-sharing)。
 :::
 
 ## 语法
@@ -147,6 +149,17 @@ CREATE CONNECTION <connection_name>
 ## 更新已存在表的连接
 
 若要将现有外部表切换到新的连接，可使用 [`ALTER TABLE ... CONNECTION`](/sql/sql-commands/ddl/table/alter-table#external-table-connection) 命令，无需重新创建表。
+
+## 数据共享连接 {/* #data-sharing */}
+
+[Share](/sql/sql-commands/ddl/share) 使用提供方租户的连接。消费方读取共享表时，Databend 使用该连接的凭证。消费方无法获得这些凭证。
+
+- 连接的存储类型必须与已授权表的存储类型相同。
+- S3、Azure Blob 和 GCS 连接可以提供凭证。不带参数的 `fs` 连接使用提供方的文件系统配置。
+- 更换消费方读取使用的凭证时，创建新连接，然后使用 `ALTER SHARE ... SET CONNECTION`。此操作不改变提供方外部位置表的连接。
+- 不要删除 Share 正在使用的连接。如果 Databend 找不到连接，读取会失败。
+
+详细信息参见[存储与连接](/guides/data-management/data-sharing#storage-and-connections)。
 
 ## 示例
 
