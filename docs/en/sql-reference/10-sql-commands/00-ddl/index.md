@@ -47,6 +47,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | **[Task](04-task/index.md)** | Schedule and automate SQL operations |
 | **[Sequence](04-sequence/index.md)** | Generate unique sequential numbers |
 | **[Connection](13-connection/index.md)** | Configure external data source connections |
+| **[Share](22-share/index.md)** | Give authorized tenants read-only access to selected tables without copying data |
 | **[File Format](13-file-format/index.md)** | Define formats for data import/export |
 | **[Dictionary](17-dictionary/index.md)** | Define dictionaries backed by external sources |
 

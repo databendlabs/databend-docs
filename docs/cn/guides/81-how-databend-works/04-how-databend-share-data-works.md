@@ -2,6 +2,10 @@
 title: Databend 数据共享原理
 ---
 
+:::note
+本页介绍通过 `ATTACH TABLE` 共享数据。通过 Databend Meta 管理租户授权的方式参见[数据共享](/guides/data-management/data-sharing)。该流程在同一 Meta 集群内使用 `CREATE SHARE` 和 `CREATE DATABASE ... FROM SHARE`。这两种机制的访问控制和配置要求不同。
+:::
+
 ## 什么是数据共享（Data Sharing）？
 
 不同团队需要相同数据的不同部分。传统解决方案会多次复制数据——成本高昂且难以维护。

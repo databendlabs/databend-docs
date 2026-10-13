@@ -11,3 +11,4 @@ title: 数据管理
 | **[数据保护](./03-data-protection.md)** | 安全访问和防止数据丢失 | • 网络策略<br/>• 访问控制<br/>• 时间回溯和故障安全<br/>• 数据加密 | • NETWORK POLICY<br/>• GRANT/REVOKE<br/>• USER/ROLE |
 | **[数据回收](./04-data-recycle.md)** | 释放存储空间 | • VACUUM 命令<br/>• 保留策略<br/>• 孤立文件清理<br/>• 临时文件管理 | • VACUUM TABLE / TABLES<br/>• VACUUM DROPPED OBJECTS<br/>• VACUUM ALL<br/>• DATA_RETENTION_TIME |
 | **[数据血缘](./05-data-lineage.md)** | 追踪数据流和依赖关系 | • 上游和下游<br/>• 对象级和列级血缘<br/>• 影响分析 | • GET_LINEAGE<br/>• REFRESH LINEAGE<br/>• 血缘图 |
+| **[数据共享](./06-data-sharing/index.md)** | 向其他租户提供只读访问，无需复制数据 | • 同一 Meta 内共享<br/>• 消费方账号<br/>• 共享表 Stream | • CREATE/ALTER SHARE<br/>• GRANT/REVOKE ... SHARE<br/>• CREATE DATABASE ... FROM SHARE |

@@ -10,6 +10,7 @@ This page provides reference information for the context-related functions in Da
 |----------|-------------|--------|
 | [CONNECTION_ID](connection-id.md) | Returns the connection ID for the current connection | `CONNECTION_ID()` → `42` |
 | [CURRENT_USER](current-user.md) | Returns the user name and host for the current connection | `CURRENT_USER()` → `'root'@'%'` |
+| [CURRENT_TENANT_ID](current-tenant-id.md) | Returns the current authenticated tenant ID | `CURRENT_TENANT_ID()` → `'provider_acct'` |
 | [LAST_QUERY_ID](last-query-id.md) | Returns the query ID of the last executed query | `LAST_QUERY_ID()` → `'01890a5d-ac96-7cc6-8128-01d71ab8b93e'` |
 
 ## Database Context Functions

@@ -2,6 +2,10 @@
 title: How Databend Data Sharing Works
 ---
 
+:::note
+This page explains sharing with `ATTACH TABLE`. For tenant authorization through Databend Meta, see [Data Sharing](/guides/data-management/data-sharing). That workflow uses `CREATE SHARE` and `CREATE DATABASE ... FROM SHARE` within the same Meta cluster. The two mechanisms have different access controls and setup requirements.
+:::
+
 ## What is Data Sharing?
 
 Different teams need different parts of the same data. Traditional solutions copy data multiple times - expensive and hard to maintain.
