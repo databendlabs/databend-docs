@@ -12,15 +12,39 @@ Cloud Agent 是内嵌在 Databend Cloud 控制台中的 AI 助手。用自然语
 
 ## 打开 Cloud Agent
 
-点击任意控制台页面**右下角**的 Cloud Agent 按钮，Agent 会以侧边栏形式打开：
+你可以通过两种方式打开 Cloud Agent：
+
+| 入口     | 打开方式                                              | 打开形式 | 适用场景                               |
+| -------- | ----------------------------------------------------- | -------- | -------------------------------------- |
+| 菜单     | 点击左侧导航菜单中的 **Cloud Agent**。                | 完整页面 | 需要专门的工作区进行较长的对话。       |
+| 快捷按钮 | 点击任意控制台页面**右下角**的 Cloud Agent 按钮。     | 侧边栏   | 想快速提问，同时停留在当前页面。       |
+
+### 从导航菜单打开
+
+点击左侧导航菜单中的 **Cloud Agent**，Agent 会以完整页面形式打开：
+
+![Cloud Agent 菜单项与 Cloud Agent 完整页面](@site/static/img/documents/cloud-agent/cloud-agent-menu.png)
+
+完整页面包含以下区域：
+
+- **会话列表**：左侧栏显示最近的会话。点击 **New chat**（或按 `⌘ J`）开始新会话。点击搜索图标查找之前的会话。
+- **上下文选择器**：在输入框上方和输入框内选择数据库、角色和集群。
+
+### 从快捷按钮打开
+
+快捷按钮始终位于每个控制台页面的**右下角**。点击该按钮，Agent 会以侧边栏形式打开：
 
 ![控制台右下角的 Cloud Agent 启动按钮](@site/static/img/documents/cloud-agent/cloud-agent-launcher.png)
 
-- **上下文栏**：面板底部的集群（Warehouse）、数据库和角色是 Agent 的工作上下文。SQL 在选中的集群上以选中角色执行，Agent 能做的事不会超出你角色的权限。
-- **Try an example**：常见任务的一键模板，点击后可编辑文案再发送。
-- **Recent chats**：历史会话，可随时接着上次的进度继续。
-
 ![Cloud Agent 面板：示例模板、最近聊天与上下文栏](@site/static/img/documents/cloud-agent/cloud-agent-panel.png)
+
+### 通用元素
+
+两种入口包含相同的元素：
+
+- **上下文**：Agent 使用选中的集群（Warehouse）、数据库和角色。SQL 在选中的集群上以选中的角色执行。Agent 能做的事不会超出你角色的权限。
+- **Try an example**：常见任务的一键模板。点击模板，编辑文案，然后发送。
+- **Recent chats**：历史会话。打开会话即可继续之前的工作。
 
 ## Cloud Agent 能做什么
 

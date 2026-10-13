@@ -12,15 +12,39 @@ You remain in control at every step: read-only actions run immediately, anything
 
 ## Opening Cloud Agent
 
-Click the Cloud Agent button in the **bottom-right corner** of any console page. The Agent opens as a side panel:
+You can open Cloud Agent in two ways:
+
+| Entry           | How to open                                                                       | Opens as   | Use it when                                                    |
+| --------------- | --------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------- |
+| Menu            | Click **Cloud Agent** in the left navigation menu.                                | Full page  | You want a dedicated workspace for longer conversations.       |
+| Shortcut button | Click the Cloud Agent button in the **bottom-right corner** of any console page. | Side panel | You want to ask a quick question and stay on the current page. |
+
+### From the Navigation Menu
+
+Click **Cloud Agent** in the left navigation menu. The Agent opens as a full page:
+
+![The Cloud Agent menu item and the full-page Cloud Agent view](@site/static/img/documents/cloud-agent/cloud-agent-menu.png)
+
+The full page has these areas:
+
+- **Chat list**: the left column shows your recent chats. Click **New chat** (or press `⌘ J`) to start a new conversation. Click the search icon to find an earlier chat.
+- **Context selectors**: select the database, role, and warehouse above and inside the input box.
+
+### From the Shortcut Button
+
+The shortcut button stays in the **bottom-right corner** of every console page. Click it to open the Agent as a side panel:
 
 ![The Cloud Agent launcher button in the bottom-right corner of the console](@site/static/img/documents/cloud-agent/cloud-agent-launcher.png)
 
-- **Context bar**: the warehouse, database, and role shown at the bottom of the panel are the context the Agent works with. Queries run against the selected warehouse under the selected role, and the Agent can only do what your role's permissions allow.
-- **Try an example**: one-click templates for common tasks. Click one, edit the text if you like, then send.
-- **Recent chats**: your previous conversations, so you can pick up where you left off.
-
 ![The Cloud Agent panel with example templates, recent chats, and the context bar](@site/static/img/documents/cloud-agent/cloud-agent-panel.png)
+
+### Common Elements
+
+Both entries have the same elements:
+
+- **Context**: the Agent uses the selected warehouse, database, and role. Queries run on the selected warehouse with the selected role. The Agent can only do what your role permits.
+- **Try an example**: one-click templates for common tasks. Click a template, edit the text, then send it.
+- **Recent chats**: your previous conversations. Open a chat to continue your earlier work.
 
 ## What Cloud Agent Can Do
 
