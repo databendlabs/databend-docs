@@ -9,6 +9,7 @@ Guidance for any AI agent or contributor working in the databend-docs repo. Foll
 3. Any `<details>` block must be wrapped in a `<DetailsWrap>` component.
 4. New UI must support both light and dark themes using the existing CSS variables (never hardcode colors).
 5. If you delete or move a page (change its URL), add a redirect in `site-redirects.ts` to avoid 404s.
+6. Doc content must follow the ASD-STE100 (Simplified Technical English) specification: short sentences, one instruction per sentence, active voice, and consistent terminology.
 
 ## Repository layout
 
@@ -117,6 +118,7 @@ Removing a doc or changing its path changes its public URL and will 404 for exis
 
 - [ ] New/edited EN docs have matching CN files at the same relative path (excluding `sync_exclusions.txt` entries).
 - [ ] Only the touched files were translated — no global re-translation.
+- [ ] Doc content follows the ASD-STE100 specification.
 - [ ] Every `<details>` is inside a `<DetailsWrap>`, with the import present.
 - [ ] `FunctionDescription` version strings updated where behavior changed.
 - [ ] Any UI component works in light AND dark mode using theme variables.
