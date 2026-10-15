@@ -3,7 +3,7 @@ title: 文件格式选项
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.713"/>
+<FunctionDescription description="引入或更新: v1.2.941"/>
 
 Databend 支持多种文件格式用于数据导入与导出。本页介绍支持的文件格式及其相关选项。
 
@@ -13,7 +13,7 @@ Databend 支持多种文件格式用于数据导入与导出。本页介绍支�
 
 ```sql
 -- 指定标准文件格式
-... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | LANCE | ORC | AVRO } [ formatTypeOptions ] )
+... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ] )
 
 -- 指定自定义文件格式
 ... FILE_FORMAT = ( FORMAT_NAME = '<your-custom-format>' )
@@ -32,7 +32,6 @@ Databend 按如下优先级确定 COPY 或 Select 语句使用的文件格式：
 
 :::note
 - Databend 目前仅支持 ORC 和 AVRO 作为数据源。尚不支持将数据导出到 ORC 或 AVRO 文件中。
-- Databend 目前仅支持将 LANCE 用作导出目标。`COPY INTO <location>` 写出的不是单个文件，而是一个 Lance 数据集目录，因此更适合由 Lance 工具链消费，而不是在 Databend 中直接作为 Stage 文件查询或通过 `COPY INTO <table>` 重新加载。
 - 有关在 Databend 中管理自定义文件格式的信息，请参阅 [文件格式](../10-sql-commands/00-ddl/13-file-format/index.md)。
 :::
 
@@ -389,34 +388,6 @@ Parquet 文件内部块的压缩算法。
 |------------------|-----------------------------------------------------------------------|
 | `ZSTD`（默认）    | 支持 Zstandard v0.8（及更高版本）。                                      |
 | `SNAPPY`         | Snappy 是一种常与 Parquet 配合使用的快速压缩算法。                |
-
-## LANCE 选项
-
-`LANCE` 仅支持用于 `COPY INTO <location>` 导出。
-
-与 CSV、TSV、NDJSON 和 PARQUET 不同，Lance 导出不会生成一个或多个 Databend 可直接回读的独立文件，而是生成一个数据集目录，其中包含 `.lance` 数据文件以及 `_versions/` 等元数据。
-
-因此，Lance 更适合下游机器学习、向量检索或 Arrow/Lance 工具链消费，例如 Python `lance`（安装命令为 `pip install pylance`）。
-
-### 格式专属选项
-
-Lance 没有额外的格式专属选项，直接使用：
-
-```sql
-FILE_FORMAT = (TYPE = LANCE)
-```
-
-### 与其他格式的显著区别
-
-| 项目 | LANCE 的行为 |
-|------|---------------|
-| 支持方向 | 仅导出 |
-| 在 Databend 中直接查询 Stage 文件 | 不支持 |
-| `COPY INTO <table>` | 不支持 |
-| 输出形态 | 包含 `.lance` 文件和元数据的数据集目录 |
-| `SINGLE` Copy 选项 | 不支持 |
-| `PARTITION BY` | 不支持 |
-
 
 ## ORC 选项
 

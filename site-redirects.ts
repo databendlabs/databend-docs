@@ -51,13 +51,27 @@ const siteRedirects = [
     from: '/guides/access-data-lake/iceberg',
     to: '/sql/sql-reference/table-engines/iceberg'
   },
+  // Hive catalog (databend#20434) and Delta Lake engine (databend#20558) removed
   {
     from: '/guides/access-data-lake/hive',
-    to: '/sql/sql-reference/table-engines/hive'
+    to: '/sql/sql-reference/table-engines/'
   },
   {
     from: '/guides/access-data-lake/delta',
-    to: '/sql/sql-reference/table-engines/delta'
+    to: '/sql/sql-reference/table-engines/'
+  },
+  {
+    from: '/sql/sql-reference/table-engines/hive',
+    to: '/sql/sql-reference/table-engines/'
+  },
+  {
+    from: '/sql/sql-reference/table-engines/delta',
+    to: '/sql/sql-reference/table-engines/'
+  },
+  // Lance unload removed (databend#20463)
+  {
+    from: '/guides/unload-data/unload-lance',
+    to: '/guides/unload-data'
   },
   {
     from: '/sql/sql-reference/sql-variables',
