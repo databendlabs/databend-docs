@@ -38,7 +38,7 @@ Databend 中各类缓存的概览，包含使用量和命中率统计信息。
 | memory_cache_spatial_index_file              | 空间索引数据                                       | bytes | |
 | memory_cache_virtual_column_file_meta_data   | 虚拟列文件元数据                                   | count | |
 | memory_cache_prune_partitions                | Partition pruning 缓存                             | count | 默认开启。对满足条件的确定性查询缓存 pruning 结果。如需测试 pruning 效果可将容量设为 0 以绕过缓存。 |
-| memory_cache_parquet_meta_data               | Parquet 文件元数据                                 | count | Hive 表及其他数据源使用 |
+| memory_cache_parquet_meta_data               | Parquet 文件元数据                                 | count | 基于 Parquet 的数据源使用 |
 | memory_cache_iceberg_table                   | Iceberg 表元数据                                   | count | |
 
 ## 示例
