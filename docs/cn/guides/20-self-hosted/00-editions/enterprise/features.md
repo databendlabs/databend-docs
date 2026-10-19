@@ -51,7 +51,6 @@ tbody={[
 ['非结构化数据类型', 'Parquet/CSV/TSV/JSON/ORC/AVRO', 'Parquet/CSV/TSV/JSON/ORC/AVRO'],
 ['高级压缩', '✓', '✓'],
 ['向量存储', '✓', '✓'],
-['Apache Hive 查询', '✓', '✓'],
 ['Apache Iceberg 查询', '✓', '✓'],
 ['半结构化数据查询', '✓', '✓'],
 ['外部用户定义函数', '✓', '✓'],

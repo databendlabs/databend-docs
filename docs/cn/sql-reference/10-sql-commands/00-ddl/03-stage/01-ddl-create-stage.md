@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.339"/>
+<FunctionDescription description="Introduced or updated: v1.2.941"/>
 
 创建内部或外部 Stage。
 
@@ -16,7 +16,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 CREATE [ OR REPLACE ] STAGE [ IF NOT EXISTS ] <internal_stage_name>
   [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO | LANCE } [ formatTypeOptions ]
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ]
        ) ]
   [ COMMENT = '<string_literal>' ]
 
@@ -25,7 +25,7 @@ CREATE STAGE [ IF NOT EXISTS ] <external_stage_name>
     externalStageParams
   [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO | LANCE } [ formatTypeOptions ]
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ]
        ) ]
   [ COMMENT = '<string_literal>' ]
 ```

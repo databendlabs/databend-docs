@@ -51,7 +51,6 @@ tbody={[
 ['Unstructured Data Types', 'Parquet/CSV/TSV/JSON/ORC/AVRO', 'Parquet/CSV/TSV/JSON/ORC/AVRO'],
 ['Advanced Compression', '✓', '✓'],
 ['Vector Storage', '✓', '✓'],
-['Apache Hive Query', '✓', '✓'],
 ['Apache Iceberg Query', '✓', '✓'],
 ['Semi-structured Data Query', '✓', '✓'],
 ['External User-defined Functions', '✓', '✓'],

@@ -38,7 +38,7 @@ An overview of various caches managed in Databend, including usage and hit rate 
 | memory_cache_spatial_index_file              | Spatial index data                                 | bytes | |
 | memory_cache_virtual_column_file_meta_data   | Virtual column file metadata                       | count | |
 | memory_cache_prune_partitions                | Partition pruning cache                            | count | Enabled by default. Caches pruning results for deterministic queries. Set capacity to 0 to bypass for pruning testing. |
-| memory_cache_parquet_meta_data               | Parquet file metadata                              | count | Used by Hive tables and other sources |
+| memory_cache_parquet_meta_data               | Parquet file metadata                              | count | Used by Parquet-based sources |
 | memory_cache_iceberg_table                   | Iceberg table metadata                             | count | |
 
 ## Example

@@ -14,7 +14,6 @@ Databend 的 `COPY INTO` 命令可以将数据导出到各种文件格式和存�
 | [**导出 CSV 文件**](/guides/unload-data/unload-csv) | `FILE_FORMAT = (TYPE = CSV)` | 数据交换，通用兼容性 |
 | [**导出 TSV 文件**](/guides/unload-data/unload-tsv) | `FILE_FORMAT = (TYPE = TSV)` | 包含逗号值的表格数据 |
 | [**导出 NDJSON 文件**](/guides/unload-data/unload-ndjson) | `FILE_FORMAT = (TYPE = NDJSON)` | 半结构化数据，灵活模式 |
-| [**导出 Lance 数据集**](/guides/unload-data/unload-lance) | `FILE_FORMAT = (TYPE = LANCE)` | 机器学习、向量检索和 Arrow/Lance 下游消费 |
 
 ## 存储目标
 

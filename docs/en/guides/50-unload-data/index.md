@@ -14,7 +14,6 @@ Databend's `COPY INTO` command exports data to various file formats and storage 
 | [**Unload CSV File**](/guides/unload-data/unload-csv) | `FILE_FORMAT = (TYPE = CSV)` | Data exchange, universal compatibility |
 | [**Unload TSV File**](/guides/unload-data/unload-tsv) | `FILE_FORMAT = (TYPE = TSV)` | Tabular data with comma values |
 | [**Unload NDJSON File**](/guides/unload-data/unload-ndjson) | `FILE_FORMAT = (TYPE = NDJSON)` | Semi-structured data, flexible schemas |
-| [**Unload Lance Dataset**](/guides/unload-data/unload-lance) | `FILE_FORMAT = (TYPE = LANCE)` | ML and vector workloads, Arrow/Lance consumers |
 
 ## Storage Destinations
 

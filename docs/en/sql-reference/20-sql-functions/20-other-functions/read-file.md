@@ -4,7 +4,7 @@ title: READ_FILE
 
 Reads a file from a stage and returns its contents as raw bytes.
 
-`READ_FILE` is useful when you want to package staged assets such as documents, images, or model inputs into downstream datasets, for example when unloading training data to Lance.
+`READ_FILE` is useful when you want to package staged assets such as documents, images, or model inputs into downstream datasets.
 
 ## Syntax
 
