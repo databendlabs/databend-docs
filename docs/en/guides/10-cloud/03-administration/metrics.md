@@ -8,7 +8,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 [Prometheus](https://prometheus.io/) offers a robust solution for real-time monitoring, empowering you to track critical metrics and maintain system stability effectively. This topic guides you through the steps to integrate Prometheus with Databend Cloud and provides an overview of the available metrics.
 
 :::note
-Tracking metrics with Prometheus is only available for Databend Cloud users on the Business and Dedicated plans.
+Tracking metrics with Prometheus is available only on the Databend Cloud **Dedicated plan**. The Business plan does not support this feature.
 :::
 
 ## Integrating with Prometheus

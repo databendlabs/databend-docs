@@ -8,7 +8,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 [Prometheus](https://prometheus.io/) 提供了一个强大的实时监控解决方案，使您能够有效地跟踪关键指标并保持系统稳定性。本主题将指导您完成将 Prometheus 与 Databend Cloud 集成的步骤，并概述可用的指标。
 
 :::note
-使用 Prometheus 追踪指标仅适用于 Databend Cloud 中 业务版 和 独享版 的用户。
+使用 Prometheus 追踪指标仅适用于 Databend Cloud **独享版（Dedicated plan）**。业务版（Business plan）不支持此功能。
 :::
 
 ## 与 Prometheus 集成
