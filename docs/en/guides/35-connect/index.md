@@ -2,7 +2,7 @@
 title: Connect to Databend
 ---
 
-Databend supports multiple connection methods to suit different use cases. All options below work with both **Databend Cloud** and **self-hosted Databend**.
+Databend supports multiple connection methods. SQL clients, drivers, and visualization tools work with both **Databend Cloud** and **self-hosted Databend**. The Agent Skills guide applies to Databend Cloud only.
 
 ## Quick Selection
 
@@ -11,6 +11,7 @@ Databend supports multiple connection methods to suit different use cases. All o
 | Run SQL queries interactively | **BendSQL** (CLI) or **DBeaver** (GUI) | [SQL Clients](/guides/connect/sql-clients) |
 | Build an application | Language-specific **Driver** | [Drivers](/guides/connect/drivers) |
 | Create dashboards & reports | **BI/Visualization Tools** | [Visualization](/guides/connect/visualization) |
+| Install Databend Cloud skills for an agent | **databend-cloud skill** | [Agent Skills](/guides/connect/agent-skills) |
 
 ## Connection Strings
 
