@@ -2,7 +2,7 @@
 title: 连接 Databend
 ---
 
-Databend 支持多种连接方式。SQL 客户端、驱动和可视化工具均支持 **Databend Cloud** 和**自建 Databend**。Agent Skills 指南和 Cloud API 参考仅适用于 Databend Cloud。
+Databend 支持多种连接方式。SQL 客户端、驱动和可视化工具均支持 **Databend Cloud** 和**自建 Databend**。Agent Skills 指南仅适用于 Databend Cloud。
 
 ## 快速选择
 
@@ -12,7 +12,6 @@ Databend 支持多种连接方式。SQL 客户端、驱动和可视化工具均�
 | 开发应用程序 | 各语言 **驱动** | [驱动](/guides/connect/drivers) |
 | 创建仪表盘和报表 | **BI/可视化工具** | [可视化](/guides/connect/visualization) |
 | 为 Agent 安装 Databend Cloud skill | **databend-cloud skill** | [Agent Skills](/guides/connect/agent-skills) |
-| 查看 Cloud API 认证与安全边界 | **Cloud API** | [API 参考](/guides/connect/cloud-api) |
 
 ## 连接字符串
 

@@ -30,8 +30,11 @@ and confirm that you can discover and load its SKILL.md.
 Only install it. Do not configure credentials, connect to Cloud, or run SQL.
 ```
 
-## Security and API Reference
+## Security
 
-Installation does not grant access to your account. Configure a personal API token privately only when you need to connect. Never paste it into chat. Use least-privilege database access; the skill is not a read-only sandbox.
+- Keep tokens out of chat and repositories. Local credential files are plaintext; the helper sets Unix permissions to `600`.
+- Use least-privilege accounts. Tokens follow the account's org permissions. The skill is not a read-only sandbox; database privileges enforce read-only access.
+- Results and logs can enter the agent's model context. Follow your data policy.
+- Revoke tokens in the Cloud console. Replacing a local key file does not revoke the old token.
 
-See [Cloud API Security and Reference](./04-cloud-api.md) for authentication, token scope, data exposure, supported endpoints, and documentation links for agent retrieval.
+Details: [Authentication](https://raw.githubusercontent.com/evotai/evot-skills/main/skills/databend-cloud/references/authentication.md) · [Query API](https://raw.githubusercontent.com/evotai/evot-skills/main/skills/databend-cloud/references/query-api.md).

@@ -29,8 +29,11 @@ https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
 本次只安装，不配置凭证，不连接 Cloud，不执行 SQL。
 ```
 
-## 安全与 API 参考
+## 安全提醒
 
-安装不会授予账号访问权限。需要连接时再私下配置个人 API token，不要将其粘贴到聊天中。请使用最小权限的数据库访问，skill 不是只读沙箱。
+- 不要将 token 放入聊天或仓库。本地凭证文件是明文，辅助脚本会将 Unix 权限设为 `600`。
+- 使用最小权限账号，token 沿用账号的组织权限。Skill 不是只读沙箱，强制只读需要数据库权限控制。
+- 结果和日志可能进入 Agent 的模型上下文，请遵循数据规范。
+- 在 Cloud 控制台撤销 token，替换本地 key 文件不会撤销旧 token。
 
-认证、token 范围、数据暴露、支持的接口和供 Agent 检索的文档链接，见 [Cloud API 安全与参考](./04-cloud-api.md)。
+详细参考：[认证说明](https://raw.githubusercontent.com/evotai/evot-skills/main/skills/databend-cloud/references/authentication.md) · [Query API](https://raw.githubusercontent.com/evotai/evot-skills/main/skills/databend-cloud/references/query-api.md)。
