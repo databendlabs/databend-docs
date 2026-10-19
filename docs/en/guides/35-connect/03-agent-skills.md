@@ -1,10 +1,21 @@
 ---
 title: Agent Skills
 sidebar_label: Agent Skills
-description: Install the Databend Cloud skill by pasting a short instruction into your agent.
+description: Explore what the Databend Cloud skill can do and install it by pasting one message into your agent.
 ---
 
-The `databend-cloud` skill teaches your agent how to connect to Databend Cloud, use SQL and APIs, and investigate incidents.
+The `databend-cloud` skill gives your agent guidance and tools for working with Databend Cloud.
+
+## What It Can Do
+
+- **Connect to Cloud:** Guide private API token setup and use the organization and warehouse you select.
+- **Work with SQL:** Check Databend syntax, inspect databases and tables, and query data.
+- **Diagnose queries:** Inspect execution status, results, history, and profiles to investigate slow or failed SQL.
+- **Manage warehouses:** List, create, resize, resume, suspend, rename, or drop warehouses with the required admin role and your approval.
+- **Investigate incidents:** Analyze alerts, OOMs, node exits, task failures, and version regressions.
+- **Export evidence:** Export bounded logs as raw JSON Lines or readable events.
+
+Available operations depend on your account privileges and access to history, profiles, and logs.
 
 ## Install with Your Agent
 
@@ -17,12 +28,6 @@ https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
 Use your supported skill installation method. Install only this skill
 and confirm that you can discover and load its SKILL.md.
 Only install it. Do not configure credentials, connect to Cloud, or run SQL.
-```
-
-Alternatively, with Node.js and the [Skills CLI](https://github.com/vercel-labs/skills):
-
-```bash
-npx skills add evotai/evot-skills --skill databend-cloud
 ```
 
 ## Security and API Reference
