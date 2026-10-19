@@ -19,8 +19,6 @@ description: 了解 Databend Cloud skill 的能力，将一段指令粘贴给 Ag
 
 ## 让 Agent 安装
 
-[evot.ai](https://evot.ai) 由 Databend 团队开发。此 skill 由 Databend 官方提供，并非第三方 skill。
-
 将下面这段话复制给 Agent：
 
 ```text
@@ -30,6 +28,10 @@ https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
 按你支持的 skill 安装方式，只安装这个 skill，并确认能够发现和加载其 SKILL.md。
 本次只安装，不配置凭证，不连接 Cloud，不执行 SQL。
 ```
+
+:::note
+此 skill 由 Databend 官方提供，并非第三方 skill。
+:::
 
 ## 安全提醒
 

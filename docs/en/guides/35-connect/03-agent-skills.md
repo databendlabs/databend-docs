@@ -19,8 +19,6 @@ Available operations depend on your account privileges and access to history, pr
 
 ## Install with Your Agent
 
-[evot.ai](https://evot.ai) is developed by the Databend team. This is an official Databend skill, not a third-party skill.
-
 Copy this message into your agent:
 
 ```text
@@ -31,6 +29,10 @@ Use your supported skill installation method. Install only this skill
 and confirm that you can discover and load its SKILL.md.
 Only install it. Do not configure credentials, connect to Cloud, or run SQL.
 ```
+
+:::note
+This is an official Databend skill, not a third-party skill.
+:::
 
 ## Security
 
