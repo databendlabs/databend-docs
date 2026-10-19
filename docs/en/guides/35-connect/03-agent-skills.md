@@ -19,6 +19,8 @@ Available operations depend on your account privileges and access to history, pr
 
 ## Install with Your Agent
 
+[evot.ai](https://evot.ai) is developed by the Databend team. This is an official Databend skill, not a third-party skill.
+
 Copy this message into your agent:
 
 ```text
