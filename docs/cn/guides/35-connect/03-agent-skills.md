@@ -6,6 +6,8 @@ description: 安装 Databend Cloud skill，让 Agent 协助您查询数据、管
 
 借助 `databend-cloud` skill，Agent 可协助您使用 Databend Cloud，完成数据查询、计算集群管理和故障排查。
 
+此 skill **仅适用于 Databend Cloud**，不适用于自建部署。
+
 ## 功能概览
 
 - **配置连接**，使用 API token 连接指定的组织和计算集群。
@@ -15,17 +17,18 @@ description: 安装 Databend Cloud skill，让 Agent 协助您查询数据、管
 - **排查故障**，分析告警、内存不足（OOM）、节点异常退出、任务失败和版本变更后的异常。
 - **导出日志**，按指定范围生成 JSON Lines 格式的原始日志，或便于阅读的日志文件。
 
-可执行的操作以账号权限为准。查询诊断和故障排查还需要访问相应的历史记录、profile 和日志。
+使用前需有 Databend Cloud 账号，并具备目标组织的访问权限。可执行的操作以账号权限为准，查询诊断和故障排查还需要访问相应的历史记录、profile 和日志。
 
 ## 通过 Agent 安装
 
-将以下内容复制给 Agent 即可。
+复制以下指令，安装 skill 并配置可复用的 API key。Token 可在 [Cloud 控制台](https://app.databend.cn/) 的 **管理 → API 令牌 → 访问令牌 → 生成新令牌** 创建。
 
 ```text
-请安装 databend-cloud skill 的完整目录，并确认可以加载其中的 SKILL.md。
+请安装以下 databend-cloud skill。
 https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
 
-本次只完成安装，不配置凭证，不连接数据库，也不执行 SQL。
+按 SKILL.md 为 https://api.databend.cn 复用已有 API key，缺少时引导我保存。
+不要在聊天中索取 key。配置完成即停止，不连接数据库或执行 SQL。
 ```
 
 :::note

@@ -6,6 +6,8 @@ description: Explore what the Databend Cloud skill can do and install it by past
 
 The `databend-cloud` skill gives your agent guidance and tools for working with Databend Cloud.
 
+This skill is for **Databend Cloud only**, not self-hosted Databend.
+
 ## What It Can Do
 
 - **Connect to Cloud:** Guide private API token setup and use the organization and warehouse you select.
@@ -15,19 +17,18 @@ The `databend-cloud` skill gives your agent guidance and tools for working with 
 - **Investigate incidents:** Analyze alerts, OOMs, node exits, task failures, and version regressions.
 - **Export evidence:** Export bounded logs as raw JSON Lines or readable events.
 
-Available operations depend on your account privileges and access to history, profiles, and logs.
+You need a Databend Cloud account and access to the target organization. Available operations depend on your account privileges and access to history, profiles, and logs.
 
 ## Install with Your Agent
 
-Copy this message into your agent:
+Copy this message to install the skill and set up a reusable API key. Create a token in the [Cloud console](https://app.databend.com/) under **Admin → API Tokens → Access Tokens → Generate New Token**.
 
 ```text
-Install the databend-cloud skill from:
+Install the databend-cloud skill:
 https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
 
-Use your supported skill installation method. Install only this skill
-and confirm that you can discover and load its SKILL.md.
-Only install it. Do not configure credentials, connect to Cloud, or run SQL.
+Follow SKILL.md to reuse an API key or help me save one for https://api.databend.com.
+Keep the key out of chat. Stop after setup; do not connect or run SQL.
 ```
 
 :::note
