@@ -259,12 +259,20 @@ fn wasm_gcd(mut a: i32, mut b: i32) -> i32 {
 cargo build --release --target wasm32-wasip1
 ```
 
-The compiled module is created at `target/wasm32-wasip1/release/wasm_udf_example.wasm`. Upload it to a Databend stage with an absolute local path:
+The compiled module is created at `target/wasm32-wasip1/release/wasm_udf_example.wasm`. To upload it with an absolute local path, run the following commands in a local BendSQL session. The Databend Cloud SQL editor cannot read files on your computer through `PUT fs://...`:
 
 ```sql
 CREATE STAGE IF NOT EXISTS wasm_udf_stage;
 PUT fs:///absolute/path/to/wasm_udf_example.wasm @wasm_udf_stage/;
 ```
+
+Alternatively, use the Databend Cloud SQL editor. Create the stage with the `CREATE STAGE` statement above, then generate a pre-signed upload URL instead of running `PUT`:
+
+```sql
+PRESIGN UPLOAD @wasm_udf_stage/wasm_udf_example.wasm EXPIRE = 600;
+```
+
+Upload the local module using the returned HTTP `method`, `headers`, and `url` before registering the function. For upload instructions, see [PRESIGN](../03-stage/presign.md).
 
 ### 4. Register and use the function
 
@@ -280,7 +288,15 @@ AS $$@wasm_udf_stage/wasm_udf_example.wasm$$;
 SELECT wasm_gcd(18, 24) AS result;
 ```
 
-The query returns `6`.
+Query result:
+
+```text
++--------+
+| result |
++--------+
+|      6 |
++--------+
+```
 
 ## Worker Management for UDFs
 
