@@ -33,3 +33,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
   "errorMessage": "query sync failed: All attempts fail: #1: query error: code: 1006, message: divided by zero while evaluating function divide(1, 0)"
 }
 ```
+
+## 发送到消息服务
+
+如需为飞书、Slack 或钉钉包装此载荷，请在通知集成上设置 `WEBHOOK_BODY_TEMPLATE`。请参阅[通过 SQL 发送通知](/guides/cloud/administration/notifications)。

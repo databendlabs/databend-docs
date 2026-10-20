@@ -33,3 +33,7 @@ The following is a sample message payload describing a task error. The payload c
   "errorMessage": "query sync failed: All attempts fail: #1: query error: code: 1006, message: divided by zero while evaluating function divide(1, 0)"
 }
 ```
+
+## Send the Payload to a Chat Service
+
+To wrap this payload for Feishu, Slack, or DingTalk, set `WEBHOOK_BODY_TEMPLATE` on the notification integration. See [Sending Notifications from SQL](/guides/cloud/administration/notifications).

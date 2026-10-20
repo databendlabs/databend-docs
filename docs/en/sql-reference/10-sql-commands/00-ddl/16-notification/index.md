@@ -18,6 +18,13 @@ This page provides a comprehensive overview of Notification operations in Databe
 |---------|-------------|
 | [DESCRIBE NOTIFICATION](04-desc-notification.md) | Shows the properties of a notification integration |
 
+## Sending Notifications
+
+| Command | Description |
+|---------|-------------|
+| [SYSTEM$SEND_NOTIFICATION](../../../20-sql-functions/17-table-functions/send-notification.md) | Sends a message through an existing notification integration |
+| [Sending Notifications from SQL](/guides/cloud/administration/notifications) | Configures a Feishu bot or another webhook and sends notifications from SQL |
+
 :::note
-Notifications in Databend Cloud allow you to configure integrations with external services like email or Slack to receive alerts about database events and operations.
+Notifications in Databend Cloud allow you to configure integrations with external services like Feishu, Slack, or any HTTP endpoint to receive alerts about database events and operations.
 :::

@@ -111,3 +111,5 @@ type ErrorMessage struct {
 ## 说明
 
 `FeiShuBot` 属于通知类数据源，不用于将业务数据导入 Databend。
+
+如需从 SQL 主动发送消息，而不是发送任务失败通知，请参阅[通过 SQL 发送通知](/guides/cloud/administration/notifications)。
