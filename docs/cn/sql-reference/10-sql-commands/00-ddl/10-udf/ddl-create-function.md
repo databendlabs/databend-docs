@@ -260,12 +260,20 @@ fn wasm_gcd(mut a: i32, mut b: i32) -> i32 {
 cargo build --release --target wasm32-wasip1
 ```
 
-编译后的模块位于 `target/wasm32-wasip1/release/wasm_udf_example.wasm`。使用绝对本地路径将其上传到 Databend Stage：
+编译后的模块位于 `target/wasm32-wasip1/release/wasm_udf_example.wasm`。使用绝对本地路径上传时，请在本地 BendSQL 会话中执行以下命令。Databend Cloud SQL 编辑器无法通过 `PUT fs://...` 读取你电脑上的文件：
 
 ```sql
 CREATE STAGE IF NOT EXISTS wasm_udf_stage;
 PUT fs:///absolute/path/to/wasm_udf_example.wasm @wasm_udf_stage/;
 ```
+
+也可以在 Databend Cloud SQL 编辑器中执行上述 `CREATE STAGE` 语句创建 Stage，然后生成预签名上传 URL，而不执行 `PUT`：
+
+```sql
+PRESIGN UPLOAD @wasm_udf_stage/wasm_udf_example.wasm EXPIRE = 600;
+```
+
+使用返回的 HTTP `method`、`headers` 和 `url` 上传本地模块，上传完成后再注册函数。上传方法请参阅 [PRESIGN](../03-stage/presign.md)。
 
 ### 4. 注册并使用函数
 
@@ -281,4 +289,12 @@ AS $$@wasm_udf_stage/wasm_udf_example.wasm$$;
 SELECT wasm_gcd(18, 24) AS result;
 ```
 
-查询返回 `6`。
+查询结果：
+
+```text
++--------+
+| result |
++--------+
+|      6 |
++--------+
+```
