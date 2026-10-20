@@ -21,20 +21,14 @@ description: 安装 Databend Cloud skill，让 Agent 协助您查询数据、管
 
 ## 通过 Agent 安装
 
-将以下内容复制给 Agent。安装完成后，它会引导您为这个 skill 保存 API key，后续任务自动复用，无需每次输入。个人 API token 可在 [Cloud 控制台](https://app.databend.cn/) 的 **管理 → API 令牌 → 访问令牌 → 生成新令牌** 创建。
+复制以下指令，安装 skill 并配置可复用的 API key。Token 可在 [Cloud 控制台](https://app.databend.cn/) 的 **管理 → API 令牌 → 访问令牌 → 生成新令牌** 创建。
 
 ```text
-请安装 databend-cloud skill 的完整目录，并确认可以加载其中的 SKILL.md。
+请安装以下 databend-cloud skill。
 https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
 
-安装完成后，请读取 SKILL.md，继续引导我配置个人 API token。
-告诉我如何在 https://app.databend.cn/ 的
-管理 > API 令牌 > 访问令牌 > 生成新令牌 创建 token。
-按 skill 的凭证保存方式，引导我通过私有终端或当前执行环境的持久密钥设置，
-为这个 skill 和 https://api.databend.cn 保存 key，供后续任务直接复用。
-凭证放在 skill 安装目录之外，避免更新 skill 时丢失。
-如果该站点已有 key，直接复用，不要覆盖。
-不要让我在聊天中发送 token。本次只安装和配置 key，不连接数据库，也不执行 SQL。
+按 SKILL.md 为 https://api.databend.cn 复用已有 API key，缺少时引导我保存。
+不要在聊天中索取 key。配置完成即停止，不连接数据库或执行 SQL。
 ```
 
 :::note
