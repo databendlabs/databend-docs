@@ -33,6 +33,12 @@ title: 表函数 (Table Functions)
 | [TAG_REFERENCES](./tag-references.md) | 返回指定对象上分配的所有 Tag | `SELECT * FROM TAG_REFERENCES('default.users', 'TABLE')` |
 | [GET_LINEAGE](./get-lineage.md) | 返回对象和列的上游或下游血缘 | `SELECT * FROM GET_LINEAGE('mydb.mytable', 'TABLE', 'UPSTREAM')` |
 
+## 通知
+
+| 函数 | 描述 | 示例 |
+|------|------|------|
+| [SEND_NOTIFICATION](./send-notification.md) | 通过现有通知集成发送消息 | `CALL system$send_notification('feishu_alerts', 'alert')` |
+
 ## Iceberg 集成函数
 
 | 函数 | 描述 | 示例 |

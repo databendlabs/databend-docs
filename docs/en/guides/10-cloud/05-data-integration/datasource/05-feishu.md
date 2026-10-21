@@ -110,3 +110,5 @@ type ErrorMessage struct {
 ## Notes
 
 `FeiShuBot` is a notification-oriented data source. It is not used to load business data into Databend.
+
+To send a message from SQL instead of a task failure notification, see [Sending Notifications from SQL](/guides/cloud/administration/notifications).

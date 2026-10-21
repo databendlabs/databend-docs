@@ -42,6 +42,12 @@ This page provides reference information for the table functions in Databend. Ta
 | [TAG_REFERENCES](./tag-references.md) | Returns tags assigned to a database object | `SELECT * FROM TAG_REFERENCES('mydb.mytable', 'TABLE')` |
 | [GET_LINEAGE](./get-lineage.md) | Returns upstream or downstream object and column lineage | `SELECT * FROM GET_LINEAGE('mydb.mytable', 'TABLE', 'UPSTREAM')` |
 
+## Notifications
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [SEND_NOTIFICATION](./send-notification.md) | Sends a message through an existing notification integration | `CALL system$send_notification('feishu_alerts', 'alert')` |
+
 ## Storage Engine Functions
 
 | Function | Description | Example |

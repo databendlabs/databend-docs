@@ -10,6 +10,10 @@ The DROP NOTIFICATION INTEGRATION statement is used to delete an existing notifi
 
 **NOTICE:** this functionality works out of the box only in Databend Cloud.
 
+:::note
+Dropping an integration does not cancel messages that Cloud Control has already queued. Those messages fail during delivery. A new integration with the same name does not receive them.
+:::
+
 ## Syntax
 
 ```sql
