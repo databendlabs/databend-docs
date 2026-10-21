@@ -11,7 +11,7 @@ DROP NOTIFICATION INTEGRATION 语句用于删除现有的 notification。
 **注意：** 此功能仅在 Databend Cloud 中开箱即用。
 
 :::note
-删除通知集成不会取消 Cloud Control 已加入队列的消息。这些消息会在投递时失败。同名的新通知集成不会接收这些消息。
+删除通知集成不会取消 Databend Cloud 已加入队列的消息。这些消息会在投递时失败。同名的新通知集成不会接收这些消息。
 :::
 
 ## 语法

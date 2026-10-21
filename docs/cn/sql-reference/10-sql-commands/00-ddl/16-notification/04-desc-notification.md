@@ -9,7 +9,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 显示通知集成的属性信息。
 
 :::note
-此命令需要启用 Cloud Control。
+此命令仅在 Databend Cloud 中可用。
 :::
 
 ## 语法
@@ -53,7 +53,7 @@ DESCRIBE NOTIFICATION INTEGRATION feishu_alerts;
 
 | created_on | name | id | type | enabled | webhook_options | comment |
 |------------|------|----|------|---------|-----------------|---------|
-| 2026-10-20 10:00:00.000000 | feishu_alerts | 12 | webhook | true | `{"url":"https://open.feishu.cn/open-apis/bot/v2/hook/...","method":"POST","authorization_header":"","body_template":"{\"msg_type\":\"text\",\"content\":{\"text\":\"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE\"}}"}` | 查询错误的飞书告警 |
+| 2026-10-20 10:00:00.000000 | feishu_alerts | 12 | webhook | true | `{"url":"OPEN_FEISHU_URL","method":"POST","authorization_header":"","body_template":"{\"msg_type\":\"text\",\"content\":{\"text\":\"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE\"}}"}` | 查询错误的飞书告警 |
 
 ## 相关文档
 

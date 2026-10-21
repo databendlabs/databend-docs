@@ -5,9 +5,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.953"/>
 
-Sends a message through an existing notification integration. Databend Cloud accepts the message and queues it for asynchronous delivery. The SQL statement succeeds after Cloud Control accepts the message. It does not wait for the webhook request.
+Sends a message through an existing notification integration. Databend Cloud accepts the message and queues it for asynchronous delivery. The SQL statement succeeds after Databend Cloud accepts the message. It does not wait for the webhook request.
 
-**NOTICE:** This function works only in Databend Cloud. It requires Cloud Control.
+**NOTICE:** This function is available only in Databend Cloud.
 
 ## Syntax
 
@@ -45,24 +45,15 @@ The current user must have the global `SUPER` privilege. For a task, the task ex
 - The function submits a notification only when the statement executes. `EXPLAIN` and `EXPLAIN PIPELINE` do not send a notification.
 - Databend disables the query result cache for statements that use this function. You do not need to change the cache settings.
 - One statement submits one notification, even when the query runs on multiple nodes.
-- SQL success means that Cloud Control accepted the message. It does not mean that the webhook delivered the message.
-- Cloud Control retries webhook delivery with a limit. The final result is recorded in `system.notification_history`.
-- The enqueue request is not retried automatically. A network error can return an SQL error after Cloud Control has already accepted the message. A retry can create a duplicate. Check the notification history and allow time for delivery before you retry.
-- Delivery can be duplicated. Cloud Control records the query ID in its logs for correlation. The query ID is not an idempotency key.
+- SQL success means that Databend Cloud accepted the message. It does not mean that the webhook delivered the message.
+- Databend Cloud retries webhook delivery with a limit. The final result is recorded in `system.notification_history`.
+- The enqueue request is not retried automatically. A network error can return an SQL error after Databend Cloud has already accepted the message. A retry can create a duplicate. Check the notification history and allow time for delivery before you retry.
+- Delivery can be duplicated. Databend Cloud records the query ID for correlation. The query ID is not an idempotency key.
 - The integration must exist and be enabled. Otherwise, the statement fails and no delivery is created.
-- Cloud Control uses the latest integration configuration at delivery time. If you change the URL or template after the message is accepted, the new configuration applies.
+- Databend Cloud uses the latest integration configuration at delivery time. If you change the URL or template after the message is accepted, the new configuration applies.
 - A queued message is bound to the integration ID. If you drop the integration and create a new integration with the same name, queued messages for the old integration fail.
-- If you disable an integration, Cloud Control does not pause queued messages. Pending messages fail after the delivery retries are exhausted.
-- An older Cloud Control version returns an error that active notifications are not supported.
-
-## Errors
-
-| Error | Description |
-|-------|-------------|
-| `1006` | An argument is invalid. For example, the message is empty or too large. |
-| `1702` | Cloud Control is not enabled. |
-| `1704` | Cloud Control rejected the notification request. |
-| Unimplemented | The Cloud Control version does not support active notifications. |
+- If you disable an integration, Databend Cloud does not pause queued messages. Pending messages fail after the delivery retries are exhausted.
+- If the deployment does not support active notifications, the statement returns an error.
 
 ## Examples
 

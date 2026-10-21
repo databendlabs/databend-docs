@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.949"/>
 
-创建一个命名的通知集成，用于向外部消息服务发送通知。
+创建一个命名的通知集成，用于向 Webhook 端点发送通知。
 
 **注意：** 此功能仅在 Databend Cloud 中开箱即用。
 
@@ -33,7 +33,7 @@ CREATE NOTIFICATION INTEGRATION [ IF NOT EXISTS ] <name>
 |----------|------|
 | `WEBHOOK` | Webhook 连接设置。 |
 | `URL` | Webhook 的 URL。 |
-| `METHOD` | Webhook 请求使用的 HTTP 方法。默认为 `GET`。飞书、Slack 和钉钉机器人请使用 `POST`。 |
+| `METHOD` | Webhook 请求使用的 HTTP 方法。默认为 `GET`。飞书机器人 Webhook 需要使用 `POST`。 |
 | `AUTHORIZATION_HEADER` | Webhook 请求使用的授权头。 |
 | `WEBHOOK_BODY_TEMPLATE` | 请求体的 JSON 模板。参见本文的 Webhook 请求体模板一节。 |
 | `COMMENT` | 通知集成的备注。 |
@@ -51,11 +51,13 @@ CREATE NOTIFICATION INTEGRATION feishu_alerts
   TYPE = WEBHOOK
   ENABLED = TRUE
   WEBHOOK = (
-    URL = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    URL = 'OPEN_FEISHU_URL',
     METHOD = 'POST'
   )
   WEBHOOK_BODY_TEMPLATE = '{"msg_type":"text","content":{"text":"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE"}}';
 ```
+
+`OPEN_FEISHU_URL` 是飞书机器人 Webhook 地址的占位符。请将它替换为你的地址。
 
 模板规则：
 
@@ -65,7 +67,7 @@ CREATE NOTIFICATION INTEGRATION feishu_alerts
 - 消息作为文本插入，并进行 JSON 转义。消息中的引号、换行和反斜杠不会破坏 JSON 请求体。如果消息本身包含占位符文本，Databend 不会再次展开它。
 - 如果模板不包含占位符，Databend 发送模板定义的固定 JSON 请求体。
 - 渲染后的请求体最大为 262,144 字节。超过限制时投递失败，Databend 不发送 HTTP 请求。
-- Cloud Control 按排序后的顺序输出对象键。不要依赖模板中的键顺序。
+- Databend Cloud 按排序后的顺序输出对象键。不要依赖模板中的键顺序。
 - Databend 会自动发送 `Content-Type: application/json`。
 
 如果未设置模板，Databend 将通知消息作为请求体直接发送。现有集成的行为保持不变。
@@ -96,25 +98,14 @@ CREATE NOTIFICATION INTEGRATION feishu_alerts
   TYPE = WEBHOOK
   ENABLED = TRUE
   WEBHOOK = (
-    URL = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    URL = 'OPEN_FEISHU_URL',
     METHOD = 'POST'
   )
   WEBHOOK_BODY_TEMPLATE = '{"msg_type":"text","content":{"text":"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE"}}'
   COMMENT = '查询错误的飞书告警';
 ```
 
-### Slack
-
-```sql
-CREATE NOTIFICATION INTEGRATION slack_alerts
-  TYPE = WEBHOOK
-  ENABLED = TRUE
-  WEBHOOK = (
-    URL = 'https://hooks.slack.com/services/xxx/yyy/zzz',
-    METHOD = 'POST'
-  )
-  WEBHOOK_BODY_TEMPLATE = '{"text":"DATABEND_WEBHOOK_MESSAGE"}';
-```
+请将 `OPEN_FEISHU_URL` 替换为飞书机器人的 Webhook 地址。
 
 ## 相关文档
 
