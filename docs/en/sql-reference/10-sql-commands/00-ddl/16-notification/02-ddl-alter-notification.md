@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.949"/>
 
-Modifies the settings of a named notification integration that can send notifications to external messaging services.
+Modifies the settings of a named notification integration that sends notifications to a webhook endpoint.
 
 **NOTICE:** This functionality works out of the box only in Databend Cloud.
 

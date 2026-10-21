@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.949"/>
 
-修改命名通知集成的设置，该集成可用于向外部消息服务发送通知。
+修改命名通知集成的设置，该集成用于向 Webhook 端点发送通知。
 
 **注意：** 此功能仅在 Databend Cloud 中开箱即用。
 

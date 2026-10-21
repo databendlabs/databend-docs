@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.949"/>
 
-Creates a named notification integration that can send notifications to external messaging services.
+Creates a named notification integration that sends notifications to a webhook endpoint.
 
 **NOTICE:** This functionality works out of the box only in Databend Cloud.
 
@@ -33,7 +33,7 @@ CREATE NOTIFICATION INTEGRATION [ IF NOT EXISTS ] <name>
 |--------------------|-------------|
 | `WEBHOOK` | The webhook connection settings. |
 | `URL` | The URL of the webhook. |
-| `METHOD` | The HTTP method for the webhook request. The default is `GET`. Use `POST` for Feishu, Slack, and DingTalk bots. |
+| `METHOD` | The HTTP method for the webhook request. The default is `GET`. Feishu bot webhooks require `POST`. |
 | `AUTHORIZATION_HEADER` | The authorization header for the webhook request. |
 | `WEBHOOK_BODY_TEMPLATE` | A JSON template for the request body. See [Webhook Body Template](#webhook-body-template). |
 | `COMMENT` | A comment for the notification integration. |
@@ -51,11 +51,13 @@ CREATE NOTIFICATION INTEGRATION feishu_alerts
   TYPE = WEBHOOK
   ENABLED = TRUE
   WEBHOOK = (
-    URL = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    URL = 'OPEN_FEISHU_URL',
     METHOD = 'POST'
   )
   WEBHOOK_BODY_TEMPLATE = '{"msg_type":"text","content":{"text":"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE"}}';
 ```
+
+`OPEN_FEISHU_URL` is a placeholder for the webhook URL of your Feishu bot. Replace it with your URL.
 
 Template rules:
 
@@ -65,7 +67,7 @@ Template rules:
 - The message is inserted as text and JSON-escaped. Quotes, newlines, and backslashes in the message do not break the JSON body. If the message contains the placeholder text, Databend does not expand it again.
 - If the template does not contain the placeholder, Databend sends the fixed JSON body from the template.
 - The rendered body can contain up to 262,144 bytes. If the body is larger, delivery fails and Databend does not send the HTTP request.
-- Cloud Control writes object keys in sorted order. Do not depend on the key order in the template.
+- Databend Cloud writes object keys in sorted order. Do not depend on the key order in the template.
 - Databend sends `Content-Type: application/json` automatically.
 
 If you do not set a template, Databend sends the notification message as the request body. This behavior is unchanged for existing integrations.
@@ -96,25 +98,14 @@ CREATE NOTIFICATION INTEGRATION feishu_alerts
   TYPE = WEBHOOK
   ENABLED = TRUE
   WEBHOOK = (
-    URL = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    URL = 'OPEN_FEISHU_URL',
     METHOD = 'POST'
   )
   WEBHOOK_BODY_TEMPLATE = '{"msg_type":"text","content":{"text":"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE"}}'
   COMMENT = 'Feishu alerts for query errors';
 ```
 
-### Slack
-
-```sql
-CREATE NOTIFICATION INTEGRATION slack_alerts
-  TYPE = WEBHOOK
-  ENABLED = TRUE
-  WEBHOOK = (
-    URL = 'https://hooks.slack.com/services/xxx/yyy/zzz',
-    METHOD = 'POST'
-  )
-  WEBHOOK_BODY_TEMPLATE = '{"text":"DATABEND_WEBHOOK_MESSAGE"}';
-```
+Replace `OPEN_FEISHU_URL` with the webhook URL of your Feishu bot.
 
 ## Related
 

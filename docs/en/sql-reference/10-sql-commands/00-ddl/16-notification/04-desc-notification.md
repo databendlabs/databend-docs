@@ -9,7 +9,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 Shows the properties of a notification integration.
 
 :::note
-This command requires Cloud Control to be enabled.
+This command is available only in Databend Cloud.
 :::
 
 ## Syntax
@@ -53,7 +53,7 @@ Output:
 
 | created_on | name | id | type | enabled | webhook_options | comment |
 |------------|------|----|------|---------|-----------------|---------|
-| 2026-10-20 10:00:00.000000 | feishu_alerts | 12 | webhook | true | `{"url":"https://open.feishu.cn/open-apis/bot/v2/hook/...","method":"POST","authorization_header":"","body_template":"{\"msg_type\":\"text\",\"content\":{\"text\":\"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE\"}}"}` | Feishu alerts for query errors |
+| 2026-10-20 10:00:00.000000 | feishu_alerts | 12 | webhook | true | `{"url":"OPEN_FEISHU_URL","method":"POST","authorization_header":"","body_template":"{\"msg_type\":\"text\",\"content\":{\"text\":\"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE\"}}"}` | Feishu alerts for query errors |
 
 ## Related
 
