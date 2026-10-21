@@ -147,7 +147,7 @@ The row appears after Databend Cloud completes the delivery attempt. It is not w
 The `status` column shows `success` or `failure`. Databend Cloud records `success` when the webhook returns an HTTP status code from 200 to 399. It does not parse the response body.
 
 :::warning
-Feishu returns HTTP 200 with a business error when it rejects a message. For example, a keyword mismatch returns `code: 19024` and `msg: Key Words Not Found`. Databend records this response as `success` because the HTTP request succeeded. Check the message and the bot keyword when Feishu does not show the message. Contact support with the query ID and time window if you need the webhook response.
+Feishu returns HTTP 200 with a business error when it rejects a message. Databend records this response as `success` because the HTTP request succeeded. Check the message and the bot keyword when Feishu does not show the message. Contact support with the query ID and time window if you need the webhook response.
 :::
 
 The history stores the original message, not the rendered request body. The current history view does not show a delivery ID or a query ID. Keep the query ID and the time window when you contact support. You can find the query ID in `system_history.query_history` or with `LAST_QUERY_ID()`.
@@ -200,7 +200,7 @@ Do not rely on `LIMIT 0`, `WHERE`, or other query optimizations to prevent a not
 
 | Symptom | Possible cause | Action |
 |---------|----------------|--------|
-| `Cloud Control does not support active notifications` | This deployment does not support active notifications yet. | Contact support. |
+| Active notifications are not supported | This deployment does not support active notifications yet. | Contact support. |
 | `CloudControlNotificationRejected` (1704) | Databend Cloud rejected the request. For example, the integration is missing or disabled. | Check the integration name and state. |
 | Permission denied | The user or task role does not have global `SUPER`. | Use a role with global `SUPER`. |
 | SQL succeeds but Feishu shows no message | The keyword is missing, the bot is disabled, or the webhook URL is wrong. | Check the bot settings and the message. Contact support with the query ID and time window if the problem continues. |

@@ -147,7 +147,7 @@ Databend Cloud 完成投递尝试后才会写入该行。Databend Cloud 接受�
 `status` 列为 `success` 或 `failure`。当 Webhook 返回 200 到 399 的 HTTP 状态码时，Databend Cloud 记录为 `success`。它不会解析响应体。
 
 :::warning
-飞书拒绝消息时会返回 HTTP 200 和业务错误。例如，关键词不匹配会返回 `code: 19024` 和 `msg: Key Words Not Found`。由于 HTTP 请求成功，Databend 会将此响应记录为 `success`。如果飞书未显示消息，请检查消息和机器人关键词。需要查看 Webhook 响应时，请联系支持人员并提供查询 ID 和时间范围。
+飞书拒绝消息时会返回 HTTP 200 和业务错误。由于 HTTP 请求成功，Databend 会将此响应记录为 `success`。如果飞书未显示消息，请检查消息和机器人关键词。需要查看 Webhook 响应时，请联系支持人员并提供查询 ID 和时间范围。
 :::
 
 通知历史保存原始消息，不保存渲染后的请求体。当前历史视图不显示投递 ID 或查询 ID。联系支持人员时，请提供查询 ID 和时间范围。你可以在 `system_history.query_history` 中或使用 `LAST_QUERY_ID()` 获取查询 ID。
@@ -200,7 +200,7 @@ $$;
 
 | 现象 | 可能原因 | 处理方式 |
 |------|----------|----------|
-| `Cloud Control does not support active notifications` | 当前部署尚不支持主动通知。 | 联系支持人员。 |
+| 不支持主动通知 | 当前部署尚不支持主动通知。 | 联系支持人员。 |
 | `CloudControlNotificationRejected` (1704) | Databend Cloud 拒绝了请求。例如集成不存在或已禁用。 | 检查集成名称和状态。 |
 | 权限不足 | 用户或任务角色没有全局 `SUPER`。 | 使用具有全局 `SUPER` 的角色。 |
 | SQL 成功但飞书没有消息 | 关键词缺失、机器人已禁用或 Webhook 地址错误。 | 检查机器人设置和消息内容。如果问题仍然存在，请联系支持人员并提供查询 ID 和时间范围。 |
