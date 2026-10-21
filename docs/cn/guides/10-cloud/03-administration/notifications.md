@@ -104,7 +104,7 @@ CREATE NOTIFICATION INTEGRATION feishu_alerts
 DESC NOTIFICATION INTEGRATION feishu_alerts;
 ```
 
-确认 `enabled` 为 `true`，并且 `webhook_options` 中包含 `body_template`。如果缺少 `body_template`，请参阅本文的故障排查一节。
+确认 `enabled` 为 `true`，并且 `webhook_options` 中包含 `body_template`。如果缺少 `body_template`，请联系支持人员。
 
 仅在设置了模板时，`webhook_options` 才会包含 `body_template`：
 
@@ -195,28 +195,6 @@ $$;
 - **SQL 不返回投递 ID：** 函数返回零行。请使用通知历史查看最终状态。
 - **配置变更：** Databend Cloud 在投递时使用最新的 URL 和模板。删除并重新创建同名集成不会将队列消息转发到新集成。
 - **禁用不会暂停队列：** 待处理消息在投递重试耗尽后失败。
-
-## 故障排查
-
-| 现象 | 可能原因 | 处理方式 |
-|------|----------|----------|
-| 不支持主动通知 | 当前部署尚不支持主动通知。 | 联系支持人员。 |
-| `CloudControlNotificationRejected` (1704) | Databend Cloud 拒绝了请求。例如集成不存在或已禁用。 | 检查集成名称和状态。 |
-| 权限不足 | 用户或任务角色没有全局 `SUPER`。 | 使用具有全局 `SUPER` 的角色。 |
-| SQL 成功但飞书没有消息 | 关键词缺失、机器人已禁用或 Webhook 地址错误。 | 检查机器人设置和消息内容。如果问题仍然存在，请联系支持人员并提供查询 ID 和时间范围。 |
-| 历史中 `status = failure` | 重试后投递仍失败。 | 查看 `error_message`。检查 Webhook 地址、网络和模板。 |
-| 修改模板没有生效 | 当前部署尚不支持 Webhook 请求体模板。 | 运行 `DESC NOTIFICATION INTEGRATION`，检查是否出现 `body_template`。如果仍未出现，请联系支持人员。 |
-| 消息重复 | 重试或超时导致重复投递。 | 这是预期行为。语句返回不确定错误时，请先检查历史再重试。 |
-
-## 配置检查清单
-
-- [ ] 飞书机器人使用自定义关键词校验。
-- [ ] 模板中包含机器人配置的关键词。
-- [ ] 通知集成已启用。
-- [ ] `DESC NOTIFICATION INTEGRATION` 显示 `body_template`。
-- [ ] 测试调用没有返回错误。
-- [ ] `system.notification_history` 显示 `success`。
-- [ ] 飞书群中显示消息。
 
 ## 相关文档
 

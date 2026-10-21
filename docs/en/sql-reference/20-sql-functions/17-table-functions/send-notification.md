@@ -55,15 +55,6 @@ The current user must have the global `SUPER` privilege. For a task, the task ex
 - If you disable an integration, Databend Cloud does not pause queued messages. Pending messages fail after the delivery retries are exhausted.
 - If the deployment does not support active notifications, the statement returns an error.
 
-## Errors
-
-| Error | Description |
-|-------|-------------|
-| `1006` | An argument is invalid. For example, the message is empty or too large. |
-| `1702` | The notification service is not enabled for this deployment. |
-| `1704` | Databend Cloud rejected the notification request. |
-| Unimplemented | The deployment does not support active notifications. |
-
 ## Examples
 
 ### Send a Message

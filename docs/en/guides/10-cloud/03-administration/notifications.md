@@ -104,7 +104,7 @@ Verify the integration:
 DESC NOTIFICATION INTEGRATION feishu_alerts;
 ```
 
-Check that `enabled` is `true` and that `webhook_options` contains `body_template`. If `body_template` is missing, see [Troubleshooting](#troubleshooting).
+Check that `enabled` is `true` and that `webhook_options` contains `body_template`. If `body_template` is missing, contact support.
 
 `webhook_options` includes `body_template` only when a template is set:
 
@@ -195,28 +195,6 @@ Do not rely on `LIMIT 0`, `WHERE`, or other query optimizations to prevent a not
 - **No delivery ID in SQL:** The function returns zero rows. Use the notification history for the final status.
 - **Configuration changes:** Databend Cloud uses the latest URL and template at delivery time. Dropping and recreating an integration with the same name does not redirect queued messages to the new integration.
 - **Disabling does not pause the queue:** Pending messages fail after the delivery retries are exhausted.
-
-## Troubleshooting
-
-| Symptom | Possible cause | Action |
-|---------|----------------|--------|
-| Active notifications are not supported | This deployment does not support active notifications yet. | Contact support. |
-| `CloudControlNotificationRejected` (1704) | Databend Cloud rejected the request. For example, the integration is missing or disabled. | Check the integration name and state. |
-| Permission denied | The user or task role does not have global `SUPER`. | Use a role with global `SUPER`. |
-| SQL succeeds but Feishu shows no message | The keyword is missing, the bot is disabled, or the webhook URL is wrong. | Check the bot settings and the message. Contact support with the query ID and time window if the problem continues. |
-| `status = failure` in history | Delivery failed after retries. | Read `error_message`. Check the webhook URL, network, and template. |
-| Template change has no effect | The deployment does not support webhook body templates yet. | Run `DESC NOTIFICATION INTEGRATION` and check whether `body_template` appears. If it is still missing, contact support. |
-| Duplicate messages | A retry or a timeout caused a repeated delivery. | This is expected. Do not retry a statement that returned an uncertain error before you check the history. |
-
-## Configuration Checklist
-
-- [ ] The Feishu bot uses custom keyword verification.
-- [ ] The template contains the keyword configured in the bot.
-- [ ] The notification integration is enabled.
-- [ ] `DESC NOTIFICATION INTEGRATION` shows `body_template`.
-- [ ] The test call returns without an error.
-- [ ] `system.notification_history` shows `success`.
-- [ ] The Feishu group shows the message.
 
 ## Related
 
