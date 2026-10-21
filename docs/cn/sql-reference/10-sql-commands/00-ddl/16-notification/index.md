@@ -23,8 +23,8 @@ title: 通知（Notification）
 | 命令 | 描述 |
 |---------|-------------|
 | [SYSTEM$SEND_NOTIFICATION](../../../20-sql-functions/17-table-functions/send-notification.md) | 通过现有通知集成发送消息 |
-| [通过 SQL 发送通知](/guides/cloud/administration/notifications) | 配置飞书机器人或其他 Webhook，并从 SQL 发送通知 |
+| [通过 SQL 发送通知](/guides/cloud/administration/notifications) | 配置飞书机器人并从 SQL 发送通知 |
 
 :::note
-Databend Cloud 的通知功能支持配置飞书、Slack 或任意 HTTP 端点等外部服务集成，用于接收数据库事件及操作相关的告警。
+Databend Cloud 的通知功能支持配置 Webhook 集成（例如飞书自定义机器人），用于接收数据库事件及操作相关的告警。
 :::

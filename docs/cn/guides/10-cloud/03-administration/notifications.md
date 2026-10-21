@@ -5,26 +5,16 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.953"/>
 
-Databend Cloud 可以从 SQL 向飞书、Slack、钉钉或任意 HTTP 端点发送消息。你在通知集成中保存 Webhook 和消息格式，然后在查询或任务中调用 [`system$send_notification`](/sql/sql-functions/table-functions/send-notification)。
+Databend Cloud 可以通过自定义机器人从 SQL 向飞书群发送消息。你在通知集成中保存 Webhook 和消息格式，然后在查询或任务中调用 [`system$send_notification`](/sql/sql-functions/table-functions/send-notification)。
+
+本指南及示例仅验证飞书自定义机器人。
 
 你可以将此功能用于查询错误告警、数据质量检查、任务结果，或任何可以由 SQL 语句生成的消息。
-
-## 工作原理
-
-```text
-SQL 语句
-  -> Databend Cloud Control（接受消息并加入队列）
-  -> 投递 Worker（渲染请求体并调用 Webhook）
-  -> 飞书 / Slack / 钉钉 / HTTP 端点
-```
-
-Cloud Control 接受消息后，SQL 语句即返回成功。投递是异步的。SQL 成功不代表接收服务已收到或接受消息。
 
 ## 准备工作
 
 请确认以下事项：
 
-- 使用已启用 Cloud Control 的 Databend Cloud 部署。
 - 你的角色具有全局 `SUPER` 权限。如果角色没有该权限，请让 `account_admin` 执行：
 
   ```sql
@@ -43,7 +33,7 @@ Cloud Control 接受消息后，SQL 语句即返回成功。投递是异步的�
 | 值 | 示例中的值 | 替换为 |
 |----|------------|--------|
 | 通知集成名称 | `feishu_alerts` | 你的通知集成名称 |
-| 飞书 Webhook 地址 | `https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` | 第 1 步获取的地址 |
+| 飞书 Webhook 地址 | `OPEN_FEISHU_URL` | 第 1 步获取的地址 |
 | 飞书关键词 | `DatabendAlert` | 第 1 步设置的关键词 |
 | Warehouse | `monitoring_wh` | 现有 Warehouse |
 | 消息 | `查询错误数超过阈值。` | 你的告警文本 |
@@ -61,16 +51,16 @@ Cloud Control 接受消息后，SQL 语句即返回成功。投递是异步的�
 
 第 2 步会使用这个关键词。如果你选择了其他关键词，请将模板中的 `DatabendAlert` 替换为你的关键词。
 
-关键词区分大小写。关键词必须出现在飞书收到的消息文本中。
+关键词必须出现在飞书收到的消息文本中。
 
 请将 Webhook 地址视为机密信息。任何获得该地址的人都可以向群发送消息。
 
 ### 可选：测试机器人
 
-如果你有终端，可以在配置 Databend 前先确认 Webhook 地址和关键词是否可用。运行命令前，请替换 `<webhook-url>` 和 `DatabendAlert`：
+如果你有终端，可以在配置 Databend 前先确认 Webhook 地址和关键词是否可用。运行命令前，请替换 `OPEN_FEISHU_URL` 和 `DatabendAlert`：
 
 ```bash
-curl -X POST '<webhook-url>' \
+curl -X POST 'OPEN_FEISHU_URL' \
   -H 'Content-Type: application/json' \
   -d '{"msg_type":"text","content":{"text":"[DatabendAlert] test"}}'
 ```
@@ -90,13 +80,13 @@ CREATE NOTIFICATION INTEGRATION feishu_alerts
   TYPE = WEBHOOK
   ENABLED = TRUE
   WEBHOOK = (
-    URL = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    URL = 'OPEN_FEISHU_URL',
     METHOD = 'POST'
   )
   WEBHOOK_BODY_TEMPLATE = '{"msg_type":"text","content":{"text":"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE"}}';
 ```
 
-请将 URL 替换为第 1 步获取的 Webhook 地址。将 `DatabendAlert` 替换为你的关键词。机器人中的关键词和模板中的关键词必须完全一致，包括大小写。
+请将 `OPEN_FEISHU_URL` 替换为第 1 步获取的 Webhook 地址。将 `DatabendAlert` 替换为你的关键词。模板中必须包含你在机器人中设置的关键词。
 
 示例说明：
 
@@ -119,8 +109,10 @@ DESC NOTIFICATION INTEGRATION feishu_alerts;
 仅在设置了模板时，`webhook_options` 才会包含 `body_template`：
 
 ```json
-{"url":"https://open.feishu.cn/open-apis/bot/v2/hook/...","method":"POST","authorization_header":"","body_template":"{\"msg_type\":\"text\",\"content\":{\"text\":\"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE\"}}"}
+{"url":"OPEN_FEISHU_URL","method":"POST","authorization_header":"","body_template":"{\"msg_type\":\"text\",\"content\":{\"text\":\"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE\"}}"}
 ```
+
+将该集成用作任务的 `ERROR_INTEGRATION` 时，模板同样生效。此时消息是 [TASK ERROR INTEGRATION PAYLOAD](/sql/sql-commands/ddl/task/task-error-integration-payload) 中所述的任务错误载荷。模板会将载荷作为文本插入，并进行 JSON 转义。
 
 ## 第 3 步：发送通知
 
@@ -128,7 +120,7 @@ DESC NOTIFICATION INTEGRATION feishu_alerts;
 CALL system$send_notification('feishu_alerts', '查询错误数超过阈值。');
 ```
 
-语句返回零行的 `result` 列，不返回投递 ID。语句成功表示 Cloud Control 已接受消息，不表示已投递。请继续执行第 4 步检查投递状态。
+语句返回零行的 `result` 列，不返回投递 ID。语句成功表示 Databend Cloud 已接受消息，不表示已投递。请继续执行第 4 步检查投递状态。
 
 `CALL` 是以下语句的便捷形式：
 
@@ -150,9 +142,9 @@ ORDER BY created_on DESC
 LIMIT 10;
 ```
 
-Cloud Control 完成投递尝试后才会写入该行。Cloud Control 接受消息时不会写入。新消息可能需要几秒钟才会出现在历史中。如果没有查询到记录，请稍后重试。
+Databend Cloud 完成投递尝试后才会写入该行。Databend Cloud 接受消息时不会写入。新消息可能需要几秒钟才会出现在历史中。如果没有查询到记录，请稍后重试。
 
-`status` 列为 `success` 或 `failure`。当 Webhook 返回 200 到 399 的 HTTP 状态码时，Cloud Control 记录为 `success`。它不会解析响应体。
+`status` 列为 `success` 或 `failure`。当 Webhook 返回 200 到 399 的 HTTP 状态码时，Databend Cloud 记录为 `success`。它不会解析响应体。
 
 :::warning
 飞书拒绝消息时会返回 HTTP 200 和业务错误。例如，关键词不匹配会返回 `code: 19024` 和 `msg: Key Words Not Found`。由于 HTTP 请求成功，Databend 会将此响应记录为 `success`。如果飞书未显示消息，请检查消息和机器人关键词。需要查看 Webhook 响应时，请联系支持人员并提供查询 ID 和时间范围。
@@ -192,47 +184,34 @@ $$;
 
 不要依赖 `LIMIT 0`、`WHERE` 或其他查询优化来阻止发送通知。语句执行时函数会产生副作用。请改用脚本中的 `IF`。
 
-## 使用其他渠道
-
-设置与目标服务匹配的模板。以下示例均使用 `METHOD = 'POST'`。
-
-| 服务 | `WEBHOOK_BODY_TEMPLATE` |
-|------|--------------------------|
-| 飞书 | `'{"msg_type":"text","content":{"text":"[DatabendAlert] DATABEND_WEBHOOK_MESSAGE"}}'` |
-| Slack | `'{"text":"DATABEND_WEBHOOK_MESSAGE"}'` |
-| 钉钉 | `'{"msgtype":"text","text":{"content":"DATABEND_WEBHOOK_MESSAGE"}}'` |
-| 通用 HTTP 端点 | `'{"source":"databend","message":"DATABEND_WEBHOOK_MESSAGE"}'` |
-
-模板同样适用于将该集成用作 `ERROR_INTEGRATION` 的任务错误通知。此时消息是 [TASK ERROR INTEGRATION PAYLOAD](/sql/sql-commands/ddl/task/task-error-integration-payload) 中所述的任务错误载荷。模板会将载荷作为文本插入，并进行 JSON 转义。
-
 ## 限制
 
-- **异步投递：** SQL 成功表示 Cloud Control 已接受消息。投递可能稍后失败。
+- **异步投递：** SQL 成功表示 Databend Cloud 已接受消息。投递可能稍后失败。
 - **至少一次投递：** 响应丢失、HTTP 超时或重试都可能产生重复消息。查询 ID 不是幂等键。
 - **业务错误不算投递失败：** Databend 检查 HTTP 状态，不检查服务特定的响应码。飞书关键词错误可能显示为 `success`。
 - **飞书验证：** 集成不支持飞书签名校验或任意 HTTP 头。请使用自定义关键词方式。
 - **需要全局 `SUPER`：** 通知集成没有按集成授予的权限。
 - **大小限制：** 消息可以包含 1 到 262,144 个 UTF-8 字节。模板最大为 64 KiB。渲染后的请求体最大为 256 KiB。
 - **SQL 不返回投递 ID：** 函数返回零行。请使用通知历史查看最终状态。
-- **配置变更：** Cloud Control 在投递时使用最新的 URL 和模板。删除并重新创建同名集成不会将队列消息转发到新集成。
+- **配置变更：** Databend Cloud 在投递时使用最新的 URL 和模板。删除并重新创建同名集成不会将队列消息转发到新集成。
 - **禁用不会暂停队列：** 待处理消息在投递重试耗尽后失败。
 
 ## 故障排查
 
 | 现象 | 可能原因 | 处理方式 |
 |------|----------|----------|
-| `Cloud Control does not support active notifications` | Cloud Control 版本低于 Query 版本。 | 联系支持人员升级 Cloud Control。 |
-| `CloudControlNotificationRejected` (1704) | Cloud Control 拒绝了请求。例如集成不存在或已禁用。 | 检查集成名称和状态。 |
+| `Cloud Control does not support active notifications` | 当前部署尚不支持主动通知。 | 联系支持人员。 |
+| `CloudControlNotificationRejected` (1704) | Databend Cloud 拒绝了请求。例如集成不存在或已禁用。 | 检查集成名称和状态。 |
 | 权限不足 | 用户或任务角色没有全局 `SUPER`。 | 使用具有全局 `SUPER` 的角色。 |
-| SQL 成功但飞书没有消息 | 关键词缺失、关键词大小写不一致、机器人已禁用或 Webhook 地址错误。 | 检查机器人设置和消息内容。如果问题仍然存在，请联系支持人员并提供查询 ID 和时间范围。 |
+| SQL 成功但飞书没有消息 | 关键词缺失、机器人已禁用或 Webhook 地址错误。 | 检查机器人设置和消息内容。如果问题仍然存在，请联系支持人员并提供查询 ID 和时间范围。 |
 | 历史中 `status = failure` | 重试后投递仍失败。 | 查看 `error_message`。检查 Webhook 地址、网络和模板。 |
-| 修改模板没有生效 | 集成连接的是旧版 Cloud Control。 | 运行 `DESC NOTIFICATION INTEGRATION`，检查是否出现 `body_template`。 |
+| 修改模板没有生效 | 当前部署尚不支持 Webhook 请求体模板。 | 运行 `DESC NOTIFICATION INTEGRATION`，检查是否出现 `body_template`。如果仍未出现，请联系支持人员。 |
 | 消息重复 | 重试或超时导致重复投递。 | 这是预期行为。语句返回不确定错误时，请先检查历史再重试。 |
 
 ## 配置检查清单
 
 - [ ] 飞书机器人使用自定义关键词校验。
-- [ ] 机器人中的关键词和模板中的关键词完全一致，包括大小写。
+- [ ] 模板中包含机器人配置的关键词。
 - [ ] 通知集成已启用。
 - [ ] `DESC NOTIFICATION INTEGRATION` 显示 `body_template`。
 - [ ] 测试调用没有返回错误。

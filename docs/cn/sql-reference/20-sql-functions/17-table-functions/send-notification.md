@@ -5,9 +5,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.953"/>
 
-通过现有通知集成发送消息。Databend Cloud 接受消息后将其加入队列，异步投递。SQL 语句在 Cloud Control 接受消息后返回成功，不会等待 Webhook 请求完成。
+通过现有通知集成发送消息。Databend Cloud 接受消息后将其加入队列，异步投递。SQL 语句在 Databend Cloud 接受消息后返回成功，不会等待 Webhook 请求完成。
 
-**注意：** 此函数仅在 Databend Cloud 中可用，并且需要启用 Cloud Control。
+**注意：** 此函数仅在 Databend Cloud 中可用。
 
 ## 语法
 
@@ -45,24 +45,24 @@ SELECT * FROM send_notification('<integration_name>', '<message>');
 - 函数仅在语句执行时提交通知。`EXPLAIN` 和 `EXPLAIN PIPELINE` 不会发送通知。
 - Databend 会为使用此函数的语句禁用查询结果缓存，无需修改缓存设置。
 - 即使查询在多个节点上运行，一条语句也只提交一条通知。
-- SQL 成功表示 Cloud Control 已接受消息，不表示 Webhook 已投递消息。
-- Cloud Control 会有限次重试 Webhook 投递。最终结果记录在 `system.notification_history` 中。
-- 入队请求不会自动重试。网络错误可能在 Cloud Control 已接受消息后返回 SQL 错误。重试可能产生重复消息。重试前请检查通知历史，并为投递留出时间。
-- 投递可能重复。Cloud Control 会在日志中记录查询 ID 用于关联。查询 ID 不是幂等键。
+- SQL 成功表示 Databend Cloud 已接受消息，不表示 Webhook 已投递消息。
+- Databend Cloud 会有限次重试 Webhook 投递。最终结果记录在 `system.notification_history` 中。
+- 入队请求不会自动重试。网络错误可能在 Databend Cloud 已接受消息后返回 SQL 错误。重试可能产生重复消息。重试前请检查通知历史，并为投递留出时间。
+- 投递可能重复。Databend Cloud 会记录查询 ID 用于关联。查询 ID 不是幂等键。
 - 通知集成必须存在且已启用。否则语句失败，不会创建投递任务。
-- Cloud Control 在投递时使用最新的集成配置。如果在消息被接受后修改 URL 或模板，新配置会生效。
+- Databend Cloud 在投递时使用最新的集成配置。如果在消息被接受后修改 URL 或模板，新配置会生效。
 - 队列中的消息绑定集成 ID。如果删除集成后创建同名集成，旧集成的队列消息会失败。
 - 禁用集成不会暂停队列。待处理消息在投递重试耗尽后失败。
-- 旧版 Cloud Control 会返回不支持主动通知的错误。
+- 如果当前部署不支持主动通知，语句会返回错误。
 
 ## 错误
 
 | 错误 | 说明 |
 |------|------|
 | `1006` | 参数无效。例如消息为空或过大。 |
-| `1702` | 未启用 Cloud Control。 |
-| `1704` | Cloud Control 拒绝了通知请求。 |
-| Unimplemented | Cloud Control 版本不支持主动通知。 |
+| `1702` | 当前部署未启用通知服务。 |
+| `1704` | Databend Cloud 拒绝了通知请求。 |
+| Unimplemented | 当前部署不支持主动通知。 |
 
 ## 示例
 
