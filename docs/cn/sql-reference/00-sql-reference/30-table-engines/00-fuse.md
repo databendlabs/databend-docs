@@ -94,9 +94,9 @@ CREATE TABLE <table_name> (
 - **语法：**
   `s3_storage_class = 'standard' | 'intelligent_tiering'`
 - **描述：**
-  为非临时外部 Fuse 表的新对象指定 S3 存储类别，取值不区分大小写。S3 兼容后端必须支持所选类别。此选项不会改变非 S3 后端的行为。
+  为非临时外部 Fuse 表的新对象指定 S3 存储类别，取值不区分大小写。此选项仅对 S3 及 S3 兼容存储生效。存储服务必须支持所选的存储类别。
 
-  显式指定的表级值优先于数据库的 `DEFAULT_S3_STORAGE_CLASS`。省略此选项时，新建外部表会继承已设置的数据库默认值。后续更改数据库默认值不会影响已有表。
+  显式指定的表级值优先于数据库的 [`DEFAULT_S3_STORAGE_CLASS`](../../10-sql-commands/00-ddl/00-database/ddl-create-database.md#参数)。省略此选项时，新建外部表会继承已设置的数据库默认值。后续更改数据库默认值不会影响已有表。
 
   使用 `ALTER TABLE ... SET OPTIONS` 更改后续写入的存储类别。已有对象的存储类别保持不变。`UNSET OPTIONS(S3_STORAGE_CLASS)` 移除已保存的值，但不会重新应用数据库默认值。
 

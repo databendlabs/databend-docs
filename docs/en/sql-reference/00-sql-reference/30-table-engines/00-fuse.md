@@ -87,9 +87,9 @@ Below are the available Fuse Engine options, grouped by their purpose:
 - **Syntax:**
   `s3_storage_class = 'standard' | 'intelligent_tiering'`
 - **Description:**
-  Selects the S3 storage class for new objects in a non-temporary external Fuse table. Values are case-insensitive. The S3-compatible backend must support the selected class. This option does not change non-S3 backends.
+  Selects the S3 storage class for new objects in a non-temporary external Fuse table. Values are case-insensitive. This option applies only to S3 and S3-compatible storage. The storage service must support the selected storage class.
 
-  An explicit table value overrides the database `DEFAULT_S3_STORAGE_CLASS`. If omitted, a new external table inherits that default when set. Later database changes do not affect existing tables.
+  An explicit table value overrides the database [`DEFAULT_S3_STORAGE_CLASS`](../../10-sql-commands/00-ddl/00-database/ddl-create-database.md#parameters). If omitted, a new external table inherits that default when set. Later database changes do not affect existing tables.
 
   Use `ALTER TABLE ... SET OPTIONS` to change the class for future writes. Existing objects keep their class. `UNSET OPTIONS(S3_STORAGE_CLASS)` removes the stored value without reapplying the database default.
 

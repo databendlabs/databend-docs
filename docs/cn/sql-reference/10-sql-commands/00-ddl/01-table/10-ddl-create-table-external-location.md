@@ -59,7 +59,7 @@ CONNECTION = (
 | `standard` | S3 Standard |
 | `intelligent_tiering` | S3 Intelligent-Tiering |
 
-S3 兼容后端必须支持所选的存储类别。此选项不会改变非 S3 后端的行为。
+此选项仅对 S3 及 S3 兼容存储生效。存储服务必须支持所选的存储类别。
 
 ### 数据库默认值与表级覆盖
 

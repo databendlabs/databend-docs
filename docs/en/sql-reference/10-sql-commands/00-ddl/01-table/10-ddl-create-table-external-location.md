@@ -57,7 +57,7 @@ Use `S3_STORAGE_CLASS` to select the S3 storage class for new objects in a non-t
 | `standard` | S3 Standard |
 | `intelligent_tiering` | S3 Intelligent-Tiering |
 
-The S3-compatible backend must support the selected storage class. This option does not change non-S3 backends.
+This option applies only to S3 and S3-compatible storage. The storage service must support the selected storage class.
 
 ### Database default and table override
 
