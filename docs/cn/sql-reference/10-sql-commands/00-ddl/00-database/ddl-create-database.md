@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.949"/>
+<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
 
 创建数据库。
 
@@ -13,10 +13,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ```sql
 CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
-    [ OPTIONS (
-        DEFAULT_STORAGE_CONNECTION = '<connection_name>',
-        DEFAULT_STORAGE_PATH = '<path>'
-    ) ]
+    [ OPTIONS ( <database_option> = '<value>' [, ...] ) ]
 
 CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
     FROM SHARE <provider_tenant>.<share_name>
@@ -28,11 +25,15 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 |:------------------------------|:------------------------------------------------------------------------------------------------------------------------------|
 | `DEFAULT_STORAGE_CONNECTION`  | 已有连接的名称（通过 `CREATE CONNECTION` 创建），作为该数据库中表的默认存储连接。                                               |
 | `DEFAULT_STORAGE_PATH`        | 该数据库中表的默认存储路径 URI（如 `s3://bucket/path/`），必须以 `/` 结尾，且与连接的存储类型匹配。                            |
+| `DEFAULT_S3_STORAGE_CLASS`    | 新建非临时外部 Fuse 表的默认 S3 存储类别。支持 `standard` 和 `intelligent_tiering`，不区分大小写。 |
 | `FROM SHARE`                  | 基于 Share 创建只读的共享数据库。`provider_tenant` 是提供方的租户 ID。参见[基于 Share 创建数据库](#from-share)。 |
 
 :::note
 - `DEFAULT_STORAGE_CONNECTION` 与 `DEFAULT_STORAGE_PATH` 必须同时指定，单独指定其中一个会报错。
 - 两个选项均设置时，Databend 会验证连接是否存在、路径 URI 格式是否正确，以及存储位置是否可访问。
+- `DEFAULT_S3_STORAGE_CLASS` 可以独立于连接和路径选项设置。
+- 新建非临时外部 Fuse 表时，如果未指定 `S3_STORAGE_CLASS`，表会继承 `DEFAULT_S3_STORAGE_CLASS`。显式指定的外部位置和从数据库默认选项继承的外部位置均适用。
+- 内部表、临时表和非 Fuse 引擎不会继承此存储类别默认值。限制说明参见 [S3 存储类别](../01-table/10-ddl-create-table-external-location.md#s3-storage-class)。
 :::
 
 ## 访问控制要求
@@ -85,6 +86,16 @@ CREATE CONNECTION my_s3
 CREATE DATABASE analytics OPTIONS (
     DEFAULT_STORAGE_CONNECTION = 'my_s3',
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics/'
+);
+```
+
+### 创建带默认 S3 存储类别的数据库
+
+此默认值适用于新建非临时外部 Fuse 表，不会将表自动变为外部表。创建表时需指定外部位置，或为数据库配置默认存储连接和路径。
+
+```sql
+CREATE OR REPLACE DATABASE external_analytics OPTIONS (
+    DEFAULT_S3_STORAGE_CLASS = 'intelligent_tiering'
 );
 ```
 

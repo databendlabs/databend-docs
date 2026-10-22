@@ -5,7 +5,7 @@ sidebar_position: 4
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.866"/>
+<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
 
 Changes the name of a database, or sets default storage options for a database.
 
@@ -17,8 +17,7 @@ ALTER DATABASE [ IF EXISTS ] <name> RENAME TO <new_db_name>
 
 -- Set default storage options
 ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
-    DEFAULT_STORAGE_CONNECTION = '<connection_name>'
-  | DEFAULT_STORAGE_PATH = '<path>'
+    <database_option> = '<value>' [, ...]
 )
 ```
 
@@ -28,10 +27,14 @@ ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
 |:-----------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
 | `DEFAULT_STORAGE_CONNECTION` | The name of an existing connection (created via `CREATE CONNECTION`) to use as the default storage connection for tables in this database.        |
 | `DEFAULT_STORAGE_PATH`       | The default storage path URI (e.g., `s3://bucket/path/`) for tables in this database. Must end with `/` and match the connection's storage type. |
+| `DEFAULT_S3_STORAGE_CLASS`   | The default S3 storage class for new non-temporary external Fuse tables. Accepts `standard` or `intelligent_tiering` (case-insensitive). |
 
 :::note
 - `SET OPTIONS` only affects tables created after the statement is executed. Existing tables are not changed.
-- You can update one option at a time, as long as the other option already exists on the database.
+- You can update the connection or path separately if the other option already exists on the database.
+- You can set `DEFAULT_S3_STORAGE_CLASS` independently of the connection and path options.
+- New non-temporary external Fuse tables inherit the storage-class default unless they specify `S3_STORAGE_CLASS`. Explicit external locations and database-inherited locations both qualify.
+- Changing this default does not update the storage-class option of existing tables or change existing S3 objects.
 :::
 
 ## Examples
@@ -78,6 +81,16 @@ ALTER DATABASE analytics SET OPTIONS (
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics_v2/'
 );
 ```
+
+### Set the default S3 storage class
+
+```sql
+ALTER DATABASE external_analytics SET OPTIONS (
+    DEFAULT_S3_STORAGE_CLASS = 'standard'
+);
+```
+
+This changes the default for new non-temporary external Fuse tables only. To change an existing external table, use [ALTER TABLE ... SET OPTIONS](../01-table/90-alter-table.md#fuse-engine-options).
 
 ## Tag Operations
 

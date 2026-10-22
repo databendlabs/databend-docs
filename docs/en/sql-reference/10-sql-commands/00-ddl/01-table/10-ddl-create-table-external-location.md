@@ -3,9 +3,11 @@ title: CREATE EXTERNAL TABLE
 sidebar_position: 2
 ---
 
-The `CREATE TABLE ... CONNECTION = (...)` statement creates a table and specifies an S3-compatible storage bucket for data storage instead of using the default local storage.
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Then the fuse table engine table will be stored in the specified S3-compatible bucket.
+<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
+
+The `CREATE TABLE ... CONNECTION = (...)` statement creates a Fuse table in an S3-compatible storage bucket instead of the server's default storage.
 
 ## Benefits
 
@@ -30,7 +32,8 @@ CONNECTION = (
 |
 CONNECTION = (
     CONNECTION_NAME = '<your-connection-name>'
-);
+)
+[ S3_STORAGE_CLASS = 'standard' | 'intelligent_tiering' ];
 ```
 
 Connection parameters:
@@ -44,6 +47,33 @@ Connection parameters:
 | ENABLE_VIRTUAL_HOST_STYLE 	 | If you use virtual hosting to address the bucket, set it to "true".                               	                                                                                                                      | Optional 	 |
 
 For more information on `CONNECTION_NAME`, see [CREATE CONNECTION](../13-connection/create-connection.md)
+
+## S3 Storage Class
+
+Use `S3_STORAGE_CLASS` to select the S3 storage class for new objects in a non-temporary external Fuse table. Values are case-insensitive:
+
+| Value | S3 storage class |
+|-------|------------------|
+| `standard` | S3 Standard |
+| `intelligent_tiering` | S3 Intelligent-Tiering |
+
+The S3-compatible backend must support the selected storage class. This option does not change non-S3 backends.
+
+### Database default and table override
+
+- Set `DEFAULT_S3_STORAGE_CLASS` with [CREATE DATABASE](../00-database/ddl-create-database.md) or [ALTER DATABASE](../00-database/ddl-alter-database.md).
+- A new non-temporary external Fuse table copies this default into its table options. This applies to explicit external locations and locations inherited from the database connection and path defaults.
+- An explicit `S3_STORAGE_CLASS` takes priority over the database default.
+- Later changes to the database default do not affect existing tables.
+- `ALTER TABLE ... SET OPTIONS` changes the class for future writes only. Existing objects keep their storage class.
+- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` removes the stored override, including an inherited value. It does not reapply the current database default.
+
+### Restrictions
+
+- Internal tables do not inherit this default. Their S3 storage class comes from the server `[storage.s3].storage_class` configuration. `CREATE TABLE` and `ALTER TABLE ... SET OPTIONS` reject `S3_STORAGE_CLASS` without an external location.
+- Temporary tables do not inherit this default and reject explicit `S3_STORAGE_CLASS` values. Temporary S3 tables use `STANDARD`.
+- Non-Fuse engines do not support this option.
+- Materialized Views and Dynamic Tables currently use internal storage only. They do not inherit the database default or the source table's storage class. An explicit `S3_STORAGE_CLASS` is rejected.
 
 ## S3-compatible Bucket Policy Requirements
 
@@ -60,7 +90,8 @@ The external location S3 bucket must have the following permissions granted thro
 - `s3:DeleteObject`: Allows deleting objects from the bucket.
 - `s3:AbortMultipartUpload`: Allows aborting multipart uploads.
 - `s3:DeleteObjectVersion`: Allows deleting a specific version of an object.
-:::
+
+Databend checks external-location permissions with the effective storage class. If a bucket policy restricts `s3:PutObject` by storage class, it must allow the class selected by the table option or database default.
 
 ## Examples
 
@@ -99,6 +130,29 @@ COMPRESSION = 'zstd'
 STORAGE_FORMAT = 'parquet'
 LOCATION = 's3 | bucket=testbucket,root=/admin/data/,endpoint=https://s3.amazonaws.com';
 ```
+
+### Set and Change an S3 Storage Class
+
+The connection `s3_connection` must already exist and have access to the bucket.
+
+```sql
+CREATE OR REPLACE DATABASE external_analytics OPTIONS (
+    DEFAULT_S3_STORAGE_CLASS = 'intelligent_tiering'
+);
+
+CREATE OR REPLACE TABLE external_analytics.events (id INT)
+    's3://testbucket/events/'
+    CONNECTION = (CONNECTION_NAME = 's3_connection')
+    S3_STORAGE_CLASS = 'standard';
+
+ALTER TABLE external_analytics.events SET OPTIONS (
+    S3_STORAGE_CLASS = 'intelligent_tiering'
+);
+
+ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
+```
+
+The explicit `standard` value overrides the database default at creation. Without that table option, the table inherits `intelligent_tiering`. `SET OPTIONS` affects only new objects. `UNSET OPTIONS` removes the override without copying the database default again.
 
 ### Create a Table Using a Connection
 

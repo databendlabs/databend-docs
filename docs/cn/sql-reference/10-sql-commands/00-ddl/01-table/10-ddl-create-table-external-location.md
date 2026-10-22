@@ -3,9 +3,11 @@ title: CREATE EXTERNAL TABLE
 sidebar_position: 2
 ---
 
-`CREATE TABLE ... CONNECTION = (...)` 语句用于创建表，并指定一个与 S3 兼容的存储桶用于数据存储，而不是使用默认的本地存储。
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-然后，fuse table engine 表将被存储在指定的 S3 兼容存储桶中。
+<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
+
+`CREATE TABLE ... CONNECTION = (...)` 语句在 S3 兼容存储桶中创建 Fuse 表，而不是使用服务端默认存储。
 
 ## 优势
 
@@ -31,7 +33,8 @@ CONNECTION = (
 |
 CONNECTION = (
     CONNECTION_NAME = '<your-connection-name>'
-);
+)
+[ S3_STORAGE_CLASS = 'standard' | 'intelligent_tiering' ];
 ```
 
 连接参数：
@@ -46,6 +49,33 @@ CONNECTION = (
 | ENABLE_VIRTUAL_HOST_STYLE | 如果您使用虚拟主机来寻址存储桶，请将其设置为 "true"。                                                                                                            | Optional |
 
 有关 `CONNECTION_NAME` 的更多信息，请参见 [CREATE CONNECTION](../13-connection/create-connection.md)
+
+## S3 存储类别 {/* #s3-storage-class */}
+
+使用 `S3_STORAGE_CLASS` 为非临时外部 Fuse 表的新对象指定 S3 存储类别。取值不区分大小写：
+
+| 值 | S3 存储类别 |
+|----|-------------|
+| `standard` | S3 Standard |
+| `intelligent_tiering` | S3 Intelligent-Tiering |
+
+S3 兼容后端必须支持所选的存储类别。此选项不会改变非 S3 后端的行为。
+
+### 数据库默认值与表级覆盖
+
+- 使用 [CREATE DATABASE](../00-database/ddl-create-database.md) 或 [ALTER DATABASE](../00-database/ddl-alter-database.md) 设置 `DEFAULT_S3_STORAGE_CLASS`。
+- 新建非临时外部 Fuse 表时，表会将此默认值复制到表选项中。显式指定的外部位置和从数据库默认连接及路径继承的外部位置均适用。
+- 显式指定的 `S3_STORAGE_CLASS` 优先于数据库默认值。
+- 后续更改数据库默认值不会影响已有表。
+- `ALTER TABLE ... SET OPTIONS` 仅更改后续写入的存储类别。已有对象的存储类别保持不变。
+- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` 移除已保存的覆盖值，包括继承的值。此操作不会重新应用当前数据库默认值。
+
+### 限制
+
+- 内部表不继承此默认值，其 S3 存储类别由服务端 `[storage.s3].storage_class` 配置决定。没有外部位置时，`CREATE TABLE` 和 `ALTER TABLE ... SET OPTIONS` 会拒绝 `S3_STORAGE_CLASS`。
+- 临时表不继承此默认值，也不接受显式指定的 `S3_STORAGE_CLASS`。临时 S3 表使用 `STANDARD`。
+- 非 Fuse 引擎不支持此选项。
+- 物化视图（Materialized View）和动态表（Dynamic Table）目前仅使用内部存储。它们不会继承数据库默认值或源表的存储类别，也不接受显式指定的 `S3_STORAGE_CLASS`。
 
 ## S3 兼容存储桶策略要求
 
@@ -64,7 +94,8 @@ CONNECTION = (
 - `s3:DeleteObject`：允许删除存储桶中的对象。
 - `s3:AbortMultipartUpload`：允许中止分段上传。
 - `s3:DeleteObjectVersion`：允许删除对象的特定版本。
-  :::
+
+Databend 使用实际生效的存储类别检查外部位置的权限。如果存储桶策略按存储类别限制 `s3:PutObject`，策略必须允许表选项或数据库默认值所选择的存储类别。
 
 ## 示例
 
@@ -105,6 +136,29 @@ COMPRESSION = 'zstd'
 STORAGE_FORMAT = 'parquet'
 LOCATION = 's3 | bucket=testbucket,root=/admin/data/,endpoint=https://s3.amazonaws.com';
 ```
+
+### 设置和更改 S3 存储类别
+
+连接 `s3_connection` 必须已存在，且具有存储桶访问权限。
+
+```sql
+CREATE OR REPLACE DATABASE external_analytics OPTIONS (
+    DEFAULT_S3_STORAGE_CLASS = 'intelligent_tiering'
+);
+
+CREATE OR REPLACE TABLE external_analytics.events (id INT)
+    's3://testbucket/events/'
+    CONNECTION = (CONNECTION_NAME = 's3_connection')
+    S3_STORAGE_CLASS = 'standard';
+
+ALTER TABLE external_analytics.events SET OPTIONS (
+    S3_STORAGE_CLASS = 'intelligent_tiering'
+);
+
+ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
+```
+
+创建表时，显式指定的 `standard` 会覆盖数据库默认值。如果省略此表选项，表会继承 `intelligent_tiering`。`SET OPTIONS` 只影响新对象。`UNSET OPTIONS` 移除覆盖值，但不会再次复制数据库默认值。
 
 ### 使用连接创建表
 
