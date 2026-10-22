@@ -4,7 +4,7 @@ title: Fuse Engine Tables
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.892"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 ## Overview
 
@@ -80,6 +80,16 @@ Below are the available Fuse Engine options, grouped by their purpose:
   `compression = '<compression>'`
 - **Description:**
   Specifies the compression method for the engine. Compression options include lz4, zstd, snappy, or none. The compression method defaults to zstd in object storage and lz4 in file system (fs) storage.
+
+---
+
+### `s3_storage_class`
+- **Syntax:**
+  `s3_storage_class = 'standard' | 'intelligent_tiering'`
+- **Description:**
+  Selects the S3 storage class for future writes to a non-temporary external Fuse table. Values are case-insensitive. The S3 or S3-compatible service must support the selected class. Internal tables and temporary tables reject this option.
+
+  For setup, database defaults, and examples, see [Choose an S3 Storage Class](/guides/data-management/external-tables#s3-storage-class).
 
 ---
 

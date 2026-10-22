@@ -21,7 +21,7 @@ description: 安装 Databend Cloud skill，让 Agent 协助您查询数据、管
 
 ## 通过 Agent 安装
 
-复制以下指令，安装 skill 并配置可复用的 API key。Token 可在 [Cloud 控制台](https://app.databend.cn/) 的 **管理 → API 令牌 → 访问令牌 → 生成新令牌** 创建。
+复制以下指令，安装 skill 并配置可复用的 API key。Token 可在 [Cloud 控制台](https://app.databend.cn/) 的 **账户 API 令牌 → 访问令牌 → 生成新令牌** 创建。
 
 ```text
 请安装以下 databend-cloud skill。

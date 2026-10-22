@@ -5,7 +5,7 @@ sidebar_position: 4
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.866"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 Changes the name of a database, or sets default storage options for a database.
 
@@ -17,8 +17,7 @@ ALTER DATABASE [ IF EXISTS ] <name> RENAME TO <new_db_name>
 
 -- Set default storage options
 ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
-    DEFAULT_STORAGE_CONNECTION = '<connection_name>'
-  | DEFAULT_STORAGE_PATH = '<path>'
+    <database_option> = '<value>' [, ...]
 )
 ```
 
@@ -28,10 +27,12 @@ ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
 |:-----------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
 | `DEFAULT_STORAGE_CONNECTION` | The name of an existing connection (created via `CREATE CONNECTION`) to use as the default storage connection for tables in this database.        |
 | `DEFAULT_STORAGE_PATH`       | The default storage path URI (e.g., `s3://bucket/path/`) for tables in this database. Must end with `/` and match the connection's storage type. |
+| `DEFAULT_S3_STORAGE_CLASS`   | The default S3 storage class for new non-temporary external Fuse tables. Accepts `standard` or `intelligent_tiering` (case-insensitive). |
 
 :::note
 - `SET OPTIONS` only affects tables created after the statement is executed. Existing tables are not changed.
-- You can update one option at a time, as long as the other option already exists on the database.
+- You can update the connection or path separately if the other option already exists on the database.
+- `DEFAULT_S3_STORAGE_CLASS` can be set independently. It applies only to new non-temporary external Fuse tables without an explicit `S3_STORAGE_CLASS`. To change an existing table, use `ALTER TABLE ... SET OPTIONS`. See [External Tables](/guides/data-management/external-tables#s3-storage-class) for examples.
 :::
 
 ## Examples
@@ -76,6 +77,14 @@ SHOW DATABASES;
 ALTER DATABASE analytics SET OPTIONS (
     DEFAULT_STORAGE_CONNECTION = 'my_s3',
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics_v2/'
+);
+```
+
+### Set the default S3 storage class
+
+```sql
+ALTER DATABASE external_analytics SET OPTIONS (
+    DEFAULT_S3_STORAGE_CLASS = 'standard'
 );
 ```
 

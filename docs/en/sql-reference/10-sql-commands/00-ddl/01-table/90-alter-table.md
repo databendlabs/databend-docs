@@ -325,6 +325,8 @@ For key selection, hash partitioning, and query-pruning examples, see [Partition
 
 ## Fuse Engine Options
 
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
+
 Sets or unsets [Fuse Engine options](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options) for a table.
 
 ### Syntax
@@ -347,6 +349,9 @@ Only the following Fuse Engine options can be unset:
 - `row_avg_depth_threshold`
 - `row_per_block`
 - `row_per_page`
+- `s3_storage_class`
+
+`S3_STORAGE_CLASS` accepts `standard` or `intelligent_tiering` (case-insensitive) for non-temporary external S3 Fuse tables only. `SET OPTIONS` affects future writes; existing S3 objects do not change. `UNSET OPTIONS` removes the table-level setting without reapplying the database default. For the workflow and limits, see [External Tables](/guides/data-management/external-tables#s3-storage-class).
 
 ### Examples
 

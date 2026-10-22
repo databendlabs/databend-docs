@@ -3,136 +3,61 @@ title: CREATE EXTERNAL TABLE
 sidebar_position: 2
 ---
 
-`CREATE TABLE ... CONNECTION = (...)` 语句用于创建表，并指定一个与 S3 兼容的存储桶用于数据存储，而不是使用默认的本地存储。
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-然后，fuse table engine 表将被存储在指定的 S3 兼容存储桶中。
+在自己的 S3 或 S3 兼容存储桶中创建 Fuse 表。Databend Cloud 管理普通表的存储；需要自定义存储位置时，再使用外部表。
 
-## 优势
-
-- 您可以确定表数据的存储位置。
-- 利用高性能存储，如 [Amazon S3 Express One Zone](https://aws.amazon.com/s3/storage-classes/express-one-zone/)，以提高性能。
+完整操作流程请参阅[外部表](/guides/data-management/external-tables)。
 
 ## 语法
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name (
-    <column_name> <data_type> [NOT NULL | NULL] [{ DEFAULT <expr> }],
-    <column_name> <data_type> [NOT NULL | NULL] [{ DEFAULT <expr> }],
-    ...
+    <column_name> <data_type> [, ...]
 )
-'s3://<bucket>/[<path>]'
-CONNECTION = (
-    ENDPOINT_URL = 'https://<endpoint-URL>'
-    ACCESS_KEY_ID = '<your-access-key-ID>'
-    SECRET_ACCESS_KEY = '<your-secret-access-key>'
-    REGION = '<region-name>'
-    ENABLE_VIRTUAL_HOST_STYLE = 'true' | 'false'
-)
-|
-CONNECTION = (
-    CONNECTION_NAME = '<your-connection-name>'
-);
+'s3://<bucket>/<path>/'
+CONNECTION = (CONNECTION_NAME = '<connection_name>')
+[ S3_STORAGE_CLASS = 'standard' | 'intelligent_tiering' ];
 ```
 
-连接参数：
+| 参数 | 说明 |
+|------|------|
+| `s3://<bucket>/<path>/` | 表的外部存储位置。 |
+| `CONNECTION_NAME` | 已有的存储连接。参阅 [CREATE CONNECTION](../13-connection/create-connection.md)。 |
+| `S3_STORAGE_CLASS` | 后续写入使用的可选存储类别。参阅 [S3 存储类别](#s3-storage-class)。 |
 
-| Parameter                 | Description                                                                                                                                                      | Required |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `s3://<bucket>/[<path>]`  | 文件位于指定的外部位置（类 S3 存储桶）                                                                                                                           | YES      |
-| ENDPOINT_URL              | 以 "https://" 开头的存储桶 endpoint URL。要使用以 "http://" 开头的 URL，请在文件 `databend-query-node.toml` 的 [storage] 块中将 `allow_insecure` 设置为 `true`。 | Optional |
-| ACCESS_KEY_ID             | 用于连接 AWS S3 兼容对象存储的访问密钥 ID。如果未提供，Databend 将以匿名方式访问存储桶。                                                                         | Optional |
-| SECRET_ACCESS_KEY         | 用于连接 AWS S3 兼容对象存储的密钥。                                                                                                                             | Optional |
-| REGION                    | AWS 区域名称。例如，us-east-1。                                                                                                                                  | Optional |
-| ENABLE_VIRTUAL_HOST_STYLE | 如果您使用虚拟主机来寻址存储桶，请将其设置为 "true"。                                                                                                            | Optional |
+也可以在 `CONNECTION = (...)` 中直接提供 [S3 连接参数](../../../00-sql-reference/51-connect-parameters.md)。使用命名连接可以在多个表之间复用凭证。
 
-有关 `CONNECTION_NAME` 的更多信息，请参见 [CREATE CONNECTION](../13-connection/create-connection.md)
+## S3 存储类别 {/* #s3-storage-class */}
+
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
+
+`S3_STORAGE_CLASS` 支持 `standard` 和 `intelligent_tiering`，不区分大小写。它仅适用于非临时外部 Fuse 表，且存储服务必须支持所选类别。
+
+省略此选项时，表继承数据库已设置的 `DEFAULT_S3_STORAGE_CLASS`。显式指定的表级值优先。继承仅发生在创建表时。
+
+类别选择、数据库默认值和已有表的修改方法，请参阅[选择 S3 存储类别](/guides/data-management/external-tables#s3-storage-class)。
+
+<a id="bucket-permissions"></a>
 
 ## S3 兼容存储桶策略要求
 
-外部位置 S3 存储桶必须通过 S3 存储桶策略授予以下权限：
+连接必须具有外部位置的以下权限。
 
-**只读访问权限：**
+| 访问类型 | 所需 S3 权限 |
+|----------|--------------|
+| 读取 | `s3:GetObject`, `s3:ListBucket`, `s3:ListBucketVersions`, `s3:GetObjectVersion` |
+| 写入 | `s3:PutObject`, `s3:DeleteObject`, `s3:AbortMultipartUpload`, `s3:DeleteObjectVersion` |
 
-- `s3:GetObject`：允许从存储桶读取对象。
-- `s3:ListBucket`：允许列出存储桶中的对象。
-- `s3:ListBucketVersions`：允许列出存储桶中的对象版本。
-- `s3:GetObjectVersion`：允许检索对象的特定版本。
-
-**可写访问权限：**
-
-- `s3:PutObject`：允许将对象写入存储桶。
-- `s3:DeleteObject`：允许删除存储桶中的对象。
-- `s3:AbortMultipartUpload`：允许中止分段上传。
-- `s3:DeleteObjectVersion`：允许删除对象的特定版本。
-  :::
+如果存储桶策略按存储类别限制 `s3:PutObject`，策略必须允许所选类别。Databend 检查外部位置的访问权限时会使用实际生效的类别。
 
 ## 示例
 
-:::info
-
-在使用 `SHOW CREATE TABLE` 命令之前，您需要将 `hide_options_in_show_create_table` 变量设置为 `0`。
+连接 `my_s3` 必须已存在，且具有存储桶访问权限。
 
 ```sql
-SET GLOBAL hide_options_in_show_create_table = 0;
-```
-
-:::
-
-### 创建具有外部位置的表
-
-创建一个表，并将数据存储在外部位置，例如 Amazon S3：
-
-```sql
--- 创建一个名为 `mytable` 的表，并指定位置 `s3://testbucket/admin/data/` 用于数据存储
-CREATE TABLE mytable (
-  a INT
-)
-'s3://testbucket/admin/data/'
-CONNECTION = (
-  ACCESS_KEY_ID = '<your_aws_key_id>',
-  SECRET_ACCESS_KEY = '<your_aws_secret_key>',
-  ENDPOINT_URL = 'https://s3.amazonaws.com'
-);
-
--- 显示表结构
-SHOW CREATE TABLE mytable;
-
-CREATE TABLE mytable (
-  a INT NULL
-)
-ENGINE = FUSE
-COMPRESSION = 'zstd'
-STORAGE_FORMAT = 'parquet'
-LOCATION = 's3 | bucket=testbucket,root=/admin/data/,endpoint=https://s3.amazonaws.com';
-```
-
-### 使用连接创建表
-
-或者，您可以创建一个连接并使用它来创建表：
-
-```sql
--- 为 S3 凭据创建一个名为 `s3_connection` 的连接
-CREATE CONNECTION s3_connection
-  STORAGE_TYPE = 's3'
-  SECRET_ACCESS_KEY = '<your-secret-access-key>'
-  ACCESS_KEY_ID = '<your-access-key-id>';
-
-CREATE TABLE mytable (
-  a INT
-)
-'s3://testbucket/admin/data/'
-CONNECTION = (
-  CONNECTION_NAME = 's3_connection'
-);
-
--- 显示表结构
-SHOW CREATE TABLE mytable;
-
-CREATE TABLE mytable (
-  a INT NULL
-)
-ENGINE = FUSE
-COMPRESSION = 'zstd'
-STORAGE_FORMAT = 'parquet'
-LOCATION = 's3 | bucket=testbucket,root=/admin/data/,endpoint=https://s3.amazonaws.com';
+CREATE TABLE external_events (id INT)
+    's3://mybucket/events/'
+    CONNECTION = (CONNECTION_NAME = 'my_s3')
+    S3_STORAGE_CLASS = 'intelligent_tiering';
 ```

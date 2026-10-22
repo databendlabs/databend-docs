@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.949"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 Create a database.
 
@@ -13,10 +13,7 @@ Create a database.
 
 ```sql
 CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
-    [ OPTIONS (
-        DEFAULT_STORAGE_CONNECTION = '<connection_name>',
-        DEFAULT_STORAGE_PATH = '<path>'
-    ) ]
+    [ OPTIONS ( <database_option> = '<value>' [, ...] ) ]
 
 CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
     FROM SHARE <provider_tenant>.<share_name>
@@ -28,11 +25,13 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 |:-----------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
 | `DEFAULT_STORAGE_CONNECTION` | The name of an existing connection (created via `CREATE CONNECTION`) to use as the default storage connection for tables in this database.        |
 | `DEFAULT_STORAGE_PATH`       | The default storage path URI (e.g., `s3://bucket/path/`) for tables in this database. Must end with `/` and match the connection's storage type. |
+| `DEFAULT_S3_STORAGE_CLASS`   | The default S3 storage class for new non-temporary external Fuse tables. Accepts `standard` or `intelligent_tiering` (case-insensitive). |
 | `FROM SHARE`                 | Creates a read-only shared database from a Share. `provider_tenant` is the tenant ID of the provider. See [Create a Database from a Share](#from-share). |
 
 :::note
 - `DEFAULT_STORAGE_CONNECTION` and `DEFAULT_STORAGE_PATH` must be specified together. Specifying only one is an error.
 - When both options are set, Databend validates that the connection exists, the path URI is well-formed, and the storage location is accessible.
+- `DEFAULT_S3_STORAGE_CLASS` can be set independently. It does not make tables external. New external Fuse tables inherit it unless they specify `S3_STORAGE_CLASS`. For the workflow and limits, see [External Tables](/guides/data-management/external-tables#s3-storage-class).
 :::
 
 ## Access control requirements
@@ -74,7 +73,7 @@ The following example creates a database named `test`:
 CREATE DATABASE test;
 ```
 
-### Creating a Database with a Default Storage Connection
+### Creating a Database with External Storage Defaults
 
 The following example creates a connection using an AWS IAM role and then creates a database that uses this connection as its default storage. Using an IAM role is more secure than access keys because it doesn't require storing credentials in Databend.
 
@@ -85,9 +84,14 @@ CREATE CONNECTION my_s3
 
 CREATE DATABASE analytics OPTIONS (
     DEFAULT_STORAGE_CONNECTION = 'my_s3',
-    DEFAULT_STORAGE_PATH = 's3://mybucket/analytics/'
+    DEFAULT_STORAGE_PATH = 's3://mybucket/analytics/',
+    DEFAULT_S3_STORAGE_CLASS = 'intelligent_tiering'
 );
+
+CREATE TABLE analytics.events (id INT);
 ```
+
+The table uses the database's external location and storage class. Omit `DEFAULT_S3_STORAGE_CLASS` if you do not need to select a class.
 
 ### Creating a Database from a Share
 

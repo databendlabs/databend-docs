@@ -5,7 +5,7 @@ sidebar_position: 4
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.866"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 更改数据库的名称，或为数据库设置默认存储选项。
 
@@ -17,8 +17,7 @@ ALTER DATABASE [ IF EXISTS ] <name> RENAME TO <new_db_name>
 
 -- 设置默认存储选项
 ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
-    DEFAULT_STORAGE_CONNECTION = '<connection_name>'
-  | DEFAULT_STORAGE_PATH = '<path>'
+    <database_option> = '<value>' [, ...]
 )
 ```
 
@@ -28,10 +27,12 @@ ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
 |:-----------------------------|:------------------------------------------------------------------------------------------------------------------------------|
 | `DEFAULT_STORAGE_CONNECTION` | 已有连接的名称（通过 `CREATE CONNECTION` 创建），作为该数据库中表的默认存储连接。                                               |
 | `DEFAULT_STORAGE_PATH`       | 该数据库中表的默认存储路径 URI（如 `s3://bucket/path/`），必须以 `/` 结尾，且与连接的存储类型匹配。                            |
+| `DEFAULT_S3_STORAGE_CLASS`   | 新建非临时外部 Fuse 表的默认 S3 存储类别。支持 `standard` 和 `intelligent_tiering`，不区分大小写。 |
 
 :::note
 - `SET OPTIONS` 只对执行该语句后新建的表生效，已有表不受影响。
-- 每次可以单独更新一个选项，但前提是另一个选项已在该数据库上设置。
+- 可以单独更新连接或路径，但前提是另一个选项已在该数据库上设置。
+- `DEFAULT_S3_STORAGE_CLASS` 可以单独设置。它仅适用于未显式指定 `S3_STORAGE_CLASS` 的新建非临时外部 Fuse 表。要修改已有表，使用 `ALTER TABLE ... SET OPTIONS`。示例请参阅[外部表](/guides/data-management/external-tables#s3-storage-class)。
 :::
 
 ## 示例
@@ -76,6 +77,14 @@ SHOW DATABASES;
 ALTER DATABASE analytics SET OPTIONS (
     DEFAULT_STORAGE_CONNECTION = 'my_s3',
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics_v2/'
+);
+```
+
+### 设置默认 S3 存储类别
+
+```sql
+ALTER DATABASE external_analytics SET OPTIONS (
+    DEFAULT_S3_STORAGE_CLASS = 'standard'
 );
 ```
 

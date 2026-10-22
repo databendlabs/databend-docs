@@ -21,7 +21,7 @@ You need a Databend Cloud account and access to the target organization. Availab
 
 ## Install with Your Agent
 
-Copy this message to install the skill and set up a reusable API key. Create a token in the [Cloud console](https://app.databend.com/) under **Admin → API Tokens → Access Tokens → Generate New Token**.
+Copy this message to install the skill and set up a reusable API key. Create a token in the [Cloud console](https://app.databend.com/) under **Account API Tokens → Access Tokens → Generate New Token**.
 
 ```text
 Install the databend-cloud skill:

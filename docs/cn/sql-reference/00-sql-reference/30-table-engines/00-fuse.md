@@ -4,7 +4,7 @@ title: Fuse Engine 表
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.892"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 ## 概述
 
@@ -86,6 +86,17 @@ CREATE TABLE <table_name> (
   `compression = '<compression>'`
 - **描述：**
   指定引擎的压缩方法。压缩选项包括 lz4、zstd、snappy 或 none。压缩方法在对象存储中默认为 zstd，在文件系统 (fs) 存储中默认为 lz4。
+
+---
+
+### `s3_storage_class`
+
+- **语法：**
+  `s3_storage_class = 'standard' | 'intelligent_tiering'`
+- **描述：**
+  为非临时外部 Fuse 表后续写入的数据指定 S3 存储类别，取值不区分大小写。S3 或 S3 兼容服务必须支持所选类别。内部表和临时表不接受此选项。
+
+  配置步骤、数据库默认值和示例请参阅[选择 S3 存储类别](/guides/data-management/external-tables#s3-storage-class)。
 
 ---
 

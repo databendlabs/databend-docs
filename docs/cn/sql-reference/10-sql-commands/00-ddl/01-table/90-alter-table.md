@@ -238,7 +238,11 @@ INSERT INTO events VALUES
 
 有关分区键选择、哈希分区和查询裁剪示例，请参见 [Fuse 表分区](/guides/performance/partition-by)。
 
-## Fuse 引擎选项
+<a id="fuse-引擎选项"></a>
+
+## Fuse 引擎选项 {/* #fuse-engine-options */}
+
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 用于设置或取消设置表的 [Fuse 引擎选项](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options)。
 
@@ -259,6 +263,9 @@ ALTER TABLE [ <database_name>. ]<table_name> UNSET OPTIONS (<options>)
 - `row_avg_depth_threshold`
 - `row_per_block`
 - `row_per_page`
+- `s3_storage_class`
+
+`S3_STORAGE_CLASS` 仅适用于非临时外部 S3 Fuse 表，支持 `standard` 和 `intelligent_tiering`，不区分大小写。`SET OPTIONS` 只影响后续写入，不更改已有 S3 对象。`UNSET OPTIONS` 移除表级设置，不会重新继承数据库默认值。操作流程和限制请参阅[外部表](/guides/data-management/external-tables#s3-storage-class)。
 
 ### 示例
 
