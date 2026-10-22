@@ -240,7 +240,7 @@ INSERT INTO events VALUES
 
 ## Fuse 引擎选项
 
-<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 用于设置或取消设置表的 [Fuse 引擎选项](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options)。
 

@@ -5,7 +5,7 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 The `CREATE TABLE ... CONNECTION = (...)` statement creates a Fuse table in an S3-compatible storage bucket instead of the server's default storage.
 

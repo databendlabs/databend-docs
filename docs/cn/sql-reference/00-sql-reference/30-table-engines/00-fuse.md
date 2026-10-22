@@ -4,7 +4,7 @@ title: Fuse Engine 表
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 ## 概述
 

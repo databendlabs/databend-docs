@@ -5,7 +5,7 @@ sidebar_position: 4
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 Changes the name of a database, or sets default storage options for a database.
 

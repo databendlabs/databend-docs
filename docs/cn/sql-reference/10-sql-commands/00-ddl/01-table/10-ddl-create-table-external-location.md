@@ -5,7 +5,7 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: unreleased (PR #20689)"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 `CREATE TABLE ... CONNECTION = (...)` 语句在 S3 兼容存储桶中创建 Fuse 表，而不是使用服务端默认存储。
 
