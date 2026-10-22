@@ -240,6 +240,8 @@ INSERT INTO events VALUES
 
 ## Fuse 引擎选项
 
+<FunctionDescription description="引入或更新于：v1.2.955"/>
+
 用于设置或取消设置表的 [Fuse 引擎选项](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options)。
 
 ### 语法
@@ -259,6 +261,13 @@ ALTER TABLE [ <database_name>. ]<table_name> UNSET OPTIONS (<options>)
 - `row_avg_depth_threshold`
 - `row_per_block`
 - `row_per_page`
+- `s3_storage_class`
+
+对于非临时外部 Fuse 表，可将 `S3_STORAGE_CLASS` 设置为 `standard` 或 `intelligent_tiering`，不区分大小写。此更改仅影响后续写入，不会更改已写入的表数据的存储类别。
+
+`UNSET OPTIONS(S3_STORAGE_CLASS)` 移除表级设置，不会重新继承数据库的 `DEFAULT_S3_STORAGE_CLASS`。在默认配置下，后续写入使用服务端 `[storage.s3].storage_class` 指定的类别；未配置时使用 S3 Standard。
+
+对内部表或临时表执行 `SET OPTIONS(S3_STORAGE_CLASS = ...)` 会报错。继承规则和完整限制参见 [S3 存储类别](10-ddl-create-table-external-location.md#s3-storage-class)。
 
 ### 示例
 
@@ -280,6 +289,16 @@ INSERT INTO t VALUES(2);
 INSERT INTO t VALUES(3);
 
 ALTER TABLE fuse_table UNSET OPTIONS (block_per_segment, data_retention_period_in_hours);
+```
+
+对于已存在的非临时外部 S3 Fuse 表 `external_analytics.events`：
+
+```sql
+ALTER TABLE external_analytics.events SET OPTIONS (
+    S3_STORAGE_CLASS = 'intelligent_tiering'
+);
+
+ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
 ```
 
 ## 外部表连接

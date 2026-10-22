@@ -325,6 +325,8 @@ For key selection, hash partitioning, and query-pruning examples, see [Partition
 
 ## Fuse Engine Options
 
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
+
 Sets or unsets [Fuse Engine options](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options) for a table.
 
 ### Syntax
@@ -347,6 +349,13 @@ Only the following Fuse Engine options can be unset:
 - `row_avg_depth_threshold`
 - `row_per_block`
 - `row_per_page`
+- `s3_storage_class`
+
+For a non-temporary external Fuse table, set `S3_STORAGE_CLASS` to `standard` or `intelligent_tiering` (case-insensitive). The change affects future writes only. It does not change the storage class of table data already stored in S3.
+
+`UNSET OPTIONS(S3_STORAGE_CLASS)` removes the table-level setting. It does not reapply the database's `DEFAULT_S3_STORAGE_CLASS`. With default settings, future writes use the server `[storage.s3].storage_class` configuration, or S3 Standard if not configured.
+
+For internal tables and temporary tables, `SET OPTIONS(S3_STORAGE_CLASS = ...)` returns an error. See [S3 Storage Class](10-ddl-create-table-external-location.md#s3-storage-class) for inheritance rules and all restrictions.
 
 ### Examples
 
@@ -376,6 +385,16 @@ INSERT INTO t VALUES(3);
 
 -- Revert options to defaults
 ALTER TABLE fuse_table UNSET OPTIONS (block_per_segment, data_retention_period_in_hours);
+```
+
+For an existing non-temporary external S3 Fuse table named `external_analytics.events`:
+
+```sql
+ALTER TABLE external_analytics.events SET OPTIONS (
+    S3_STORAGE_CLASS = 'intelligent_tiering'
+);
+
+ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
 ```
 
 ## External Table Connection
