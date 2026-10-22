@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.703"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 Creates a SQL user for connecting to Databend. Users must be granted appropriate privileges to access databases and perform operations.
 
@@ -28,8 +28,16 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 - `<name>`: Username (cannot contain single quotes, double quotes, backspace, or form feed characters)
 - `<auth_type>`: Authentication type - `double_sha1_password` (default), `sha256_password`, or `no_password`
 - `MUST_CHANGE_PASSWORD`: When `true`, user must change password at first login
-- `DEFAULT_ROLE`: Sets default role (role must be explicitly granted to take effect)
+- `DEFAULT_ROLE`: Sets the default role and grants it to the new user. The role must exist.
 - `DISABLED`: When `true`, user is created in disabled state and cannot log in
+
+## Default Role Behavior
+
+When you specify `DEFAULT_ROLE`, Databend checks that the role exists and grants it to the new user. You do not need a separate `GRANT ROLE` statement. The user activates this role by default at login.
+
+Creating a user requires the global `CREATE USER` privilege. Specifying `DEFAULT_ROLE` also requires the global `GRANT` privilege. If the role does not exist, the statement fails without creating or replacing the user.
+
+`CREATE USER IF NOT EXISTS` does not change an existing user's default role or grants. To change an existing user's default role, use [ALTER USER](03-user-alter-user.md). The target user must already hold that role.
 
 ## Examples
 
@@ -44,7 +52,6 @@ GRANT ALL ON *.* TO ROLE full_access_role;
 
 -- Create the user and assign the role
 CREATE USER admin_user IDENTIFIED BY 'SecurePass456!' WITH DEFAULT_ROLE = 'full_access_role';
-GRANT ROLE full_access_role TO admin_user;
 ```
 
 ### Example 2: Read-Only Access Across All Databases
@@ -58,7 +65,6 @@ GRANT SELECT ON *.* TO ROLE readonly_role;
 
 -- Create the user
 CREATE USER readonly_user IDENTIFIED BY 'ReadOnly789!' WITH DEFAULT_ROLE = 'readonly_role';
-GRANT ROLE readonly_role TO readonly_user;
 ```
 
 ### Example 3: Single-Database Access
@@ -72,17 +78,11 @@ GRANT SELECT, INSERT ON default.* TO ROLE data_analyst_role;
 
 -- Create a new user and assign the role
 CREATE USER data_analyst IDENTIFIED BY 'secure_password123' WITH DEFAULT_ROLE = 'data_analyst_role';
-GRANT ROLE data_analyst_role TO data_analyst;
 ```
 
 Verify the role and permissions:
 ```sql
 SHOW GRANTS FOR ROLE data_analyst_role;
-+-----------------------------------------------------------------+
-| Grants                                                          |
-+-----------------------------------------------------------------+
-| GRANT SELECT,INSERT ON 'default'.* TO ROLE  'data_analyst_role' |
-+-----------------------------------------------------------------+
 ```
 
 ### Example 4: Create Users with Different Authentication Types

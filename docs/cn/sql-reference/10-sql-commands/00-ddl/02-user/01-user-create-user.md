@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.703"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 创建用于连接 Databend 的 SQL 用户。用户必须被授予适当权限，才能访问数据库并执行操作。
 
@@ -28,8 +28,16 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 - `<name>`：用户名（不能包含单引号、双引号、退格符或换页符）
 - `<auth_type>`：认证类型 - `double_sha1_password`（默认）、`sha256_password` 或 `no_password`
 - `MUST_CHANGE_PASSWORD`：为 `true` 时，用户首次登录必须修改密码
-- `DEFAULT_ROLE`：设置默认角色（必须先显式授予该角色才能生效）
+- `DEFAULT_ROLE`：设置默认角色，并将该角色授予新用户。角色必须已经存在。
 - `DISABLED`：为 `true` 时，用户创建后即被禁用，无法登录
+
+## 默认角色行为
+
+指定 `DEFAULT_ROLE` 时，Databend 会检查角色是否存在，并将角色授予新用户。无需额外执行 `GRANT ROLE`。用户登录时会默认激活该角色。
+
+创建用户需要全局 `CREATE USER` 权限。指定 `DEFAULT_ROLE` 还需要全局 `GRANT` 权限。如果角色不存在，语句会失败，不会创建或替换用户。
+
+`CREATE USER IF NOT EXISTS` 不会修改已有用户的默认角色或角色授权。要修改已有用户的默认角色，请使用 [ALTER USER](03-user-alter-user.md)。目标用户必须已经持有该角色。
 
 ## 示例
 
@@ -44,7 +52,6 @@ GRANT ALL ON *.* TO ROLE full_access_role;
 
 -- 创建用户并分配角色
 CREATE USER admin_user IDENTIFIED BY 'SecurePass456!' WITH DEFAULT_ROLE = 'full_access_role';
-GRANT ROLE full_access_role TO admin_user;
 ```
 
 ### 示例 2：全库只读访问
@@ -58,7 +65,6 @@ GRANT SELECT ON *.* TO ROLE readonly_role;
 
 -- 创建用户
 CREATE USER readonly_user IDENTIFIED BY 'ReadOnly789!' WITH DEFAULT_ROLE = 'readonly_role';
-GRANT ROLE readonly_role TO readonly_user;
 ```
 
 ### 示例 3：单数据库访问
@@ -72,17 +78,11 @@ GRANT SELECT, INSERT ON default.* TO ROLE data_analyst_role;
 
 -- 创建用户并授予角色
 CREATE USER data_analyst IDENTIFIED BY 'secure_password123' WITH DEFAULT_ROLE = 'data_analyst_role';
-GRANT ROLE data_analyst_role TO data_analyst;
 ```
 
 验证角色及权限：
 ```sql
 SHOW GRANTS FOR ROLE data_analyst_role;
-+----------------------------------------------------------------+
-| Grants                                                         |
-+----------------------------------------------------------------+
-| GRANT SELECT,INSERT ON 'default'.* TO ROLE 'data_analyst_role' |
-+----------------------------------------------------------------+
 ```
 
 ### 示例 4：创建不同认证类型的用户
