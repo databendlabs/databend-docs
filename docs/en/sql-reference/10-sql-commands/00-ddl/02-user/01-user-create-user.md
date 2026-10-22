@@ -28,16 +28,16 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 - `<name>`: Username (cannot contain single quotes, double quotes, backspace, or form feed characters)
 - `<auth_type>`: Authentication type - `double_sha1_password` (default), `sha256_password`, or `no_password`
 - `MUST_CHANGE_PASSWORD`: When `true`, user must change password at first login
-- `DEFAULT_ROLE`: Sets the default role and grants it to the new user. The role must exist.
+- `DEFAULT_ROLE`: Sets the default role. The role must exist. Non-`public` roles are granted to the new user; `public` remains implicit.
 - `DISABLED`: When `true`, user is created in disabled state and cannot log in
 
 ## Default Role Behavior
 
-When you specify `DEFAULT_ROLE`, Databend checks that the role exists and grants it to the new user. You do not need a separate `GRANT ROLE` statement. The user activates this role by default at login.
+When you specify `DEFAULT_ROLE`, Databend checks that the role exists. For a non-`public` role, it also grants the role to the new user, so you do not need a separate `GRANT ROLE` statement. The user activates this role by default at login.
 
-Creating a user requires the global `CREATE USER` privilege. Specifying `DEFAULT_ROLE` also requires the global `GRANT` privilege. If the role does not exist, the statement fails without creating or replacing the user.
+Creating a user requires the global `CREATE USER` privilege. Specifying a non-`public` default role also requires the global `GRANT` privilege. `DEFAULT_ROLE = public` requires no additional `GRANT` privilege and does not add an explicit role grant, because `public` is available to every user. If the role does not exist, the statement fails without creating or replacing the user.
 
-`CREATE USER IF NOT EXISTS` does not change an existing user's default role or grants. To change an existing user's default role, use [ALTER USER](03-user-alter-user.md). The target user must already hold that role.
+`CREATE USER IF NOT EXISTS` does not change an existing user's default role or grants. To change an existing user's default role, use [ALTER USER](03-user-alter-user.md). The role must already be available to the target user through a direct grant or role inheritance, or be the implicit `public` role.
 
 ## Examples
 

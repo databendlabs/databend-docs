@@ -28,16 +28,16 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 - `<name>`：用户名（不能包含单引号、双引号、退格符或换页符）
 - `<auth_type>`：认证类型 - `double_sha1_password`（默认）、`sha256_password` 或 `no_password`
 - `MUST_CHANGE_PASSWORD`：为 `true` 时，用户首次登录必须修改密码
-- `DEFAULT_ROLE`：设置默认角色，并将该角色授予新用户。角色必须已经存在。
+- `DEFAULT_ROLE`：设置默认角色。角色必须已经存在。非 `public` 角色会授予新用户；`public` 保持隐式可用。
 - `DISABLED`：为 `true` 时，用户创建后即被禁用，无法登录
 
 ## 默认角色行为
 
-指定 `DEFAULT_ROLE` 时，Databend 会检查角色是否存在，并将角色授予新用户。无需额外执行 `GRANT ROLE`。用户登录时会默认激活该角色。
+指定 `DEFAULT_ROLE` 时，Databend 会检查角色是否存在。对于非 `public` 角色，还会将角色授予新用户，无需额外执行 `GRANT ROLE`。用户登录时会默认激活该角色。
 
-创建用户需要全局 `CREATE USER` 权限。指定 `DEFAULT_ROLE` 还需要全局 `GRANT` 权限。如果角色不存在，语句会失败，不会创建或替换用户。
+创建用户需要全局 `CREATE USER` 权限。指定非 `public` 默认角色还需要全局 `GRANT` 权限。`DEFAULT_ROLE = public` 不需要额外的 `GRANT` 权限，也不会新增显式角色授权，因为 `public` 对所有用户隐式可用。如果角色不存在，语句会失败，不会创建或替换用户。
 
-`CREATE USER IF NOT EXISTS` 不会修改已有用户的默认角色或角色授权。要修改已有用户的默认角色，请使用 [ALTER USER](03-user-alter-user.md)。目标用户必须已经持有该角色。
+`CREATE USER IF NOT EXISTS` 不会修改已有用户的默认角色或角色授权。要修改已有用户的默认角色，请使用 [ALTER USER](03-user-alter-user.md)。该角色必须通过直接授权或角色继承对目标用户可用，或为隐式可用的 `public` 角色。
 
 ## 示例
 
