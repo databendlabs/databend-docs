@@ -5,8 +5,6 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.955"/>
-
 The `CREATE TABLE ... CONNECTION = (...)` statement creates a Fuse table in an S3-compatible storage bucket instead of the server's default storage.
 
 ## Benefits
@@ -49,6 +47,8 @@ Connection parameters:
 For more information on `CONNECTION_NAME`, see [CREATE CONNECTION](../13-connection/create-connection.md)
 
 ## S3 Storage Class
+
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 Use `S3_STORAGE_CLASS` to select the S3 storage class for future writes to a non-temporary external Fuse table. Values are case-insensitive:
 

@@ -5,8 +5,6 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.955"/>
-
 `CREATE TABLE ... CONNECTION = (...)` 语句在 S3 兼容存储桶中创建 Fuse 表，而不是使用服务端默认存储。
 
 ## 优势
@@ -51,6 +49,8 @@ CONNECTION = (
 有关 `CONNECTION_NAME` 的更多信息，请参见 [CREATE CONNECTION](../13-connection/create-connection.md)
 
 ## S3 存储类别 {/* #s3-storage-class */}
+
+<FunctionDescription description="引入或更新于：v1.2.955"/>
 
 使用 `S3_STORAGE_CLASS` 为非临时外部 Fuse 表后续写入的数据指定 S3 存储类别。取值不区分大小写：
 
