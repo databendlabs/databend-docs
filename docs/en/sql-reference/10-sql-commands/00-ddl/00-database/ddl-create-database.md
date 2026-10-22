@@ -31,7 +31,7 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 :::note
 - `DEFAULT_STORAGE_CONNECTION` and `DEFAULT_STORAGE_PATH` must be specified together. Specifying only one is an error.
 - When both options are set, Databend validates that the connection exists, the path URI is well-formed, and the storage location is accessible.
-- You can set `DEFAULT_S3_STORAGE_CLASS` without the connection and path options.
+- You can set `DEFAULT_S3_STORAGE_CLASS` on its own. The database does not need `DEFAULT_STORAGE_CONNECTION` or `DEFAULT_STORAGE_PATH`.
 - A new non-temporary external Fuse table inherits `DEFAULT_S3_STORAGE_CLASS` unless it specifies `S3_STORAGE_CLASS`. This applies to explicit external locations and locations inherited from database defaults.
 - Internal tables, temporary tables, and non-Fuse engines do not inherit this storage-class default. See [S3 Storage Class](../01-table/10-ddl-create-table-external-location.md#s3-storage-class) for the restrictions.
 :::
