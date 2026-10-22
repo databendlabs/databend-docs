@@ -90,7 +90,7 @@ ALTER DATABASE external_analytics SET OPTIONS (
 );
 ```
 
-This changes the default for new non-temporary external Fuse tables only. To change an existing external table, use [ALTER TABLE ... SET OPTIONS](../01-table/90-alter-table.md#fuse-engine-options).
+Only new non-temporary external Fuse tables inherit the `DEFAULT_S3_STORAGE_CLASS` set by this statement. To change the storage class of an existing external table, use `ALTER TABLE ... SET OPTIONS` to set the table-level [`S3_STORAGE_CLASS`](../../../00-sql-reference/30-table-engines/00-fuse.md#s3_storage_class) option.
 
 ## Tag Operations
 

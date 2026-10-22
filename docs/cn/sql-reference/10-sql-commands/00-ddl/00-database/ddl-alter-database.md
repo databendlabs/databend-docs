@@ -90,7 +90,7 @@ ALTER DATABASE external_analytics SET OPTIONS (
 );
 ```
 
-此操作仅更改新建非临时外部 Fuse 表的默认值。要更改已有外部表，请使用 [ALTER TABLE ... SET OPTIONS](../01-table/90-alter-table.md#fuse-引擎选项)。
+此操作设置的 `DEFAULT_S3_STORAGE_CLASS` 仅供新建非临时外部 Fuse 表继承。要更改已有外部表的存储类别，请使用 `ALTER TABLE ... SET OPTIONS` 设置表级选项 [`S3_STORAGE_CLASS`](../../../00-sql-reference/30-table-engines/00-fuse.md#s3_storage_class)。
 
 ## Tag 操作
 
