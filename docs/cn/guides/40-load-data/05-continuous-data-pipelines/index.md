@@ -14,6 +14,7 @@ title: 持续数据管道
 - [示例 3：增量 Join](./01-stream.md#示例-3增量-join--计算) – 使用 `WITH CONSUME` 做批式增量聚合。
 - [示例 1：定时 COPY 任务](./02-task.md#示例-1定时-copy) – 两个任务生成并导入 Parquet。
 - [示例 2：Stream 条件任务](./02-task.md#示例-2基于-stream-的条件任务) – 只有 Stream 有增量时才触发。
+- [动态表](./03-dynamic-table.md) – 存储关联查询的结果，并通过显式全量刷新重建。动态表不消费 CDC 变更，也不会自动刷新。
 
 ## 为什么选择 Databend CDC
 

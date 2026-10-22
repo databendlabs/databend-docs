@@ -14,6 +14,7 @@ Build end-to-end change data capture (CDC) flows in Databend with two primitives
 - [Example 3: Incremental Stream Metrics](./01-stream.md#example-3-incremental-stream-metrics) – join multiple streams with `WITH CONSUME` to compute deltas batch by batch.
 - [Example 1: Scheduled Copy Task](./02-task.md#example-1-scheduled-copy) – generate and load files with two recurring tasks.
 - [Example 2: Stream-Triggered Merge](./02-task.md#example-2-stream-triggered-merge) – fire a task only when `STREAM_STATUS` is true.
+- [Dynamic Tables](./03-dynamic-table.md) – store a joined query result and rebuild it with explicit full refresh. Dynamic tables do not consume CDC changes or refresh automatically.
 
 ## Why CDC in Databend
 
