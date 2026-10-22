@@ -46,7 +46,7 @@ AS <query>
 - 源表无需启用变更跟踪。
 - 不支持索引定义、列约束和表约束。
 - 不支持 `TARGET_LAG` 和 `WAREHOUSE`，指定这些选项会报错。创建和刷新在调用者的会话中执行。
-- 不支持 `REFRESH_MODE` 和 `INITIALIZE` 语法。创建时始终物化初始结果。刷新时始终重建完整结果。
+- 不支持 `REFRESH_MODE` 和 `INITIALIZE` 选项。创建时始终物化初始结果。刷新时始终重建完整结果。
 - 禁止直接修改数据，包括 `INSERT`、`UPDATE`、`DELETE`、`MERGE`、`REPLACE` 和 `TRUNCATE`。也不能使用 `ALTER TABLE` 添加或删除列。
 - 如需修改定义查询，请使用 `CREATE OR REPLACE DYNAMIC TABLE`。
 

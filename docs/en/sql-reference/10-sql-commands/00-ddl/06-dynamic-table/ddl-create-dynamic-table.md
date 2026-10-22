@@ -46,7 +46,7 @@ Unqualified source names resolve in the session's current database at creation, 
 - Source tables do not require change tracking.
 - Index definitions and column or table constraints are not supported.
 - `TARGET_LAG` and `WAREHOUSE` are not supported and are rejected. Creation and refresh run in the caller's session.
-- `REFRESH_MODE` and `INITIALIZE` are not supported syntax. Creation always materializes the initial result. Refresh always rebuilds the complete result.
+- The `REFRESH_MODE` and `INITIALIZE` options are not supported. Creation always materializes the initial result. Refresh always rebuilds the complete result.
 - Direct data changes are blocked. This includes `INSERT`, `UPDATE`, `DELETE`, `MERGE`, `REPLACE`, and `TRUNCATE`. Adding or dropping columns with `ALTER TABLE` is also blocked.
 - To change the defining query, use `CREATE OR REPLACE DYNAMIC TABLE`.
 
