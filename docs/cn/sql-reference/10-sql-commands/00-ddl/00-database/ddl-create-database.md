@@ -32,7 +32,7 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 - `DEFAULT_STORAGE_CONNECTION` 与 `DEFAULT_STORAGE_PATH` 必须同时指定，单独指定其中一个会报错。
 - 两个选项均设置时，Databend 会验证连接是否存在、路径 URI 格式是否正确，以及存储位置是否可访问。
 - `DEFAULT_S3_STORAGE_CLASS` 可以单独设置，不要求数据库同时配置 `DEFAULT_STORAGE_CONNECTION` 和 `DEFAULT_STORAGE_PATH`。
-- 新建非临时外部 Fuse 表时，如果未指定 `S3_STORAGE_CLASS`，表会继承 `DEFAULT_S3_STORAGE_CLASS`。显式指定的外部位置和从数据库默认选项继承的外部位置均适用。
+- 新建非临时外部 Fuse 表时，如果未指定 [`S3_STORAGE_CLASS`](../01-table/10-ddl-create-table-external-location.md#s3-storage-class)，表会继承 `DEFAULT_S3_STORAGE_CLASS`。显式指定的外部位置和从数据库默认选项继承的外部位置均适用。
 - 内部表、临时表和非 Fuse 引擎不会继承此存储类别默认值。限制说明参见 [S3 存储类别](../01-table/10-ddl-create-table-external-location.md#s3-storage-class)。
 :::
 

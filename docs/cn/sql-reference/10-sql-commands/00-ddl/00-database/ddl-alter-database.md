@@ -33,7 +33,7 @@ ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
 - `SET OPTIONS` 只对执行该语句后新建的表生效，已有表不受影响。
 - 可以单独更新连接或路径，但前提是另一个选项已在该数据库上设置。
 - `DEFAULT_S3_STORAGE_CLASS` 可以单独设置，不要求数据库同时配置 `DEFAULT_STORAGE_CONNECTION` 和 `DEFAULT_STORAGE_PATH`。
-- 新建非临时外部 Fuse 表时，如果未指定 `S3_STORAGE_CLASS`，表会继承 `DEFAULT_S3_STORAGE_CLASS`。显式指定的外部位置和从数据库继承的外部位置均适用。
+- 新建非临时外部 Fuse 表时，如果未指定 [`S3_STORAGE_CLASS`](../01-table/10-ddl-create-table-external-location.md#s3-storage-class)，表会继承 `DEFAULT_S3_STORAGE_CLASS`。显式指定的外部位置和从数据库继承的外部位置均适用。
 - 更改 `DEFAULT_S3_STORAGE_CLASS` 不会更改已有表的 `S3_STORAGE_CLASS` 选项，也不会更改已写入的表数据的存储类别。
 :::
 

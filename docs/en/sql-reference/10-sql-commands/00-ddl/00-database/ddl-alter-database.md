@@ -33,7 +33,7 @@ ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
 - `SET OPTIONS` only affects tables created after the statement is executed. Existing tables are not changed.
 - You can update the connection or path separately if the other option already exists on the database.
 - You can set `DEFAULT_S3_STORAGE_CLASS` on its own. The database does not need `DEFAULT_STORAGE_CONNECTION` or `DEFAULT_STORAGE_PATH`.
-- New non-temporary external Fuse tables inherit `DEFAULT_S3_STORAGE_CLASS` unless they specify `S3_STORAGE_CLASS`. Explicit external locations and database-inherited locations both qualify.
+- New non-temporary external Fuse tables inherit `DEFAULT_S3_STORAGE_CLASS` unless they specify [`S3_STORAGE_CLASS`](../01-table/10-ddl-create-table-external-location.md#s3-storage-class). Explicit external locations and database-inherited locations both qualify.
 - Changing `DEFAULT_S3_STORAGE_CLASS` does not change the `S3_STORAGE_CLASS` option of existing tables or the storage class of table data already stored in S3.
 :::
 
