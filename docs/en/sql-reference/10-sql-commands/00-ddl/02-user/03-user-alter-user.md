@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.566"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 Modifies a user account, including:
 
@@ -52,7 +52,11 @@ ALTER USER <name> WITH UNSET WORKLOAD GROUP
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
 - When `MUST_CHANGE_PASSWORD` is set to `true`, the user must change their password at the next login. Please note that this takes effect only for users who have never changed their password since their account was created. If a user has ever changed their password themselves, then they do not need to change it again.
-- When you set a default role for a user using [CREATE USER](01-user-create-user.md) or ALTER USER, Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
+- `ALTER USER ... WITH DEFAULT_ROLE` checks that the role exists and is already available to the target user through a direct grant or role inheritance, matching the role availability checks at login and in `SET ROLE`. It does not add a direct grant. If either check fails, the entire statement fails without changing the user, even if the executing user has the `GRANT` privilege.
+- Changing the default role requires the global `ALTER` privilege. It does not require the `GRANT` privilege. Granting a missing role is a separate operation that requires `GRANT`.
+- Changing the default role keeps all existing role grants. The built-in role `public` is available to every user and does not require an explicit grant. Selecting it does not add a role grant.
+- Reassigning the same default role still checks that the role exists and is available to the target user. Password changes and other unrelated updates do not restore a revoked default-role grant.
+- Unlike `ALTER USER`, [CREATE USER](01-user-create-user.md) grants the specified non-`public` default role when it creates the user. Both commands keep `public` implicit.
 - `DISABLED` allows you to enable or disable a user. Disabled users cannot log in to Databend until they are enabled. Click [here](01-user-create-user.md#example-5-creating-user-in-disabled-state) to see an example.
 
 
@@ -110,33 +114,34 @@ ALTER USER user1 WITH UNSET NETWORK POLICY;
 
 ### Example 3: Setting Default Role
 
-1. Create a user named "user1" and set the default role as "writer":
+1. Create `developer`, which inherits `writer`, and grant `developer` to the user. The inherited `writer` role can be selected as the default without granting it directly:
 
 ```sql title='Connect as user "root":'
-
+CREATE ROLE developer;
+CREATE ROLE writer;
+GRANT ROLE writer TO ROLE developer;
 CREATE USER user1 IDENTIFIED BY 'abc123';
 
-GRANT ROLE developer TO user1;
-
-GRANT ROLE writer TO user1;
+GRANT ROLE developer TO USER user1;
 
 ALTER USER user1 WITH DEFAULT_ROLE = 'writer';
 ```
 
+The user's only direct role grant remains `developer`; `ALTER USER` sets the default to the inherited `writer` role without adding a grant. If `writer` is neither directly granted nor reachable through role inheritance, the statement fails.
+
 2. Verify the default role of user "user1" using the [SHOW ROLES](04-user-show-roles.md) command:
 
-```sql title='Connect as user "user1":'
-eric@Erics-iMac ~ % bendsql --user user1 --password abc123
-show roles;
-┌───────────────────────────────────────────────────────┐
-│    name   │ inherited_roles │ is_current │ is_default │
-│   String  │      UInt64     │   Boolean  │   Boolean  │
-├───────────┼─────────────────┼────────────┼────────────┤
-│ developer │               0 │ false      │ false      │
-│ public    │               0 │ false      │ false      │
-│ writer    │               0 │ true       │ true       │
-└───────────────────────────────────────────────────────┘
+Connect again as `user1`:
+
+```bash
+bendsql --user user1 --password abc123
 ```
+
+```sql
+SHOW ROLES;
+```
+
+The `writer` row has `is_current` and `is_default` set to `true`. The list still includes `developer`.
 
 ### Example 2: Setting & Unsetting Workload Group
 
