@@ -52,7 +52,7 @@ CONNECTION = (
 
 ## S3 存储类别 {/* #s3-storage-class */}
 
-使用 `S3_STORAGE_CLASS` 为非临时外部 Fuse 表的新对象指定 S3 存储类别。取值不区分大小写：
+使用 `S3_STORAGE_CLASS` 为非临时外部 Fuse 表后续写入的数据指定 S3 存储类别。表数据在 S3 中以对象（S3 Object）形式存储。取值不区分大小写：
 
 | 值 | S3 存储类别 |
 |----|-------------|
@@ -67,8 +67,9 @@ CONNECTION = (
 - 新建非临时外部 Fuse 表时，表会将此默认值复制到表选项中。显式指定的外部位置和从数据库默认连接及路径继承的外部位置均适用。
 - 显式指定的 `S3_STORAGE_CLASS` 优先于数据库默认值。
 - 后续更改数据库默认值不会影响已有表。
-- `ALTER TABLE ... SET OPTIONS` 仅更改后续写入的存储类别。已有对象的存储类别保持不变。
-- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` 移除已保存的覆盖值，包括继承的值。此操作不会重新应用当前数据库默认值。
+- `ALTER TABLE ... SET OPTIONS` 仅更改后续写入的存储类别，不会更改已写入的表数据的存储类别。
+- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` 删除表的 `S3_STORAGE_CLASS` 选项，无论该值是显式设置的，还是从数据库继承的。数据库默认值只在创建表时复制到表选项中，不会在每次写入时重新读取。`UNSET` 不会让表恢复使用当前数据库默认值；后续写入不再通过此表选项指定存储类别。
+- 如果要确保后续写入使用某个存储类别，请使用 `SET OPTIONS` 显式设置该类别，而不是使用 `UNSET`。
 
 ### 限制
 
@@ -158,7 +159,7 @@ ALTER TABLE external_analytics.events SET OPTIONS (
 ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
 ```
 
-创建表时，显式指定的 `standard` 会覆盖数据库默认值。如果省略此表选项，表会继承 `intelligent_tiering`。`SET OPTIONS` 只影响新对象。`UNSET OPTIONS` 移除覆盖值，但不会再次复制数据库默认值。
+创建表时，显式指定的 `standard` 会覆盖数据库默认值。如果省略此表选项，表会继承 `intelligent_tiering`。`SET OPTIONS` 只影响后续写入，不会更改已写入的表数据的存储类别。最后的 `UNSET OPTIONS` 删除表的 `S3_STORAGE_CLASS` 选项，不会恢复数据库的 `intelligent_tiering` 默认值，也不等同于设置为 `standard`。要确保后续写入使用 S3 Standard，请显式执行 `ALTER TABLE external_analytics.events SET OPTIONS(S3_STORAGE_CLASS = 'standard')`。
 
 ### 使用连接创建表
 

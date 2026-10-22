@@ -94,11 +94,15 @@ CREATE TABLE <table_name> (
 - **语法：**
   `s3_storage_class = 'standard' | 'intelligent_tiering'`
 - **描述：**
-  为非临时外部 Fuse 表的新对象指定 S3 存储类别，取值不区分大小写。此选项仅对 S3 及 S3 兼容存储生效。存储服务必须支持所选的存储类别。
+  为非临时外部 Fuse 表后续写入的数据指定 S3 存储类别，取值不区分大小写。此选项仅对 S3 及 S3 兼容存储生效。存储服务必须支持所选的存储类别。
 
   显式指定的表级值优先于数据库的 [`DEFAULT_S3_STORAGE_CLASS`](../../10-sql-commands/00-ddl/00-database/ddl-create-database.md#参数)。省略此选项时，新建外部表会继承已设置的数据库默认值。后续更改数据库默认值不会影响已有表。
 
-  使用 `ALTER TABLE ... SET OPTIONS` 更改后续写入的存储类别。已有对象的存储类别保持不变。`UNSET OPTIONS(S3_STORAGE_CLASS)` 移除已保存的值，但不会重新应用数据库默认值。
+  使用 `ALTER TABLE ... SET OPTIONS` 更改后续写入的存储类别。此操作不会更改已写入的表数据的存储类别。
+
+  `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` 删除表的 `S3_STORAGE_CLASS` 选项，无论该值是在表上显式设置的，还是在创建表时从数据库继承的。数据库默认值只在创建表时复制到表选项中，不会在每次写入时重新读取。因此，`UNSET` 不会让表恢复使用当前数据库默认值；后续写入不再通过此表选项指定存储类别。
+
+  如果要确保后续写入使用 S3 Standard，请显式执行 `ALTER TABLE ... SET OPTIONS(S3_STORAGE_CLASS = 'standard')`，而不是使用 `UNSET`。
 
   内部表和临时表不接受此选项。内部 S3 表使用服务端 `[storage.s3].storage_class` 配置。示例和限制参见 [S3 存储类别](../../10-sql-commands/00-ddl/01-table/10-ddl-create-table-external-location.md#s3-storage-class)。
 

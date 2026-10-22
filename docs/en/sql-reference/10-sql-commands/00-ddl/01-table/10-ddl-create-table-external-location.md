@@ -50,7 +50,7 @@ For more information on `CONNECTION_NAME`, see [CREATE CONNECTION](../13-connect
 
 ## S3 Storage Class
 
-Use `S3_STORAGE_CLASS` to select the S3 storage class for new objects in a non-temporary external Fuse table. Values are case-insensitive:
+Use `S3_STORAGE_CLASS` to select the S3 storage class for future writes to a non-temporary external Fuse table. Table data is stored as S3 objects. Values are case-insensitive:
 
 | Value | S3 storage class |
 |-------|------------------|
@@ -65,8 +65,9 @@ This option applies only to S3 and S3-compatible storage. The storage service mu
 - A new non-temporary external Fuse table copies this default into its table options. This applies to explicit external locations and locations inherited from the database connection and path defaults.
 - An explicit `S3_STORAGE_CLASS` takes priority over the database default.
 - Later changes to the database default do not affect existing tables.
-- `ALTER TABLE ... SET OPTIONS` changes the class for future writes only. Existing objects keep their storage class.
-- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` removes the stored override, including an inherited value. It does not reapply the current database default.
+- `ALTER TABLE ... SET OPTIONS` changes the class for future writes only. It does not change the storage class of table data already stored in S3.
+- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` deletes the table's `S3_STORAGE_CLASS` option. It removes both explicitly set values and values inherited from the database. The database default is copied into the table options only at creation. It is not read again for each write. `UNSET` does not restore the current database default. Future writes no longer select a storage class through this table option.
+- To ensure that future writes use a specific storage class, set that class explicitly with `SET OPTIONS` instead of `UNSET`.
 
 ### Restrictions
 
@@ -152,7 +153,7 @@ ALTER TABLE external_analytics.events SET OPTIONS (
 ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
 ```
 
-The explicit `standard` value overrides the database default at creation. Without that table option, the table inherits `intelligent_tiering`. `SET OPTIONS` affects only new objects. `UNSET OPTIONS` removes the override without copying the database default again.
+The explicit `standard` value overrides the database default at creation. Without that table option, the table inherits `intelligent_tiering`. `SET OPTIONS` affects future writes only. It does not change the storage class of table data already stored in S3. The final `UNSET OPTIONS` deletes the table's `S3_STORAGE_CLASS` option. It does not restore the database's `intelligent_tiering` default or set the class to `standard`. To ensure that future writes use S3 Standard, explicitly run `ALTER TABLE external_analytics.events SET OPTIONS(S3_STORAGE_CLASS = 'standard')`.
 
 ### Create a Table Using a Connection
 
