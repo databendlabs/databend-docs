@@ -12,6 +12,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 :::note
 结果中的 `true`（`has_data`）**并不**确保一定存在变更数据捕获记录。其他操作，例如执行表压缩操作，也可能导致 `true` 值，即使实际上没有变更数据捕获记录。
+
+早于 `v1.2.933-nightly` 的 query，在查询后续版本创建的 stream 状态时，也可能误报 `true`。这是因为创建 stream 时自动开启了源表的 change tracking。此时读取仍返回零行，依赖该状态的 task 可能空跑。
 :::
 
 :::note

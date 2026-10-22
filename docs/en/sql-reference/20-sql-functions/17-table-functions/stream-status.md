@@ -12,6 +12,8 @@ Provides information about the status of a specified stream, yielding a single-c
 
 :::note
 The presence of a `true` in the result (`has_data`) does **not** ensure the definite existence of change data capture records. Other operations, such as performing a table compact operation, could also lead to a `true` value even when there are no actual change data capture records.
+
+Query versions earlier than `v1.2.933-nightly` may also incorrectly report `true` for streams created by newer versions. This can happen when stream creation automatically enables change tracking on the source table. Reading the stream still returns zero rows, but a task triggered by this status may run without processing any data.
 :::
 
 :::note
