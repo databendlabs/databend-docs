@@ -11,6 +11,7 @@ title: 表
 | [CREATE TABLE](10-ddl-create-table.md) | 使用指定的列和选项创建新表 |
 | [CREATE TABLE ... LIKE](10-ddl-create-table.md#create-table--like) | 创建与现有表具有相同列定义的表 |
 | [CREATE TABLE ... AS](10-ddl-create-table.md#create-table--as) | 根据 SELECT 查询结果创建表并插入数据 |
+| [CREATE DYNAMIC TABLE](../06-dynamic-table/ddl-create-dynamic-table.md) | 存储查询结果，并支持显式全量刷新 |
 | [CREATE TRANSIENT TABLE](10-ddl-create-transient-table.md) | 创建不支持 Time Travel 的表 |
 | [CREATE EXTERNAL TABLE](10-ddl-create-table-external-location.md) | 创建数据存储在指定外部位置的表 |
 | [ATTACH TABLE](92-attach-table.md) | 通过与现有表关联创建表 |

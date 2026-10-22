@@ -11,6 +11,7 @@ This page provides a comprehensive overview of table operations in Databend, org
 | [CREATE TABLE](10-ddl-create-table.md) | Creates a new table with specified columns and options |
 | [CREATE TABLE ... LIKE](10-ddl-create-table.md#create-table--like) | Creates a table with the same column definitions as an existing one |
 | [CREATE TABLE ... AS](10-ddl-create-table.md#create-table--as) | Creates a table and inserts data based on the results of a SELECT query |
+| [CREATE DYNAMIC TABLE](../06-dynamic-table/ddl-create-dynamic-table.md) | Stores a query result that can be rebuilt with explicit full refresh |
 | [CREATE TRANSIENT TABLE](10-ddl-create-transient-table.md) | Creates a table without Time Travel support |
 | [CREATE EXTERNAL TABLE](10-ddl-create-table-external-location.md) | Creates a table with data stored in a specified external location |
 | [ATTACH TABLE](92-attach-table.md) | Creates a table by associating it with an existing table |
