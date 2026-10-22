@@ -11,8 +11,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 创建时会执行查询并存储结果。源表变更不会自动更新该结果。当应用需要更新的数据时，执行 `REFRESH DYNAMIC TABLE` 重新计算结果。
 
-:::caution
-当前实现仅支持显式全量刷新，尚未达到生产就绪状态。没有内置调度器，也不保证最大数据延迟。如果每次读取都必须反映当前源数据，请勿使用动态表。
+:::note
+你可以自行决定动态表的刷新时机。在数据加载后，或报表需要更新结果之前，执行 `REFRESH DYNAMIC TABLE`。如需定期刷新，可以由应用程序或外部调度器执行此命令。每次刷新都会重建完整结果。
 :::
 
 ## 1. 准备源表

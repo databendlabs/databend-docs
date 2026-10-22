@@ -11,8 +11,8 @@ Use a dynamic table to store a reusable query result from one or more FUSE table
 
 Creation runs the query and stores its result. Source changes do not update that result automatically. Run `REFRESH DYNAMIC TABLE` to rebuild it when your application needs newer data.
 
-:::caution
-This implementation supports explicit full refresh only and is not yet production-ready. There is no built-in scheduler or maximum staleness guarantee. Do not use a dynamic table when every read must reflect current source data.
+:::note
+You control when a dynamic table refreshes. Run `REFRESH DYNAMIC TABLE` after a data load or before a report needs updated results. For periodic refresh, have your application or an external scheduler issue the command. Each refresh rebuilds the complete result.
 :::
 
 ## 1. Prepare the source tables

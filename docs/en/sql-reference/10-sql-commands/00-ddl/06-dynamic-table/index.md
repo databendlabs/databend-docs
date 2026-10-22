@@ -8,8 +8,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 A dynamic table stores the result of a query in Fuse storage. The query can join multiple source tables and aggregate their data. Creation populates the table. Later changes to source tables become visible only after an explicit full refresh.
 
-:::caution
-Dynamic tables currently support explicit full refresh only. They have no built-in refresh schedule or freshness guarantee. Stored results can remain stale indefinitely. The current implementation is not yet production-ready.
+:::note
+Dynamic tables support manual full refresh. Run `REFRESH DYNAMIC TABLE` to update the stored result after source data changes. For periodic refresh, issue this command from your application or an external scheduler. Between refreshes, queries return the last stored result.
 :::
 
 ## Commands
