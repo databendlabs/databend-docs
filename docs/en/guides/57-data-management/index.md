@@ -6,6 +6,7 @@ title: Data Management
 
 | Category | Description | Key Features | Common Operations |
 |----------|-------------|--------------|------------------|
+| **[External Tables](./07-external-tables.md)** | Store tables in your own S3 bucket | • Storage connections<br/>• S3 storage classes<br/>• Database defaults | • CREATE TABLE ... CONNECTION<br/>• S3_STORAGE_CLASS<br/>• DEFAULT_S3_STORAGE_CLASS |
 | **[Data Lifecycle](./01-data-lifecycle.md)** | Create and manage objects | • Database & Table <br/>• External Tables<br/>• Streams & Views<br/>• Indexes & Stages | • CREATE/DROP/ALTER<br/>• SHOW TABLES<br/>• DESCRIBE TABLE |
 | **[Data Recovery](./02-data-recovery.md)** | Access and restore past data | • Time Travel<br/>• Flashback Tables<br/>• Backup & Restore<br/>• AT & UNDROP | • SELECT ... AT<br/>• FLASHBACK TABLE<br/>• BENDSAVE BACKUP |
 | **[Data Protection](./03-data-protection.md)** | Secure access and prevent loss | • Network Policies<br/>• Access Control<br/>• Time Travel & Fail-safe<br/>• Data Encryption | • NETWORK POLICY<br/>• GRANT/REVOKE<br/>• USER/ROLE |
