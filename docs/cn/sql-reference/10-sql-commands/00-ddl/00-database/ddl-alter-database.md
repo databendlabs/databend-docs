@@ -5,7 +5,7 @@ sidebar_position: 4
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.955"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 更改数据库的名称，或为数据库设置默认存储选项。
 
@@ -32,9 +32,7 @@ ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
 :::note
 - `SET OPTIONS` 只对执行该语句后新建的表生效，已有表不受影响。
 - 可以单独更新连接或路径，但前提是另一个选项已在该数据库上设置。
-- `DEFAULT_S3_STORAGE_CLASS` 可以单独设置，不要求数据库同时配置 `DEFAULT_STORAGE_CONNECTION` 和 `DEFAULT_STORAGE_PATH`。
-- 新建非临时外部 Fuse 表时，如果未指定 [`S3_STORAGE_CLASS`](../01-table/10-ddl-create-table-external-location.md#s3-storage-class)，表会继承 `DEFAULT_S3_STORAGE_CLASS`。显式指定的外部位置和从数据库继承的外部位置均适用。
-- 更改 `DEFAULT_S3_STORAGE_CLASS` 不会更改已有表的 `S3_STORAGE_CLASS` 选项，也不会更改已写入的表数据的存储类别。
+- `DEFAULT_S3_STORAGE_CLASS` 可以单独设置。它仅适用于未显式指定 `S3_STORAGE_CLASS` 的新建非临时外部 Fuse 表。要修改已有表，使用 `ALTER TABLE ... SET OPTIONS`。示例请参阅[外部表](/guides/data-management/external-tables#s3-storage-class)。
 :::
 
 ## 示例
@@ -89,8 +87,6 @@ ALTER DATABASE external_analytics SET OPTIONS (
     DEFAULT_S3_STORAGE_CLASS = 'standard'
 );
 ```
-
-此操作设置的 `DEFAULT_S3_STORAGE_CLASS` 仅供新建非临时外部 Fuse 表继承。要更改已有外部表的存储类别，请使用 `ALTER TABLE ... SET OPTIONS` 设置表级选项 [`S3_STORAGE_CLASS`](../../../00-sql-reference/30-table-engines/00-fuse.md#s3_storage_class)。
 
 ## Tag 操作
 

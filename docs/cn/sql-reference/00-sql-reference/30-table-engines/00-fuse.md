@@ -4,7 +4,7 @@ title: Fuse Engine 表
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.955"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 ## 概述
 
@@ -94,15 +94,9 @@ CREATE TABLE <table_name> (
 - **语法：**
   `s3_storage_class = 'standard' | 'intelligent_tiering'`
 - **描述：**
-  为非临时外部 Fuse 表后续写入的数据指定 S3 存储类别，取值不区分大小写。此选项仅对 S3 及 S3 兼容存储生效。存储服务必须支持所选的存储类别。
+  为非临时外部 Fuse 表后续写入的数据指定 S3 存储类别，取值不区分大小写。S3 或 S3 兼容服务必须支持所选类别。内部表和临时表不接受此选项。
 
-  - **创建表：** 显式设置的值优先于数据库的 [`DEFAULT_S3_STORAGE_CLASS`](../../10-sql-commands/00-ddl/00-database/ddl-create-database.md#参数)。未设置时，新建外部表继承该数据库选项的值。后续更改 `DEFAULT_S3_STORAGE_CLASS` 不影响已有表。
-  - **更改存储类别：** 使用 `ALTER TABLE ... SET OPTIONS`。更改仅影响后续写入，不会更改已写入的表数据的存储类别。
-  - **移除表级设置：** 使用 `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)`。此操作不会重新继承 `DEFAULT_S3_STORAGE_CLASS`。在默认配置下，后续写入使用服务端 `[storage.s3].storage_class` 指定的类别；未配置时使用 S3 Standard。
-
-  对内部表或临时表显式设置此选项会报错。
-
-  示例和完整限制参见 [S3 存储类别](../../10-sql-commands/00-ddl/01-table/10-ddl-create-table-external-location.md#s3-storage-class)。
+  配置步骤、数据库默认值和示例请参阅[选择 S3 存储类别](/guides/data-management/external-tables#s3-storage-class)。
 
 ---
 

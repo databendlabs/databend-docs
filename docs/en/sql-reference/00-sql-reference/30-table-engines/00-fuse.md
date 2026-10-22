@@ -87,15 +87,9 @@ Below are the available Fuse Engine options, grouped by their purpose:
 - **Syntax:**
   `s3_storage_class = 'standard' | 'intelligent_tiering'`
 - **Description:**
-  Selects the S3 storage class for future writes to a non-temporary external Fuse table. Values are case-insensitive. This option applies only to S3 and S3-compatible storage. The storage service must support the selected storage class.
+  Selects the S3 storage class for future writes to a non-temporary external Fuse table. Values are case-insensitive. The S3 or S3-compatible service must support the selected class. Internal tables and temporary tables reject this option.
 
-  - **Create a table:** An explicit value overrides the database [`DEFAULT_S3_STORAGE_CLASS`](../../10-sql-commands/00-ddl/00-database/ddl-create-database.md#parameters). If omitted, a new external table inherits that database option when set. Later changes to `DEFAULT_S3_STORAGE_CLASS` do not affect existing tables.
-  - **Change the storage class:** Use `ALTER TABLE ... SET OPTIONS`. The change affects future writes only. It does not change the storage class of table data already stored in S3.
-  - **Remove the table-level setting:** Use `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)`. This does not reapply `DEFAULT_S3_STORAGE_CLASS`. With default settings, future writes use the server `[storage.s3].storage_class` configuration, or S3 Standard if not configured.
-
-  Explicitly setting this option on an internal or temporary table returns an error.
-
-  See [S3 Storage Class](../../10-sql-commands/00-ddl/01-table/10-ddl-create-table-external-location.md#s3-storage-class) for examples and all restrictions.
+  For setup, database defaults, and examples, see [Choose an S3 Storage Class](/guides/data-management/external-tables#s3-storage-class).
 
 ---
 

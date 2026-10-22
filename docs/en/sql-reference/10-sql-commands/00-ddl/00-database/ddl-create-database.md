@@ -31,9 +31,7 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 :::note
 - `DEFAULT_STORAGE_CONNECTION` and `DEFAULT_STORAGE_PATH` must be specified together. Specifying only one is an error.
 - When both options are set, Databend validates that the connection exists, the path URI is well-formed, and the storage location is accessible.
-- You can set `DEFAULT_S3_STORAGE_CLASS` on its own. The database does not need `DEFAULT_STORAGE_CONNECTION` or `DEFAULT_STORAGE_PATH`.
-- A new non-temporary external Fuse table inherits `DEFAULT_S3_STORAGE_CLASS` unless it specifies [`S3_STORAGE_CLASS`](../01-table/10-ddl-create-table-external-location.md#s3-storage-class). This applies to explicit external locations and locations inherited from database defaults.
-- Internal tables, temporary tables, and non-Fuse engines do not inherit this storage-class default. See [S3 Storage Class](../01-table/10-ddl-create-table-external-location.md#s3-storage-class) for the restrictions.
+- `DEFAULT_S3_STORAGE_CLASS` can be set independently. It does not make tables external. New external Fuse tables inherit it unless they specify `S3_STORAGE_CLASS`. For the workflow and limits, see [External Tables](/guides/data-management/external-tables#s3-storage-class).
 :::
 
 ## Access control requirements
@@ -75,7 +73,7 @@ The following example creates a database named `test`:
 CREATE DATABASE test;
 ```
 
-### Creating a Database with a Default Storage Connection
+### Creating a Database with External Storage Defaults
 
 The following example creates a connection using an AWS IAM role and then creates a database that uses this connection as its default storage. Using an IAM role is more secure than access keys because it doesn't require storing credentials in Databend.
 
@@ -86,19 +84,14 @@ CREATE CONNECTION my_s3
 
 CREATE DATABASE analytics OPTIONS (
     DEFAULT_STORAGE_CONNECTION = 'my_s3',
-    DEFAULT_STORAGE_PATH = 's3://mybucket/analytics/'
-);
-```
-
-### Creating a Database with a Default S3 Storage Class
-
-This default applies to new non-temporary external Fuse tables. It does not make tables external. Specify an external location when you create a table, or configure the database connection and path defaults.
-
-```sql
-CREATE OR REPLACE DATABASE external_analytics OPTIONS (
+    DEFAULT_STORAGE_PATH = 's3://mybucket/analytics/',
     DEFAULT_S3_STORAGE_CLASS = 'intelligent_tiering'
 );
+
+CREATE TABLE analytics.events (id INT);
 ```
+
+The table uses the database's external location and storage class. Omit `DEFAULT_S3_STORAGE_CLASS` if you do not need to select a class.
 
 ### Creating a Database from a Share
 
