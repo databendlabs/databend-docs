@@ -59,22 +59,24 @@ Use `S3_STORAGE_CLASS` to select the S3 storage class for future writes to a non
 
 This option applies only to S3 and S3-compatible storage. The storage service must support the selected storage class.
 
-### Database default and table override
+### Database default storage class and table override
 
 - Set `DEFAULT_S3_STORAGE_CLASS` with [CREATE DATABASE](../00-database/ddl-create-database.md) or [ALTER DATABASE](../00-database/ddl-alter-database.md).
-- A new non-temporary external Fuse table copies this default into its table options. This applies to explicit external locations and locations inherited from the database connection and path defaults.
-- An explicit `S3_STORAGE_CLASS` takes priority over the database default.
-- Later changes to the database default do not affect existing tables.
+- A new non-temporary external Fuse table copies `DEFAULT_S3_STORAGE_CLASS` into its `S3_STORAGE_CLASS` table option. This applies to explicit external locations and locations inherited from the database connection and path defaults.
+- An explicit `S3_STORAGE_CLASS` takes priority over `DEFAULT_S3_STORAGE_CLASS`.
+- Later changes to `DEFAULT_S3_STORAGE_CLASS` do not change the `S3_STORAGE_CLASS` option of existing tables.
 - `ALTER TABLE ... SET OPTIONS` changes the class for future writes only. It does not change the storage class of table data already stored in S3.
-- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` deletes the table's `S3_STORAGE_CLASS` option. It removes both explicitly set values and values inherited from the database. The database default is copied into the table options only at creation. It is not read again for each write. `UNSET` does not restore the current database default. Future writes no longer select a storage class through this table option.
+- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` deletes the table's `S3_STORAGE_CLASS` option. It removes both explicitly set values and values inherited from the database. The value of `DEFAULT_S3_STORAGE_CLASS` is copied into the table options only at creation. It is not read again for each write. `UNSET` does not restore the current value of `DEFAULT_S3_STORAGE_CLASS`.
+- After `UNSET`, future writes use Databend's default storage class for external tables. With default settings, this class follows the server `[storage.s3].storage_class` configuration. If this configuration is not set, the class is `standard` (S3 Standard).
 - To ensure that future writes use a specific storage class, set that class explicitly with `SET OPTIONS` instead of `UNSET`.
 
 ### Restrictions
 
-- Internal tables do not inherit this default. Their S3 storage class comes from the server `[storage.s3].storage_class` configuration. `CREATE TABLE` and `ALTER TABLE ... SET OPTIONS` reject `S3_STORAGE_CLASS` without an external location.
-- Temporary tables do not inherit this default and reject explicit `S3_STORAGE_CLASS` values. Temporary S3 tables use `STANDARD`.
+- Internal tables do not inherit `DEFAULT_S3_STORAGE_CLASS`. Their S3 storage class comes from the server `[storage.s3].storage_class` configuration.
+- Temporary tables do not inherit `DEFAULT_S3_STORAGE_CLASS`. Temporary S3 tables use `STANDARD`.
+- For internal tables and temporary tables, specifying `S3_STORAGE_CLASS` in `CREATE TABLE` or `ALTER TABLE ... SET OPTIONS` fails with `TableOptionInvalid` (error code `1301`). The error occurs during the DDL statement, not during a later write. `UNSET OPTIONS(S3_STORAGE_CLASS)` is allowed to remove a legacy option.
 - Non-Fuse engines do not support this option.
-- Materialized Views and Dynamic Tables currently use internal storage only. They do not inherit the database default or the source table's storage class. An explicit `S3_STORAGE_CLASS` is rejected.
+- Materialized Views and Dynamic Tables currently use internal storage only. They do not inherit `DEFAULT_S3_STORAGE_CLASS` or the source table's storage class. An explicit `S3_STORAGE_CLASS` is rejected.
 
 ## S3-compatible Bucket Policy Requirements
 
@@ -92,7 +94,7 @@ The external location S3 bucket must have the following permissions granted thro
 - `s3:AbortMultipartUpload`: Allows aborting multipart uploads.
 - `s3:DeleteObjectVersion`: Allows deleting a specific version of an object.
 
-Databend checks external-location permissions with the effective storage class. If a bucket policy restricts `s3:PutObject` by storage class, it must allow the class selected by the table option or database default.
+Databend checks external-location permissions with the effective storage class. If a bucket policy restricts `s3:PutObject` by storage class, it must allow the class selected by `S3_STORAGE_CLASS` or inherited from `DEFAULT_S3_STORAGE_CLASS`.
 
 ## Examples
 
@@ -153,7 +155,7 @@ ALTER TABLE external_analytics.events SET OPTIONS (
 ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
 ```
 
-The explicit `standard` value overrides the database default at creation. Without that table option, the table inherits `intelligent_tiering`. `SET OPTIONS` affects future writes only. It does not change the storage class of table data already stored in S3. The final `UNSET OPTIONS` deletes the table's `S3_STORAGE_CLASS` option. It does not restore the database's `intelligent_tiering` default or set the class to `standard`. To ensure that future writes use S3 Standard, explicitly run `ALTER TABLE external_analytics.events SET OPTIONS(S3_STORAGE_CLASS = 'standard')`.
+The explicit `standard` value overrides `DEFAULT_S3_STORAGE_CLASS` at creation. Without that table option, the table inherits `intelligent_tiering`. `SET OPTIONS` affects future writes only. It does not change the storage class of table data already stored in S3. The final `UNSET OPTIONS` deletes the table's `S3_STORAGE_CLASS` option. It does not copy the `intelligent_tiering` value from `DEFAULT_S3_STORAGE_CLASS` or explicitly set the table option to `standard`. With default settings and no server `[storage.s3].storage_class` configuration, future writes then use S3 Standard. To ensure that future writes use S3 Standard, explicitly run `ALTER TABLE external_analytics.events SET OPTIONS(S3_STORAGE_CLASS = 'standard')`.
 
 ### Create a Table Using a Connection
 

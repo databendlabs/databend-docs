@@ -89,15 +89,17 @@ Below are the available Fuse Engine options, grouped by their purpose:
 - **Description:**
   Selects the S3 storage class for future writes to a non-temporary external Fuse table. Values are case-insensitive. This option applies only to S3 and S3-compatible storage. The storage service must support the selected storage class.
 
-  An explicit table value overrides the database [`DEFAULT_S3_STORAGE_CLASS`](../../10-sql-commands/00-ddl/00-database/ddl-create-database.md#parameters). If omitted, a new external table inherits that default when set. Later database changes do not affect existing tables.
+  An explicit table value overrides the database [`DEFAULT_S3_STORAGE_CLASS`](../../10-sql-commands/00-ddl/00-database/ddl-create-database.md#parameters). If omitted, a new external table inherits the value of `DEFAULT_S3_STORAGE_CLASS` when set. Later changes to `DEFAULT_S3_STORAGE_CLASS` do not change the `S3_STORAGE_CLASS` option of existing tables.
 
   Use `ALTER TABLE ... SET OPTIONS` to change the class for future writes. This does not change the storage class of table data already stored in S3.
 
-  `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` deletes the table's `S3_STORAGE_CLASS` option. It removes both explicitly set values and values inherited from the database at table creation. The database default is copied into the table options only at creation. It is not read again for each write. Therefore, `UNSET` does not restore the current database default. Future writes no longer select a storage class through this table option.
+  `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` deletes the table's `S3_STORAGE_CLASS` option. It removes both explicitly set values and values inherited from the database at table creation. The value of `DEFAULT_S3_STORAGE_CLASS` is copied into the table options only at creation. It is not read again for each write. Therefore, `UNSET` does not restore the current value of `DEFAULT_S3_STORAGE_CLASS`.
+
+  After `UNSET`, future writes use Databend's default storage class for external tables. With default settings, this class follows the server `[storage.s3].storage_class` configuration. If this configuration is not set, the class is `standard` (S3 Standard).
 
   To ensure that future writes use S3 Standard, explicitly run `ALTER TABLE ... SET OPTIONS(S3_STORAGE_CLASS = 'standard')` instead of `UNSET`.
 
-  Internal tables and temporary tables reject this option. Internal S3 tables use the server `[storage.s3].storage_class` configuration. See [S3 Storage Class](../../10-sql-commands/00-ddl/01-table/10-ddl-create-table-external-location.md#s3-storage-class) for examples and restrictions.
+  For internal tables and temporary tables, specifying `S3_STORAGE_CLASS` in `CREATE TABLE` or `ALTER TABLE ... SET OPTIONS` fails with `TableOptionInvalid` (error code `1301`). The error occurs during the DDL statement, not during a later write. `UNSET OPTIONS(S3_STORAGE_CLASS)` is allowed to remove a legacy option. Internal S3 tables use the server `[storage.s3].storage_class` configuration. See [S3 Storage Class](../../10-sql-commands/00-ddl/01-table/10-ddl-create-table-external-location.md#s3-storage-class) for examples and restrictions.
 
 ---
 

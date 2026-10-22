@@ -61,22 +61,24 @@ CONNECTION = (
 
 此选项仅对 S3 及 S3 兼容存储生效。存储服务必须支持所选的存储类别。
 
-### 数据库默认值与表级覆盖
+### 数据库默认存储类别与表级覆盖
 
 - 使用 [CREATE DATABASE](../00-database/ddl-create-database.md) 或 [ALTER DATABASE](../00-database/ddl-alter-database.md) 设置 `DEFAULT_S3_STORAGE_CLASS`。
-- 新建非临时外部 Fuse 表时，表会将此默认值复制到表选项中。显式指定的外部位置和从数据库默认连接及路径继承的外部位置均适用。
-- 显式指定的 `S3_STORAGE_CLASS` 优先于数据库默认值。
-- 后续更改数据库默认值不会影响已有表。
+- 新建非临时外部 Fuse 表时，表会将 `DEFAULT_S3_STORAGE_CLASS` 的值复制到表的 `S3_STORAGE_CLASS` 选项中。显式指定的外部位置和从数据库默认连接及路径继承的外部位置均适用。
+- 显式指定的 `S3_STORAGE_CLASS` 优先于 `DEFAULT_S3_STORAGE_CLASS`。
+- 后续更改 `DEFAULT_S3_STORAGE_CLASS` 不会更改已有表的 `S3_STORAGE_CLASS` 选项。
 - `ALTER TABLE ... SET OPTIONS` 仅更改后续写入的存储类别，不会更改已写入的表数据的存储类别。
-- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` 删除表的 `S3_STORAGE_CLASS` 选项，无论该值是显式设置的，还是从数据库继承的。数据库默认值只在创建表时复制到表选项中，不会在每次写入时重新读取。`UNSET` 不会让表恢复使用当前数据库默认值；后续写入不再通过此表选项指定存储类别。
+- `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` 删除表的 `S3_STORAGE_CLASS` 选项，无论该值是显式设置的，还是从数据库继承的。`DEFAULT_S3_STORAGE_CLASS` 的值只在创建表时复制到表选项中，不会在每次写入时重新读取。`UNSET` 不会让表恢复使用当前的 `DEFAULT_S3_STORAGE_CLASS` 值。
+- `UNSET` 后，后续写入使用 Databend 的默认外部表存储类别。在默认配置下，该类别由服务端 `[storage.s3].storage_class` 配置决定；未配置时为 `standard`（S3 Standard）。
 - 如果要确保后续写入使用某个存储类别，请使用 `SET OPTIONS` 显式设置该类别，而不是使用 `UNSET`。
 
 ### 限制
 
-- 内部表不继承此默认值，其 S3 存储类别由服务端 `[storage.s3].storage_class` 配置决定。没有外部位置时，`CREATE TABLE` 和 `ALTER TABLE ... SET OPTIONS` 会拒绝 `S3_STORAGE_CLASS`。
-- 临时表不继承此默认值，也不接受显式指定的 `S3_STORAGE_CLASS`。临时 S3 表使用 `STANDARD`。
+- 内部表不继承 `DEFAULT_S3_STORAGE_CLASS`，其 S3 存储类别由服务端 `[storage.s3].storage_class` 配置决定。
+- 临时表不继承 `DEFAULT_S3_STORAGE_CLASS`。临时 S3 表使用 `STANDARD`。
+- 对内部表或临时表，在 `CREATE TABLE` 或 `ALTER TABLE ... SET OPTIONS` 中指定 `S3_STORAGE_CLASS` 会导致该 DDL 语句报错，返回 `TableOptionInvalid`（错误码 `1301`），而不是等到后续写入时才报错。仍可使用 `UNSET OPTIONS(S3_STORAGE_CLASS)` 清理遗留选项。
 - 非 Fuse 引擎不支持此选项。
-- 物化视图（Materialized View）和动态表（Dynamic Table）目前仅使用内部存储。它们不会继承数据库默认值或源表的存储类别，也不接受显式指定的 `S3_STORAGE_CLASS`。
+- 物化视图（Materialized View）和动态表（Dynamic Table）目前仅使用内部存储。它们不会继承 `DEFAULT_S3_STORAGE_CLASS` 或源表的存储类别，也不接受显式指定的 `S3_STORAGE_CLASS`。
 
 ## S3 兼容存储桶策略要求
 
@@ -96,7 +98,7 @@ CONNECTION = (
 - `s3:AbortMultipartUpload`：允许中止分段上传。
 - `s3:DeleteObjectVersion`：允许删除对象的特定版本。
 
-Databend 使用实际生效的存储类别检查外部位置的权限。如果存储桶策略按存储类别限制 `s3:PutObject`，策略必须允许表选项或数据库默认值所选择的存储类别。
+Databend 使用实际生效的存储类别检查外部位置的权限。如果存储桶策略按存储类别限制 `s3:PutObject`，策略必须允许 `S3_STORAGE_CLASS` 所指定或从 `DEFAULT_S3_STORAGE_CLASS` 继承的存储类别。
 
 ## 示例
 
@@ -159,7 +161,7 @@ ALTER TABLE external_analytics.events SET OPTIONS (
 ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
 ```
 
-创建表时，显式指定的 `standard` 会覆盖数据库默认值。如果省略此表选项，表会继承 `intelligent_tiering`。`SET OPTIONS` 只影响后续写入，不会更改已写入的表数据的存储类别。最后的 `UNSET OPTIONS` 删除表的 `S3_STORAGE_CLASS` 选项，不会恢复数据库的 `intelligent_tiering` 默认值，也不等同于设置为 `standard`。要确保后续写入使用 S3 Standard，请显式执行 `ALTER TABLE external_analytics.events SET OPTIONS(S3_STORAGE_CLASS = 'standard')`。
+创建表时，显式指定的 `standard` 会覆盖 `DEFAULT_S3_STORAGE_CLASS`。如果省略此表选项，表会继承 `intelligent_tiering`。`SET OPTIONS` 只影响后续写入，不会更改已写入的表数据的存储类别。最后的 `UNSET OPTIONS` 删除表的 `S3_STORAGE_CLASS` 选项，不会复制 `DEFAULT_S3_STORAGE_CLASS` 的 `intelligent_tiering` 值，也不会显式将表选项设为 `standard`。在默认配置下，如果服务端未配置 `[storage.s3].storage_class`，后续写入将使用 S3 Standard。要确保后续写入使用 S3 Standard，请显式执行 `ALTER TABLE external_analytics.events SET OPTIONS(S3_STORAGE_CLASS = 'standard')`。
 
 ### 使用连接创建表
 

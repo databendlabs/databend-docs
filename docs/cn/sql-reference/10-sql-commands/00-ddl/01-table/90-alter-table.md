@@ -265,9 +265,11 @@ ALTER TABLE [ <database_name>. ]<table_name> UNSET OPTIONS (<options>)
 
 对于非临时外部 Fuse 表，可将 `S3_STORAGE_CLASS` 设置为 `standard` 或 `intelligent_tiering`，不区分大小写。此更改仅影响后续写入，不会更改已写入的表数据的存储类别。
 
-`UNSET OPTIONS(S3_STORAGE_CLASS)` 删除表的 `S3_STORAGE_CLASS` 选项，包括在创建表时继承的值。数据库默认值只在创建表时复制到表选项中，不会在每次写入时重新读取。`UNSET` 不会让表恢复使用当前数据库默认值；后续写入不再通过此表选项指定存储类别。要确保后续写入使用 S3 Standard，请显式设置 `S3_STORAGE_CLASS = 'standard'`，而不是使用 `UNSET`。
+`UNSET OPTIONS(S3_STORAGE_CLASS)` 删除表的 `S3_STORAGE_CLASS` 选项，包括在创建表时继承的值。数据库选项 `DEFAULT_S3_STORAGE_CLASS` 的值只在创建表时复制到表选项中，不会在每次写入时重新读取。`UNSET` 不会让表恢复使用当前的 `DEFAULT_S3_STORAGE_CLASS` 值。
 
-内部表和临时表不接受 `SET OPTIONS(S3_STORAGE_CLASS = ...)`，但允许使用 `UNSET` 清理遗留选项。详情参见 [S3 存储类别](10-ddl-create-table-external-location.md#s3-storage-class)。
+`UNSET` 后，后续写入使用 Databend 的默认外部表存储类别。在默认配置下，该类别由服务端 `[storage.s3].storage_class` 配置决定；未配置时为 `standard`（S3 Standard）。要确保后续写入使用 S3 Standard，请显式设置 `S3_STORAGE_CLASS = 'standard'`，而不是使用 `UNSET`。
+
+对内部表或临时表，`SET OPTIONS(S3_STORAGE_CLASS = ...)` 会导致该 `ALTER TABLE` 语句报错，返回 `TableOptionInvalid`（错误码 `1301`），而不是等到后续写入时才报错。仍可使用 `UNSET` 清理遗留选项。详情参见 [S3 存储类别](10-ddl-create-table-external-location.md#s3-storage-class)。
 
 ### 示例
 

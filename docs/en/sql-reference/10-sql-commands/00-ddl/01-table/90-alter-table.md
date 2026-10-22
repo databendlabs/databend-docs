@@ -353,9 +353,11 @@ Only the following Fuse Engine options can be unset:
 
 For a non-temporary external Fuse table, set `S3_STORAGE_CLASS` to `standard` or `intelligent_tiering` (case-insensitive). The change affects future writes only. It does not change the storage class of table data already stored in S3.
 
-`UNSET OPTIONS(S3_STORAGE_CLASS)` deletes the table's `S3_STORAGE_CLASS` option, including a value inherited at table creation. The database default is copied into the table options only at creation. It is not read again for each write. `UNSET` does not restore the current database default. Future writes no longer select a storage class through this table option. To ensure that future writes use S3 Standard, explicitly set `S3_STORAGE_CLASS = 'standard'` instead of using `UNSET`.
+`UNSET OPTIONS(S3_STORAGE_CLASS)` deletes the table's `S3_STORAGE_CLASS` option, including a value inherited at table creation. The value of the database option `DEFAULT_S3_STORAGE_CLASS` is copied into the table options only at creation. It is not read again for each write. `UNSET` does not restore the current value of `DEFAULT_S3_STORAGE_CLASS`.
 
-Internal tables and temporary tables reject `SET OPTIONS(S3_STORAGE_CLASS = ...)`, but allow `UNSET` to remove a legacy option. See [S3 Storage Class](10-ddl-create-table-external-location.md#s3-storage-class) for details.
+After `UNSET`, future writes use Databend's default storage class for external tables. With default settings, this class follows the server `[storage.s3].storage_class` configuration. If this configuration is not set, the class is `standard` (S3 Standard). To ensure that future writes use S3 Standard, explicitly set `S3_STORAGE_CLASS = 'standard'` instead of using `UNSET`.
+
+For internal tables and temporary tables, `SET OPTIONS(S3_STORAGE_CLASS = ...)` fails with `TableOptionInvalid` (error code `1301`). The error occurs during the `ALTER TABLE` statement, not during a later write. `UNSET` is allowed to remove a legacy option. See [S3 Storage Class](10-ddl-create-table-external-location.md#s3-storage-class) for details.
 
 ### Examples
 
