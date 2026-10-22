@@ -353,7 +353,7 @@ Only the following Fuse Engine options can be unset:
 
 For a non-temporary external Fuse table, set `S3_STORAGE_CLASS` to `standard` or `intelligent_tiering` (case-insensitive). The change affects future writes only. It does not change the storage class of table data already stored in S3.
 
-`UNSET OPTIONS(S3_STORAGE_CLASS)` removes the table-level setting. It does not reapply the database's `DEFAULT_S3_STORAGE_CLASS`. With default settings, future writes use the server `[storage.s3].storage_class` configuration, or S3 Standard if not configured. To ensure that writes use S3 Standard, explicitly set `S3_STORAGE_CLASS = 'standard'` with `SET OPTIONS`.
+`UNSET OPTIONS(S3_STORAGE_CLASS)` removes the table-level setting. It does not reapply the database's `DEFAULT_S3_STORAGE_CLASS`. With default settings, future writes use the server `[storage.s3].storage_class` configuration, or S3 Standard if not configured.
 
 For internal tables and temporary tables, `SET OPTIONS(S3_STORAGE_CLASS = ...)` returns an error. See [S3 Storage Class](10-ddl-create-table-external-location.md#s3-storage-class) for inheritance rules and all restrictions.
 

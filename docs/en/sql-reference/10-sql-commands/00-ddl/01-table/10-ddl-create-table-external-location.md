@@ -71,7 +71,7 @@ This option applies only to S3 and S3-compatible storage. The storage service mu
 - Use `ALTER TABLE ... SET OPTIONS(S3_STORAGE_CLASS = '...')` to change the storage class.
 - Use `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` to remove the table-level setting. This does not reapply `DEFAULT_S3_STORAGE_CLASS`. With default settings, future writes use the server `[storage.s3].storage_class` configuration, or S3 Standard if not configured.
 
-Both operations affect future writes only. They do not change the storage class of table data already stored in S3. To ensure that future writes use a specific class, set that class explicitly with `SET OPTIONS` instead of using `UNSET`.
+Both operations affect future writes only. They do not change the storage class of table data already stored in S3.
 
 ### Restrictions
 

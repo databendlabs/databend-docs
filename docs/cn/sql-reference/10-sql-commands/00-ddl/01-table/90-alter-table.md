@@ -265,7 +265,7 @@ ALTER TABLE [ <database_name>. ]<table_name> UNSET OPTIONS (<options>)
 
 对于非临时外部 Fuse 表，可将 `S3_STORAGE_CLASS` 设置为 `standard` 或 `intelligent_tiering`，不区分大小写。此更改仅影响后续写入，不会更改已写入的表数据的存储类别。
 
-`UNSET OPTIONS(S3_STORAGE_CLASS)` 移除表级设置，不会重新继承数据库的 `DEFAULT_S3_STORAGE_CLASS`。在默认配置下，后续写入使用服务端 `[storage.s3].storage_class` 指定的类别；未配置时使用 S3 Standard。要确保使用 S3 Standard，请用 `SET OPTIONS` 显式设置 `S3_STORAGE_CLASS = 'standard'`。
+`UNSET OPTIONS(S3_STORAGE_CLASS)` 移除表级设置，不会重新继承数据库的 `DEFAULT_S3_STORAGE_CLASS`。在默认配置下，后续写入使用服务端 `[storage.s3].storage_class` 指定的类别；未配置时使用 S3 Standard。
 
 对内部表或临时表执行 `SET OPTIONS(S3_STORAGE_CLASS = ...)` 会报错。继承规则和完整限制参见 [S3 存储类别](10-ddl-create-table-external-location.md#s3-storage-class)。
 

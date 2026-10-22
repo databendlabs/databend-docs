@@ -73,7 +73,7 @@ CONNECTION = (
 - 使用 `ALTER TABLE ... SET OPTIONS(S3_STORAGE_CLASS = '...')` 更改存储类别。
 - 使用 `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)` 移除表级设置。此操作不会重新继承 `DEFAULT_S3_STORAGE_CLASS`。在默认配置下，后续写入使用服务端 `[storage.s3].storage_class` 指定的类别；未配置时使用 S3 Standard。
 
-这两种操作都只影响后续写入，不会更改已写入的表数据的存储类别。要确保后续写入使用某个类别，请用 `SET OPTIONS` 显式指定该类别，而不是使用 `UNSET`。
+这两种操作都只影响后续写入，不会更改已写入的表数据的存储类别。
 
 ### 限制
 

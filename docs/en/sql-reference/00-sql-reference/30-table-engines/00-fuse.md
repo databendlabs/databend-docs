@@ -93,7 +93,7 @@ Below are the available Fuse Engine options, grouped by their purpose:
   - **Change the storage class:** Use `ALTER TABLE ... SET OPTIONS`. The change affects future writes only. It does not change the storage class of table data already stored in S3.
   - **Remove the table-level setting:** Use `ALTER TABLE ... UNSET OPTIONS(S3_STORAGE_CLASS)`. This does not reapply `DEFAULT_S3_STORAGE_CLASS`. With default settings, future writes use the server `[storage.s3].storage_class` configuration, or S3 Standard if not configured.
 
-  To ensure that writes use S3 Standard, explicitly set `S3_STORAGE_CLASS = 'standard'` instead of using `UNSET`. Explicitly setting this option on an internal or temporary table returns an error.
+  Explicitly setting this option on an internal or temporary table returns an error.
 
   See [S3 Storage Class](../../10-sql-commands/00-ddl/01-table/10-ddl-create-table-external-location.md#s3-storage-class) for examples and all restrictions.
 
