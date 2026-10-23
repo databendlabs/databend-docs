@@ -35,6 +35,19 @@ Keep the key out of chat. Stop after setup; do not connect or run SQL.
 This is an official Databend skill, not a third-party skill.
 :::
 
+## Quick Verification
+
+Run this command to make sure that your token, organization, and warehouse are correct. Replace the placeholders with your values.
+
+```bash
+curl --request POST 'https://api.databend.com/v1/query' \
+  --header 'Content-Type: application/json' \
+  --header 'X-DATABENDCLOUD-TOKEN: <YOUR_API_TOKEN>' \
+  --header 'X-DATABENDCLOUD-ORG: <YOUR_ORGANIZATION_ID>' \
+  --header 'X-DATABENDCLOUD-WAREHOUSE: <YOUR_WAREHOUSE>' \
+  --data '{"sql":"SELECT 1"}'
+```
+
 ## Security
 
 - Keep tokens out of chat and repositories. Local credential files are plaintext; the helper sets Unix permissions to `600`.

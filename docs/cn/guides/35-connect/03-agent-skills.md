@@ -35,6 +35,19 @@ https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
 这是 Databend 官方提供的 skill，非第三方项目。
 :::
 
+## 快速验证
+
+运行以下命令，确认 token、组织和计算集群配置正确。请将占位符替换为实际值。
+
+```bash
+curl --request POST 'https://api.databend.cn/v1/query' \
+  --header 'Content-Type: application/json' \
+  --header 'X-DATABENDCLOUD-TOKEN: <YOUR_API_TOKEN>' \
+  --header 'X-DATABENDCLOUD-ORG: <YOUR_ORGANIZATION_ID>' \
+  --header 'X-DATABENDCLOUD-WAREHOUSE: <YOUR_WAREHOUSE>' \
+  --data '{"sql":"SELECT 1"}'
+```
+
 ## 安全须知
 
 - 请勿在聊天中发送 token，也不要将其提交到代码仓库。本地凭证以明文保存，辅助脚本会将文件的 Unix 权限设为 `600`。
