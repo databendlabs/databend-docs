@@ -194,7 +194,15 @@ CREATE TABLE <table_name> (
 - **语法：**
   `change_tracking = True / False`
 - **描述：**
-  在 Fuse Engine 中将此选项设置为 `True` 允许跟踪表的更改。为表创建 Stream 会自动将 `change_tracking` 设置为 `True`，并将其他隐藏列引入到表中作为更改跟踪元数据。有关更多信息，请参见 [How Stream Works](/guides/load-data/continuous-data-pipelines/stream#how-stream-works)。
+  将此选项设置为 `True` 可启用表的变更跟踪。在受支持的可写原生 FUSE 源表上创建 stream 或物化视图时，会自动启用此选项。变更跟踪会记录额外的隐藏元数据，并给数据修改操作增加维护开销。更多信息，请参见[通过 Stream 跟踪和转换数据](/guides/load-data/continuous-data-pipelines/stream)。
+
+  删除 stream 或物化视图不会关闭此选项。如果任何 stream、物化视图或 `CHANGES` 查询仍需要 tracking，请保持该选项开启。确认没有消费者需要 tracking 后，可手动关闭：
+
+  ```sql
+  ALTER TABLE t SET OPTIONS(change_tracking = false);
+  ```
+
+  对于基于共享表的 stream，必须由 provider 开启 tracking，consumer 不会修改 provider 的表选项。请参见[共享表上的 Stream](/guides/data-management/data-sharing/consumers#streams-on-shared-tables)。
 
 ---
 
