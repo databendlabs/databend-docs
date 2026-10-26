@@ -180,7 +180,15 @@ Below are the available Fuse Engine options, grouped by their purpose:
 - **Syntax:**
   `change_tracking = True / False`
 - **Description:**
-  Setting this option to `True` in the Fuse Engine allows for tracking changes for a table. Creating a stream for a table will automatically set `change_tracking` to `True` and introduce additional hidden columns to the table as change tracking metadata. For more information, see [How Stream Works](/guides/load-data/continuous-data-pipelines/stream#how-stream-works).
+  Setting this option to `True` enables change tracking for a table. Creating a stream or materialized view automatically enables this option on supported, writable native FUSE source tables. Tracking records additional hidden metadata for data changes and adds work to mutation operations. For more information, see [Tracking and Transforming Data via Streams](/guides/load-data/continuous-data-pipelines/stream).
+
+  Dropping a stream or materialized view does not disable this option. Keep it enabled while any stream, materialized view, or `CHANGES` query needs it. After you confirm that no consumers need tracking, you can disable it manually:
+
+  ```sql
+  ALTER TABLE t SET OPTIONS(change_tracking = false);
+  ```
+
+  For a stream on a shared table, the provider must enable tracking. The consumer does not change the provider's table options. See [Streams on Shared Tables](/guides/data-management/data-sharing/consumers#streams-on-shared-tables).
 
 ---
 

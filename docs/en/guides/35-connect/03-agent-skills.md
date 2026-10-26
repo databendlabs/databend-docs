@@ -21,7 +21,7 @@ You need a Databend Cloud account and access to the target organization. Availab
 
 ## Install with Your Agent
 
-Copy this message to install the skill and set up a reusable API key. Create a token in the [Cloud console](https://app.databend.com/) under **Admin → API Tokens → Access Tokens → Generate New Token**.
+Copy this message to install the skill and set up a reusable API key. Create a token in the [Cloud console](https://app.databend.com/) under **Account API Tokens → Access Tokens → Generate New Token**.
 
 ```text
 Install the databend-cloud skill:
@@ -34,6 +34,19 @@ Keep the key out of chat. Stop after setup; do not connect or run SQL.
 :::note
 This is an official Databend skill, not a third-party skill.
 :::
+
+## Quick Verification
+
+Run this command to make sure that your token, organization, and warehouse are correct. Replace the placeholders with your values.
+
+```bash
+curl --request POST 'https://api.databend.com/v1/query' \
+  --header 'Content-Type: application/json' \
+  --header 'X-DATABENDCLOUD-TOKEN: <YOUR_API_TOKEN>' \
+  --header 'X-DATABENDCLOUD-ORG: <YOUR_ORGANIZATION_ID>' \
+  --header 'X-DATABENDCLOUD-WAREHOUSE: <YOUR_WAREHOUSE>' \
+  --data '{"sql":"SELECT 1"}'
+```
 
 ## Security
 
