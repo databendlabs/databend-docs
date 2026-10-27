@@ -2,7 +2,35 @@
 title: "TPC-H SF1000 性能对比：Small / Medium / Large Warehouse"
 sidebar_label: "TPC-H SF1000 基准测试"
 slug: tpch-sf1000
+benchmark_card:
+  title: TPC-H SF1000 · 1 TB
+  views:
+    - tab: 总耗时
+      headline: 4.10×
+      summary: 查询速度
+      context: Large 较 Small · 22 条查询
+      unit: 秒
+      groups:
+        - rows:
+            - { label: Small, value: 1173.32 }
+            - { label: Medium, value: 537.93 }
+            - { label: Large, value: 285.96, highlight: true }
+      note: 耗时越短越好
+    - tab: 加速比
+      headline: 4.10×
+      summary: 查询速度
+      context: 以 Small 规格为基准
+      decimals: 2
+      unit: ×
+      groups:
+        - rows:
+            - { label: Small, value: 1 }
+            - { label: Medium, value: 2.18 }
+            - { label: Large, value: 4.10, highlight: true }
+      note: 加速比越高越好
 ---
+
+import SignupCard from '@site/src/components/SignupCard';
 
 本文使用 TPC-H SF1000（约 1TB）数据集，对比 Databend Cloud 三种规格 Warehouse（Small、Medium、Large）的查询性能表现。
 
@@ -70,3 +98,5 @@ Medium 约为 Small 的 2.18x。Large 约为 Small 的 4.10x，可在 5 分钟�
 ## 说明
 
 整体查询性能随 Warehouse 规格提升有清晰收益。个别 Query 不完全线性，通常与查询形态、执行计划、调度和缓存行为有关。
+
+<SignupCard title="在 Databend Cloud 上选择适合您的 Warehouse 规格" />

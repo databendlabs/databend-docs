@@ -1,0 +1,12 @@
+// The outer sidebar owns scrolling and stickiness on benchmark pages,
+// so the TOC and the summary card stay together in the first screen.
+.benchmarkSidebar {
+  max-height: calc(100dvh - 92px);
+  overflow-y: auto;
+}
+
+.staticToc.staticToc {
+  position: static;
+  max-height: none;
+  overflow: visible;
+}

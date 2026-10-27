@@ -2,7 +2,35 @@
 title: "TPC-H SF1000 (1TB): Databend Cloud Warehouse Size Benchmark"
 sidebar_label: "TPC-H SF1000 Benchmark"
 slug: tpch-sf1000
+benchmark_card:
+  title: TPC-H SF1000 · 1 TB
+  views:
+    - tab: Total time
+      headline: 4.10×
+      summary: faster on Large vs. Small
+      context: 22 queries · about 6B rows
+      unit: s
+      groups:
+        - rows:
+            - { label: Small, value: 1173.32 }
+            - { label: Medium, value: 537.93 }
+            - { label: Large, value: 285.96, highlight: true }
+      note: Lower is better
+    - tab: Speedup
+      headline: 4.10×
+      summary: faster on Large vs. Small
+      context: Speedup vs. Small warehouse
+      decimals: 2
+      unit: ×
+      groups:
+        - rows:
+            - { label: Small, value: 1 }
+            - { label: Medium, value: 2.18 }
+            - { label: Large, value: 4.10, highlight: true }
+      note: Higher is better
 ---
+
+import SignupCard from '@site/src/components/SignupCard';
 
 This page compares Small, Medium, and Large Databend Cloud Warehouses on the same TPC-H SF1000 workload. SF1000 is commonly used to represent about 1TB of TPC-H data.
 
@@ -70,3 +98,5 @@ Unit: seconds. Lower is better.
 ## Notes
 
 The overall workload scales clearly as the Warehouse size increases. Some individual queries may not scale linearly due to query shape, execution plan, scheduling, and cache behavior.
+
+<SignupCard title="Find the right warehouse size on Databend Cloud" />

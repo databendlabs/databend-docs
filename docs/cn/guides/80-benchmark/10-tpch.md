@@ -1,7 +1,48 @@
 ---
 title: "TPC-H 基准测试：Databend Cloud vs. Snowflake"
 sidebar_label: "TPC-H SF100 基准测试"
+toc_max_heading_level: 2
+benchmark_card:
+  title: Databend vs. Snowflake
+  views:
+    - tab: 耗时
+      headline: 1.25×
+      summary: 冷启动查询速度
+      context: 22 条查询 · 100 GB · Small 规格
+      unit: 秒
+      groups:
+        - label: 冷启动
+          rows:
+            - { label: Databend, value: 166, highlight: true }
+            - { label: Snowflake, value: 207 }
+        - label: 热启动
+          rows:
+            - { label: Databend, value: 124, highlight: true }
+            - { label: Snowflake, value: 138 }
+      note: 耗时越短越好
+    - tab: 成本
+      headline: ~60%
+      summary: 查询成本节省
+      context: 22 条查询 · 100 GB · Small 规格
+      prefix: $
+      decimals: 2
+      groups:
+        - label: 冷启动
+          rows:
+            - { label: Databend, value: 0.09, highlight: true }
+            - { label: Snowflake, value: 0.23 }
+        - label: 热启动
+          rows:
+            - { label: Databend, value: 0.07, highlight: true }
+            - { label: Snowflake, value: 0.15 }
+        - label: 数据加载
+          rows:
+            - { label: Databend, value: 0.25, highlight: true }
+            - { label: Snowflake, value: 0.77 }
+      note: 成本越低越好
 ---
+
+import SignupCard from '@site/src/components/SignupCard';
 
 ## 快速概览
 
@@ -163,3 +204,5 @@ Snowflake 和 Databend Cloud 均在相似条件下进行了测试：
 2. **Databend Cloud 查询**:
    - 登录您的 [Databend Cloud 账户](https://app.databend.com)。
    - 运行 TPC-H 查询。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/queries.sql)。
+
+<SignupCard title="在 Databend Cloud 上运行您的查询" />
