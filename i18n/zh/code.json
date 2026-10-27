@@ -972,5 +972,17 @@
   "All rights reserved.": {
     "message": "© {year} Databend 社区。版权所有。",
     "description": "All rights reserved."
+  },
+  "Get started today": {
+    "message": "开始体验",
+    "description": "Doc body sign-up card"
+  },
+  "Get started in minutes with Databend Cloud—the agent-ready data warehouse for analytics, search, AI, and Python Sandbox—and receive $200 in free credits.": {
+    "message": "开始使用 Databend Cloud——面向分析、搜索、AI 与 Python Sandbox 的 Agent Ready 数仓，即可开始，获得 200 元代金券。",
+    "description": "Doc body sign-up card"
+  },
+  "Sign up": {
+    "message": "注册",
+    "description": "Doc body sign-up card"
   }
 }
