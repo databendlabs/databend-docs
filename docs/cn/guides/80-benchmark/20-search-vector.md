@@ -68,7 +68,7 @@ Small warehouse，单集群。单位：ms（客户端）。1,000 个查询向量
 
 | 项目    | 值                                                                                                                              |
 | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 来源    | [Wikipedia 2023-11 (en)](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3），文件 `0000`–`0099` |
+| 来源    | [Wikipedia 2023-11 (en)](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3)，文件 `0000`–`0099` |
 | 行数    | 10,000,000 × 1024 维 float32（Cohere `embed-multilingual-v3`）                                                                   |
 | 大小    | 原始 41.0 GB → 数据 19.4 GB + HNSW 索引 7.5 GB                                                                                   |
 | 索引    | HNSW，cosine，`m = 32`, `ef_construct = 200`                                                                                    |
@@ -148,7 +148,7 @@ Small warehouse，单集群。单位：ms（客户端）。1,677 条查询，0 �
 
 | 项目    | 值                                                                                                                 |
 | ------- | ------------------------------------------------------------------------------------------------------------------ |
-| 来源    | [MS MARCO v2.1 passages](https://huggingface.co/datasets/CohereLabs/msmarco-v2.1-embed-english-v3），分片 `00`–`05` |
+| 来源    | [MS MARCO v2.1 passages](https://huggingface.co/datasets/CohereLabs/msmarco-v2.1-embed-english-v3)，分片 `00`–`05` |
 | 行数    | 10,000,000 条段落，平均 990 字节                                                                                   |
 | 大小    | 原始 9.9 GB → 数据 2.1 GB + 倒排索引 3.5 GB                                                                        |
 | 查询    | 1,677 条 TREC 2021–2023 查询                                                                                       |
