@@ -1,9 +1,61 @@
 ---
 title: "Databend vs. Snowflake: Data Ingestion Benchmark"
 sidebar_label: "Data Ingestion Benchmark"
+toc_max_heading_level: 2
+benchmark_card:
+  title: Databend vs. Snowflake
+  views:
+    - tab: Time
+      headline: 5.15×
+      summary: faster loading
+      context: ClickBench · Small warehouse
+      unit: s
+      groups:
+        - label: ClickBench · 76 GB
+          rows:
+            - { label: Databend, value: 598, highlight: true }
+            - { label: Snowflake, value: 3077 }
+        - label: TPC-H SF100 · 100 GB
+          rows:
+            - { label: Databend, value: 446, highlight: true }
+            - { label: Snowflake, value: 695 }
+      note: Lower is better
+    - tab: Cost
+      headline: 91%
+      summary: lower cost
+      context: ClickBench · Small warehouse
+      prefix: $
+      decimals: 2
+      groups:
+        - label: ClickBench · 76 GB
+          rows:
+            - { label: Databend, value: 0.30, highlight: true }
+            - { label: Snowflake, value: 3.42 }
+        - label: TPC-H SF100 · 100 GB
+          rows:
+            - { label: Databend, value: 0.25, highlight: true }
+            - { label: Snowflake, value: 0.77 }
+      note: Lower is better
+    - tab: Freshness
+      headline: 400×
+      summary: more rows in 1 s
+      context: Within 1 s · Small warehouse
+      compact: true
+      unit: rows
+      groups:
+        - label: 1-second window
+          rows:
+            - { label: Databend, value: 40000, highlight: true }
+            - { label: Snowflake, value: 100 }
+        - label: 5-second window
+          rows:
+            - { label: Databend, value: 2500000, highlight: true }
+            - { label: Snowflake, value: 90000 }
+      note: Higher is better
 ---
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
+import SignupCard from '@site/src/components/SignupCard';
 
 ## Overview
 
@@ -184,3 +236,5 @@ COPY INTO hits
 ```
 
 4. Measure results from the dashboard.
+
+<SignupCard title="Try data loading on Databend Cloud" />

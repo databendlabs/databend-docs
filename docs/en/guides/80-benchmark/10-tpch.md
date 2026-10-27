@@ -1,7 +1,48 @@
 ---
 title: "TPC-H Benchmark: Databend Cloud vs. Snowflake"
 sidebar_label: "TPC-H SF100 Benchmark"
+toc_max_heading_level: 2
+benchmark_card:
+  title: Databend vs. Snowflake
+  views:
+    - tab: Time
+      headline: 1.25×
+      summary: faster cold run
+      context: 22 queries · 100 GB · Small
+      unit: s
+      groups:
+        - label: Cold run
+          rows:
+            - { label: Databend, value: 166, highlight: true }
+            - { label: Snowflake, value: 207 }
+        - label: Hot run
+          rows:
+            - { label: Databend, value: 124, highlight: true }
+            - { label: Snowflake, value: 138 }
+      note: Lower is better
+    - tab: Cost
+      headline: ~60%
+      summary: lower query cost
+      context: 22 queries · 100 GB · Small
+      prefix: $
+      decimals: 2
+      groups:
+        - label: Cold run
+          rows:
+            - { label: Databend, value: 0.09, highlight: true }
+            - { label: Snowflake, value: 0.23 }
+        - label: Hot run
+          rows:
+            - { label: Databend, value: 0.07, highlight: true }
+            - { label: Snowflake, value: 0.15 }
+        - label: Data loading
+          rows:
+            - { label: Databend, value: 0.25, highlight: true }
+            - { label: Snowflake, value: 0.77 }
+      note: Lower is better
 ---
+
+import SignupCard from '@site/src/components/SignupCard';
 
 ## Quick Overview
 
@@ -163,3 +204,5 @@ We conducted both Cold and Hot runs for query execution:
 2. **Databend Cloud Queries**:
    - Sign in to your [Databend Cloud account](https://app.databend.com).
    - Run the TPC-H queries. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/queries.sql).
+
+<SignupCard title="Run your queries on Databend Cloud" />
