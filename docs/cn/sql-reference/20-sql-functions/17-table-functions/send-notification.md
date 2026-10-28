@@ -23,6 +23,11 @@ SELECT * FROM send_notification('<integration_name>', '<message>');
 
 `CALL system$send_notification(...)` 会改写为等价的 `SELECT * FROM send_notification(...)` 语句。
 
+`CALL` 有以下限制。遇到这些情况时，请使用 `SELECT` 形式：
+
+- `CALL` 的参数只能是字面常量，Databend 不会对其求值。`CONCAT(...)` 等表达式或 `:message` 等变量引用会导致语法错误。标识符或 `$name` 会话变量会被当作普通文本发送。
+- `BEGIN ... END` 脚本中不支持 `CALL`。脚本编译器会返回错误 `CALL in script is not supported yet`。
+
 ## 参数
 
 | 参数 | 是否必需 | 说明 |
@@ -71,7 +76,7 @@ SELECT * FROM send_notification('feishu_alerts', '每日加载已完成。');
 
 ### 在任务中发送通知
 
-在脚本中使用 `SELECT` 形式。使用 `IF` 控制是否发送通知。不要使用 `LIMIT`、`WHERE` 或其他查询优化来抑制调用。
+在脚本中使用 `SELECT` 形式。在脚本的 SQL 语句中引用变量时，需在变量名前加冒号，例如 `:failed_count`；在 `IF` 条件等脚本表达式中，直接使用变量名。使用 `IF` 控制是否发送通知。不要使用 `LIMIT`、`WHERE` 或其他查询优化来抑制调用。
 
 ```sql
 CREATE TASK notify_query_errors
@@ -90,7 +95,7 @@ BEGIN
     IF failed_count > 0 THEN
         SELECT * FROM send_notification(
             'feishu_alerts',
-            CONCAT('最近 10 分钟查询错误数：', TO_STRING(failed_count))
+            CONCAT('最近 10 分钟查询错误数：', TO_STRING(:failed_count))
         );
     END IF;
 END;

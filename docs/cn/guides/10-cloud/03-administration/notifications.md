@@ -128,7 +128,12 @@ CALL system$send_notification('feishu_alerts', '查询错误数超过阈值。')
 SELECT * FROM send_notification('feishu_alerts', '查询错误数超过阈值。');
 ```
 
-在 `BEGIN ... END` 脚本中，请使用 `SELECT` 形式。
+在 `BEGIN ... END` 脚本中，请使用 `SELECT` 形式。`CALL` 在脚本中不可用，原因有两个：
+
+- 脚本编译器会拒绝 `CALL` 语句，并返回错误 `CALL in script is not supported yet`。
+- `CALL` 的参数只能是字面常量，Databend 不会对其求值。`CONCAT(...)` 等表达式或 `:message` 等变量引用会导致语法错误。标识符或 `$name` 会话变量会被当作普通文本发送。
+
+`SELECT` 形式支持任意表达式，包括脚本变量。
 
 ## 第 4 步：检查投递状态
 
@@ -154,7 +159,7 @@ Databend Cloud 完成投递尝试后才会写入该行。Databend Cloud 接受�
 
 ## 在任务中发送通知
 
-使用 `IF` 决定是否发送消息。脚本中支持的形式是 `SELECT`。请将 `monitoring_wh` 替换为现有 Warehouse，并将查询和消息替换为你自己的条件。
+使用 `IF` 决定是否发送消息。脚本中请使用 `SELECT` 形式。请将 `monitoring_wh` 替换为现有 Warehouse，并将查询和消息替换为你自己的条件。
 
 ```sql
 CREATE TASK notify_query_errors
@@ -173,12 +178,17 @@ BEGIN
     IF failed_count > 0 THEN
         SELECT * FROM send_notification(
             'feishu_alerts',
-            CONCAT('最近 10 分钟查询错误数：', TO_STRING(failed_count))
+            CONCAT('最近 10 分钟查询错误数：', TO_STRING(:failed_count))
         );
     END IF;
 END;
 $$;
 ```
+
+脚本中引用变量有两种写法：
+
+- 在脚本表达式中（例如 `IF` 条件），直接使用变量名：`failed_count`。
+- 在 SQL 语句中（例如 `SELECT`），变量名前需加冒号：`:failed_count`。如果省略冒号，Databend 会将其视为列名，并返回 `column failed_count doesn't exist`。
 
 `system_history.query_history` 需要 Query History 功能。如果该功能不可用，请替换为自己的查询条件。
 
