@@ -128,10 +128,10 @@ CALL system$send_notification('feishu_alerts', '查询错误数超过阈值。')
 SELECT * FROM send_notification('feishu_alerts', '查询错误数超过阈值。');
 ```
 
-在 `BEGIN ... END` 脚本中，请使用 `SELECT` 形式。`CALL` 在脚本中不可用，原因有两个：
+`CALL` 只支持固定的字符串字面量，不支持变量或表达式。消息需要用到变量或表达式时，以及在 `BEGIN ... END` 脚本中，请使用 `SELECT` 形式。`CALL` 在脚本中不可用，原因有两个：
 
 - 脚本编译器会拒绝 `CALL` 语句，并返回错误 `CALL in script is not supported yet`。
-- `CALL` 的参数只能是字面常量，Databend 不会对其求值。`CONCAT(...)` 等表达式或 `:message` 等变量引用会导致语法错误。标识符或 `$name` 会话变量会被当作普通文本发送。
+- Databend 不会对 `CALL` 的参数求值。`CONCAT(...)` 等表达式或 `:message` 等变量引用会导致语法错误。标识符或 `$name` 会话变量会被当作普通文本发送。
 
 `SELECT` 形式支持任意表达式，包括脚本变量。
 

@@ -23,9 +23,13 @@ SELECT * FROM send_notification('<integration_name>', '<message>');
 
 `CALL system$send_notification(...)` 会改写为等价的 `SELECT * FROM send_notification(...)` 语句。
 
-`CALL` 有以下限制。遇到这些情况时，请使用 `SELECT` 形式：
+:::note
+`CALL system$send_notification` 只支持固定的字符串字面量，不支持变量或表达式。如需用变量或表达式拼接消息，请使用 `SELECT` 形式。
+:::
 
-- `CALL` 的参数只能是字面常量，Databend 不会对其求值。`CONCAT(...)` 等表达式或 `:message` 等变量引用会导致语法错误。标识符或 `$name` 会话变量会被当作普通文本发送。
+`CALL` 有以下限制：
+
+- Databend 不会对 `CALL` 的参数求值。`CONCAT(...)` 等表达式或 `:message` 等变量引用会导致语法错误。标识符或 `$name` 会话变量会被当作普通文本发送。
 - `BEGIN ... END` 脚本中不支持 `CALL`。脚本编译器会返回错误 `CALL in script is not supported yet`。
 
 ## 参数

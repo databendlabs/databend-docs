@@ -128,10 +128,10 @@ The statement returns a `result` column with zero rows. It does not return a del
 SELECT * FROM send_notification('feishu_alerts', 'Query errors exceeded the threshold.');
 ```
 
-Use the `SELECT` form inside `BEGIN ... END` scripts. `CALL` does not work there for two reasons:
+`CALL` accepts only fixed string literals. It does not support variables or expressions. Use the `SELECT` form when the message uses a variable or an expression, and inside `BEGIN ... END` scripts. `CALL` does not work in scripts for two reasons:
 
 - The script compiler rejects `CALL` statements with the error `CALL in script is not supported yet`.
-- `CALL` arguments are literal constants. Databend does not evaluate them. An expression such as `CONCAT(...)` or a variable reference such as `:message` causes a syntax error. An identifier or a `$name` session variable is sent as plain text.
+- Databend does not evaluate `CALL` arguments. An expression such as `CONCAT(...)` or a variable reference such as `:message` causes a syntax error. An identifier or a `$name` session variable is sent as plain text.
 
 The `SELECT` form accepts any expression, including script variables.
 

@@ -23,9 +23,13 @@ SELECT * FROM send_notification('<integration_name>', '<message>');
 
 `CALL system$send_notification(...)` is rewritten to the equivalent `SELECT * FROM send_notification(...)` statement.
 
-`CALL` has the following restrictions. Use the `SELECT` form when they apply:
+:::note
+`CALL system$send_notification` accepts only fixed string literals. It does not support variables or expressions. To build the message from a variable or an expression, use the `SELECT` form.
+:::
 
-- `CALL` arguments are literal constants. Databend does not evaluate them. An expression such as `CONCAT(...)` or a variable reference such as `:message` causes a syntax error. An identifier or a `$name` session variable is sent as plain text.
+`CALL` has the following restrictions:
+
+- Databend does not evaluate `CALL` arguments. An expression such as `CONCAT(...)` or a variable reference such as `:message` causes a syntax error. An identifier or a `$name` session variable is sent as plain text.
 - `CALL` is not supported inside `BEGIN ... END` scripts. The script compiler returns the error `CALL in script is not supported yet`.
 
 ## Parameters
