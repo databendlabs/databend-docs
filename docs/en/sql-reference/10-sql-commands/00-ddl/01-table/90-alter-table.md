@@ -297,8 +297,9 @@ PARTITION BY ( <expr> [ , <expr> ... ] )
 ### Usage Notes
 
 - Each partition expression must be deterministic and reference exactly one source column.
-- Existing rows remain visible but are not rewritten or backfilled with partition metadata. Writes after the alteration use the partitioned layout.
-- A partition key can be added only once. Repeating the same normalized definition succeeds without changes; replacing it with a different key is not supported.
+- Changes only the table definition. Existing data is not redistributed; data written afterwards is partitioned.
+- Run it on an empty table. On a table with data, `UPDATE`, `DELETE`, and `MERGE INTO` on existing rows fail until the table is rewritten. See [Adding a Partition Key to an Existing Table](/guides/performance/partition-by#add-partition-key-to-existing-table).
+- Repeating the same definition does nothing. A different definition fails; run `DROP PARTITION KEY` first.
 - Columns referenced by the partition key cannot be dropped or have their data types changed. Renaming a referenced column updates the partition expression.
 - `IF EXISTS` suppresses the error when the catalog, database, or table does not exist.
 - This operation is supported only for Fuse Engine tables.
@@ -322,6 +323,30 @@ INSERT INTO events VALUES
 ```
 
 For key selection, hash partitioning, and query-pruning examples, see [Partitioning Fuse Tables](/guides/performance/partition-by).
+
+## Removing the Partition Key
+
+Removes the partition key from a Fuse table.
+
+### Syntax
+
+```sql
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+DROP PARTITION KEY
+```
+
+### Usage Notes
+
+- Metadata-only: existing data is not rewritten.
+- Partition pruning stops for existing blocks; later writes are not partitioned.
+- `WRITE_DISTRIBUTION_MODE` is reset to `'none'`.
+- A partition key can be added again with `ALTER TABLE ... PARTITION BY`.
+
+### Example
+
+```sql
+ALTER TABLE events DROP PARTITION KEY;
+```
 
 ## Fuse Engine Options
 

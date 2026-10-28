@@ -167,20 +167,60 @@ WRITE_DISTRIBUTION_MODE = 'hash';
 
 哈希分发会引入网络 Shuffle。它适用于分布式或并行导入，并且优化后的 Block 布局能够抵消 Shuffle 成本的场景；对于小规模、单 Writer 写入，通常不会带来收益。
 
-## 为现有表添加分区
-
-通过 `ALTER TABLE` 为现有 Fuse 表添加分区键：
+:::caution[不开哈希分发时，无序输入会很慢]
+使用默认的 `WRITE_DISTRIBUTION_MODE = 'none'` 时，数据按到达顺序写入。如果输入数据的分区值逐行混杂，Databend 会写出大量很小的 Block，导入会变得很慢。请给表设置 `WRITE_DISTRIBUTION_MODE = 'hash'`，或者按分区键对输入排序：
 
 ```sql
-ALTER TABLE events
-PARTITION BY (DATE_TRUNC(day, event_time));
+INSERT INTO events SELECT ... FROM source ORDER BY DATE_TRUNC(day, event_time);
+```
+:::
+
+## 为已有表添加分区键 {/* #add-partition-key-to-existing-table */}
+
+`ALTER TABLE ... PARTITION BY` 只修改表定义。已有数据不会重新分布，之后执行 `OPTIMIZE TABLE` 或 `RECLUSTER` 也不会。只有之后写入的数据才会分区。
+
+| 表的状态 | 结果 |
+|---|---|
+| 空表 | 推荐。之后导入的数据全部分区。 |
+| 已有数据 | 执行成功，但已有数据不做分区裁剪，对已有行执行 `UPDATE`、`DELETE` 或 `MERGE INTO` 会报错 `serialized block contains more than one partition`。需要按下面的方法重写数据。 |
+| 已有相同的分区键 | 无变化。 |
+| 已有不同的分区键 | 报错 `PARTITION BY is already defined ...; changing it is not supported`。需要先删除分区键。 |
+| 非 Fuse 表 | 报错 `ALTER TABLE PARTITION BY is not supported for engine ...`。 |
+
+**空表**：先添加分区键，再导入数据。
+
+```sql
+ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
+INSERT INTO events SELECT * FROM source;
 ```
 
-执行该语句之前写入的行仍然可见，但已有 Segment 不会补充分区元数据，也不会重新组织物理布局。后续写入才会使用新的分区布局。
+**已有数据的表**：添加分区键，然后重写整张表。请保留 `ORDER BY`，否则重写会产生大量很小的 Block，速度很慢。
 
-:::caution
-一张表只能添加一次分区键。重复执行规范化后完全相同的定义不会产生影响，但不支持将已有分区键改为其他定义。请在生产表上执行前谨慎选择分区键。
-:::
+```sql
+ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
+INSERT OVERWRITE events SELECT * FROM events ORDER BY DATE_TRUNC(month, event_time);
+```
+
+**更换分区键**：先删除，再添加新的分区键，然后重写整张表。
+
+```sql
+ALTER TABLE events DROP PARTITION KEY;
+ALTER TABLE events PARTITION BY (DATE_TRUNC(day, event_time));
+INSERT OVERWRITE events SELECT * FROM events ORDER BY DATE_TRUNC(day, event_time);
+```
+
+`DROP PARTITION KEY` 不会重写数据。它会停止分区裁剪，并把 `WRITE_DISTRIBUTION_MODE` 重置为 `'none'`。
+
+## 修改行的分区键值 {/* #updating-the-partition-key-value-of-a-row */}
+
+`UPDATE` 和 `MERGE INTO` 可以修改行的分区键值，该行会移动到新值对应的分区，不需要额外操作。
+
+```sql
+-- 把这一行从 9 月分区移到 10 月分区。
+UPDATE events SET event_time = '2026-10-05 12:00:00' WHERE event_id = 42;
+```
+
+移动一行需要重写该行，代价高于原地更新。
 
 ## 表达式规则与表结构变更
 
