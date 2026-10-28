@@ -165,8 +165,12 @@ This mode hashes the evaluated partition key and routes rows with the same parti
 
 Hash redistribution adds a network shuffle. Enable it for distributed or parallel loads where improved block layout outweighs the shuffle cost; it may not benefit small, single-writer inserts.
 
-:::caution
-With `'none'`, rows are not regrouped by partition before they are written. If the input alternates between partition values row by row, Databend writes very small blocks and the load becomes slow. Use `'hash'`, or sort the input by the partition key (`INSERT ... SELECT ... ORDER BY <partition expression>`).
+:::caution[Unsorted input is slow without hash distribution]
+With the default `WRITE_DISTRIBUTION_MODE = 'none'`, rows are written in the order they arrive. If the input mixes partition values row by row, Databend writes many very small blocks and the load becomes slow. Either set `WRITE_DISTRIBUTION_MODE = 'hash'` on the table, or sort the input by the partition key:
+
+```sql
+INSERT INTO events SELECT ... FROM source ORDER BY DATE_TRUNC(day, event_time);
+```
 :::
 
 ## Adding Partitioning to an Existing Table
@@ -185,7 +189,7 @@ Rows written before this statement remain visible, but their existing segments d
 - A partition key can be added only once. To use a different key, drop it first with `DROP PARTITION KEY`, then add the new one.
 :::
 
-## Updating the Partition Key Value of a Row {#updating-the-partition-key-value-of-a-row}
+## Updating the Partition Key Value of a Row {/* #updating-the-partition-key-value-of-a-row */}
 
 `UPDATE` and `MERGE INTO` can change the partition key value of a row. The row moves to the partition of its new value, and queries that filter on the new value find it. No extra action is needed.
 

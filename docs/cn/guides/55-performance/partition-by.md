@@ -167,8 +167,12 @@ WRITE_DISTRIBUTION_MODE = 'hash';
 
 哈希分发会引入网络 Shuffle。它适用于分布式或并行导入，并且优化后的 Block 布局能够抵消 Shuffle 成本的场景；对于小规模、单 Writer 写入，通常不会带来收益。
 
-:::caution
-使用 `'none'` 时，写入前不会按分区重新归组。如果输入数据的分区值逐行交替，Databend 会写出大量很小的 Block，导入会变得很慢。请使用 `'hash'`，或者按分区键对输入排序（`INSERT ... SELECT ... ORDER BY <分区表达式>`）。
+:::caution[不开哈希分发时，无序输入会很慢]
+使用默认的 `WRITE_DISTRIBUTION_MODE = 'none'` 时，数据按到达顺序写入。如果输入数据的分区值逐行混杂，Databend 会写出大量很小的 Block，导入会变得很慢。请给表设置 `WRITE_DISTRIBUTION_MODE = 'hash'`，或者按分区键对输入排序：
+
+```sql
+INSERT INTO events SELECT ... FROM source ORDER BY DATE_TRUNC(day, event_time);
+```
 :::
 
 ## 为现有表添加分区
@@ -187,7 +191,7 @@ PARTITION BY (DATE_TRUNC(day, event_time));
 - 分区键只能添加一次。要改用其他分区键，先用 `DROP PARTITION KEY` 删除，再添加新的。
 :::
 
-## 修改行的分区键值 {#updating-the-partition-key-value-of-a-row}
+## 修改行的分区键值 {/* #updating-the-partition-key-value-of-a-row */}
 
 `UPDATE` 和 `MERGE INTO` 可以修改行的分区键值。该行会移动到新值对应的分区，按新值过滤的查询能查到它，不需要额外操作。
 
