@@ -1,9 +1,61 @@
 ---
 title: "Databend vs. Snowflake: 数据导入基准测试"
 sidebar_label: "数据导入基准测试"
+toc_max_heading_level: 2
+benchmark_card:
+  title: Databend vs. Snowflake
+  views:
+    - tab: 耗时
+      headline: 5.15×
+      summary: 导入速度
+      context: ClickBench 数据集 · Small 规格
+      unit: 秒
+      groups:
+        - label: ClickBench · 76 GB
+          rows:
+            - { label: Databend, value: 598, highlight: true }
+            - { label: Snowflake, value: 3077 }
+        - label: TPC-H SF100 · 100 GB
+          rows:
+            - { label: Databend, value: 446, highlight: true }
+            - { label: Snowflake, value: 695 }
+      note: 耗时越短越好
+    - tab: 成本
+      headline: 91%
+      summary: 导入成本节省
+      context: ClickBench 数据集 · Small 规格
+      prefix: $
+      decimals: 2
+      groups:
+        - label: ClickBench · 76 GB
+          rows:
+            - { label: Databend, value: 0.30, highlight: true }
+            - { label: Snowflake, value: 3.42 }
+        - label: TPC-H SF100 · 100 GB
+          rows:
+            - { label: Databend, value: 0.25, highlight: true }
+            - { label: Snowflake, value: 0.77 }
+      note: 成本越低越好
+    - tab: 时效性
+      headline: 400×
+      summary: 秒级入库行数
+      context: 1 秒时效性测试 · Small 规格
+      compact: true
+      unit: 行
+      groups:
+        - label: 1 秒内入库
+          rows:
+            - { label: Databend, value: 40000, highlight: true }
+            - { label: Snowflake, value: 100 }
+        - label: 5 秒内入库
+          rows:
+            - { label: Databend, value: 2500000, highlight: true }
+            - { label: Snowflake, value: 90000 }
+      note: 行数越多越好
 ---
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
+import SignupCard from '@site/src/components/SignupCard';
 
 ## 概述
 
@@ -184,3 +236,5 @@ COPY INTO hits
 ```
 
 4. 从仪表板衡量结果。
+
+<SignupCard title="在 Databend Cloud 上体验数据导入" />
