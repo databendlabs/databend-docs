@@ -213,6 +213,8 @@ PARTITION BY ( <expr> [ , <expr> ... ] )
 
 - 每个分区表达式必须是确定性的，并且只能引用一个源列。
 - 已有数据仍然可见，但不会被重写，也不会补充分区元数据。执行该语句后的新写入会使用分区布局。
+- 执行该语句之前写入的 Block 可能混有多个分区值。需要重写这类 Block 的 `UPDATE`、`DELETE` 和 `MERGE INTO` 会失败，报错 `serialized block contains more than one partition`；`RECLUSTER` 不会拆分它们。请在写入数据之前添加分区键，或者用 `DROP PARTITION KEY` 恢复。
+- `UPDATE` 和 `MERGE INTO` 可以修改在分区布局下写入的行的分区键值，该行会移动到新值对应的分区。参见 [Fuse 表分区](/guides/performance/partition-by#updating-the-partition-key-value-of-a-row)。
 - 分区键只能添加一次。重复执行规范化后完全相同的定义不会产生变更；不支持替换为其他分区键。
 - 分区键引用的列不能删除，也不能修改数据类型。重命名被引用的列时，分区表达式会同步更新。
 - 当 Catalog、Database 或 Table 不存在时，`IF EXISTS` 会忽略错误。
@@ -237,6 +239,35 @@ INSERT INTO events VALUES
 ```
 
 有关分区键选择、哈希分区和查询裁剪示例，请参见 [Fuse 表分区](/guides/performance/partition-by)。
+
+## 删除分区键
+
+删除 Fuse 表的分区键。
+
+### 语法
+
+```sql
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+DROP PARTITION KEY
+```
+
+### 使用说明
+
+- 只修改元数据：已有数据不会重写，当前快照保留。
+- 已有 Block 的分区统计信息不再用于裁剪；之后的写入不再分区。
+- `WRITE_DISTRIBUTION_MODE = 'hash'` 会同时重置，因为它依赖 `PARTITION BY`。
+- 对没有分区键的表重复执行该语句不会产生任何变更。
+- 原分区键引用的列在删除分区键之后可以删除。
+- 可以用 `ALTER TABLE ... PARTITION BY` 再次添加分区键；新定义不会复用旧定义下写入的统计信息。
+
+### 示例
+
+```sql
+ALTER TABLE events DROP PARTITION KEY;
+
+-- 删除分区键之后可以再次添加
+ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
+```
 
 <a id="fuse-引擎选项"></a>
 
