@@ -53,9 +53,9 @@ You can select a storage class for new data written to external tables. Values a
 | `standard` | Use S3 Standard for frequently accessed data. |
 | `intelligent_tiering` | Let S3 Intelligent-Tiering manage tiers as access patterns change. Check [AWS pricing and conditions](https://aws.amazon.com/s3/storage-classes/intelligent-tiering/) before you select it. |
 
-S3-compatible services must support the selected class. These options do not change the storage class of existing S3 objects.
+You can set the class on a table or set a default on the database. A table-level setting overrides the database default. S3-compatible services must support the selected class. Changes apply only to future writes. They do not change existing S3 objects or delete table data.
 
-### Create a Table with a Specific Class
+### Set the Class on a Table
 
 Add `S3_STORAGE_CLASS` when you create the table.
 
@@ -66,9 +66,7 @@ CREATE TABLE external_analytics.archive_events (id INT)
     S3_STORAGE_CLASS = 'intelligent_tiering';
 ```
 
-## Change or Remove an Existing Table's Setting
-
-For the `external_analytics.events` table created above, choose one operation. You do not need to recreate the table.
+To change or remove the setting on an existing table, use `ALTER TABLE`. You do not need to recreate the table.
 
 ```sql
 -- Use Intelligent-Tiering for future writes.
@@ -81,7 +79,7 @@ ALTER TABLE external_analytics.events SET OPTIONS (S3_STORAGE_CLASS = 'standard'
 ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
 ```
 
-`UNSET` uses the default storage behavior. It **does not** reapply the database default. To ensure S3 Standard, explicitly set `standard`. None of these operations changes existing S3 objects or deletes table data.
+`UNSET` uses the default storage behavior. It **does not** reapply the database default. To ensure S3 Standard, explicitly set `standard`.
 
 To check the stored option:
 
@@ -92,7 +90,7 @@ SHOW CREATE TABLE external_analytics.events;
 
 After `UNSET`, the definition no longer includes `S3_STORAGE_CLASS`.
 
-## Set a Default for New Tables
+### Set a Database Default
 
 Set `DEFAULT_S3_STORAGE_CLASS` on the database to avoid repeating the class for each new external table.
 
@@ -106,7 +104,7 @@ CREATE TABLE external_analytics.daily_events (id INT)
     CONNECTION = (CONNECTION_NAME = 'my_s3');
 ```
 
-The new table inherits `intelligent_tiering`. A table-level `S3_STORAGE_CLASS` overrides the database default. Changing the database default does not affect existing tables.
+The new table inherits `intelligent_tiering`.
 
 You can also set the connection, path, and class together when you create a database. New tables then use the database's external storage defaults without a location clause.
 
@@ -122,24 +120,14 @@ CREATE TABLE external_logs.app_events (id INT);
 
 Setting only `DEFAULT_S3_STORAGE_CLASS` does not make tables external. The table must have an explicit external location or inherit one from the database.
 
-### Switch the Default Back to S3 Standard
-
-Update the database default for new tables. Update existing tables separately.
+A change to the database default applies only to new tables. To switch back to S3 Standard, update the database default and each existing table separately.
 
 ```sql
 ALTER DATABASE external_analytics SET OPTIONS (DEFAULT_S3_STORAGE_CLASS = 'standard');
 ALTER TABLE external_analytics.daily_events SET OPTIONS (S3_STORAGE_CLASS = 'standard');
 ```
 
-To remove the existing table's stored option instead:
-
-```sql
-ALTER TABLE external_analytics.daily_events UNSET OPTIONS (S3_STORAGE_CLASS);
-```
-
-The table-level operations also apply to the other tables in this guide.
-
-## Limits and Permission Errors
+### Limits and Permission Errors
 
 - Storage-class options apply only to non-temporary external Fuse tables on S3 or S3-compatible storage.
 - Internal tables and temporary tables do not inherit the database class. Explicitly setting `S3_STORAGE_CLASS` on them returns an error.

@@ -53,9 +53,9 @@ SELECT * FROM external_analytics.events;
 | `standard` | 对于频繁访问的数据，使用 S3 Standard。 |
 | `intelligent_tiering` | 由 S3 Intelligent-Tiering 根据访问模式管理存储层级。选择前请查看 [AWS 价格和使用条件](https://aws.amazon.com/s3/storage-classes/intelligent-tiering/)。 |
 
-S3 兼容服务必须支持所选类别。这些选项不会更改已有 S3 对象的存储类别。
+可以在表上设置存储类别，也可以在数据库上设置默认值。表级设置优先于数据库默认值。S3 兼容服务必须支持所选类别。修改只影响后续写入，不会更改已有 S3 对象，也不会删除表数据。
 
-### 创建表时指定存储类别
+### 为表设置存储类别
 
 创建表时添加 `S3_STORAGE_CLASS`。
 
@@ -66,9 +66,7 @@ CREATE TABLE external_analytics.archive_events (id INT)
     S3_STORAGE_CLASS = 'intelligent_tiering';
 ```
 
-## 修改或取消已有表的设置
-
-对前面创建的 `external_analytics.events` 表，按需选择一种操作，无需重建表。
+如需修改或取消已有表的设置，使用 `ALTER TABLE`，无需重建表。
 
 ```sql
 -- Use Intelligent-Tiering for future writes.
@@ -81,7 +79,7 @@ ALTER TABLE external_analytics.events SET OPTIONS (S3_STORAGE_CLASS = 'standard'
 ALTER TABLE external_analytics.events UNSET OPTIONS (S3_STORAGE_CLASS);
 ```
 
-`UNSET` 恢复默认存储行为，**不会**重新继承数据库默认值。如需确保使用 S3 Standard，请显式设置 `standard`。这些操作都不会更改已有 S3 对象或删除表数据。
+`UNSET` 恢复默认存储行为，**不会**重新继承数据库默认值。如需确保使用 S3 Standard，请显式设置 `standard`。
 
 用以下语句查看已保存的选项。
 
@@ -92,7 +90,7 @@ SHOW CREATE TABLE external_analytics.events;
 
 执行 `UNSET` 后，表定义中不再包含 `S3_STORAGE_CLASS`。
 
-## 为新表设置默认值
+### 设置数据库默认值
 
 在数据库上设置 `DEFAULT_S3_STORAGE_CLASS`，无需在每次新建外部表时重复指定类别。
 
@@ -106,7 +104,7 @@ CREATE TABLE external_analytics.daily_events (id INT)
     CONNECTION = (CONNECTION_NAME = 'my_s3');
 ```
 
-新表继承 `intelligent_tiering`。表级 `S3_STORAGE_CLASS` 优先于数据库默认值。更改数据库默认值不影响已有表。
+新表继承 `intelligent_tiering`。
 
 也可以在创建数据库时同时设置连接、路径和类别。此后创建的表使用数据库的默认外部存储，无需再指定位置。
 
@@ -122,24 +120,14 @@ CREATE TABLE external_logs.app_events (id INT);
 
 单独设置 `DEFAULT_S3_STORAGE_CLASS` 不会将表变为外部表。表必须显式指定外部位置，或从数据库继承外部位置。
 
-### 将默认值改回 S3 Standard
-
-修改数据库默认值只影响新表，已有表需要单独修改。
+修改数据库默认值只影响新表。如需改回 S3 Standard，请分别修改数据库默认值和每个已有表。
 
 ```sql
 ALTER DATABASE external_analytics SET OPTIONS (DEFAULT_S3_STORAGE_CLASS = 'standard');
 ALTER TABLE external_analytics.daily_events SET OPTIONS (S3_STORAGE_CLASS = 'standard');
 ```
 
-如需移除已有表保存的选项，改用 `UNSET OPTIONS`。
-
-```sql
-ALTER TABLE external_analytics.daily_events UNSET OPTIONS (S3_STORAGE_CLASS);
-```
-
-本指南中的其他表也适用相同的表级操作。
-
-## 限制和权限错误
+### 限制和权限错误
 
 - 存储类别选项仅适用于使用 S3 或 S3 兼容存储的非临时外部 Fuse 表。
 - 内部表和临时表不继承数据库的存储类别。为这些表显式设置 `S3_STORAGE_CLASS` 会报错。
