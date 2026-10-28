@@ -23,6 +23,15 @@ SELECT * FROM send_notification('<integration_name>', '<message>');
 
 `CALL system$send_notification(...)` is rewritten to the equivalent `SELECT * FROM send_notification(...)` statement.
 
+:::note
+`CALL system$send_notification` accepts only fixed string literals. It does not support variables or expressions. To build the message from a variable or an expression, use the `SELECT` form.
+:::
+
+`CALL` has the following restrictions:
+
+- Databend does not evaluate `CALL` arguments. An expression such as `CONCAT(...)` or a variable reference such as `:message` causes a syntax error. An identifier or a `$name` session variable is sent as plain text.
+- `CALL` is not supported inside `BEGIN ... END` scripts. The script compiler returns the error `CALL in script is not supported yet`.
+
 ## Parameters
 
 | Parameter | Required | Description |
@@ -71,7 +80,7 @@ SELECT * FROM send_notification('feishu_alerts', 'Daily load completed.');
 
 ### Send a Notification from a Task
 
-Use the `SELECT` form inside a script. Use `IF` to control whether a notification is sent. Do not use `LIMIT`, `WHERE`, or other query optimizations to suppress the call.
+Use the `SELECT` form inside a script. In a SQL statement inside the script, prefix a variable with a colon, such as `:failed_count`. In a script expression, such as an `IF` condition, use the variable name without the colon. Use `IF` to control whether a notification is sent. Do not use `LIMIT`, `WHERE`, or other query optimizations to suppress the call.
 
 ```sql
 CREATE TASK notify_query_errors
@@ -90,7 +99,7 @@ BEGIN
     IF failed_count > 0 THEN
         SELECT * FROM send_notification(
             'feishu_alerts',
-            CONCAT('Query errors in the last 10 minutes: ', TO_STRING(failed_count))
+            CONCAT('Query errors in the last 10 minutes: ', TO_STRING(:failed_count))
         );
     END IF;
 END;

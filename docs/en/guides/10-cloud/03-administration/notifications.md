@@ -128,7 +128,12 @@ The statement returns a `result` column with zero rows. It does not return a del
 SELECT * FROM send_notification('feishu_alerts', 'Query errors exceeded the threshold.');
 ```
 
-Use the `SELECT` form inside `BEGIN ... END` scripts.
+`CALL` accepts only fixed string literals. It does not support variables or expressions. Use the `SELECT` form when the message uses a variable or an expression, and inside `BEGIN ... END` scripts. `CALL` does not work in scripts for two reasons:
+
+- The script compiler rejects `CALL` statements with the error `CALL in script is not supported yet`.
+- Databend does not evaluate `CALL` arguments. An expression such as `CONCAT(...)` or a variable reference such as `:message` causes a syntax error. An identifier or a `$name` session variable is sent as plain text.
+
+The `SELECT` form accepts any expression, including script variables.
 
 ## Step 4: Check Delivery Status
 
@@ -154,7 +159,7 @@ The history stores the original message, not the rendered request body. The curr
 
 ## Send Notifications from a Task
 
-Use `IF` to decide whether to send a message. The `SELECT` form is the supported form inside a script. Replace `monitoring_wh` with an existing warehouse. Replace the query and the message with your own condition.
+Use `IF` to decide whether to send a message. Use the `SELECT` form inside the script. Replace `monitoring_wh` with an existing warehouse. Replace the query and the message with your own condition.
 
 ```sql
 CREATE TASK notify_query_errors
@@ -173,12 +178,17 @@ BEGIN
     IF failed_count > 0 THEN
         SELECT * FROM send_notification(
             'feishu_alerts',
-            CONCAT('Query errors in the last 10 minutes: ', TO_STRING(failed_count))
+            CONCAT('Query errors in the last 10 minutes: ', TO_STRING(:failed_count))
         );
     END IF;
 END;
 $$;
 ```
+
+The script uses the variable in two ways:
+
+- In a script expression, such as the `IF` condition, use the variable name: `failed_count`.
+- In a SQL statement, such as the `SELECT`, prefix the variable with a colon: `:failed_count`. Without the colon, Databend treats the name as a column and returns `column failed_count doesn't exist`.
 
 `system_history.query_history` requires the Query History feature. Replace the query with your own condition if this feature is not available.
 
