@@ -173,40 +173,52 @@ INSERT INTO events SELECT ... FROM source ORDER BY DATE_TRUNC(day, event_time);
 ```
 :::
 
-## Adding Partitioning to an Existing Table
+## Adding a Partition Key to an Existing Table {/* #add-partition-key-to-existing-table */}
 
-Add a partition key to an existing Fuse table with `ALTER TABLE`:
+`ALTER TABLE ... PARTITION BY` changes only the table definition. Existing data is not redistributed, and `OPTIMIZE TABLE` or `RECLUSTER` does not redistribute it later. Only data written after the change is partitioned.
+
+| Table | Result |
+|---|---|
+| Empty | Recommended. All data loaded afterwards is partitioned. |
+| Has data | Succeeds, but existing data is not pruned, and `UPDATE`, `DELETE`, or `MERGE INTO` on existing rows fails with `serialized block contains more than one partition`. Rewrite the data as shown below. |
+| Has the same key | No change. |
+| Has a different key | Fails with `PARTITION BY is already defined ...; changing it is not supported`. Drop the key first. |
+| Not a Fuse table | Fails with `ALTER TABLE PARTITION BY is not supported for engine ...`. |
+
+**Empty table:** add the key, then load.
 
 ```sql
-ALTER TABLE events
-PARTITION BY (DATE_TRUNC(day, event_time));
+ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
+INSERT INTO events SELECT * FROM source;
 ```
 
-Rows written before this statement remain visible, but their existing segments do not gain partition metadata or get physically reorganized. New writes use the partitioned layout.
+**Table with data:** add the key, then rewrite the table. Keep the `ORDER BY`; without it, the rewrite writes very small blocks and is slow.
 
-:::caution
-- Add the partition key before you load data. Blocks written before `ALTER TABLE ... PARTITION BY` are not reorganized, and `UPDATE`, `DELETE`, or `MERGE INTO` that touch them fails with `serialized block contains more than one partition`. To recover, run `ALTER TABLE ... DROP PARTITION KEY` or recreate the table with `PARTITION BY`.
-- A partition key can be added only once. To use a different key, drop it first with `DROP PARTITION KEY`, then add the new one.
-:::
+```sql
+ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
+INSERT OVERWRITE events SELECT * FROM events ORDER BY DATE_TRUNC(month, event_time);
+```
+
+**Change the key:** drop it, add the new one, then rewrite the table.
+
+```sql
+ALTER TABLE events DROP PARTITION KEY;
+ALTER TABLE events PARTITION BY (DATE_TRUNC(day, event_time));
+INSERT OVERWRITE events SELECT * FROM events ORDER BY DATE_TRUNC(day, event_time);
+```
+
+`DROP PARTITION KEY` does not rewrite data. It stops partition pruning and resets `WRITE_DISTRIBUTION_MODE` to `'none'`.
 
 ## Updating the Partition Key Value of a Row {/* #updating-the-partition-key-value-of-a-row */}
 
-`UPDATE` and `MERGE INTO` can change the partition key value of a row. The row moves to the partition of its new value, and queries that filter on the new value find it. No extra action is needed.
+`UPDATE` and `MERGE INTO` can change the partition key value of a row. The row moves to the partition of its new value. No extra action is needed.
 
 ```sql
 -- Moves the row from the September partition to the October partition.
 UPDATE events SET event_time = '2026-10-05 12:00:00' WHERE event_id = 42;
 ```
 
-Moving a row across partitions rewrites it, so it costs more than an in-place update. If the partition key changes on every update (for example, a `last_updated` column), expect each batch to rewrite the partitions it touches.
-
-## Removing the Partition Key
-
-```sql
-ALTER TABLE events DROP PARTITION KEY;
-```
-
-Existing data is not rewritten. Partition pruning stops for existing blocks, later writes are not partitioned, and `WRITE_DISTRIBUTION_MODE` is reset to `'none'`. You can add a partition key again afterwards.
+Moving a row rewrites it, so it costs more than an in-place update.
 
 ## Expression Rules and Table Changes
 

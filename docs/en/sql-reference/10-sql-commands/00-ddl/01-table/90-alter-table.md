@@ -297,10 +297,9 @@ PARTITION BY ( <expr> [ , <expr> ... ] )
 ### Usage Notes
 
 - Each partition expression must be deterministic and reference exactly one source column.
-- Existing rows remain visible but are not rewritten or backfilled with partition metadata. Writes after the alteration use the partitioned layout.
-- Add the partition key before you load data. `UPDATE`, `DELETE`, and `MERGE INTO` that touch blocks written before the alteration fail with `serialized block contains more than one partition`. Use `DROP PARTITION KEY` to recover.
-- `UPDATE` and `MERGE INTO` can change the partition key value of a row; the row moves to the partition of its new value. See [Partitioning Fuse Tables](/guides/performance/partition-by#updating-the-partition-key-value-of-a-row).
-- A partition key can be added only once. Repeating the same normalized definition succeeds without changes; replacing it with a different key is not supported.
+- Changes only the table definition. Existing data is not redistributed; data written afterwards is partitioned.
+- Run it on an empty table. On a table with data, `UPDATE`, `DELETE`, and `MERGE INTO` on existing rows fail until the table is rewritten. See [Adding a Partition Key to an Existing Table](/guides/performance/partition-by#add-partition-key-to-existing-table).
+- Repeating the same definition does nothing. A different definition fails; run `DROP PARTITION KEY` first.
 - Columns referenced by the partition key cannot be dropped or have their data types changed. Renaming a referenced column updates the partition expression.
 - `IF EXISTS` suppresses the error when the catalog, database, or table does not exist.
 - This operation is supported only for Fuse Engine tables.

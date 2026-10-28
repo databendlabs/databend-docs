@@ -175,40 +175,52 @@ INSERT INTO events SELECT ... FROM source ORDER BY DATE_TRUNC(day, event_time);
 ```
 :::
 
-## 为现有表添加分区
+## 为已有表添加分区键 {/* #add-partition-key-to-existing-table */}
 
-通过 `ALTER TABLE` 为现有 Fuse 表添加分区键：
+`ALTER TABLE ... PARTITION BY` 只修改表定义。已有数据不会重新分布，之后执行 `OPTIMIZE TABLE` 或 `RECLUSTER` 也不会。只有之后写入的数据才会分区。
+
+| 表的状态 | 结果 |
+|---|---|
+| 空表 | 推荐。之后导入的数据全部分区。 |
+| 已有数据 | 执行成功，但已有数据不做分区裁剪，对已有行执行 `UPDATE`、`DELETE` 或 `MERGE INTO` 会报错 `serialized block contains more than one partition`。需要按下面的方法重写数据。 |
+| 已有相同的分区键 | 无变化。 |
+| 已有不同的分区键 | 报错 `PARTITION BY is already defined ...; changing it is not supported`。需要先删除分区键。 |
+| 非 Fuse 表 | 报错 `ALTER TABLE PARTITION BY is not supported for engine ...`。 |
+
+**空表**：先添加分区键，再导入数据。
 
 ```sql
-ALTER TABLE events
-PARTITION BY (DATE_TRUNC(day, event_time));
+ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
+INSERT INTO events SELECT * FROM source;
 ```
 
-执行该语句之前写入的行仍然可见，但已有 Segment 不会补充分区元数据，也不会重新组织物理布局。后续写入才会使用新的分区布局。
+**已有数据的表**：添加分区键，然后重写整张表。请保留 `ORDER BY`，否则重写会产生大量很小的 Block，速度很慢。
 
-:::caution
-- 请在写入数据之前添加分区键。`ALTER TABLE ... PARTITION BY` 之前写入的 Block 不会重新组织，涉及这些 Block 的 `UPDATE`、`DELETE` 或 `MERGE INTO` 会失败，报错 `serialized block contains more than one partition`。恢复方法是执行 `ALTER TABLE ... DROP PARTITION KEY`，或者用 `PARTITION BY` 重建表。
-- 分区键只能添加一次。要改用其他分区键，先用 `DROP PARTITION KEY` 删除，再添加新的。
-:::
+```sql
+ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
+INSERT OVERWRITE events SELECT * FROM events ORDER BY DATE_TRUNC(month, event_time);
+```
+
+**更换分区键**：先删除，再添加新的分区键，然后重写整张表。
+
+```sql
+ALTER TABLE events DROP PARTITION KEY;
+ALTER TABLE events PARTITION BY (DATE_TRUNC(day, event_time));
+INSERT OVERWRITE events SELECT * FROM events ORDER BY DATE_TRUNC(day, event_time);
+```
+
+`DROP PARTITION KEY` 不会重写数据。它会停止分区裁剪，并把 `WRITE_DISTRIBUTION_MODE` 重置为 `'none'`。
 
 ## 修改行的分区键值 {/* #updating-the-partition-key-value-of-a-row */}
 
-`UPDATE` 和 `MERGE INTO` 可以修改行的分区键值。该行会移动到新值对应的分区，按新值过滤的查询能查到它，不需要额外操作。
+`UPDATE` 和 `MERGE INTO` 可以修改行的分区键值，该行会移动到新值对应的分区，不需要额外操作。
 
 ```sql
 -- 把这一行从 9 月分区移到 10 月分区。
 UPDATE events SET event_time = '2026-10-05 12:00:00' WHERE event_id = 42;
 ```
 
-跨分区移动一行需要重写该行，代价高于原地更新。如果分区键在每次更新时都会变（例如 `last_updated` 列），每一批更新都会重写它涉及的分区。
-
-## 删除分区键
-
-```sql
-ALTER TABLE events DROP PARTITION KEY;
-```
-
-已有数据不会重写。已有 Block 不再做分区裁剪，之后的写入不再分区，`WRITE_DISTRIBUTION_MODE` 重置为 `'none'`。之后可以再次添加分区键。
+移动一行需要重写该行，代价高于原地更新。
 
 ## 表达式规则与表结构变更
 

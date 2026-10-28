@@ -212,10 +212,9 @@ PARTITION BY ( <expr> [ , <expr> ... ] )
 ### 使用说明
 
 - 每个分区表达式必须是确定性的，并且只能引用一个源列。
-- 已有数据仍然可见，但不会被重写，也不会补充分区元数据。执行该语句后的新写入会使用分区布局。
-- 请在写入数据之前添加分区键。涉及该语句之前写入的 Block 的 `UPDATE`、`DELETE` 和 `MERGE INTO` 会失败，报错 `serialized block contains more than one partition`。用 `DROP PARTITION KEY` 恢复。
-- `UPDATE` 和 `MERGE INTO` 可以修改行的分区键值，该行会移动到新值对应的分区。参见 [Fuse 表分区](/guides/performance/partition-by#updating-the-partition-key-value-of-a-row)。
-- 分区键只能添加一次。重复执行规范化后完全相同的定义不会产生变更；不支持替换为其他分区键。
+- 只修改表定义。已有数据不会重新分布，之后写入的数据才会分区。
+- 请对空表执行。对已有数据的表执行后，在重写整张表之前，对已有行执行 `UPDATE`、`DELETE` 和 `MERGE INTO` 都会失败。参见[为已有表添加分区键](/guides/performance/partition-by#add-partition-key-to-existing-table)。
+- 重复执行相同的定义不会产生变化；换成不同的定义会失败，需要先执行 `DROP PARTITION KEY`。
 - 分区键引用的列不能删除，也不能修改数据类型。重命名被引用的列时，分区表达式会同步更新。
 - 当 Catalog、Database 或 Table 不存在时，`IF EXISTS` 会忽略错误。
 - 该操作仅支持 Fuse Engine 表。
