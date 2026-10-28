@@ -165,10 +165,8 @@ This mode hashes the evaluated partition key and routes rows with the same parti
 
 Hash redistribution adds a network shuffle. Enable it for distributed or parallel loads where improved block layout outweighs the shuffle cost; it may not benefit small, single-writer inserts.
 
-:::caution[Input order matters in `'none'` mode]
-With `'none'`, rows are not regrouped by partition before blocks are written. Databend splits each incoming block wherever the partition value of adjacent rows changes. Input in which partition values alternate row by row (for example, `SELECT ... FROM numbers(n)` that assigns months round-robin) therefore produces one block per row, and every block is one object-storage write. In a test, 600 interleaved rows produced 584 blocks and took 39 seconds, while the same 60,000 rows with `'hash'` or with `ORDER BY` on the partition key produced 6 blocks in under 2 seconds.
-
-Use `'hash'`, or order the input by the partition key (`INSERT ... SELECT ... ORDER BY <partition expression>`), whenever the input is not already grouped by partition.
+:::caution
+With `'none'`, rows are not regrouped by partition before they are written. If the input alternates between partition values row by row, Databend writes very small blocks and the load becomes slow. Use `'hash'`, or sort the input by the partition key (`INSERT ... SELECT ... ORDER BY <partition expression>`).
 :::
 
 ## Adding Partitioning to an Existing Table
@@ -183,51 +181,28 @@ PARTITION BY (DATE_TRUNC(day, event_time));
 Rows written before this statement remain visible, but their existing segments do not gain partition metadata or get physically reorganized. New writes use the partitioned layout.
 
 :::caution
-A partition key can be added only once. Repeating the same normalized definition is harmless, but changing an existing partition key is not supported. Choose the key carefully before applying it to a production table.
-:::
-
-:::warning[Add the partition key before loading data]
-Blocks written before `ALTER TABLE ... PARTITION BY` may contain rows from several partition values. Reads of those blocks are correct (they are simply not pruned), but any `UPDATE`, `DELETE`, or `MERGE INTO` that has to rewrite such a block fails with `serialized block contains more than one partition`, because Databend refuses to serialize partition statistics that do not describe the block. `RECLUSTER` does not split these blocks either. To recover, run `ALTER TABLE ... DROP PARTITION KEY`, or rebuild the table with `PARTITION BY` in `CREATE TABLE`.
-
-Define `PARTITION BY` when you create the table, or add it to a table that is still empty.
+- Add the partition key before you load data. Blocks written before `ALTER TABLE ... PARTITION BY` are not reorganized, and `UPDATE`, `DELETE`, or `MERGE INTO` that touch them fails with `serialized block contains more than one partition`. To recover, run `ALTER TABLE ... DROP PARTITION KEY` or recreate the table with `PARTITION BY`.
+- A partition key can be added only once. To use a different key, drop it first with `DROP PARTITION KEY`, then add the new one.
 :::
 
 ## Updating the Partition Key Value of a Row {#updating-the-partition-key-value-of-a-row}
 
-A partition is a property of a block, not a storage location. `UPDATE` and `MERGE INTO` may change the partition key value of existing rows, and the rows move to the partition that matches their new value:
-
-- The mutation removes the row from its old block and writes it again through the regular append path.
-- The partition expression is evaluated on the new value, blocks are split at partition boundaries, and partition statistics are extracted from the data that is actually written.
-- Filters on the new partition value find the row; filters on the old value do not. Partition pruning stays exact.
+`UPDATE` and `MERGE INTO` can change the partition key value of a row. The row moves to the partition of its new value, and queries that filter on the new value find it. No extra action is needed.
 
 ```sql
-CREATE TABLE events (
-    event_id   BIGINT,
-    event_time TIMESTAMP,
-    status     STRING
-)
-PARTITION BY (DATE_TRUNC(month, event_time));
-
 -- Moves the row from the September partition to the October partition.
 UPDATE events SET event_time = '2026-10-05 12:00:00' WHERE event_id = 42;
-
--- MERGE INTO behaves the same way for matched rows.
-MERGE INTO events t USING new_events s ON t.event_id = s.event_id
-WHEN MATCHED THEN UPDATE SET t.event_time = s.event_time, t.status = s.status
-WHEN NOT MATCHED THEN INSERT *;
 ```
 
-Moving a row across partitions costs more than an in-place update: the old block is rewritten without the row, and the row is appended to a block of the new partition. A table whose partition key is updated on every change (for example, partitioning by `last_updated` time) pays this cost on each update but keeps recently changed rows together in the newest partitions. Use `EXPLAIN` to confirm that `partitions scanned` stays below `partitions total` after such updates.
+Moving a row across partitions rewrites it, so it costs more than an in-place update. If the partition key changes on every update (for example, a `last_updated` column), expect each batch to rewrite the partitions it touches.
 
 ## Removing the Partition Key
-
-`ALTER TABLE ... DROP PARTITION KEY` removes the partition definition. Existing data is not rewritten; the partition statistics of existing blocks are no longer used for pruning, and later writes are not partitioned. Hash write distribution is disabled at the same time because it requires `PARTITION BY`.
 
 ```sql
 ALTER TABLE events DROP PARTITION KEY;
 ```
 
-After dropping the key, `ALTER TABLE ... PARTITION BY` can be used again. The new definition receives a fresh identity, so statistics written under the old definition are never reused for pruning.
+Existing data is not rewritten. Partition pruning stops for existing blocks, later writes are not partitioned, and `WRITE_DISTRIBUTION_MODE` is reset to `'none'`. You can add a partition key again afterwards.
 
 ## Expression Rules and Table Changes
 

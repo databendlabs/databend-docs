@@ -298,8 +298,8 @@ PARTITION BY ( <expr> [ , <expr> ... ] )
 
 - Each partition expression must be deterministic and reference exactly one source column.
 - Existing rows remain visible but are not rewritten or backfilled with partition metadata. Writes after the alteration use the partitioned layout.
-- Blocks written before the alteration may mix several partition values. `UPDATE`, `DELETE`, and `MERGE INTO` that need to rewrite such a block fail with `serialized block contains more than one partition`; `RECLUSTER` does not split them. Add the partition key before loading data, or use `DROP PARTITION KEY` to recover.
-- `UPDATE` and `MERGE INTO` may change the partition key value of rows written under the partitioned layout; the rows move to the partition of their new value. See [Partitioning Fuse Tables](/guides/performance/partition-by#updating-the-partition-key-value-of-a-row).
+- Add the partition key before you load data. `UPDATE`, `DELETE`, and `MERGE INTO` that touch blocks written before the alteration fail with `serialized block contains more than one partition`. Use `DROP PARTITION KEY` to recover.
+- `UPDATE` and `MERGE INTO` can change the partition key value of a row; the row moves to the partition of its new value. See [Partitioning Fuse Tables](/guides/performance/partition-by#updating-the-partition-key-value-of-a-row).
 - A partition key can be added only once. Repeating the same normalized definition succeeds without changes; replacing it with a different key is not supported.
 - Columns referenced by the partition key cannot be dropped or have their data types changed. Renaming a referenced column updates the partition expression.
 - `IF EXISTS` suppresses the error when the catalog, database, or table does not exist.
@@ -338,20 +338,15 @@ DROP PARTITION KEY
 
 ### Usage Notes
 
-- Metadata-only: existing data is not rewritten, and the current snapshot is kept.
-- Partition statistics of existing blocks are no longer used for pruning; later writes are not partitioned.
-- `WRITE_DISTRIBUTION_MODE = 'hash'` is reset at the same time because it requires `PARTITION BY`.
-- Repeating the statement on a table without a partition key is a no-op.
-- The columns referenced by the former partition key can be dropped afterwards.
-- A partition key can be added again with `ALTER TABLE ... PARTITION BY`; the new definition never reuses statistics written under the old one.
+- Metadata-only: existing data is not rewritten.
+- Partition pruning stops for existing blocks; later writes are not partitioned.
+- `WRITE_DISTRIBUTION_MODE` is reset to `'none'`.
+- A partition key can be added again with `ALTER TABLE ... PARTITION BY`.
 
 ### Example
 
 ```sql
 ALTER TABLE events DROP PARTITION KEY;
-
--- Allowed again after the key has been dropped
-ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
 ```
 
 ## Fuse Engine Options

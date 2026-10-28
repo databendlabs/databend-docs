@@ -167,10 +167,8 @@ WRITE_DISTRIBUTION_MODE = 'hash';
 
 哈希分发会引入网络 Shuffle。它适用于分布式或并行导入，并且优化后的 Block 布局能够抵消 Shuffle 成本的场景；对于小规模、单 Writer 写入，通常不会带来收益。
 
-:::caution[`'none'` 模式下输入顺序很重要]
-使用 `'none'` 时，写入前不会按分区重新归组。Databend 只在相邻两行分区值不同的位置切分 Block。如果输入数据的分区值逐行交替（例如用 `SELECT ... FROM numbers(n)` 轮流分配月份），就会产生每行一个 Block，每个 Block 都是一次对象存储写入。实测中，600 行交错数据写出了 584 个 Block，耗时 39 秒；同样的 60,000 行数据使用 `'hash'`，或者在写入时按分区键 `ORDER BY`，只写出 6 个 Block，耗时不到 2 秒。
-
-只要输入数据不是已经按分区归组的，就使用 `'hash'`，或者按分区键对输入排序（`INSERT ... SELECT ... ORDER BY <分区表达式>`）。
+:::caution
+使用 `'none'` 时，写入前不会按分区重新归组。如果输入数据的分区值逐行交替，Databend 会写出大量很小的 Block，导入会变得很慢。请使用 `'hash'`，或者按分区键对输入排序（`INSERT ... SELECT ... ORDER BY <分区表达式>`）。
 :::
 
 ## 为现有表添加分区
@@ -185,51 +183,28 @@ PARTITION BY (DATE_TRUNC(day, event_time));
 执行该语句之前写入的行仍然可见，但已有 Segment 不会补充分区元数据，也不会重新组织物理布局。后续写入才会使用新的分区布局。
 
 :::caution
-一张表只能添加一次分区键。重复执行规范化后完全相同的定义不会产生影响，但不支持将已有分区键改为其他定义。请在生产表上执行前谨慎选择分区键。
-:::
-
-:::warning[先定义分区键，再写入数据]
-在 `ALTER TABLE ... PARTITION BY` 之前写入的 Block 可能同时包含多个分区值的行。读取这些 Block 的结果是正确的（只是不会被裁剪），但需要重写这些 Block 的 `UPDATE`、`DELETE` 或 `MERGE INTO` 会失败，报错 `serialized block contains more than one partition`，因为 Databend 拒绝写出与数据不一致的分区统计信息。`RECLUSTER` 也不会拆分这些 Block。恢复方法是执行 `ALTER TABLE ... DROP PARTITION KEY`，或者用 `CREATE TABLE ... PARTITION BY` 重建表。
-
-请在 `CREATE TABLE` 时定义 `PARTITION BY`，或者只对空表添加分区键。
+- 请在写入数据之前添加分区键。`ALTER TABLE ... PARTITION BY` 之前写入的 Block 不会重新组织，涉及这些 Block 的 `UPDATE`、`DELETE` 或 `MERGE INTO` 会失败，报错 `serialized block contains more than one partition`。恢复方法是执行 `ALTER TABLE ... DROP PARTITION KEY`，或者用 `PARTITION BY` 重建表。
+- 分区键只能添加一次。要改用其他分区键，先用 `DROP PARTITION KEY` 删除，再添加新的。
 :::
 
 ## 修改行的分区键值 {#updating-the-partition-key-value-of-a-row}
 
-分区是 Block 的属性，不是存储位置。`UPDATE` 和 `MERGE INTO` 可以修改已有行的分区键值，该行会移动到与新值匹配的分区：
-
-- 变更操作把该行从原 Block 中删除，再通过常规的追加写入路径重新写入。
-- 分区表达式按新值计算，Block 在分区边界处切分，分区统计信息从实际写出的数据中提取。
-- 按新分区值过滤能查到该行，按旧值过滤查不到。分区裁剪始终准确。
+`UPDATE` 和 `MERGE INTO` 可以修改行的分区键值。该行会移动到新值对应的分区，按新值过滤的查询能查到它，不需要额外操作。
 
 ```sql
-CREATE TABLE events (
-    event_id   BIGINT,
-    event_time TIMESTAMP,
-    status     STRING
-)
-PARTITION BY (DATE_TRUNC(month, event_time));
-
 -- 把这一行从 9 月分区移到 10 月分区。
 UPDATE events SET event_time = '2026-10-05 12:00:00' WHERE event_id = 42;
-
--- MERGE INTO 对匹配到的行的处理方式相同。
-MERGE INTO events t USING new_events s ON t.event_id = s.event_id
-WHEN MATCHED THEN UPDATE SET t.event_time = s.event_time, t.status = s.status
-WHEN NOT MATCHED THEN INSERT *;
 ```
 
-跨分区移动一行的代价高于原地更新：原 Block 要去掉这一行后重写，这一行再追加到新分区的 Block 中。如果分区键在每次变更时都会更新（例如按 `last_updated` 时间分区），每次更新都要付出这个代价，但最近变更的行会集中在最新的分区里。可以用 `EXPLAIN` 确认此类更新之后 `partitions scanned` 仍然小于 `partitions total`。
+跨分区移动一行需要重写该行，代价高于原地更新。如果分区键在每次更新时都会变（例如 `last_updated` 列），每一批更新都会重写它涉及的分区。
 
 ## 删除分区键
-
-`ALTER TABLE ... DROP PARTITION KEY` 删除分区定义。已有数据不会重写；已有 Block 的分区统计信息不再用于裁剪，之后的写入也不再分区。由于哈希写入分发依赖 `PARTITION BY`，它会同时被关闭。
 
 ```sql
 ALTER TABLE events DROP PARTITION KEY;
 ```
 
-删除分区键之后可以再次执行 `ALTER TABLE ... PARTITION BY`。新定义会获得新的标识，旧定义下写入的统计信息不会被用于裁剪。
+已有数据不会重写。已有 Block 不再做分区裁剪，之后的写入不再分区，`WRITE_DISTRIBUTION_MODE` 重置为 `'none'`。之后可以再次添加分区键。
 
 ## 表达式规则与表结构变更
 
