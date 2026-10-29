@@ -2,6 +2,10 @@
 title: Privileges
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
+
 A privilege is a permission to perform an action. Users must have specific privileges to execute particular actions within Databend. For example, when querying a table, a user needs `SELECT` privileges to the table. Similarly, to read a dataset within a stage, the user must possess `READ` privileges.
 
 In Databend, privileges are granted to roles. Users receive privileges through the roles assigned to them.
@@ -83,6 +87,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | APPLY MASKING POLICY | Global, Masking Policy     | Attaches, detaches, describes, or drops masking policies. When granted on *.*, the grantee can manage any masking policy.                          |
 | APPLY ROW ACCESS POLICY | Global, Row Access Policy | Adds or removes row access policies from tables and allows DESCRIBE/DROP operations on any policy. When granted on *.*, the grantee can manage every row access policy. |
 | ALTER             | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
+| ATTACH TABLE      | Global, Database              | Attaches existing storage data as a table. Also requires the existing `CREATE` permission. |
 | CREATE            | Global, Table                 | Creates a table or UDF.                                                                                                                            |
 | CREATE DATABASE   | Global                        | Creates a database or UDF.                                                                                                                         |
 | CREATE WAREHOUSE  | Global                        | Creates a warehouse.                                                                                                                               |
@@ -110,12 +115,21 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | ACCESS SEQUENCE   | SEQUENCE                      | Access sequence.                                                                                                                                   |
 | ACCESS PROCEDURE  | PROCEDURE                     | Access procedure.                                                                                                                                  |
 
+### ATTACH TABLE Privilege
+
+[ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) requires an explicit `ATTACH TABLE` grant in addition to the existing `CREATE` permission. Grant it on `db_name.*` or `*.*`, to a role or directly to a user. It cannot be granted on an individual table.
+
+`CREATE`, `SUPER`, and database ownership do not include this privilege. The built-in `account_admin` role includes it. `ALL` at database or global scope includes it. Grant `ATTACH TABLE` to roles that need to attach tables.
+
+The same requirements apply to `CREATE TABLE` with `STORAGE_PREFIX`. Ordinary table creation without `STORAGE_PREFIX` does not require `ATTACH TABLE`.
+
 ### Global Privileges
 
 | Privilege         | Description                                                                                                       |
 |:------------------|:------------------------------------------------------------------------------------------------------------------|
 | ALL               | Grants all the privileges for the specified object type.                                                          |
 | ALTER             | Adds or drops a table column. Alters a cluster key. Re-clusters a table.                                          |
+| ATTACH TABLE      | Attaches existing storage data as a table in any database. Also requires the existing `CREATE` permission. |
 | CREATEROLE        | Creates a role.                                                                                                   |
 | CREAT DATABASE    | Creates a DATABASE.                                                                                               |
 | CREATE WAREHOUSE  | Creates a WAREHOUSE.                                                                                              |
@@ -158,6 +172,7 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 
 | Privilege | Description                                                                                                      |
 |:----------|:-----------------------------------------------------------------------------------------------------------------|
+| ATTACH TABLE | Attaches existing storage data as a table in this database. Also requires the existing `CREATE` permission. |
 | ALTER     | Renames a database.                                                                                              |
 | DROP      | Drops or undrops a database. Restores the recent version of a dropped database.                                  |
 | SELECT    | SHOW CREATE a database.                                                                                          |

@@ -4,7 +4,7 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.845"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 撤销特定数据库对象的权限、角色和所有权。 这包括：
 
@@ -39,6 +39,9 @@ schemaObjectPrivileges ::=
   
 -- For SCHEMA
   { CREATE | DROP | ALTER }
+
+-- For database or global scope only
+  { ATTACH TABLE }
   
 -- For USER
   { CREATE USER }
@@ -69,6 +72,19 @@ privileges_level ::=
   | MASKING POLICY <policy_name>
   | ROW ACCESS POLICY <policy_name>
 ```
+
+### 撤销 ATTACH TABLE 权限
+
+在授予权限时使用的作用域上，从角色或用户撤销 `ATTACH TABLE` 权限：
+
+```sql
+REVOKE ATTACH TABLE ON <db_name>.* FROM ROLE <role_name>;
+REVOKE ATTACH TABLE ON *.* FROM ROLE <role_name>;
+REVOKE ATTACH TABLE ON <db_name>.* FROM USER <user_name>;
+REVOKE ATTACH TABLE ON *.* FROM USER <user_name>;
+```
+
+不支持表级撤销。撤销此权限不会撤销 `CREATE`，也不会删除已有的附加表。如果用户不再拥有适用的 `ATTACH TABLE` 授权，则无法继续附加新表，即使用户仍拥有 `CREATE`、`SUPER` 或数据库所有权也一样。
 
 ### 撤销脱敏策略权限
 

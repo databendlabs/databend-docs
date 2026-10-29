@@ -5,7 +5,7 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.698"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -19,6 +19,28 @@ ATTACH TABLE creates a read-only link to existing table data without copying it.
 - **Real-Time Updates**: Changes in the source table are instantly visible in attached tables
 - **Read-Only Mode**: Only supports SELECT queries (no INSERT, UPDATE, or DELETE operations)
 - **Column-Level Access**: Optionally include only specific columns for security and performance
+
+## Access Control Requirements
+
+Attaching a table requires both the existing `CREATE` permission and an explicit `ATTACH TABLE` privilege on the target database or globally.
+
+- Grant `ATTACH TABLE` on `db_name.*` or `*.*`. Table-level grants are not supported.
+- `CREATE`, `SUPER`, and database ownership do not include `ATTACH TABLE`. The built-in `account_admin` role includes it.
+- `ALL` at database or global scope includes `ATTACH TABLE`.
+- The same checks apply to `CREATE TABLE` with `STORAGE_PREFIX`.
+- Ordinary table creation without `STORAGE_PREFIX` does not require `ATTACH TABLE`.
+
+Grant `ATTACH TABLE` to roles that need to attach tables. For example, an administrator can create a role with both required privileges on the `default` database:
+
+```sql
+CREATE ROLE attach_reader;
+GRANT CREATE ON default.* TO ROLE attach_reader;
+GRANT ATTACH TABLE ON default.* TO ROLE attach_reader;
+```
+
+Assign this role to users who need to attach tables. `ATTACH TABLE` alone does not satisfy the `CREATE` permission check.
+
+See [GRANT](../02-user/10-grant.md#granting-attach-table-privileges) and [Privileges](/guides/security/access-control/privileges).
 
 ## Syntax
 
