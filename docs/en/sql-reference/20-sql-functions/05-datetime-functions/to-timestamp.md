@@ -3,7 +3,7 @@ title: TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.664"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 Converts an expression to a date with time.
 
@@ -99,6 +99,16 @@ Returns a timestamp in the format `YYYY-MM-DD hh:mm:ss.ffffff`:
     └──────────────────────────────┘
     ```
 
+## Supported Range
+
+The inclusive UTC range is `0000-12-31 00:00:00.000000` through `9999-12-31 23:59:59.999999`. The corresponding Unix microsecond bounds are `-62135683200000000` and `253402300799999999`.
+
+For string input, Databend checks the UTC instant after timezone conversion. Local year `0000` or a signed extended year such as `+10000` is accepted only if the UTC instant is within range. For example, `+10000-01-01 07:59:59.999999 +0800` represents the UTC maximum. Strict text conversion rejects out-of-range UTC instants; `TRY_TO_TIMESTAMP` returns `NULL` for these conversion errors.
+
+Numeric conversions retain their overflow behavior. An out-of-range timestamp value clamps to the minimum timestamp, including with `TRY_TO_TIMESTAMP`. This does not suppress errors when an input cannot be converted to `Int64`.
+
+See [Timestamp Range and Timezones](../../00-sql-reference/10-data-types/datetime.md#timestamp-range-and-timezones) for timezone and client considerations.
+
 ## Aliases
 
 - [TO_DATETIME](to-datetime.md)
@@ -164,7 +174,7 @@ SELECT TO_TIMESTAMP(TO_INT64('994518299'));
 :::note
 - You can use `SELECT TO_TIMESTAMP('994518299', '%s')` for the conversion as well, but it is not recommended. For such conversions, Databend recommends using the method in the example above for better performance.
 
-- A Timestamp value ranges from 1000-01-01 00:00:00.000000 to 9999-12-31 23:59:59.999999. Databend would return an error if you run the following statement:
+- The following integer exceeds the `Int64` range. Its conversion fails before timestamp range checks:
 
 ```bash
 root@localhost:8000/default> SELECT TO_TIMESTAMP(9999999999999999999);

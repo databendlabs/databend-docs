@@ -6,17 +6,36 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.834"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 ## Overview
 
 | Name         | Aliases                   | Storage Size | Resolution  | Min Value                  | Max Value                      | Format                                                                         |
 |--------------|---------------------------|--------------|-------------|----------------------------|--------------------------------|--------------------------------------------------------------------------------|
 | DATE         |                           | 4 bytes      | Day         | 0001-01-01                 | 9999-12-31                     | `YYYY-MM-DD`                                                                   |
-| TIMESTAMP    | DATETIME                  | 8 bytes      | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`, uses session timezone for display            |
-| TIMESTAMP_TZ | TIMESTAMP WITH TIME ZONE  | 8 bytes      | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]±hh:mm`, stores UTC value plus offset           |
+| TIMESTAMP    | DATETIME                  | 8 bytes      | Microsecond | 0000-12-31 00:00:00.000000 UTC | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`, uses session timezone for display            |
+| TIMESTAMP_TZ | TIMESTAMP WITH TIME ZONE  | 8 bytes      | Microsecond | 0000-12-31 00:00:00.000000 UTC | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]±hh:mm`, stores UTC value plus offset           |
 
 `DATE` keeps only calendar values, `TIMESTAMP` stores UTC internally but renders through the current session timezone, and `TIMESTAMP_TZ` preserves the original offset for auditing or replication scenarios.
+
+## Timestamp Range and Timezones
+
+`TIMESTAMP` and `TIMESTAMP_TZ` share the same inclusive UTC range. In Unix microseconds, the bounds are `-62135683200000000` and `253402300799999999`. `DATE` has a separate range of `0001-01-01` through `9999-12-31`.
+
+Timestamp text parsing checks the UTC instant after timezone conversion, not only the local calendar year. For example:
+
+- In `Asia/Shanghai`, local `0001-01-01 00:00:00` uses the historical offset `+08:05:43`. It represents `0000-12-31 15:54:17 UTC`, which is within the timestamp range.
+- `+10000-01-01 07:59:59.999999 +0800` represents the UTC maximum. The same local time in UTC is out of range.
+
+Text with local year `0000` or a signed extended year such as `+10000` is accepted only when its UTC instant is within range. This does not permit every date in those years. It does not extend the range of `DATE` or the year arguments of explicit date-part constructors.
+
+### Boundary Text Round Trips
+
+Plain `TIMESTAMP` text has no timezone suffix. Use the same session timezone when exporting and reloading it in CSV, TSV, or NDJSON. `TIMESTAMP_TZ` text carries its own offset.
+
+`TIMESTAMP_TZ` text uses minute-only offsets such as `+0806`. Historical offsets that include seconds can lose precision when converted to text and parsed again.
+
+Check that your client supports year `0000`. A valid UTC timestamp near the upper bound can also display as local year `+10000` in an eastern timezone.
 
 ## Examples
 
@@ -147,23 +166,15 @@ Use `SET enable_dst_hour_fix = 0` to return to the default behavior if you would
 
 ## Handling Invalid Values
 
-Dates outside the supported range automatically clamp to their minimum values.
+The result depends on the conversion or operation:
 
-```sql
-SELECT
-  ADD_DAYS(TO_DATE('9999-12-31'), 1)         AS overflow_date,
-  SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1) AS underflow_timestamp;
-```
+- Numeric timestamp conversions clamp out-of-range timestamp values to the minimum timestamp, not the maximum. `TRY_TO_TIMESTAMP` numeric conversions retain this behavior; a clamped value does not become `NULL`.
+- Strict timestamp text conversions return an error for an out-of-range UTC instant. Their `TRY_` forms return `NULL` on conversion errors.
+- Text with a local year outside `1` through `9999` must resolve to an in-range UTC instant. Otherwise, strict conversion and `COPY INTO` reject it, and automatic format detection does not match it.
+- `INTERVAL` arithmetic returns an error for out-of-range results. Older arithmetic functions that clamp overflow retain that behavior.
 
-Result:
-```
-┌───────────────┬──────────────────────────┐
-│ overflow_date │ underflow_timestamp      │
-├───────────────┼──────────────────────────┤
-│ 0001-01-01    │ 0999-12-31T18:41:28      │
-└───────────────┴──────────────────────────┘
-```
-The values wrap to the minimum representable date or timestamp instead of raising an error.
+Do not assume that every invalid input returns the minimum value. For conversion details, see [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) and [TO_TIMESTAMP_TZ](../../20-sql-functions/05-datetime-functions/to-timestamp-tz.md).
+
 ## Formatting Date and Time
 
 Functions such as [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) and [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) accept explicit format strings. Control how they parse or render values by adjusting `date_format_style` and `week_start`.

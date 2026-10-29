@@ -3,7 +3,7 @@ title: TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.664"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 将表达式转换为带时间的日期。
 
@@ -31,7 +31,7 @@ TO_TIMESTAMP(<expr>)
 TO_TIMESTAMP(<expr>, <pattern>)
 ```
 
-该函数根据第二个字符串中指定的模式将第一个字符串转换为时间戳。要指定模式，请使用格式说明符。格式说明符允许您定义日期和时间值的所需格式。有关支持的格式说明符的完整列表，请参阅 [日期和时间格式化](../../00-sql-reference/10-data-types/datetime.md#formatting-date-and-time)。
+该函数根据第二个字符串中指定的模式将第一个字符串转换为时间戳。要指定模式，请使用格式说明符。格式说明符允许您定义日期和时间值的所需格式。有关支持的格式说明符的完整列表，请参阅 [日期和时间格式化](../../00-sql-reference/10-data-types/datetime.md#日期和时间格式化)。
 
 ```sql
 -- 根据指定的比例将整数转换为时间戳
@@ -98,6 +98,16 @@ TO_TIMESTAMP(<int>, <scale>)
     └──────────────────────────────┘
     ```
 
+## 支持范围
+
+UTC 范围为 `0000-12-31 00:00:00.000000` 至 `9999-12-31 23:59:59.999999`，包含两端。对应的 Unix 微秒边界为 `-62135683200000000` 和 `253402300799999999`。
+
+对于字符串输入，Databend 在时区转换后检查 UTC 时刻。仅当 UTC 时刻在范围内时，才接受本地年份为 `0000` 或带符号的扩展年份（如 `+10000`）的文本。例如，`+10000-01-01 07:59:59.999999 +0800` 表示 UTC 上界。严格文本转换会拒绝超出范围的 UTC 时刻；对于这类转换错误，`TRY_TO_TIMESTAMP` 返回 `NULL`。
+
+数值转换保留原有的溢出行为。超出时间戳范围的值会被钳制到最小时间戳，`TRY_TO_TIMESTAMP` 也采用此行为。这不会忽略输入无法转换为 `Int64` 时产生的错误。
+
+有关时区和客户端注意事项，请参阅[时间戳范围与时区](../../00-sql-reference/10-data-types/datetime.md#时间戳范围与时区)。
+
 ## 别名
 
 - [TO_DATETIME](to-datetime.md)
@@ -163,7 +173,7 @@ SELECT TO_TIMESTAMP(TO_INT64('994518299'));
 :::note
 - 您也可以使用 `SELECT TO_TIMESTAMP('994518299', '%s')` 进行转换，但不推荐。对于此类转换，Databend 建议使用上述示例中的方法以获得更好的性能。
 
-- 时间戳值的范围从 1000-01-01 00:00:00.000000 到 9999-12-31 23:59:59.999999。如果您运行以下语句，Databend 将返回错误：
+- 以下整数超出 `Int64` 范围。转换会在检查时间戳范围之前失败：
 
 ```bash
 root@localhost:8000/default> SELECT TO_TIMESTAMP(9999999999999999999);

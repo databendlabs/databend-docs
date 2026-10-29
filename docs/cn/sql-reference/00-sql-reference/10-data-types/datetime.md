@@ -6,17 +6,36 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于: v1.2.834"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 ## 概览
 
 | 名称         | 别名                      | 存储大小 | 精度        | 最小值                     | 最大值                         | 格式                                                                           |
 |--------------|---------------------------|----------|-------------|----------------------------|--------------------------------|--------------------------------------------------------------------------------|
 | DATE         |                           | 4 字节   | 天          | 0001-01-01                 | 9999-12-31                     | `YYYY-MM-DD`                                                                   |
-| TIMESTAMP    | DATETIME                  | 8 字节   | 微秒        | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`，显示时遵循会话时区                           |
-| TIMESTAMP_TZ | TIMESTAMP WITH TIME ZONE  | 8 字节   | 微秒        | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]±hh:mm`，存储 UTC 值及原始偏移                 |
+| TIMESTAMP    | DATETIME                  | 8 字节   | 微秒        | 0000-12-31 00:00:00.000000 UTC | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`，显示时遵循会话时区                           |
+| TIMESTAMP_TZ | TIMESTAMP WITH TIME ZONE  | 8 字节   | 微秒        | 0000-12-31 00:00:00.000000 UTC | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]±hh:mm`，存储 UTC 值及原始偏移                 |
 
 `DATE` 仅保存日历日期；`TIMESTAMP` 内部存储 UTC 时间，但会根据当前会话的时区进行渲染；`TIMESTAMP_TZ` 则会保留原始的时区偏移量，适用于审计或数据复制场景。
+
+## 时间戳范围与时区
+
+`TIMESTAMP` 和 `TIMESTAMP_TZ` 使用相同的 UTC 范围，包含两端。以 Unix 微秒表示时，边界为 `-62135683200000000` 和 `253402300799999999`。`DATE` 使用独立的范围：`0001-01-01` 至 `9999-12-31`。
+
+时间戳文本解析在时区转换后检查 UTC 时刻，而不是仅检查本地日历年份。例如：
+
+- 在 `Asia/Shanghai` 中，本地时间 `0001-01-01 00:00:00` 使用历史偏移量 `+08:05:43`，对应 `0000-12-31 15:54:17 UTC`，在时间戳范围内。
+- `+10000-01-01 07:59:59.999999 +0800` 表示 UTC 上界。相同的本地时间在 UTC 时区中则超出范围。
+
+仅当 UTC 时刻在范围内时，才接受本地年份为 `0000` 或带符号的扩展年份（如 `+10000`）的文本。这不表示这些年份中的所有日期均有效，也不会扩展 `DATE` 的范围或显式日期分量构造函数的年份参数范围。
+
+### 边界值的文本往返转换
+
+普通 `TIMESTAMP` 文本不带时区后缀。通过 CSV、TSV 或 NDJSON 导出并重新加载时，请使用相同的会话时区。`TIMESTAMP_TZ` 文本自带偏移量。
+
+`TIMESTAMP_TZ` 文本仅使用分钟精度的偏移量，如 `+0806`。包含秒的历史偏移量在转换为文本后重新解析时，可能丢失精度。
+
+请确认客户端支持年份 `0000`。接近上界的有效 UTC 时间戳在东部时区中也可能显示为本地年份 `+10000`。
 
 ## 示例
 
@@ -147,23 +166,14 @@ SELECT to_datetime('2024-03-10 02:01:00');
 
 ## 无效值处理
 
-超出支持范围的日期会自动钳制（clamp）到其允许的最小值或最大值。
+处理结果取决于转换或运算：
 
-```sql
-SELECT
-  ADD_DAYS(TO_DATE('9999-12-31'), 1)         AS overflow_date,
-  SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1) AS underflow_timestamp;
-```
+- 数值时间戳转换会将超出时间戳范围的值钳制到最小时间戳，而不是最大值。`TRY_TO_TIMESTAMP` 的数值转换保留此行为；被钳制的值不会变为 `NULL`。
+- 对于超出范围的 UTC 时刻，严格的时间戳文本转换会返回错误。对应的 `TRY_` 形式在转换出错时返回 `NULL`。
+- 本地年份不在 `1` 至 `9999` 范围内的文本，必须转换为范围内的 UTC 时刻。否则，严格转换和 `COPY INTO` 会拒绝该值，自动格式检测也不会匹配该值。
+- `INTERVAL` 运算在结果超出范围时返回错误。采用溢出钳制的旧有算术函数保留原有行为。
 
-结果：
-```
-┌───────────────┬──────────────────────────┐
-│ overflow_date │ underflow_timestamp      │
-├───────────────┼──────────────────────────┤
-│ 0001-01-01    │ 0999-12-31T18:41:28      │
-└───────────────┴──────────────────────────┘
-```
-值会回绕到可表示的最小日期或时间戳，而不是抛出错误。
+不要假设所有无效输入都会返回最小值。有关转换详情，请参阅 [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) 和 [TO_TIMESTAMP_TZ](../../20-sql-functions/05-datetime-functions/to-timestamp-tz.md)。
 
 ## 日期和时间格式化
 
@@ -272,7 +282,7 @@ SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05')); -- 周
 | %p     | AM                               | 12 小时制的 AM 或 PM。                                                                                                                                                                                                                                                                                                          |
 | %M     | 34                               | 分钟（00–59），零填充至 2 位。                                                                                                                                                                                                                                                                                                  |
 | %S     | 60                               | 秒（00–60），零填充至 2 位。                                                                                                                                                                                                                                                                                                    |
-| %f     | 026490000                        | 自上一整秒以来的纳秒部分。Databend 建议先将整数字符串转换为 Integer，而不是使用此说明符。参见 [Converting Integer to Timestamp](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp) 示例。                                                                                            |
+| %f     | 026490000                        | 自上一整秒以来的纳秒部分。Databend 建议先将整数字符串转换为 Integer，而不是使用此说明符。参见[将整数转换为时间戳](/sql/sql-functions/datetime-functions/to-timestamp#示例-2-将整数转换为时间戳)示例。                                                                                            |
 | %.f    | .026490                          | 类似 .%f 但左对齐。这些都会消耗前导点号。                                                                                                                                                                                                                                                                                       |
 | %.3f   | .026                             | 类似 .%f 但左对齐并固定长度为 3。                                                                                                                                                                                                                                                                                               |
 | %.6f   | .026490                          | 类似 .%f 但左对齐并固定长度为 6。                                                                                                                                                                                                                                                                                               |
@@ -294,7 +304,7 @@ SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05')); -- 周
 |        |                                  | **日期和时间说明符：**                                                                                                                                                                                                                                                                                                          |
 | %c     | Sun Jul 8 00:34:60 2001          | 本地化的日期和时间（例如 Thu Mar 3 23:05:25 2005）。                                                                                                                                                                                                                                                                            |
 | %+     | 2001-07-08T00:34:60.026490+09:30 | ISO 8601 / RFC 3339 日期和时间格式。                                                                                                                                                                                                                                                                                            |
-| %s     | 994518299                        | UNIX 时间戳，自 1970-01-01 00:00 UTC 以来的秒数。Databend 建议先将整数字符串转换为 Integer，而不是使用此说明符。参见 [Converting Integer to Timestamp](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp) 示例。                                                                     |
+| %s     | 994518299                        | UNIX 时间戳，自 1970-01-01 00:00 UTC 以来的秒数。Databend 建议先将整数字符串转换为 Integer，而不是使用此说明符。参见[将整数转换为时间戳](/sql/sql-functions/datetime-functions/to-timestamp#示例-2-将整数转换为时间戳)示例。                                                                     |
 |        |                                  | **特殊说明符：**                                                                                                                                                                                                                                                                                                                |
 | %t     |                                  | 字面量制表符 (\t)。                                                                                                                                                                                                                                                                                                             |
 | %n     |                                  | 字面量换行符 (\n)。                                                                                                                                                                                                                                                                                                             |
@@ -402,25 +412,6 @@ SELECT to_datetime('2024-03-10 02:01:00');
 ```
 
 如需恢复严格模式，可 `SET enable_dst_hour_fix = 0`。
-
-## 无效值
-
-越界或无效的日期时间会被钳制到最小值：
-
-```sql
-SELECT
-  ADD_DAYS(TO_DATE('9999-12-31'), 1)         AS overflow_date,
-  SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1) AS underflow_timestamp;
-```
-
-结果：
-```
-┌───────────────┬──────────────────────────┐
-│ overflow_date │ underflow_timestamp      │
-├───────────────┼──────────────────────────┤
-│ 0001-01-01    │ 0999-12-31T18:41:28      │
-└───────────────┴──────────────────────────┘
-```
 
 ## 格式化与解析
 
