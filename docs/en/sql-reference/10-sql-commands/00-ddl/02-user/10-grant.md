@@ -96,7 +96,7 @@ privileges_level ::=
 
 ### Granting ATTACH TABLE Privileges
 
-From v1.2.953, [ATTACH TABLE](../01-table/92-attach-table.md) requires an explicit `ATTACH TABLE` privilege in addition to the existing `CREATE` permission. Grant it at database or global scope, to a role or directly to a user:
+[ATTACH TABLE](../01-table/92-attach-table.md) requires an explicit `ATTACH TABLE` privilege in addition to the existing `CREATE` permission. Grant it at database or global scope, to a role or directly to a user:
 
 ```sql
 GRANT ATTACH TABLE ON <db_name>.* TO ROLE <role_name>;

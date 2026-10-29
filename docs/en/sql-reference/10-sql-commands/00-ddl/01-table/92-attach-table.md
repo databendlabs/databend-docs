@@ -22,7 +22,7 @@ ATTACH TABLE creates a read-only link to existing table data without copying it.
 
 ## Access Control Requirements
 
-From v1.2.953, attaching a table requires both the existing `CREATE` permission and an explicit `ATTACH TABLE` privilege on the target database or globally.
+Attaching a table requires both the existing `CREATE` permission and an explicit `ATTACH TABLE` privilege on the target database or globally.
 
 - Grant `ATTACH TABLE` on `db_name.*` or `*.*`. Table-level grants are not supported.
 - `CREATE`, `SUPER`, and database ownership do not include `ATTACH TABLE`. The built-in `account_admin` role includes it.
@@ -30,7 +30,7 @@ From v1.2.953, attaching a table requires both the existing `CREATE` permission 
 - The same checks apply to `CREATE TABLE` with `STORAGE_PREFIX`.
 - Ordinary table creation without `STORAGE_PREFIX` does not require `ATTACH TABLE`.
 
-After upgrading, grant `ATTACH TABLE` to roles that need to attach tables. For example, an administrator can create a role with both required privileges on the `default` database:
+Grant `ATTACH TABLE` to roles that need to attach tables. For example, an administrator can create a role with both required privileges on the `default` database:
 
 ```sql
 CREATE ROLE attach_reader;

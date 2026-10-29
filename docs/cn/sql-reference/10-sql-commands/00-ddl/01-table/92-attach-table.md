@@ -22,7 +22,7 @@ ATTACH TABLE 创建指向现有表数据的只读链接而无需复制数据，�
 
 ## 访问控制要求
 
-从 v1.2.953 开始，附加表既需要满足原有的 `CREATE` 权限要求，也需要在目标数据库级或全局拥有显式的 `ATTACH TABLE` 权限。
+附加表既需要满足原有的 `CREATE` 权限要求，也需要在目标数据库级或全局拥有显式的 `ATTACH TABLE` 权限。
 
 - 在 `db_name.*` 或 `*.*` 上授予 `ATTACH TABLE`。不支持表级授权。
 - `CREATE`、`SUPER` 和数据库所有权均不包含 `ATTACH TABLE` 权限。内置角色 `account_admin` 包含该权限。
@@ -30,7 +30,7 @@ ATTACH TABLE 创建指向现有表数据的只读链接而无需复制数据，�
 - 使用 `STORAGE_PREFIX` 的 `CREATE TABLE` 也执行相同的权限检查。
 - 不使用 `STORAGE_PREFIX` 的普通建表操作不需要 `ATTACH TABLE` 权限。
 
-升级后，请向需要附加表的角色授予 `ATTACH TABLE` 权限。例如，管理员可以创建一个角色，并授予其在 `default` 数据库中所需的两项权限：
+请向需要附加表的角色授予 `ATTACH TABLE` 权限。例如，管理员可以创建一个角色，并授予其在 `default` 数据库中所需的两项权限：
 
 ```sql
 CREATE ROLE attach_reader;

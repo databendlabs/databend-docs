@@ -87,7 +87,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | APPLY MASKING POLICY | Global, Masking Policy     | Attaches, detaches, describes, or drops masking policies. When granted on *.*, the grantee can manage any masking policy.                          |
 | APPLY ROW ACCESS POLICY | Global, Row Access Policy | Adds or removes row access policies from tables and allows DESCRIBE/DROP operations on any policy. When granted on *.*, the grantee can manage every row access policy. |
 | ALTER             | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
-| ATTACH TABLE      | Global, Database              | Attaches existing storage data as a table. Also requires the existing `CREATE` permission. Introduced in v1.2.953. |
+| ATTACH TABLE      | Global, Database              | Attaches existing storage data as a table. Also requires the existing `CREATE` permission. |
 | CREATE            | Global, Table                 | Creates a table or UDF.                                                                                                                            |
 | CREATE DATABASE   | Global                        | Creates a database or UDF.                                                                                                                         |
 | CREATE WAREHOUSE  | Global                        | Creates a warehouse.                                                                                                                               |
@@ -117,9 +117,9 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 
 ### ATTACH TABLE Privilege
 
-From v1.2.953, [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) requires an explicit `ATTACH TABLE` grant in addition to the existing `CREATE` permission. Grant it on `db_name.*` or `*.*`, to a role or directly to a user. It cannot be granted on an individual table.
+[ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) requires an explicit `ATTACH TABLE` grant in addition to the existing `CREATE` permission. Grant it on `db_name.*` or `*.*`, to a role or directly to a user. It cannot be granted on an individual table.
 
-`CREATE`, `SUPER`, and database ownership do not include this privilege. The built-in `account_admin` role includes it. `ALL` at database or global scope includes it. After upgrading, grant `ATTACH TABLE` to roles that need to attach tables.
+`CREATE`, `SUPER`, and database ownership do not include this privilege. The built-in `account_admin` role includes it. `ALL` at database or global scope includes it. Grant `ATTACH TABLE` to roles that need to attach tables.
 
 The same requirements apply to `CREATE TABLE` with `STORAGE_PREFIX`. Ordinary table creation without `STORAGE_PREFIX` does not require `ATTACH TABLE`.
 

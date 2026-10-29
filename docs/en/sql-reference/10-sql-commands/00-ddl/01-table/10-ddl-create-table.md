@@ -264,7 +264,7 @@ Unlike MySQL, Databend follows PostgreSQL-style identifier casing by default: un
 
 To create a table, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE [privilege](/guides/security/access-control/privileges#table-privileges).
 
-From v1.2.953, `CREATE TABLE` with `STORAGE_PREFIX` also requires an explicit `ATTACH TABLE` privilege on the target database or globally. `CREATE`, `SUPER`, and database ownership do not include this additional privilege. Ordinary table creation without `STORAGE_PREFIX` does not require it. See [ATTACH TABLE](92-attach-table.md#access-control-requirements).
+`CREATE TABLE` with `STORAGE_PREFIX` also requires an explicit `ATTACH TABLE` privilege on the target database or globally. `CREATE`, `SUPER`, and database ownership do not include this additional privilege. Ordinary table creation without `STORAGE_PREFIX` does not require it. See [ATTACH TABLE](92-attach-table.md#access-control-requirements).
 
 ## Examples
 

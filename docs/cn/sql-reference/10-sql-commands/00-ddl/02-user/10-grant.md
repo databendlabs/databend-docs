@@ -97,7 +97,7 @@ privileges_level ::=
 
 ### 授予 ATTACH TABLE 权限
 
-从 v1.2.953 开始，[ATTACH TABLE](../01-table/92-attach-table.md) 除了需要满足原有的 `CREATE` 权限要求，还需要显式的 `ATTACH TABLE` 权限。可以在数据库级或全局将该权限授予角色，也可以直接授予用户：
+[ATTACH TABLE](../01-table/92-attach-table.md) 除了需要满足原有的 `CREATE` 权限要求，还需要显式的 `ATTACH TABLE` 权限。可以在数据库级或全局将该权限授予角色，也可以直接授予用户：
 
 ```sql
 GRANT ATTACH TABLE ON <db_name>.* TO ROLE <role_name>;

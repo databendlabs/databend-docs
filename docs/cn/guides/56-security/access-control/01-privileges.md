@@ -87,7 +87,7 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 | APPLY MASKING POLICY | Global, Masking Policy     | 附加/解除、描述或删除脱敏策略。授予 `*.*` 时，可在整个账号范围管理所有脱敏策略。                                                           |
 | APPLY ROW ACCESS POLICY | Global, Row Access Policy | 将行访问策略（Row Access Policy）附加/解除到表，并允许执行 DESCRIBE/DROP 操作。授予 `*.*` 时，可管理账号内所有 Row Access Policy。 |
 | ALTER             | Global, Database, Table, View | 修改数据库、表、用户或 UDF。                                                                                                                |
-| ATTACH TABLE      | Global, Database              | 将现有存储数据附加为表。还需要满足原有的 `CREATE` 权限要求。引入于 v1.2.953。 |
+| ATTACH TABLE      | Global, Database              | 将现有存储数据附加为表。还需要满足原有的 `CREATE` 权限要求。 |
 | CREATE            | Global, Table                 | 创建表或 UDF。                                                                                                                              |
 | CREATE DATABASE   | Global                        | 创建数据库或 UDF。                                                                                                                          |
 | CREATE WAREHOUSE  | Global                        | 创建 Warehouse。                                                                                                                            |
@@ -117,9 +117,9 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 
 ### ATTACH TABLE 权限
 
-从 v1.2.953 开始，[ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) 除了需要满足原有的 `CREATE` 权限要求，还需要显式的 `ATTACH TABLE` 授权。可以在 `db_name.*` 或 `*.*` 上将该权限授予角色，也可以直接授予用户。不支持在单个表上授予该权限。
+[ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) 除了需要满足原有的 `CREATE` 权限要求，还需要显式的 `ATTACH TABLE` 授权。可以在 `db_name.*` 或 `*.*` 上将该权限授予角色，也可以直接授予用户。不支持在单个表上授予该权限。
 
-`CREATE`、`SUPER` 和数据库所有权均不包含该权限。内置角色 `account_admin` 包含该权限。数据库级或全局的 `ALL` 也包含该权限。升级后，请向需要附加表的角色授予 `ATTACH TABLE` 权限。
+`CREATE`、`SUPER` 和数据库所有权均不包含该权限。内置角色 `account_admin` 包含该权限。数据库级或全局的 `ALL` 也包含该权限。请向需要附加表的角色授予 `ATTACH TABLE` 权限。
 
 使用 `STORAGE_PREFIX` 的 `CREATE TABLE` 也有相同要求。不使用 `STORAGE_PREFIX` 的普通建表操作不需要 `ATTACH TABLE` 权限。
 
