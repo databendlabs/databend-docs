@@ -5,7 +5,7 @@ sidebar_position: 9
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.845"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 为特定的数据库对象授予权限、角色和所有权。包括：
 
@@ -62,6 +62,9 @@ schemaObjectPrivileges ::=
 -- For SCHEMA
   { CREATE | DROP | ALTER }
 
+-- For database or global scope only
+  { ATTACH TABLE }
+
 -- For USER
   { CREATE USER }
 
@@ -91,6 +94,21 @@ privileges_level ::=
   | MASKING POLICY <policy_name>
   | ROW ACCESS POLICY <policy_name>
 ```
+
+### 授予 ATTACH TABLE 权限
+
+从 v1.2.953 开始，[ATTACH TABLE](../01-table/92-attach-table.md) 除了需要满足原有的 `CREATE` 权限要求，还需要显式的 `ATTACH TABLE` 权限。可以在数据库级或全局将该权限授予角色，也可以直接授予用户：
+
+```sql
+GRANT ATTACH TABLE ON <db_name>.* TO ROLE <role_name>;
+GRANT ATTACH TABLE ON *.* TO ROLE <role_name>;
+GRANT ATTACH TABLE ON <db_name>.* TO USER <user_name>;
+GRANT ATTACH TABLE ON *.* TO USER <user_name>;
+```
+
+表级授权会被拒绝。`CREATE`、`SUPER` 和数据库所有权均不包含该权限。内置角色 `account_admin` 包含该权限。数据库级或全局的 `ALL` 也包含该权限。
+
+与 `CREATE` 不同，`ATTACH TABLE` 可以直接授予用户。直接授权不能替代所需的 `CREATE` 权限。
 
 ### 授予脱敏策略权限
 

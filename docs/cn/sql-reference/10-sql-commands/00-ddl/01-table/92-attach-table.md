@@ -5,7 +5,7 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.698"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -19,6 +19,28 @@ ATTACH TABLE 创建指向现有表数据的只读链接而无需复制数据，�
 - **实时更新**：源表变更即时反映在附加表中
 - **只读模式**：仅支持 SELECT 查询（禁止 INSERT/UPDATE/DELETE）
 - **列级 (Column-Level) 访问**：可选包含特定列以提升安全性与性能
+
+## 访问控制要求
+
+从 v1.2.953 开始，附加表既需要满足原有的 `CREATE` 权限要求，也需要在目标数据库级或全局拥有显式的 `ATTACH TABLE` 权限。
+
+- 在 `db_name.*` 或 `*.*` 上授予 `ATTACH TABLE`。不支持表级授权。
+- `CREATE`、`SUPER` 和数据库所有权均不包含 `ATTACH TABLE` 权限。内置角色 `account_admin` 包含该权限。
+- 数据库级或全局的 `ALL` 包含 `ATTACH TABLE` 权限。
+- 使用 `STORAGE_PREFIX` 的 `CREATE TABLE` 也执行相同的权限检查。
+- 不使用 `STORAGE_PREFIX` 的普通建表操作不需要 `ATTACH TABLE` 权限。
+
+升级后，请向需要附加表的角色授予 `ATTACH TABLE` 权限。例如，管理员可以创建一个角色，并授予其在 `default` 数据库中所需的两项权限：
+
+```sql
+CREATE ROLE attach_reader;
+GRANT CREATE ON default.* TO ROLE attach_reader;
+GRANT ATTACH TABLE ON default.* TO ROLE attach_reader;
+```
+
+将该角色授予需要附加表的用户。仅有 `ATTACH TABLE` 权限不能满足 `CREATE` 权限检查。
+
+参见 [GRANT](../02-user/10-grant.md#授予-attach-table-权限) 和[权限](/guides/security/access-control/privileges)。
 
 ## 语法
 

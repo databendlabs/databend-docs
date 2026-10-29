@@ -4,7 +4,7 @@ sidebar_position: 9
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.845"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Grants privileges, roles, and ownership for a specific database object. This includes:
 
@@ -60,6 +60,9 @@ schemaObjectPrivileges ::=
   
 -- For SCHEMA
   { CREATE | DROP | ALTER }
+
+-- For database or global scope only
+  { ATTACH TABLE }
   
 -- For USER
   { CREATE USER }
@@ -90,6 +93,21 @@ privileges_level ::=
   | MASKING POLICY <policy_name>
   | ROW ACCESS POLICY <policy_name>
 ```
+
+### Granting ATTACH TABLE Privileges
+
+From v1.2.953, [ATTACH TABLE](../01-table/92-attach-table.md) requires an explicit `ATTACH TABLE` privilege in addition to the existing `CREATE` permission. Grant it at database or global scope, to a role or directly to a user:
+
+```sql
+GRANT ATTACH TABLE ON <db_name>.* TO ROLE <role_name>;
+GRANT ATTACH TABLE ON *.* TO ROLE <role_name>;
+GRANT ATTACH TABLE ON <db_name>.* TO USER <user_name>;
+GRANT ATTACH TABLE ON *.* TO USER <user_name>;
+```
+
+Table-level grants are rejected. `CREATE`, `SUPER`, and database ownership do not include this privilege. The built-in `account_admin` role includes it. `ALL` at database or global scope includes it.
+
+Unlike `CREATE`, `ATTACH TABLE` can be granted directly to a user. A direct grant does not replace the required `CREATE` permission.
 
 ### Granting Masking Policy Privileges
 

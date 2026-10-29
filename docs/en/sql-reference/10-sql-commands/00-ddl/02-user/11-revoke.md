@@ -4,7 +4,7 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.845"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Revokes privileges, roles, and ownership of a specific database object. This includes:
 
@@ -39,6 +39,9 @@ schemaObjectPrivileges ::=
   
 -- For SCHEMA
   { CREATE | DROP | ALTER }
+
+-- For database or global scope only
+  { ATTACH TABLE }
   
 -- For USER
   { CREATE USER }
@@ -69,6 +72,19 @@ privileges_level ::=
   | MASKING POLICY <policy_name>
   | ROW ACCESS POLICY <policy_name>
 ```
+
+### Revoking ATTACH TABLE Privileges
+
+Revoke `ATTACH TABLE` from a role or user at the scope where it was granted:
+
+```sql
+REVOKE ATTACH TABLE ON <db_name>.* FROM ROLE <role_name>;
+REVOKE ATTACH TABLE ON *.* FROM ROLE <role_name>;
+REVOKE ATTACH TABLE ON <db_name>.* FROM USER <user_name>;
+REVOKE ATTACH TABLE ON *.* FROM USER <user_name>;
+```
+
+Table-level revocation is not supported. Revoking this privilege does not revoke `CREATE` or remove existing attached tables. Attaching another table fails if the user no longer has an applicable `ATTACH TABLE` grant, even if the user still has `CREATE`, `SUPER`, or database ownership.
 
 ### Revoking Masking Policy Privileges
 

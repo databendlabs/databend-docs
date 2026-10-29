@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.821"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -244,6 +244,8 @@ Databend 语法与 MySQL 的差异主要在数据类型及部分索引提示。
 | CREATE | 全局、表 | 创建表 |
 
 创建表时，用户或 [current_role](/guides/security/access-control/roles) 需具备 CREATE [权限](/guides/security/access-control/privileges#table-privileges)。
+
+从 v1.2.953 开始，使用 `STORAGE_PREFIX` 的 `CREATE TABLE` 还需要在目标数据库级或全局拥有显式的 `ATTACH TABLE` 权限。`CREATE`、`SUPER` 和数据库所有权均不包含此额外权限。不使用 `STORAGE_PREFIX` 的普通建表操作不需要该权限。参见 [ATTACH TABLE](92-attach-table.md#访问控制要求)。
 
 ## 示例
 
