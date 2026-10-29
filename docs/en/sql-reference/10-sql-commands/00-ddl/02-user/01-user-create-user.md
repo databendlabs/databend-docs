@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: Unreleased"/>
+<FunctionDescription description="Introduced or updated: v1.2.956"/>
 
 Creates a SQL user for connecting to Databend. Users must be granted appropriate privileges to access databases and perform operations.
 

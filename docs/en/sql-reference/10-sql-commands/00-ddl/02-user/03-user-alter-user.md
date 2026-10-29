@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: Unreleased"/>
+<FunctionDescription description="Introduced or updated: v1.2.956"/>
 
 Modifies a user account, including:
 

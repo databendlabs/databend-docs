@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: Unreleased"/>
+<FunctionDescription description="Introduced or updated: v1.2.956"/>
 
 创建用于连接 Databend 的 SQL 用户。用户必须被授予适当权限，才能访问数据库并执行操作。
 
