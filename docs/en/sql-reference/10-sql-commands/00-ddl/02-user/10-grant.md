@@ -4,7 +4,7 @@ sidebar_position: 9
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.953"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 Grants privileges, roles, and ownership for a specific database object. This includes:
 
@@ -76,6 +76,9 @@ schemaObjectPrivileges ::=
 -- For UDF
   { USAGE }
 
+-- For INTEGRATION
+  { USAGE }
+
 -- For MASKING POLICY (account-level privileges)
   { CREATE MASKING POLICY | APPLY MASKING POLICY }
 
@@ -90,9 +93,23 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | INTEGRATION <integration_name>
   | MASKING POLICY <policy_name>
   | ROW ACCESS POLICY <policy_name>
 ```
+
+### Granting Integration Privileges
+
+```sql
+GRANT USAGE ON INTEGRATION <integration_name> TO ROLE <role_name>;
+GRANT ALL [ PRIVILEGES ] ON INTEGRATION <integration_name> TO ROLE <role_name>;
+```
+
+`USAGE` is the only integration object privilege. `ALL` grants it. The integration must exist. This authorizes referencing it when creating or altering a remote UDF; creation still requires global `SUPER`, and alteration still requires global `ALTER`. Calling an existing UDF does not additionally require integration `USAGE`.
+
+`SHOW GRANTS` can display `ALL ON INTEGRATION` for a `USAGE` grant because this is its only object privilege.
+
+Managing integrations and network rules requires global `SUPER`; integration `USAGE` does not authorize policy changes. See [External Access Integrations](/guides/security/external-access-integration).
 
 ### Granting ATTACH TABLE Privileges
 

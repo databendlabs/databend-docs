@@ -9,6 +9,7 @@ Databend offers **enterprise-grade security and reliability features** that safe
 | [**Access Control**](/guides/security/access-control) | Manage user permissions | When you need to control data access with role-based security and object ownership |
 | [**Audit Trail**](audit-trail.md) | Track database activities | When you need comprehensive audit trails for security monitoring, compliance, and performance analysis |
 | [**Network Policy**](/guides/security/network-policy) | Restrict network access | When you want to limit connections to specific IP ranges even with valid credentials |
+| [**External Access Integrations**](external-access-integration.md) | Restrict remote UDF destinations | When you need SQL-managed host/port rules for Arrow Flight UDF servers |
 | [**Password Policy**](/guides/security/password-policy) | Set password requirements | When you need to enforce password complexity, rotation, and account lockout rules |
 | [**Data Protection Policies**](/guides/security/data-protection) | Protect sensitive data at row and column level | When you need row-level filtering, column-level masking, or both |
 | [**Fail-Safe**](/guides/security/fail-safe) | Prevent data loss | When you need to recover accidentally deleted data from S3-compatible storage |

@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="Introduced or updated: v1.2.935"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 本页介绍 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中可用的 Query 节点配置。
 
@@ -38,6 +38,24 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 | table_engine_memory_enabled | 是否启用 Memory 表引擎（Memory Table Engine）。 |
 | max_running_queries | 可同时执行的最大查询数，默认为 8，0 表示无限制。 |
 | data_retention_time_in_days_max | 设置 `data_retention_time_in_days` 的上限，默认为 90 天。 |
+
+<a id="remote-udf-servers"></a>
+
+### 远程 UDF 服务器
+
+这些参数属于 `[query]`。请在每个 Query 节点上使用相同策略：
+
+| 参数 | 说明 |
+|---|---|
+| enable_udf_server | 启用远程 Arrow Flight UDF 服务器，默认为 `false`。 |
+| udf_server_allow_insecure | 允许非 HTTPS 的远程 UDF 服务器连接，默认为 `false`。 |
+| udf_server_allow_list | 允许的服务器 URL 列表，按主机比较，默认为 `[]`。 |
+
+未指定 `EXTERNAL_ACCESS_INTEGRATIONS` 的 UDF，目标必须匹配配置 allow list。列表为空时拒绝该目标。
+
+显式引用 integration 的 UDF，仍受非空配置列表的 operator 主机限制。目标必须同时通过配置列表和 SQL 主机/端口规则。空配置列表表示将 integration 绑定 UDF 的目标控制权交给租户 SQL 策略管理员，不会取消 `enable_udf_server` 或 TLS 检查。
+
+SQL 配置与信任边界见[外部访问集成](/guides/security/external-access-integration)。
 
 ### [query.users] 部分
 

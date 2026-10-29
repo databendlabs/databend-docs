@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.339"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 Creates an external function that calls a remote handler over Flight (typically Python or other services).
 
@@ -15,23 +15,31 @@ Creates an external function that calls a remote handler over Flight (typically 
 ## Syntax
 
 ```sql
-CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name> 
-    AS ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name> 
-    HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>' 
-    [DESC='<description>']
+CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name>
+    ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name>
+    HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>'
+    [ EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...) ]
+    [ DESC = '<description>' ]
 ```
 
-| Parameter             | Description                                                                                       |
-|-----------------------|---------------------------------------------------------------------------------------------------|
-| `<function_name>`     | The name of the function.                                                                        |
-| `<lambda_expression>` | The lambda expression or code snippet defining the function's behavior.                          |
-| `DESC='<description>'`  | Description of the UDF.|
-| `<<input_param_names>`| A list of input parameter names. Separated by comma.|
-| `<<input_param_types>`| A list of input parameter types. Separated by comma.|
-| `<return_type>`       | The return type of the function.                                                                  |
-| `LANGUAGE`            | Specifies the language used to write the function. Available values: `python`.                    |
-| `HANDLER = '<handler_name>'` | Specifies the name of the function's handler.                                               |
-| `ADDRESS = '<udf_server_address>'` | Specifies the address of the UDF server.                                             |
+| Parameter | Description |
+|---|---|
+| `<function_name>` | The function name. |
+| `<input_param_types>` | Comma-separated argument types. |
+| `<return_type>` | The return type. It must match the remote schema. |
+| `LANGUAGE` | The handler language, such as `python`. |
+| `HANDLER` | The remote handler name. |
+| `ADDRESS` | The HTTP(S) address of an Arrow Flight UDF server, not a REST endpoint. |
+| `EXTERNAL_ACCESS_INTEGRATIONS` | Optional, nonempty list of integration identifiers. Supported only with a remote `ADDRESS`. |
+| `DESC` | Optional function description. |
+
+## Access Control
+
+Creating a UDF requires global `SUPER`. If the definition names integrations, the author must also have `USAGE` on every integration. Databend checks these privileges before integration-bound policy and Flight schema validation.
+
+Every named integration must exist and be enabled. The address must match at least one rule across them. A nonempty operator `udf_server_allow_list` is still an additional host limit. Without integrations, the existing config allow-list check applies, and an empty list rejects the address.
+
+See [External Access Integrations](/guides/security/external-access-integration) for SQL-managed setup, privileges, and asynchronous policy propagation.
 
 ## Examples
 
@@ -83,12 +91,14 @@ udf_server_allow_insecure = true
 udf_server_allow_list = ["http://127.0.0.1:8815"]
 ```
 
-For Databend Cloud, expose the Flight server on HTTPS with gRPC/HTTP2 support, then open **Support → Create New Ticket** to add the hostname to the tenant **UDF server allowlist**. Until then, `CREATE FUNCTION` fails with `Unallowed UDF server address`.
+Use an address that is reachable from every Query node. This local example uses the legacy config allow list. To manage destinations through SQL, use [External Access Integrations](/guides/security/external-access-integration); a nonempty operator allow list remains an upper limit.
+
+For Databend Cloud, expose the Flight server on HTTPS with gRPC/HTTP2 support. The service operator still controls whether remote UDFs are enabled and any config host limit. Contact **Support → Create New Ticket** if the operator settings reject the destination. An integration cannot bypass them.
 
 ### Step 3: Register the Function in Databend
 
 ```sql
-CREATE FUNCTION gcd AS (INT, INT)
+CREATE FUNCTION gcd (INT, INT)
     RETURNS INT NULL
     LANGUAGE python
     HANDLER = 'gcd'

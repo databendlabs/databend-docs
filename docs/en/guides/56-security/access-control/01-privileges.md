@@ -4,7 +4,7 @@ title: Privileges
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.953"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 A privilege is a permission to perform an action. Users must have specific privileges to execute particular actions within Databend. For example, when querying a table, a user needs `SELECT` privileges to the table. Similarly, to read a dataset within a stage, the user must possess `READ` privileges.
 
@@ -73,6 +73,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
   - [Session Policy Privileges](#session-policy-privileges)
   - [Stage Privileges](#stage-privileges)
   - [UDF Privileges](#udf-privileges)
+  - [Integration Privileges](#integration-privileges)
   - [Sequence Privileges](#sequence-privileges)
   - [Connection Privileges](#connection-privileges)
   - [Procedure Privileges](#procedure-privileges)
@@ -88,8 +89,8 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | APPLY ROW ACCESS POLICY | Global, Row Access Policy | Adds or removes row access policies from tables and allows DESCRIBE/DROP operations on any policy. When granted on *.*, the grantee can manage every row access policy. |
 | ALTER             | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
 | ATTACH TABLE      | Global, Database              | Attaches existing storage data as a table. Also requires the existing `CREATE` permission. |
-| CREATE            | Global, Table                 | Creates a table or UDF.                                                                                                                            |
-| CREATE DATABASE   | Global                        | Creates a database or UDF.                                                                                                                         |
+| CREATE            | Global, Table                 | Creates a table.                                                                                                                            |
+| CREATE DATABASE   | Global                        | Creates a database.                                                                                                                         |
 | CREATE WAREHOUSE  | Global                        | Creates a warehouse.                                                                                                                               |
 | CREATE CONNECTION | Global                        | Creates a connection.                                                                                                                              |
 | CREATE SEQUENCE   | Global                        | Creates a sequence.                                                                                                                                |
@@ -139,7 +140,7 @@ The same requirements apply to `CREATE TABLE` with `STORAGE_PREFIX`. Ordinary ta
 | DROPROLE          | Drops a role.                                                                                                     |
 | SUPER             | Kills a query. Sets or unsets a setting. Operates a stage, catalog or share. Calls a function. COPY INTO a stage. |
 | USAGE             | Connects to a databend query only.                                                                                |
-| CREATE            | Creates a UDF.                                                                                                    |
+| CREATE            | Creates a table.                                                                                                    |
 | DROP              | Drops a UDF.                                                                                                      |
 | ALTER             | Alters a UDF. Alters a SQL user.                                                                                  |
 
@@ -204,7 +205,20 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 >
 > 1. Don't check external location auth.
 
+### Integration Privileges
+
+| Privilege | Description |
+|---|---|
+| USAGE | References an external access integration when creating or altering a remote UDF. |
+| ALL | Grants integration `USAGE`, its only object privilege. |
+
+Network rule and integration management requires global `SUPER`. Creating a UDF requires global `SUPER`; altering one requires global `ALTER`. Integration `USAGE` is additional to those permissions. Invoking an existing UDF does not require integration `USAGE`.
+
+See [External Access Integrations](/guides/security/external-access-integration) for operator limits and policy behavior.
+
 ### UDF Privileges
+
+Creating a UDF requires global `SUPER`, not ordinary `CREATE`. For remote UDFs with integrations, see [Integration Privileges](#integration-privileges).
 
 | Privilege | Description                                                                                                 |
 |:----------|:------------------------------------------------------------------------------------------------------------|
