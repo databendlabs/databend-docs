@@ -80,7 +80,7 @@ Start the server:
 python udf_server.py
 ```
 
-### Step 2: Expose and Allow the Server
+### Step 2: Configure Databend Access to the UDF Server
 
 For local or self-hosted testing, configure every Databend query node:
 

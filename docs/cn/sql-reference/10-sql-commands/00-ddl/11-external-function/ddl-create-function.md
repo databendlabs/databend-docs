@@ -80,7 +80,7 @@ if __name__ == '__main__':
 python udf_server.py
 ```
 
-### 第二步：暴露并允许访问服务器
+### 第二步：配置 Databend 访问 UDF 服务器
 
 本地或私有化测试时，在每个 Databend Query 节点配置：
 
