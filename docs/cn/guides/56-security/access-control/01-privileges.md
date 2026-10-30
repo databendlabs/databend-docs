@@ -4,7 +4,7 @@ title: 权限
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.953"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 权限（Privilege）是执行某项操作的许可。用户必须拥有特定权限才能在 Databend 中执行相应操作。例如，查询表时需要对该表拥有 `SELECT` 权限；读取 Stage 中的数据集则必须拥有 `READ` 权限。
 
@@ -73,6 +73,7 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
   - [会话策略权限](#session-policy-privileges)
   - [Stage 权限](#stage-privileges)
   - [UDF 权限](#udf-privileges)
+  - [Integration 权限](#integration-privileges)
   - [序列权限](#sequence-privileges)
   - [连接权限](#connection-privileges)
   - [过程权限](#procedure-privileges)
@@ -88,8 +89,8 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 | APPLY ROW ACCESS POLICY | Global, Row Access Policy | 将行访问策略（Row Access Policy）附加/解除到表，并允许执行 DESCRIBE/DROP 操作。授予 `*.*` 时，可管理账号内所有 Row Access Policy。 |
 | ALTER             | Global, Database, Table, View | 修改数据库、表、用户或 UDF。                                                                                                                |
 | ATTACH TABLE      | Global, Database              | 将现有存储数据附加为表。还需要满足原有的 `CREATE` 权限要求。 |
-| CREATE            | Global, Table                 | 创建表或 UDF。                                                                                                                              |
-| CREATE DATABASE   | Global                        | 创建数据库或 UDF。                                                                                                                          |
+| CREATE            | Global, Table                 | 创建表。                                                                                                                              |
+| CREATE DATABASE   | Global                        | 创建数据库。                                                                                                                          |
 | CREATE WAREHOUSE  | Global                        | 创建 Warehouse。                                                                                                                            |
 | CREATE CONNECTION | Global                        | 创建 Connection。                                                                                                                           |
 | CREATE SEQUENCE   | Global                        | 创建 Sequence。                                                                                                                             |
@@ -139,7 +140,7 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 | DROPROLE          | 删除角色。                                                                                                 |
 | SUPER             | 终止查询；设置或取消设置；操作 Stage、Catalog 或 Share；调用函数；COPY INTO Stage。 |
 | USAGE             | 仅连接到 Databend 查询。                                                                                   |
-| CREATE            | 创建 UDF。                                                                                                 |
+| CREATE            | 创建表。                                                                                                 |
 | DROP              | 删除 UDF。                                                                                                 |
 | ALTER             | 修改 UDF；修改 SQL 用户。                                                                                  |
 
@@ -203,7 +204,22 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 >
 > 1. 不检查外部位置认证。
 
+<a id="integration-privileges"></a>
+
+### Integration 权限
+
+| 权限 | 说明 |
+|---|---|
+| USAGE | 在创建或修改远程 UDF 时引用 External Access Integration。 |
+| ALL | 授予 integration 唯一的对象权限 `USAGE`。 |
+
+管理 Network Rule 和 integration 需要全局 `SUPER`。创建 UDF 需要全局 `SUPER`，修改 UDF 需要全局 `ALTER`。Integration `USAGE` 是这些权限之外的额外要求。调用已有 UDF 不需要 integration `USAGE`。
+
+Operator 限制与策略行为见[外部访问集成](/guides/security/external-access-integration)。
+
 ### UDF 权限
+
+创建 UDF 需要全局 `SUPER`，而不是普通 `CREATE`。引用 integration 的远程 UDF 另见 [Integration 权限](#integration-privileges)。
 
 | 权限      | 描述                                                                                   |
 |:----------|:---------------------------------------------------------------------------------------|

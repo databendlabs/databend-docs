@@ -4,7 +4,7 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.953"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 Revokes privileges, roles, and ownership of a specific database object. This includes:
 
@@ -55,6 +55,9 @@ schemaObjectPrivileges ::=
 -- For UDF
   { USAGE }
 
+-- For INTEGRATION
+  { USAGE }
+
 -- For MASKING POLICY (account-level privileges)
   { CREATE MASKING POLICY | APPLY MASKING POLICY }
 
@@ -69,9 +72,21 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | INTEGRATION <integration_name>
   | MASKING POLICY <policy_name>
   | ROW ACCESS POLICY <policy_name>
 ```
+
+### Revoking Integration Privileges
+
+```sql
+REVOKE USAGE ON INTEGRATION <integration_name> FROM ROLE <role_name>;
+REVOKE ALL [ PRIVILEGES ] ON INTEGRATION <integration_name> FROM ROLE <role_name>;
+```
+
+This removes permission to reference the integration in future UDF definitions. It does not disable existing UDFs or revoke UDF invocation rights. To block existing integration-bound calls, disable the integration or change its rules. Policy changes propagate asynchronously.
+
+Revoke unwanted integration grants before dropping the object. Grants remain name-based after a drop. See [External Access Integrations](/guides/security/external-access-integration).
 
 ### Revoking ATTACH TABLE Privileges
 

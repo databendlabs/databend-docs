@@ -2,39 +2,44 @@
 title: ALTER FUNCTION
 sidebar_position: 2
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.116"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
-Alters an external function.
+Replaces the definition of an existing external function.
 
 ## Syntax
 
 ```sql
-ALTER FUNCTION [ IF NOT EXISTS ] <function_name> 
-    AS ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name> 
-    HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>' 
-    [DESC='<description>']
+ALTER FUNCTION <function_name>
+    ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name>
+    HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>'
+    [ EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...) ]
+    [ DESC = '<description>' ]
 ```
 
-| Parameter             | Description                                                                                       |
-|-----------------------|---------------------------------------------------------------------------------------------------|
-| `<function_name>`     | The name of the function.                                                                        |
-| `<lambda_expression>` | The lambda expression or code snippet defining the function's behavior.                          |
-| `DESC='<description>'`  | Description of the UDF.|
-| `<<input_param_names>`| A list of input parameter names. Separated by comma.|
-| `<<input_param_types>`| A list of input parameter types. Separated by comma.|
-| `<return_type>`       | The return type of the function.                                                                  |
-| `LANGUAGE`            | Specifies the language used to write the function. Available values: `python`.                    |
-| `HANDLER = '<handler_name>'` | Specifies the name of the function's handler.                                               |
-| `ADDRESS = '<udf_server_address>'` | Specifies the address of the UDF server.                                             |
+The statement supplies a complete definition. It is not a partial update. For parameter descriptions, see [CREATE FUNCTION](ddl-create-function.md). `ALTER FUNCTION` does not support `IF EXISTS` or `IF NOT EXISTS`.
 
-## Examples
+## Access Control and Policy
+
+Altering a UDF requires the existing global `ALTER` privilege. When the new definition names integrations, the author also needs `USAGE` on every integration. The statement does not gain a new `SUPER` requirement from the integrations.
+
+Every named integration must exist and be enabled. The address must pass the rules and any nonempty operator `udf_server_allow_list`. Databend checks privileges before integration-bound policy and remote schema validation. Arrow Flight schema requirements remain unchanged.
+
+Omitting `EXTERNAL_ACCESS_INTEGRATIONS` removes the binding from the new definition and uses the legacy config allow-list path. An empty config list rejects that path. To keep the binding, include it again in the replacement definition.
+
+## Example
+
+Assume `gcd` exists, integration `udf_access` allows the destination, and the Flight server exposes a compatible `gcd_new` handler:
 
 ```sql
--- Create an external function
-CREATE FUNCTION gcd (INT, INT) RETURNS INT LANGUAGE python HANDLER = 'gcd' ADDRESS = 'http://0.0.0.0:8815';
-
--- Modify the handler of the external function
-ALTER FUNCTION gcd (INT, INT) RETURNS INT LANGUAGE python HANDLER = 'gcd_new' ADDRESS = 'http://0.0.0.0:8815';
+ALTER FUNCTION gcd (INT, INT)
+    RETURNS INT NULL
+    LANGUAGE python
+    HANDLER = 'gcd_new'
+    ADDRESS = 'https://udf.example.com'
+    EXTERNAL_ACCESS_INTEGRATIONS = (udf_access);
 ```
+
+For setup and propagation behavior, see [External Access Integrations](/guides/security/external-access-integration).

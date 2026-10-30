@@ -2,39 +2,44 @@
 title: ALTER FUNCTION
 sidebar_position: 2
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.116"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
-修改一个外部函数。
+替换现有外部函数的定义。
 
 ## 语法
 
 ```sql
-ALTER FUNCTION [ IF NOT EXISTS ] <function_name> 
-    AS ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name> 
-    HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>' 
-    [DESC='<description>']
+ALTER FUNCTION <function_name>
+    ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name>
+    HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>'
+    [ EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...) ]
+    [ DESC = '<description>' ]
 ```
 
-| 参数             | 描述                                                                                       |
-|-----------------------|---------------------------------------------------------------------------------------------------|
-| `<function_name>`     | 函数的名称。                                                                        |
-| `<lambda_expression>` | 定义函数行为的 lambda 表达式或代码片段。                          |
-| `DESC='<description>'`  | UDF 的描述。|
-| `<<input_param_names>`| 输入参数名称列表，以逗号分隔。|
-| `<<input_param_types>`| 输入参数类型列表，以逗号分隔。|
-| `<return_type>`       | 函数的返回类型。                                                                  |
-| `LANGUAGE`            | 指定用于编写函数的语言。可用值：`python`。                    |
-| `HANDLER = '<handler_name>'` | 指定函数处理程序的名称。                                               |
-| `ADDRESS = '<udf_server_address>'` | 指定 UDF 服务器的地址。                                             |
+此语句提供完整的新定义，不是局部更新。参数说明见 [CREATE FUNCTION](ddl-create-function.md)。`ALTER FUNCTION` 不支持 `IF EXISTS` 或 `IF NOT EXISTS`。
+
+## 访问控制与策略
+
+修改 UDF 需要原有的全局 `ALTER` 权限。如果新定义引用 integration，开发者还需要每个对象的 `USAGE`。引用 integration 不会为该语句额外增加 `SUPER` 要求。
+
+所有 integration 都必须存在且已启用。地址必须匹配规则，并通过非空的 operator `udf_server_allow_list`。Databend 在 integration 绑定的策略和远程 schema 校验之前检查权限。Arrow Flight schema 的要求不变。
+
+新定义省略 `EXTERNAL_ACCESS_INTEGRATIONS` 时，会移除绑定，改用原有的配置 allow-list 路径。配置列表为空时，此路径拒绝访问。要保留绑定，需要在替换定义中再次指定。
 
 ## 示例
 
-```sql
--- 创建一个外部函数
-CREATE FUNCTION gcd (INT, INT) RETURNS INT LANGUAGE python HANDLER = 'gcd' ADDRESS = 'http://0.0.0.0:8815';
+假定 `gcd` 已存在，integration `udf_access` 允许该目标，且 Flight 服务器提供兼容的 `gcd_new` handler：
 
--- 修改外部函数的处理程序
-ALTER FUNCTION gcd (INT, INT) RETURNS INT LANGUAGE python HANDLER = 'gcd_new' ADDRESS = 'http://0.0.0.0:8815';
+```sql
+ALTER FUNCTION gcd (INT, INT)
+    RETURNS INT NULL
+    LANGUAGE python
+    HANDLER = 'gcd_new'
+    ADDRESS = 'https://udf.example.com'
+    EXTERNAL_ACCESS_INTEGRATIONS = (udf_access);
 ```
+
+配置与传播行为见[外部访问集成](/guides/security/external-access-integration)。
