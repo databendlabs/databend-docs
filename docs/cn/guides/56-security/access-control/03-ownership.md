@@ -2,15 +2,23 @@
 title: 所有权
 ---
 
-所有权是一种特殊的权限，表示角色对 Databend 中特定数据对象（目前包括数据库、表、UDF 和 Stage）所拥有的独占权利和责任。
+所有权赋予角色对 Databend 中数据对象的控制权。支持所有权的对象包括数据库、表、UDF、Stage、Connection 和 Sequence。
 
 ## 授予所有权
 
-对象的所有权会自动授予创建它的用户的角色，并且可以使用 [GRANT](/sql/sql-commands/ddl/user/grant) 命令在角色之间转移：
+Databend 会将新对象的所有权授予创建时会话的当前角色。您可以使用 [GRANT](/sql/sql-commands/ddl/user/grant) 命令在角色之间转移所有权：
 
 - 将对象的所有权授予新角色会将完全所有权转移给新角色，并从之前的角色中移除。例如，如果角色 A 最初拥有一个表，并且您将所有权授予角色 B，则角色 B 将成为新的所有者，并且角色 A 将不再拥有该表的所有权。
-- 出于安全原因，不建议将所有权授予内置角色 `public`。如果用户在创建对象时具有 `public` 角色，则所有用户都将拥有该对象的所有权，因为每个用户默认都具有 `public` 角色。Databend 建议创建自定义角色并将其分配给用户，而不是使用 `public` 角色来进行明确的所有权管理。有关内置角色的信息，请参阅 [内置角色](02-roles.md)。
+- 避免将所有权授予内置角色 `public`。如果用户创建对象时的当前角色是 `public`，该对象的所有权就属于 `public`。由于每个用户默认都拥有 `public` 角色，其他用户也可以通过它行使所有权。对于需要限制访问的对象，请使用自定义角色。更多信息请参阅 [内置角色](02-roles.md)。
 - 无法为 `default` 数据库中的表授予所有权，因为它由内置角色 `account_admin` 拥有。
+
+## 创建权限与当前角色
+
+创建权限和所有权是两个独立的概念。创建 Connection 或 Sequence 时，Databend 检查用户有效权限中的 `CREATE CONNECTION` 或 `CREATE SEQUENCE`。这些权限可以直接授予用户，也可以来自已启用的角色，包括辅助角色。提供创建权限的角色不会自动成为对象的所有者。仅有 `SUPER` 不代表拥有这两项创建权限。
+
+创建时的当前角色可以是 `public`。只要用户拥有所需的创建权限，创建就会成功，所有权归 `public`。Databend 不会强制用户切换角色来避免这种所有权归属。
+
+最佳实践是在创建对象前，通过 [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) 切换到预期的所有者角色。也可以通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 或 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 设置 `DEFAULT_ROLE`，使新会话默认使用该角色。这些操作用于控制所有权归属，不能代替所需的创建权限。
 
 ## 不允许撤销所有权
 
