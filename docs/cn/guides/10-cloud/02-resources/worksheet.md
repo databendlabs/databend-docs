@@ -60,6 +60,12 @@ Databend Cloud 对工作区输出区域显示的查询结果应用以下默认�
 
 ## 导出查询结果
 
+:::tip[大结果集下载]
+
+通过工作区页面下载大结果集时，可能出现超时或下载失败。建议先将结果导出到 Stage 或外部存储，再直接下载结果文件。具体操作请参阅[下载导出的文件](/guides/unload-data/download-files)。
+
+:::
+
 Databend Cloud 提供导出查询结果的功能。但此功能需要组织 Owner 为团队成员授予 **EXPORT** 权限。出于数据安全考虑，该功能默认处于禁用状态。
 
 ![导出按钮](@site/static/img/documents/worksheet/download.png)
