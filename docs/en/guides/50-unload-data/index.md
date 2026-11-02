@@ -22,3 +22,7 @@ Databend's `COPY INTO` command exports data to various file formats and storage 
 |-------------|---------|-------------|
 | **Named Stage** | `COPY INTO my_stage FROM my_table` | For repeated exports to the same location |
 | **S3-Compatible Storage** | `COPY INTO 's3://bucket/path/' FROM my_table` | Cloud object storage with Amazon S3 |
+
+## Download Exported Files
+
+After export, download the files from the stage or storage location. See [Download Exported Files](/guides/unload-data/download-files) for browser and client download methods, request header requirements, and large-file notes.

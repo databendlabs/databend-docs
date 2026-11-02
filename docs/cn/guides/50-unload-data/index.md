@@ -22,3 +22,7 @@ Databend 的 `COPY INTO` 命令可以将数据导出到各种文件格式和存�
 |-------------|---------|-------------|
 | **命名 Stage** | `COPY INTO my_stage FROM my_table` | 重复导出到相同位置时使用 |
 | **S3 兼容存储** | `COPY INTO 's3://bucket/path/' FROM my_table` | 使用 Amazon S3 的云对象存储 |
+
+## 下载导出的文件
+
+导出后，还需要从 Stage 或存储位置下载文件。具体方法见[下载导出的文件](/guides/unload-data/download-files)，包括浏览器和客户端下载、请求头要求及大文件注意事项。
