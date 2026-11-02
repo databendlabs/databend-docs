@@ -64,3 +64,38 @@ In Databend Cloud, downloading files through `READ_FILE()` incurs data transfer 
 ## Large Files
 
 For large exports, download the output files separately. Compare each local file size with `file_size` from the export result.
+
+For application-managed exports and downloads, use this flow:
+
+```mermaid
+sequenceDiagram
+    participant U as User or download client
+    participant A as Application backend
+    participant D as Databend
+    participant S as Object storage
+
+    U->>A: Submit a large result set export request
+    A->>D: Run the query and export the results
+    D->>S: Write multiple result files
+    D-->>A: Return the file list
+    A-->>U: Notify that the export is complete
+
+    U->>A: Request a download
+    A->>D: Generate temporary download URLs for the result files
+    D-->>A: Return the URLs and required request information
+    A-->>U: Return the download manifest
+
+    loop Download each result file
+        U->>S: Download the file directly
+        S-->>U: Return the file contents
+        U->>U: Check the file size
+    end
+
+    opt A download URL expires
+        U->>A: Request updated download URLs
+        A->>D: Generate new URLs without exporting again
+        D-->>A: Return the new URLs
+        A-->>U: Return the updated download information
+        U->>S: Continue the download
+    end
+```

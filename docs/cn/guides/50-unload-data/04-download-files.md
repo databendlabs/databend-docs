@@ -64,3 +64,38 @@ curl --fail --location --output export.parquet '<presigned-url>'
 ## 大文件注意事项
 
 大结果集导出为多个文件时，分别下载即可。下载后，将本地文件大小与导出结果中的 `file_size` 比较。
+
+通过应用管理导出和下载时，流程如下：
+
+```mermaid
+sequenceDiagram
+    participant U as 用户或下载客户端
+    participant A as 应用后端
+    participant D as Databend
+    participant S as 对象存储
+
+    U->>A: 提交大结果集导出请求
+    A->>D: 执行查询并导出结果
+    D->>S: 写入多个结果文件
+    D-->>A: 返回文件清单
+    A-->>U: 通知导出完成
+
+    U->>A: 请求下载
+    A->>D: 为结果文件生成临时下载链接
+    D-->>A: 返回下载链接及必要的请求信息
+    A-->>U: 返回下载清单
+
+    loop 逐个下载结果文件
+        U->>S: 直接下载文件
+        S-->>U: 返回文件内容
+        U->>U: 校验文件大小
+    end
+
+    opt 下载链接过期
+        U->>A: 请求更新下载链接
+        A->>D: 重新生成链接，无须重新导出
+        D-->>A: 返回新链接
+        A-->>U: 返回更新后的下载信息
+        U->>S: 继续下载
+    end
+```
