@@ -1,6 +1,6 @@
 ---
-title: Download Exported Files
-sidebar_label: Download Files
+title: Download Exported Files(Results)
+sidebar_label: Download Files(Results)
 slug: /unload-data/download-files
 ---
 
@@ -52,12 +52,12 @@ If `headers` contains entries, add `--header '<header-name>: <header-value>'` fo
 
 ## Other Download Methods
 
-| Method | Use |
-|--------|-----|
-| [BendSQL GET](../40-load-data/00-stage/02-stage-files.md) | Download staged files from the command line. `GET` is a BendSQL command, not server SQL that you can execute through JDBC. |
-| [Java (JDBC)](/developer/drivers/jdbc) | Use the Databend driver's `downloadStream()` extension to copy a staged file to disk. Close the stream after use. For custom HTTP handling, execute `PRESIGN DOWNLOAD` through JDBC. |
-| Object storage client or SDK | Download files exported to your own external storage, using that provider's transfer tools. |
-| [READ_FILE](/sql/sql-functions/other-functions/read-file) | Read staged file contents as a SQL `BINARY` value for query processing. |
+| Method                                                    | Use                                                                                                                                                                                  |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [BendSQL GET](../40-load-data/00-stage/02-stage-files.md) | Download staged files from the command line. `GET` is a BendSQL command, not server SQL that you can execute through JDBC.                                                           |
+| [Java (JDBC)](/developer/drivers/jdbc)                    | Use the Databend driver's `downloadStream()` extension to copy a staged file to disk. Close the stream after use. For custom HTTP handling, execute `PRESIGN DOWNLOAD` through JDBC. |
+| Object storage client or SDK                              | Download files exported to your own external storage, using that provider's transfer tools.                                                                                          |
+| [READ_FILE](/sql/sql-functions/other-functions/read-file) | Read staged file contents as a SQL `BINARY` value for query processing.                                                                                                              |
 
 In Databend Cloud, downloading files through `READ_FILE()` incurs data transfer charges. It is not recommended for large file downloads. Use a pre-signed URL instead.
 

@@ -1,6 +1,6 @@
 ---
-title: 下载导出的文件
-sidebar_label: 下载文件
+title: 下载导出的文件 (结果集)
+sidebar_label: 下载文件 (结果集)
 slug: /unload-data/download-files
 ---
 
@@ -52,12 +52,12 @@ curl --fail --location --output export.parquet '<presigned-url>'
 
 ## 其他下载方式
 
-| 方式 | 用途 |
-|--------|-----|
-| [BendSQL GET](../40-load-data/00-stage/02-stage-files.md) | 在命令行下载 Stage 文件。`GET` 是 BendSQL 命令，不是可通过 JDBC 执行的服务端 SQL。 |
-| [Java (JDBC)](/developer/drivers/jdbc) | 使用 Databend 驱动的 `downloadStream()` 扩展将 Stage 文件复制到磁盘，使用后关闭流。需要自定义 HTTP 处理时，可通过 JDBC 执行 `PRESIGN DOWNLOAD`。 |
-| 对象存储客户端或 SDK | 使用存储服务的传输工具，下载导出到自有外部存储的文件。 |
-| [READ_FILE](/sql/sql-functions/other-functions/read-file) | 将 Stage 文件内容读取为 SQL `BINARY` 值，供查询处理。 |
+| 方式                                                      | 用途                                                                                                                                             |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [BendSQL GET](../40-load-data/00-stage/02-stage-files.md) | 在命令行下载 Stage 文件。`GET` 是 BendSQL 命令，不是可通过 JDBC 执行的服务端 SQL。                                                               |
+| [Java (JDBC)](/developer/drivers/jdbc)                    | 使用 Databend 驱动的 `downloadStream()` 扩展将 Stage 文件复制到磁盘，使用后关闭流。需要自定义 HTTP 处理时，可通过 JDBC 执行 `PRESIGN DOWNLOAD`。 |
+| 对象存储客户端或 SDK                                      | 使用存储服务的传输工具，下载导出到自有外部存储的文件。                                                                                           |
+| [READ_FILE](/sql/sql-functions/other-functions/read-file) | 将 Stage 文件内容读取为 SQL `BINARY` 值，供查询处理。                                                                                            |
 
 在 Databend Cloud 上，通过 `READ_FILE()` 下载文件会产生流量费，不推荐用于下载大文件。建议改用预签名 URL 下载。
 
