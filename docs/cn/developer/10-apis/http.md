@@ -3,6 +3,8 @@ title: HTTP Handler
 sidebar_label: REST API
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 Databend HTTP Handler 是一个 REST API，可以让你通过 HTTP 请求直接向 Databend 发送 SQL 查询并获取结果。它适用于构建自定义集成、自动化脚本，或者需要在不使用驱动程序的情况下进行编程访问的场景。
 
 :::tip[推荐替代方案]
@@ -64,6 +66,7 @@ curl -u root: \
 
 | 端点 | 方法 | 描述 |
 |------|------|------|
+| `/v1/session/login` | POST | 在查询前验证连接选项 |
 | `/v1/query` | POST | 执行 SQL 查询 |
 | `/v1/query/<query_id>` | GET | 获取查询状态和统计信息 |
 | `/v1/query/<query_id>/page/<page_no>` | GET | 获取指定页的结果 |
@@ -72,6 +75,36 @@ curl -u root: \
 | `/v1/upload_to_stage` | PUT | 上传文件到 Stage |
 
 ---
+
+<a id="validate-a-catalog-at-login"></a>
+
+## 登录时验证 Catalog
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+在查询前调用 `POST /v1/session/login` 的客户端可以添加可选的 `catalog` 字段。当所选数据库属于 Iceberg 或 Hive 等外部 Catalog 时，请使用此字段。请先确认服务端构建支持该字段。
+
+例如，已有 Catalog `iceberg` 和数据库 `analytics` 时，发送以下登录请求体：
+
+```json
+{
+  "catalog": "iceberg",
+  "database": "analytics"
+}
+```
+
+登录先验证 Catalog；如果提供了 `database`，再检查该 Catalog 中的数据库。Catalog 未知或数据库不存在时，返回 HTTP `400`。省略 `catalog` 或使用空字符串时，会使用会话当前的 Catalog；新会话默认为 `default`。
+
+此登录检查不能替代查询会话配置。请在 `POST /v1/query` 请求体中发送相同的 Catalog 和数据库：
+
+```json
+{
+  "session": {"catalog": "iceberg", "database": "analytics"},
+  "sql": "SELECT 1"
+}
+```
+
+登录是可选步骤。现有的直接查询请求不需要增加登录步骤。
 
 ## 执行查询
 

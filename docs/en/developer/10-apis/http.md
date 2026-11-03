@@ -3,6 +3,8 @@ title: HTTP Handler
 sidebar_label: REST API
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 The Databend HTTP Handler is a REST API that enables you to send SQL queries to Databend and receive results directly via HTTP requests. This is useful for building custom integrations, automation scripts, or when you need direct programmatic access without using a driver.
 
 :::tip[Recommended Alternatives]
@@ -64,6 +66,7 @@ curl -u root: \
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
+| `/v1/session/login` | POST | Validate connection options before queries |
 | `/v1/query` | POST | Execute a SQL query |
 | `/v1/query/<query_id>` | GET | Get query status and stats |
 | `/v1/query/<query_id>/page/<page_no>` | GET | Get a specific page of results |
@@ -72,6 +75,34 @@ curl -u root: \
 | `/v1/upload_to_stage` | PUT | Upload a file to a stage |
 
 ---
+
+## Validate a Catalog at Login
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+Clients that call `POST /v1/session/login` before queries can include the optional `catalog` field. Use it when the selected database belongs to an external catalog, such as Iceberg or Hive. Check that your server build supports this field.
+
+For example, send this login body for an existing catalog `iceberg` and database `analytics`:
+
+```json
+{
+  "catalog": "iceberg",
+  "database": "analytics"
+}
+```
+
+Login validates the catalog, then checks the database in that catalog if `database` is supplied. An unknown catalog or a database that does not exist returns HTTP `400`. An omitted or empty `catalog` uses the session's current catalog, which is `default` for a new session.
+
+This login check does not replace query session configuration. Send the same catalog and database in the `POST /v1/query` body:
+
+```json
+{
+  "session": {"catalog": "iceberg", "database": "analytics"},
+  "sql": "SELECT 1"
+}
+```
+
+Login is optional. Existing direct query requests do not need an added login step.
 
 ## Execute Query
 
