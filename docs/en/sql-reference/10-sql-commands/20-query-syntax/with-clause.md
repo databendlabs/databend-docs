@@ -2,6 +2,10 @@
 title: WITH Clause
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
+
 The WITH clause is an optional clause that precedes the body of the SELECT statement, and defines one or more CTEs (common table expressions) that can be referenced later in the statement.
 
 
@@ -41,6 +45,34 @@ Where:
 | `cte_column_list` | The names of the columns in the CTE |
 | `anchor_column_list` | The columns used in the anchor clause for the recursive CTE |
 | `recursive_column_list` | The columns used in the recursive clause for the recursive CTE |
+
+## Name Resolution
+
+Since v1.2.957, only an unqualified table reference can resolve to a CTE. In a scope where a CTE named `t1` is visible:
+
+- `FROM t1` uses the CTE, even if a table has the same name.
+- `FROM db.t1` or `FROM catalog.db.t1` uses the named table, not the CTE.
+- If the qualified table does not exist, the query fails. It does not fall back to the CTE.
+
+The rule also applies when a CTE is materialized. It concerns table references, not column qualifiers such as `t1.n`.
+
+Run this example in a test environment where `cte_example` does not exist:
+
+```sql
+CREATE DATABASE cte_example;
+CREATE TABLE cte_example.t1 (n INT);
+INSERT INTO cte_example.t1 VALUES (1), (2);
+
+WITH t1 AS (SELECT 99 AS n)
+SELECT n FROM t1;
+
+WITH t1 AS (SELECT 99 AS n)
+SELECT n FROM cte_example.t1 ORDER BY n;
+```
+
+The first query selects the CTE value `99`. The second selects the table values `1` and `2`. These values follow the name-resolution rule; the CTE does not replace a qualified table reference.
+
+New view definitions use this rule and retain their definition namespace. Older stored definitions without namespace metadata retain legacy CTE resolution for compatibility. See [CREATE VIEW](../00-ddl/05-view/ddl-create-view.md#name-resolution-and-compatibility).
 
 ## Examples
 

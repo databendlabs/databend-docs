@@ -2,6 +2,10 @@
 title: WITH 子句
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
+
 WITH 子句是一个可选子句，位于 SELECT 语句主体之前，用于定义一个或多个可在语句后续部分引用的公用表表达式（CTE，Common Table Expression）。
 
 ## 语法
@@ -40,6 +44,36 @@ SELECT ...
 | `cte_column_list` | CTE 中的列名 |
 | `anchor_column_list` | 递归 CTE 中锚点子句使用的列 |
 | `recursive_column_list` | 递归 CTE 中递归子句使用的列 |
+
+<a id="name-resolution"></a>
+
+## 名称解析
+
+从 v1.2.957 开始，只有不带限定符的表引用才能解析为 CTE。在名为 `t1` 的 CTE 可见的作用域中：
+
+- `FROM t1` 使用 CTE，即使存在同名表。
+- `FROM db.t1` 或 `FROM catalog.db.t1` 使用指定的表，而不是 CTE。
+- 如果带限定符的表不存在，查询会失败，不会回退到 CTE。
+
+此规则也适用于物化 CTE。它针对表引用，不针对 `t1.n` 等列限定符。
+
+请在尚不存在 `cte_example` 的测试环境中执行此示例：
+
+```sql
+CREATE DATABASE cte_example;
+CREATE TABLE cte_example.t1 (n INT);
+INSERT INTO cte_example.t1 VALUES (1), (2);
+
+WITH t1 AS (SELECT 99 AS n)
+SELECT n FROM t1;
+
+WITH t1 AS (SELECT 99 AS n)
+SELECT n FROM cte_example.t1 ORDER BY n;
+```
+
+第一个查询选择 CTE 值 `99`，第二个查询选择表中的值 `1` 和 `2`。这些值遵循名称解析规则；CTE 不会替换带限定符的表引用。
+
+新视图定义使用此规则，并保留定义命名空间。不含命名空间元数据的旧存储定义为兼容性保留传统 CTE 解析。请参阅 [CREATE VIEW](../00-ddl/05-view/ddl-create-view.md#name-resolution-and-compatibility)。
 
 ## 示例
 
