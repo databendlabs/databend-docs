@@ -4,7 +4,7 @@ sidebar_position: 8
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
@@ -79,9 +79,16 @@ FROM
 OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]    
 ```
 
-通过合并小段为较大段来优化表数据。
+将小段合并为较大段，不重写数据 Block。
 
-- LIMIT 选项设置最大合并段数，Databend 将选择并合并最新段。
+从 v1.2.952 开始，`COMPACT SEGMENT LIMIT n` 会先选择最新输入窗口，再读取段元数据：
+
+- 窗口按最新优先的顺序，从当前快照选择 `min(max(n, 2), segment_count)` 个段。`LIMIT 0` 和 `LIMIT 1` 仍会选择最多两个段。
+- 此限制约束被检查的输入段数。它不指定必须合并多少段，也不指定操作生成多少输出段。
+- Databend 不会在此窗口之外的旧段中查找合并候选。若所选段不需要合并，部分段可以保持不变。
+- 不指定 `LIMIT` 时，Databend 会考虑当前快照中的所有段。这并不是扫描历史快照。
+
+反复执行有限制的合并可能会一直保留较旧的碎片。当旧段也需要合并时，请定期执行不带 `LIMIT` 的 `COMPACT SEGMENT`。这些规则适用于 `COMPACT SEGMENT`，不适用于块合并。
 
 **示例**
 
@@ -125,6 +132,32 @@ FROM
 +-------------+---------------+---------------------------------------------+
 |         751 |             1 | The table does not need segment compact now |
 +-------------+---------------+---------------------------------------------+
+```
+
+**有限制的合并示例**
+
+下面每条独立的插入语句都会创建一个段。第一次合并只考虑最新的两个段。后续不带限制的合并可以继续合并较旧的碎片。
+
+```sql
+CREATE TABLE compact_segment_latest_limit(a INT) BLOCK_PER_SEGMENT = 4;
+INSERT INTO compact_segment_latest_limit VALUES (1);
+INSERT INTO compact_segment_latest_limit VALUES (2);
+INSERT INTO compact_segment_latest_limit VALUES (3);
+INSERT INTO compact_segment_latest_limit VALUES (4);
+
+OPTIMIZE TABLE compact_segment_latest_limit COMPACT SEGMENT LIMIT 2;
+
+-- Expected counts: 3 segments, 4 blocks, 4 rows.
+SELECT segment_count, block_count, row_count
+FROM fuse_snapshot('default', 'compact_segment_latest_limit') LIMIT 1;
+
+OPTIMIZE TABLE compact_segment_latest_limit COMPACT SEGMENT;
+
+-- Expected counts: 1 segment, 4 blocks, 4 rows.
+SELECT segment_count, block_count, row_count
+FROM fuse_snapshot('default', 'compact_segment_latest_limit') LIMIT 1;
+
+DROP TABLE compact_segment_latest_limit;
 ```
 
 ### 块合并（Block Compaction）
