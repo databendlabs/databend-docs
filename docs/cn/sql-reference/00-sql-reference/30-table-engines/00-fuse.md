@@ -141,7 +141,11 @@ CREATE TABLE <table_name> (
 - **语法：**
   `write_distribution_mode = 'none' | 'hash'`
 - **描述：**
-  控制分区表在写入前是否按计算后的分区键重新分发数据。默认值 `none` 保留原有 Writer 分布；`hash` 会将分区值相同的行路由到同一个 Writer，有助于减少分布式或高并发写入产生的小 Block 碎片，但会引入网络 Shuffle。`hash` 模式必须与 `PARTITION BY` 一同使用。
+  控制分区表在写入前是否按计算后的分区键归并数据。默认值 `none` 保留原有 Writer 分布。`hash` 模式要求定义 `PARTITION BY`，并有助于减少小 Block 碎片。
+
+  从 v1.2.952 开始，本地写入布局也适用于 `REPLACE INTO`、`INSERT ALL` / `INSERT FIRST` 和 `MERGE INTO`。REPLACE 只在插入新行的节点上应用此布局。多表插入会按目标表分别归并。MERGE 将其应用于数据行，而不是行 ID 输出。UPDATE 不属于此追加写入布局的范围。
+
+  本地归并不等于集群范围的路由保证。分布式 INSERT 和 COPY 路径可以在节点之间执行哈希交换。INSERT ALL / INSERT FIRST 和 MERGE 不会添加这种跨节点交换；同一分区仍可能由多个节点上的 Writer 写入。只有执行计划使用跨节点交换时，才会产生相应的网络 Shuffle 成本。
 
   **示例：**
   ```sql

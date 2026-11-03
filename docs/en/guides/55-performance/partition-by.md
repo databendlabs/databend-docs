@@ -2,6 +2,8 @@
 title: Partitioning Fuse Tables
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 # Partitioning Fuse Tables for Faster Pruning and Predictable Data Layout
 
 `PARTITION BY` physically separates a Fuse table into partitions. Databend keeps blocks and segments from different partition values separate, records the partition values in metadata, and prunes partitions that cannot match a query predicate.
@@ -15,7 +17,7 @@ Use partitioning when large tables are commonly filtered by time ranges, tenant 
 | Queries target a small slice of a large table | Unrelated segments and blocks must be inspected | Partition metadata eliminates unrelated partitions before scanning |
 | Time-series data spans many days or months | Recent-period queries read historical data | A date expression groups data into time partitions |
 | A natural key has very high cardinality | One partition per value creates excessive fragmentation | `BUCKET()` maps values to a fixed number of hash partitions |
-| Distributed writers produce many small blocks | The same partition can be written independently on several nodes | Hash write distribution routes each partition value to one writer |
+| Parallel writers produce many small blocks | Several writers can write the same partition | Hash write layout groups partition values; cross-node routing depends on the operation |
 
 ## Partitioning vs. Clustering
 
@@ -156,14 +158,28 @@ PARTITION BY (BUCKET(32, customer_id))
 WRITE_DISTRIBUTION_MODE = 'hash';
 ```
 
-This mode hashes the evaluated partition key and routes rows with the same partition value to the same writer before local sorting. It can reduce small-block fragmentation when several nodes or pipelines write the same partitions concurrently.
+This mode groups rows by the evaluated partition key before writing. It can reduce small-block fragmentation. Local writer layout and cross-node routing are different steps; the operation determines which steps run.
 
 `WRITE_DISTRIBUTION_MODE` accepts:
 
 - `'none'` (default): Do not redistribute rows before writing.
 - `'hash'`: Redistribute rows by the partition key before writing. This value requires `PARTITION BY`.
 
-Hash redistribution adds a network shuffle. Enable it for distributed or parallel loads where improved block layout outweighs the shuffle cost; it may not benefit small, single-writer inserts.
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+Since v1.2.952, the write layout also covers `REPLACE INTO`, `INSERT ALL` / `INSERT FIRST`, and `MERGE INTO`:
+
+| Operation | Hash write behavior |
+|-----------|---------------------|
+| `INSERT` and `COPY INTO <table>` | Distributed paths can route partition keys across nodes, then group rows among local writers. |
+| `REPLACE INTO` | Apply the layout only on the node that inserts new rows. Nodes that only mutate existing blocks do not run it. |
+| `INSERT ALL` / `INSERT FIRST` | Group rows within each node, separately for each target table. Repeated branches for one target share that target's layout. |
+| `MERGE INTO` | Group data rows within each node. The row-ID output bypasses the write layout. |
+| `UPDATE` | Not covered by this new append layout; it rewrites existing blocks. |
+
+`INSERT ALL` / `INSERT FIRST` and `MERGE INTO` do not add cross-node partition-key routing. The same partition can still be written on several nodes. Do not interpret `hash` as a cluster-wide single-writer guarantee for every operation.
+
+Cross-node hash redistribution adds a network shuffle where the plan uses it. Node-local regrouping does not itself add that exchange. Evaluate the layout cost for the actual write operation; small, single-writer inserts might not benefit.
 
 :::caution[Unsorted input is slow without hash distribution]
 With the default `WRITE_DISTRIBUTION_MODE = 'none'`, rows are written in the order they arrive. If the input mixes partition values row by row, Databend writes many very small blocks and the load becomes slow. Either set `WRITE_DISTRIBUTION_MODE = 'hash'` on the table, or sort the input by the partition key:

@@ -72,7 +72,7 @@ Each expression must be deterministic and reference exactly one source column. S
 PARTITION BY (DATE_TRUNC(month, event_time), BUCKET(16, tenant_id))
 ```
 
-For high-cardinality keys, [`BUCKET()`](/sql/sql-functions/hash-functions/bucket) maps values to a fixed number of hash partitions. `WRITE_DISTRIBUTION_MODE = 'hash'` can additionally route identical partition values to the same writer during distributed ingestion:
+For high-cardinality keys, [`BUCKET()`](/sql/sql-functions/hash-functions/bucket) maps values to a fixed number of hash partitions. `WRITE_DISTRIBUTION_MODE = 'hash'` can additionally group partition values before writing:
 
 ```sql
 CREATE TABLE customer_events (
@@ -83,7 +83,7 @@ PARTITION BY (BUCKET(32, customer_id))
 WRITE_DISTRIBUTION_MODE = 'hash';
 ```
 
-The hash write mode requires `PARTITION BY`; its default value is `'none'`. See [Partitioning Fuse Tables](/guides/performance/partition-by) for strategy selection, limitations, and complete examples.
+The hash write mode requires `PARTITION BY`; its default value is `'none'`. Since v1.2.952, the local layout also covers REPLACE, multi-table INSERT, and MERGE. Multi-table INSERT and MERGE do not add cross-node partition-key routing. See [Hash-Distributed Writes](/guides/performance/partition-by#hash-distributed-writes) for operation-specific scope and shuffle costs.
 
 :::note
 

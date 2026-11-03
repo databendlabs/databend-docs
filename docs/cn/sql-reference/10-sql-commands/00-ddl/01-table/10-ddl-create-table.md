@@ -72,7 +72,7 @@ CLUSTER BY (tenant_id, event_time);
 PARTITION BY (DATE_TRUNC(month, event_time), BUCKET(16, tenant_id))
 ```
 
-对于高基数键，[`BUCKET()`](/sql/sql-functions/hash-functions/bucket) 可将其映射到固定数量的哈希分区。`WRITE_DISTRIBUTION_MODE = 'hash'` 还能在分布式导入时，将分区值相同的行路由到同一个 Writer：
+对于高基数键，[`BUCKET()`](/sql/sql-functions/hash-functions/bucket) 可将其映射到固定数量的哈希分区。`WRITE_DISTRIBUTION_MODE = 'hash'` 还能在写入前按分区值归并数据：
 
 ```sql
 CREATE TABLE customer_events (
@@ -83,7 +83,7 @@ PARTITION BY (BUCKET(32, customer_id))
 WRITE_DISTRIBUTION_MODE = 'hash';
 ```
 
-哈希写入模式必须与 `PARTITION BY` 一同使用，默认值为 `'none'`。有关分区策略、限制和完整示例，请参见 [Fuse 表分区](/guides/performance/partition-by)。
+哈希写入模式必须与 `PARTITION BY` 一同使用，默认值为 `'none'`。从 v1.2.952 开始，本地布局也适用于 REPLACE、多表 INSERT 和 MERGE。多表 INSERT 和 MERGE 不会新增跨节点分区键路由。有关各操作的适用范围和 Shuffle 成本，请参阅[哈希分布式写入](/guides/performance/partition-by#hash-distributed-writes)。
 
 :::note
 
