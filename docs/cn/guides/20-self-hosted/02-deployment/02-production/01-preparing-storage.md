@@ -4,11 +4,39 @@ sidebar_label: 准备存储
 description: Databend 部署的存储准备建议。
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
+
 本主题介绍在生产环境中部署 Databend 的推荐存储配置。
 
 ## AWS S3
 
 在生产环境中使用 AWS S3 部署 Databend 时，请考虑以下建议：
+
+<a id="region-detection-on-private-networks"></a>
+
+### 私有网络中的区域探测
+
+从 v1.2.955 开始，S3 区域探测可以访问 `AWS_REGION` 选择的区域端点。此行为适用于未显式设置区域、且使用默认端点 `https://s3.amazonaws.com` 的存储位置。适用范围包括服务端存储配置和 SQL S3 位置，例如 Stage、`COPY` 或 `SELECT` 位置。
+
+在 Query 服务环境中，将 `AWS_REGION` 设为可访问的 AWS 商业分区区域。例如：
+
+```bash
+export AWS_REGION='ap-northeast-1'
+```
+
+缓存未命中时，Databend 向 `https://s3.ap-northeast-1.amazonaws.com/<bucket>` 发送匿名 `HEAD` 请求。这样，在只能通过区域端点访问 S3 的网络中，无需先探测全局端点。`AWS_REGION` 选择探测目的地，并不强制将 Bucket 的探测区域设为该值。
+
+- 即使响应状态为 `301` 或 `403`，探测也会读取 `x-amz-bucket-region`。区域探测不会跟随重定向。
+- 非空的成功结果使用现有一小时区域缓存，缓存键为配置的端点和 Bucket。
+- 没有该 Header 时，区域仍未知。不会将猜测区域缓存或写入 Stage 元数据。Operator 仍可使用现有 `AWS_REGION` 回退。
+- 区域探测失败或缺少 Header 时，不会重试全局端点。对于外部 SQL 位置，若端点出站策略拒绝区域目的地，探测会改用配置的端点。策略检查和探测共用一个十秒截止时间。
+- 受信任的服务端存储配置不使用外部 SQL 端点策略。此变更不会为 SQL 位置绕过策略。
+
+显式设置区域、使用自定义端点（包括显式区域 AWS 端点）或未设置 `AWS_REGION` 时，此优化不适用。对于 GovCloud、China、ISO 或 EUSC 等其他 AWS 分区，也不会选择区域探测；它们保留原有探测路径。
+
+如果探测仍超时，请检查 DNS、路由和端点策略。可以在存储配置或 Stage 连接中显式设置正确区域，以避免探测。区域发现不授予 Bucket 访问权限；仍须配置所需 S3 权限和凭据。
 
 ### 安全性
 
