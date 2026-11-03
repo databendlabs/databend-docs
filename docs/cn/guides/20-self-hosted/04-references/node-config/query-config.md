@@ -319,6 +319,23 @@ cn=
 | data_cache_storage | 表数据缓存的存储类型。可选："none"（禁用表数据缓存）、"disk"（启用磁盘缓存），默认为 "none"。 |
 | iceberg_table_meta_count | 缓存的 Iceberg 表元数据条目数量，设为 `0` 禁用元数据缓存。 |
 
+<a id="legacy-vector-index-cache"></a>
+
+### 传统向量索引缓存
+
+从 v1.2.953 开始，`memory_cache_vector_index_file` 保留供读取器共享的已解码 HNSW 索引，而不是序列化索引文件缓冲。其字节计量包括保留的搜索工作区。不要只根据索引文件大小估算此缓存。
+
+默认传统后端使用以下 `[cache]` 选项选择其容量：
+
+| 参数 | 默认值 | 行为 |
+|-----------|---------|----------|
+| `vector_index_filter_size` | `64424509440`（60 GiB） | 仅当 `vector_index_filter_memory_ratio = 0` 时使用的字节容量。 |
+| `vector_index_filter_memory_ratio` | `0` | 非零时，按缓存容量计算所用的服务端内存上限百分比设置容量，并覆盖字节容量。`0` 选择 `vector_index_filter_size`。 |
+
+若要禁用传统后端的缓存保留，请将两个选项都设为 `0`。比例非零时，仅设置 `vector_index_filter_size = 0` 不会禁用保留。这不会禁用向量索引读取，也不会释放查询仍在使用的索引。缓存计量不是进程 RSS 或查询总内存限制。
+
+下文的共享后端忽略这些传统选项。它将已解码向量索引放入 `index` 池。可在 `[cache.kind_max_bytes]` 中使用 `memory_cache_vector_index_file` 设置共享后端的单缓存字节上限；`0` 禁用该缓存。
+
 <a id="shared-memory-cache"></a>
 
 ### 共享内存缓存

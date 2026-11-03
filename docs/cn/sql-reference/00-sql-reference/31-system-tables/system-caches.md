@@ -45,7 +45,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | memory_cache_iceberg_table | meta | Iceberg 表元数据 |
 | memory_cache_prune_partitions | meta | 分区裁剪结果 |
 | memory_cache_bloom_index_filter | index | Bloom Filter 数据 |
-| memory_cache_vector_index_file | index | 向量索引 |
+| memory_cache_vector_index_file | index | 已解码 HNSW 索引，包括保留的搜索工作区 |
 | memory_cache_vector_index_refine | index | 向量精排数据 |
 | memory_cache_inverted_index_lookup | index | 倒排索引查找数据 |
 | memory_cache_inverted_index_payload | index | 倒排索引载荷 |
@@ -55,6 +55,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | memory_cache_table_data | data | 已解码的列数组 |
 
 `memory_cache_block_meta` 已移除。请使用当前服务器返回的名称。已配置的磁盘层有独立的 `disk_cache_*` 行，例如 `disk_cache_column_data`。不能通过 [SYSTEM$SET_CACHE_CAPACITY](../../20-sql-functions/17-table-functions/set-cache-capacity.md) 调整它们的容量。
+
+从 v1.2.953 开始，向量索引缓存保留共享的已解码对象。其 `size` 包括解码后的索引内存和保留的搜索工作区，而不只是序列化文件字节。被查询持有的索引在淘汰后仍可能计入用量。有关比例/字节优先级及独立的共享后端控制，请参阅[传统向量索引缓存](/guides/self-hosted/references/node-config/query-config#legacy-vector-index-cache)。这些数值不表示查询总内存或进程 RSS。
 
 ## 共享池行
 

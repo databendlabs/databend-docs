@@ -317,6 +317,21 @@ The following is a list of the parameters available within the [cache] section:
 | data_cache_storage       | The type of storage used for table data cache. Available options: "none" (disables table data cache), "disk" (enables disk cache). Defaults to "none". |
 | iceberg_table_meta_count | Controls the number of Iceberg table metadata entries to cache. Set to `0` to disable metadata caching.                                                |
 
+### Legacy Vector Index Cache
+
+Since v1.2.953, `memory_cache_vector_index_file` retains decoded HNSW indexes shared by readers, not serialized index-file buffers. Its byte accounting includes retained search workspaces. Do not estimate this cache from index-file size alone.
+
+With the default legacy backend, these `[cache]` options select its capacity:
+
+| Parameter | Default | Behavior |
+|-----------|---------|----------|
+| `vector_index_filter_size` | `64424509440` (60 GiB) | Byte capacity used only when `vector_index_filter_memory_ratio = 0`. |
+| `vector_index_filter_memory_ratio` | `0` | A nonzero percentage of the server memory limit used for cache sizing overrides the byte capacity. `0` selects `vector_index_filter_size`. |
+
+To disable legacy retention, set both options to `0`. Setting only `vector_index_filter_size = 0` does not disable retention while the ratio is nonzero. This does not disable vector-index reads or release an index still used by a query. Cache accounting is not a process RSS or total-query memory limit.
+
+The shared backend below ignores these legacy options. It puts decoded vector indexes in the `index` pool. Use `[cache.kind_max_bytes]` with `memory_cache_vector_index_file` to set a shared per-kind byte limit; `0` disables that cache.
+
 ### Shared Memory Cache
 
 Since v1.2.960, `cache.shared_memory_enabled = true` selects a shared memory backend. The default remains `false`, with the legacy per-cache capacities and LRU behavior. Legacy caches do not shrink under memory pressure.

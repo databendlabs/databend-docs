@@ -45,7 +45,7 @@ The pool column shows the grouping in the shared backend. Read `unit` from the t
 | memory_cache_iceberg_table | meta | Iceberg table metadata |
 | memory_cache_prune_partitions | meta | Partition pruning results |
 | memory_cache_bloom_index_filter | index | Bloom filter data |
-| memory_cache_vector_index_file | index | Vector indexes |
+| memory_cache_vector_index_file | index | Decoded HNSW indexes, including retained search workspaces |
 | memory_cache_vector_index_refine | index | Vector refinement data |
 | memory_cache_inverted_index_lookup | index | Inverted index lookups |
 | memory_cache_inverted_index_payload | index | Inverted index payloads |
@@ -55,6 +55,8 @@ The pool column shows the grouping in the shared backend. Read `unit` from the t
 | memory_cache_table_data | data | Decoded column arrays |
 
 `memory_cache_block_meta` was removed. Use the names returned by the current server. Configured disk tiers have separate `disk_cache_*` rows, such as `disk_cache_column_data`. They cannot be resized with [SYSTEM$SET_CACHE_CAPACITY](../../20-sql-functions/17-table-functions/set-cache-capacity.md).
+
+Since v1.2.953, the vector-index cache retains shared decoded objects. Its `size` includes decoded index memory and retained search workspaces, not just serialized-file bytes. Query-held indexes can remain charged after eviction. See [Legacy Vector Index Cache](/guides/self-hosted/references/node-config/query-config#legacy-vector-index-cache) for ratio/byte precedence and the separate shared-backend controls. These figures do not measure total query memory or process RSS.
 
 ## Shared Pool Rows
 
