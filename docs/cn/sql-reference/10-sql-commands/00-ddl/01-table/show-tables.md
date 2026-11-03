@@ -4,7 +4,7 @@ sidebar_position: 15
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.415"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 列出当前或指定数据库中的表。
 
@@ -13,6 +13,16 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 :::
 
 另请参阅：[system.tables](../../../00-sql-reference/31-system-tables/system-tables.md)
+
+<a id="unreadable-metadata"></a>
+
+## 不可读的元数据
+
+在默认 Catalog 中，列举表时可以跳过元数据缺失或当前 Server 版本无法解码的表。无法初始化的表也可以被跳过，例如其引擎不可用时。其他可读的表仍可出现在结果中。
+
+列举操作不会删除或修复被跳过的元数据。缺少一行结果并不表示该表已被删除。如果表意外缺失，请检查 Meta 和 Query Server 的警告日志。直接查询该表或显式获取其元数据时，仍可能报错。
+
+通过 [system.tables](../../../00-sql-reference/31-system-tables/system-tables.md) 批量列举时也有相同区别。此行为并不保证忽略所有 Catalog 或 RPC 错误。
 
 ## 语法
 
@@ -30,6 +40,8 @@ SHOW [ FULL ] TABLES
 | HISTORY   | 显示保留期内（默认为 24 小时）表删除的时间戳。 如果尚未删除表，则 `drop_time` 的值为 NULL。                                               |
 | LIKE      | 使用区分大小写的模式匹配按名称过滤结果。                                                                                              |
 | WHERE     | 使用 WHERE 子句中的表达式过滤结果。                                                                                             |
+
+<a id="examples"></a>
 
 ## 示例
 

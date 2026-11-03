@@ -5,7 +5,7 @@ title: VACUUM ALL
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 <EEFeature featureName='VACUUM ALL'/>
 
@@ -26,6 +26,8 @@ VACUUM ALL
 需要全局 `SUPER` 权限。不支持数据库筛选或命令选项。命令不返回结果集。
 
 若某一步骤向上传递错误，执行会停止，不再运行后续步骤。批量清理内部处理的单表错误遵循 [VACUUM TABLES](09-vacuum-tables.md) 中的行为。已完成的清理不会回滚。
+
+已删除对象清理步骤遵循[元数据兼容性](../00-ddl/01-table/91-vacuum-dropped-objects.md#metadata-compatibility)规则。命令成功后仍可能保留部分元数据。有关跳过无法解码的表、保留数据库以及仅清理已知退役引擎元数据的说明，请参阅该参考页面。
 
 ## 示例
 

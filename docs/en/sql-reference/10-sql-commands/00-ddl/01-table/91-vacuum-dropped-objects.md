@@ -6,7 +6,7 @@ sidebar_position: 18
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 <EEFeature featureName='VACUUM DROPPED OBJECTS'/>
 
@@ -36,6 +36,22 @@ Dropped objects become eligible for cleanup after the retention period configure
 SET data_retention_time_in_days = 2;
 SHOW SETTINGS LIKE 'data_retention_time_in_days';
 ```
+
+## Metadata Compatibility
+
+Cleanup distinguishes metadata that this version cannot read from metadata for a known retired engine:
+
+| Condition | Cleanup behavior | Diagnostic location |
+|-----------|------------------|---------------------|
+| Table metadata cannot be decoded | Skip that table. Keep its metadata. When scanning all databases, keep a dropped database that contains skipped undecodable tables. | Meta server warning logs |
+| Recognized retired read-only external engine, currently `DELTA` | Reclaim the dropped table's metadata without initializing the removed engine. Do not delete external data files. | Query server informational logs |
+| Other unknown or uninitializable non-FUSE engine | Retain the table's metadata and its containing dropped database. Do not treat an arbitrary unknown engine as retired. | Query warnings and Query server logs |
+
+Other eligible tables can still be cleaned. Other errors can still stop the command. Completion does not prove that every dropped object was reclaimed. Retention and other protection rules still apply.
+
+Skipping metadata does not repair it. Check the indicated logs if objects remain after cleanup. Do not interpret a skipped table as permission to delete its metadata or data manually.
+
+[VACUUM ALL](../../50-administration-cmds/09-vacuum-all.md) inherits these rules for its dropped-object cleanup step.
 
 ## Examples
 

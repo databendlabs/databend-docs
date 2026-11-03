@@ -6,7 +6,7 @@ sidebar_position: 18
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 <EEFeature featureName='VACUUM DROPPED OBJECTS'/>
 
@@ -36,6 +36,24 @@ VACUUM DROPPED OBJECTS [FROM <database>]
 SET data_retention_time_in_days = 2;
 SHOW SETTINGS LIKE 'data_retention_time_in_days';
 ```
+
+<a id="metadata-compatibility"></a>
+
+## 元数据兼容性
+
+清理操作会区分当前版本无法读取的元数据，以及已知退役引擎的元数据：
+
+| 条件 | 清理行为 | 诊断位置 |
+|------|----------|----------|
+| 表元数据无法解码 | 跳过该表并保留其元数据。扫描所有数据库时，保留包含此类无法解码表的已删除数据库。 | Meta Server 警告日志 |
+| 已知退役的只读外部引擎，目前为 `DELTA` | 无需初始化已移除的引擎，即可回收已删除表的元数据。不删除外部数据文件。 | Query Server 信息日志 |
+| 其他未知或无法初始化的非 FUSE 引擎 | 保留该表的元数据及其所在的已删除数据库。不会将任意未知引擎视为退役引擎。 | 查询警告和 Query Server 日志 |
+
+其他符合条件的表仍可被清理。其他错误仍可导致命令停止。命令完成并不表示所有已删除对象都已回收。保留期及其他保护规则仍然适用。
+
+跳过元数据不会修复它。如果清理后仍有对象保留，请检查对应日志。表被跳过并不表示可以手动删除其元数据或数据。
+
+[VACUUM ALL](../../50-administration-cmds/09-vacuum-all.md) 的已删除对象清理步骤遵循这些规则。
 
 ## 示例
 

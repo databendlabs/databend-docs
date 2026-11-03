@@ -2,7 +2,13 @@
 title: system.tables
 ---
 
-提供所有表的元数据信息。包括表属性、创建时间、行数、数据大小等详细信息。
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
+
+提供表的元数据信息。包括表属性、创建时间、行数、数据大小等详细信息。
+
+在默认 Catalog 中，批量列举可以省略元数据缺失、无法解码或无法初始化的表。省略结果不会删除或修复该表。有关列举与显式访问的区别以及警告日志位置，请参阅[不可读的元数据](../../10-sql-commands/00-ddl/01-table/show-tables.md#unreadable-metadata)。
 
 另请参阅：
 
