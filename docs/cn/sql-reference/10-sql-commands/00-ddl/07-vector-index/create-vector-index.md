@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.777"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 为表的 [VECTOR](/sql/sql-reference/data-types/vector) 列创建 Vector Index，使用 HNSW（Hierarchical Navigable Small World）算法实现高效的相似度搜索。
 
@@ -16,12 +16,14 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 CREATE [OR REPLACE] VECTOR INDEX [IF NOT EXISTS] <index_name>
 ON [<database>.]<table_name>(<column>)
 distance = '<metric>' [m = <number>] [ef_construct = <number>]
+[refine = true | false]
 
 -- 在创建表时创建 Vector Index
 CREATE [OR REPLACE] TABLE <table_name> (
     <column_definitions>,
     VECTOR INDEX <index_name> (<column>)
         distance = '<metric>' [m = <number>] [ef_construct = <number>]
+        [refine = true | false]
 )...
 ```
 
@@ -43,13 +45,48 @@ CREATE [OR REPLACE] TABLE <table_name> (
   - 必须 >= 40
   - 典型取值范围：40-500
 
+- **`refine`**（可选，默认：`false`）- 在索引中存储 FP16 向量，用于结果精排。此选项于 v1.2.957 引入，会增加存储和读取开销。查询设置控制 Databend 如何使用存储的 FP16 数据。
+
+## FP16 精排 {/* #fp16-refinement */}
+
+未启用精排时，向量索引查询使用 SQ8 量化分数。设置了 `refine = true` 的索引可以先使用 FP16 向量重新计算候选行的分数，再选取最终的 TopN 行。FP16 分数仍是近似值。精排不保证返回精确的最近邻，也不保证分数与原始全精度向量计算的分数相同。
+
+| 设置 | 默认值 | 说明 |
+|---------|---------|-------------|
+| `vector_refine_factor` | `2` | 接受 `0` 到 `16` 的整数。对于符合条件的 TopN 搜索，使用 `LIMIT * factor` 作为 FP16 重新评分的候选预算。`0` 禁用精排。`1` 对原候选预算内的行重新评分。未设置 `refine = true` 的索引忽略此设置。 |
+| `vector_search_ef` | `0` | 控制 HNSW 搜索候选列表的大小。`0` 表示使用候选数的四倍。非零值会提升到不小于候选数。 |
+
+这两个设置均于 v1.2.957 引入。使用 `SET` 可以为会话设置，使用 `SETTINGS` 可以为单条查询设置。修改这些设置不需要重建索引。
+
+```sql
+SET vector_refine_factor = 4;
+SET vector_search_ef = 400;
+```
+
+符合条件的 TopN 搜索仅读取包含候选行的 FP16 页。需要对每一行评分的查询，例如距离投影或包含普通列谓词的搜索，在启用精排时会对所有待评分行使用 FP16 分数。这些查询不会通过 TopN 候选预算限制评分行数。
+
+如需为现有索引启用精排，请用 `refine = true` 替换索引定义，并保留所需的其他索引选项。然后运行 [REFRESH VECTOR INDEX](refresh-vector-index.md)，为已有数据构建新版本索引：
+
+```sql
+CREATE OR REPLACE VECTOR INDEX idx_product_embedding
+ON products(embedding)
+distance = 'cosine,l1,l2'
+m = 20
+ef_construct = 150
+refine = true;
+
+REFRESH VECTOR INDEX idx_product_embedding ON products;
+```
+
+新写入的数据自动使用当前索引定义。现有旧格式索引文件仍可读取。刷新会在缺少当前 bundle 格式索引时进行构建。`VACUUM TABLE` 回收保留快照不再引用的索引文件。
+
 ## Vector Index 工作原理
 
 Databend 的 Vector Index 使用 HNSW 算法构建多层图结构：
 
 1. **图结构**：每个向量是一个节点，与其最近邻节点相连
 2. **搜索过程**：查询从粗粒度到细粒度遍历图的各层，快速找到近似最近邻
-3. **量化处理**：原始向量会被量化以减少存储空间并提升查询性能（精度损失可忽略不计）
+3. **量化处理**：SQ8 量化减少索引存储。可选的 FP16 数据用于精排。两者都可能影响搜索准确性。
 4. **自动构建**：索引随数据写入自动构建。每次 INSERT、COPY 或数据加载操作都会自动为新行生成索引，无需手动维护
 
 ## 示例
@@ -165,6 +202,31 @@ LIMIT 2;
 └────┴─────────────────┴──────────────┘
 ```
 
+### 使用 FP16 精排查询
+
+```sql
+CREATE TABLE vector_refine_demo (
+    id INT NOT NULL,
+    embedding VECTOR(4) NOT NULL,
+    VECTOR INDEX idx(embedding) distance = 'l1' refine = true
+);
+
+INSERT INTO vector_refine_demo VALUES
+    (1, [1,0,0,0]), (2, [1,1,0,0]), (3, [0,1,0,0]);
+INSERT INTO vector_refine_demo VALUES
+    (4, [-1,0,0,0]), (5, [1,0.5,0,0]), (6, [1,0.25,0,0]);
+
+SETTINGS (vector_refine_factor = 4, vector_search_ef = 16)
+SELECT id, l1_distance(embedding, [1,0,0,0]::VECTOR(4)) AS d
+FROM vector_refine_demo
+ORDER BY d
+LIMIT 3;
+```
+
+对于这些数据，返回的三行 ID 依次为 `1`、`6` 和 `5`，距离分别为 `0`、`0.25` 和 `0.5`。
+
+使用 `SETTINGS (vector_refine_factor = 0)` 可以为单条查询禁用 FP16 精排。这不会修改已存储的 FP16 数据。
+
 ## 性能调优
 
 ### 选择距离度量
@@ -193,5 +255,5 @@ LIMIT 2;
 
 - Vector Index 仅支持 [VECTOR](/sql/sql-reference/data-types/vector) 数据类型的列
 - `distance` 参数为必需，未指定的索引将被忽略
-- 量化处理可能引入极小的距离计算误差（通常 < 0.01%）
+- HNSW 搜索和量化分数均为近似结果。准确性取决于数据和索引/搜索设置。请使用有代表性的查询测试召回率。
 - 索引大小随 `m` 值增加而增长（约为每个向量 `m * 向量维度 * 4 字节`）
