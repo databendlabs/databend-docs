@@ -13,7 +13,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-CALL system$set_cache_capacity('<cache_name>', <new_capacity>);
+CALL system$set_cache_capacity('<cache_name>', <new_capacity>)
+```
+
+共享后端还支持恢复缓存的启动限制：
+
+```sql
 CALL system$set_cache_capacity('<cache_name>', 'default');
 ```
 
@@ -24,8 +29,8 @@ CALL system$set_cache_capacity('<cache_name>', 'default');
 
 ## 后端规则
 
-- 默认仍使用旧版后端。它对各缓存采用 LRU 逐出策略，不接受池目标、`all` 或 `'default'`。
-- 从 v1.2.960 开始，共享后端使用 S3-FIFO 池。单缓存的字节限制仍受池预算约束；它不会为该缓存预留内存。
+- 默认仍使用旧版后端，不接受池目标、`all` 或 `'default'`。
+- 在共享后端中，单缓存的字节限制仍受池预算约束，不会为该缓存预留内存。
 - 在共享后端中，`'default'` 将缓存恢复为 `cache.kind_max_bytes` 或内置默认值规定的启动限制。它不会重置池，不支持 `all` 或 `pool:*`。
 - 大多数共享缓存启动时已启用，且没有独立的单缓存限制。原始 `memory_cache_column_data` 默认关闭，除非配置另行启用。因此，它的 `'default'` 可能会再次将其关闭。
 - `all` 只接受 `0`，会将三个共享池的容量设为零，但不会禁用已配置的磁盘层。需要恢复时，请分别为各池设置数值容量。
@@ -35,7 +40,7 @@ CALL system$set_cache_capacity('<cache_name>', 'default');
 
 ### 倒排索引负载目标
 
-从 v1.2.953 开始，传统目标 `memory_cache_inverted_index_payload` 接受页缓存和 `memory_cache_inverted_index_full_payload` 的组合预算。值 `B` 将 `floor(B / 4)` 字节分配给完整组件缓存，其余部分分配给页缓存。它不会将页缓存行的容量设为 `B`。将此目标设为 `0` 会禁用两个传统负载内存缓存。
+在旧版后端中，`memory_cache_inverted_index_payload` 设置页缓存和 `memory_cache_inverted_index_full_payload` 的组合预算，而不是只设置页缓存容量。将此目标设为 `0` 会禁用两个负载内存缓存。
 
 在共享后端中，同一目标仅改变页缓存类型。若要改变 `memory_cache_inverted_index_full_payload` 的限制，请单独调整它。两者仍受 `index` 池约束。这些运行时变更不改变磁盘层容量，也不会在重启后保留。
 
@@ -45,6 +50,12 @@ CALL system$set_cache_capacity('<cache_name>', 'default');
 
 ```sql
 CALL system$set_cache_capacity('memory_cache_bloom_index_file_meta_data', 5000);
+
+┌────────────────────────┬────────┐
+│ node                   │ result │
+├────────────────────────┼────────┤
+│ Gwo2DYOLZ9zAdYbGTWY9y6 │ Ok     │
+└────────────────────────┴────────┘
 ```
 
 在任一后端中禁用分区裁剪内存缓存：

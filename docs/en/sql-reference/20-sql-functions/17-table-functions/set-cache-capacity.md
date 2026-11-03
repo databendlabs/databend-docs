@@ -13,7 +13,12 @@ See [system.caches](../../00-sql-reference/31-system-tables/system-caches.md) fo
 ## Syntax
 
 ```sql
-CALL system$set_cache_capacity('<cache_name>', <new_capacity>);
+CALL system$set_cache_capacity('<cache_name>', <new_capacity>)
+```
+
+The shared backend also supports restoring a cache's startup limit:
+
+```sql
 CALL system$set_cache_capacity('<cache_name>', 'default');
 ```
 
@@ -24,8 +29,8 @@ CALL system$set_cache_capacity('<cache_name>', 'default');
 
 ## Backend Rules
 
-- The legacy backend remains the default. It uses per-cache LRU eviction. It rejects pool targets, `all`, and `'default'`.
-- Since v1.2.960, the shared backend uses S3-FIFO pools. A per-cache byte limit remains subject to the pool's budget; it does not reserve memory for that cache.
+- The legacy backend remains the default. It rejects pool targets, `all`, and `'default'`.
+- With the shared backend, a per-cache byte limit remains subject to the pool's budget. It does not reserve memory for that cache.
 - With the shared backend, `'default'` restores a cache's startup limit from `cache.kind_max_bytes` or its built-in default. It does not reset a pool. It is not supported for `all` or `pool:*`.
 - Most shared caches start enabled with no separate per-cache limit. Raw `memory_cache_column_data` starts disabled unless configured otherwise. Its `'default'` can therefore turn it off again.
 - `all` accepts only `0`. It sets all three shared pool capacities to zero. It does not disable configured disk tiers. Restore each pool with a numeric capacity when needed.
@@ -35,7 +40,7 @@ CALL system$set_cache_capacity('<cache_name>', 'default');
 
 ### Inverted Index Payload Target
 
-Since v1.2.953, the legacy target `memory_cache_inverted_index_payload` accepts a combined budget for the page cache and `memory_cache_inverted_index_full_payload`. A value `B` assigns `floor(B / 4)` bytes to the complete-component cache and the remainder to pages. It does not set the page row's capacity to `B`. Setting this target to `0` disables both legacy payload memory caches.
+With the legacy backend, `memory_cache_inverted_index_payload` sets a combined budget for the page cache and `memory_cache_inverted_index_full_payload`. It does not set only the page cache's capacity. Setting this target to `0` disables both payload memory caches.
 
 With the shared backend, this same target changes only the page-cache kind. Resize `memory_cache_inverted_index_full_payload` separately to change its limit. Both remain subject to the `index` pool. These runtime changes do not alter disk-tier capacities or persist after restart.
 
@@ -45,6 +50,12 @@ With the legacy backend, set the Bloom index metadata cache to 5000 entries:
 
 ```sql
 CALL system$set_cache_capacity('memory_cache_bloom_index_file_meta_data', 5000);
+
+┌────────────────────────┬────────┐
+│ node                   │ result │
+├────────────────────────┼────────┤
+│ Gwo2DYOLZ9zAdYbGTWY9y6 │ Ok     │
+└────────────────────────┴────────┘
 ```
 
 Disable the partition pruning memory cache with either backend:

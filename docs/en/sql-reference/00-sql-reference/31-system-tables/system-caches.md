@@ -45,7 +45,7 @@ The pool column shows the grouping in the shared backend. Read `unit` from the t
 | memory_cache_iceberg_table | meta | Iceberg table metadata |
 | memory_cache_prune_partitions | meta | Partition pruning results |
 | memory_cache_bloom_index_filter | index | Bloom filter data |
-| memory_cache_vector_index_file | index | Decoded HNSW indexes, including retained search workspaces |
+| memory_cache_vector_index_file | index | Vector indexes |
 | memory_cache_vector_index_refine | index | Vector refinement data |
 | memory_cache_inverted_index_lookup | index | Inverted index lookups |
 | memory_cache_inverted_index_payload | index | Inverted index payloads |
@@ -56,14 +56,6 @@ The pool column shows the grouping in the shared backend. Read `unit` from the t
 
 `memory_cache_block_meta` was removed. Use the names returned by the current server. Configured disk tiers have separate `disk_cache_*` rows, such as `disk_cache_column_data`. They cannot be resized with [SYSTEM$SET_CACHE_CAPACITY](../../20-sql-functions/17-table-functions/set-cache-capacity.md).
 
-Since v1.2.953, the vector-index cache retains shared decoded objects. Its `size` includes decoded index memory and retained search workspaces, not just serialized-file bytes. Query-held indexes can remain charged after eviction. See [Legacy Vector Index Cache](/guides/self-hosted/references/node-config/query-config#legacy-vector-index-cache) for ratio/byte precedence and the separate shared-backend controls. These figures do not measure total query memory or process RSS.
-
-## Inverted Index Payload Capacities
-
-Since v1.2.953, the legacy payload budget is split between `memory_cache_inverted_index_payload` (pages) and `memory_cache_inverted_index_full_payload` (complete postings/positions components). The default 16 GiB total gives these rows capacities of 12 GiB and 4 GiB. Their capacities are separate shares, not an additional 16 GiB each. See [Legacy Inverted Index Payload Cache](/guides/self-hosted/references/node-config/query-config#legacy-inverted-index-payload-cache) for the byte split and startup option.
-
-In the shared backend, both rows belong to the `index` pool and use independent per-kind limits. The legacy 75%/25% split does not apply. Resizing the page-cache name has different effects in the two backends; see [SYSTEM$SET_CACHE_CAPACITY](../../20-sql-functions/17-table-functions/set-cache-capacity.md).
-
 ## Shared Pool Rows
 
 The shared backend adds `__pool:meta`, `__pool:index`, and `__pool:data` when their capacities are nonzero. These rows summarize the same memory as their member caches. Do not add pool usage to member-cache usage. A pool's lookup counters are zero; use the member rows for hit rates.
@@ -73,9 +65,30 @@ A cache without its own byte limit reports capacity `18446744073709551615`, not 
 ## Examples
 
 ```sql
-SELECT node, name, num_items, size, capacity, unit, access, hit, miss
+SELECT * FROM system.caches;
+```
+
+With the legacy backend, inspect utilization and hit rates:
+
+```sql
+SELECT
+    node,
+    name,
+    capacity,
+    if(unit = 'count', (num_items + 1) / (capacity + 1),
+       unit = 'bytes', (size + 1) / (capacity + 1), -1) AS utilization,
+    if(access = 0, 0, hit / access)  AS hit_rate,
+    if(access = 0, 0, miss / access) AS miss_rate,
+    num_items,
+    size,
+    unit,
+    access,
+    hit,
+    miss
 FROM system.caches;
 ```
+
+For shared caches without a separate limit, inspect the pool budget instead of calculating utilization from the sentinel capacity.
 
 Inspect shared pool budgets separately:
 
@@ -85,4 +98,4 @@ FROM system.caches
 WHERE name IN ('__pool:meta', '__pool:index', '__pool:data');
 ```
 
-For bytes still held inside the cache rather than all charged resident bytes, use the `cache_in_cache_bytes` and `cache_pool_in_cache_bytes` metrics. The corresponding resident metrics are `cache_resident_bytes` and `cache_pool_resident_bytes`.
+Cache usage does not measure total query memory or process RSS.

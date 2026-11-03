@@ -319,21 +319,9 @@ cn=
 | data_cache_storage | 表数据缓存的存储类型。可选："none"（禁用表数据缓存）、"disk"（启用磁盘缓存），默认为 "none"。 |
 | iceberg_table_meta_count | 缓存的 Iceberg 表元数据条目数量，设为 `0` 禁用元数据缓存。 |
 
-<a id="legacy-inverted-index-payload-cache"></a>
-
-### 传统倒排索引负载缓存
-
-从 v1.2.953 开始，`[cache].inverted_index_payload_size` 是负载页和完整 postings/positions 组件的传统内存总预算。默认值从 `8589934592`（8 GiB）增加到 `17179869184`（16 GiB）。
-
-对于总预算 `B`，完整组件缓存获得 `floor(B / 4)` 字节，页缓存获得剩余部分。默认容量为 `memory_cache_inverted_index_payload` 的 12 GiB 和 `memory_cache_inverted_index_full_payload` 的 4 GiB。它们是同一预算的两部分，不是各自拥有一份配置总量。将传统选项设为 `0` 会禁用两个内存缓存，但不会禁用索引读取或已配置的磁盘缓存。
-
-共享后端忽略此传统选项及其固定拆分。两个缓存类型均使用 `index` 池。可在 `[cache.kind_max_bytes]` 中使用上述两个名称分别设置限制。请在 [system.caches](/sql/sql-reference/system-tables/system-caches) 中查看各自的行。
-
 <a id="legacy-vector-index-cache"></a>
 
 ### 传统向量索引缓存
-
-从 v1.2.953 开始，`memory_cache_vector_index_file` 保留供读取器共享的已解码 HNSW 索引，而不是序列化索引文件缓冲。其字节计量包括保留的搜索工作区。不要只根据索引文件大小估算此缓存。
 
 默认传统后端使用以下 `[cache]` 选项选择其容量：
 
@@ -350,7 +338,7 @@ cn=
 
 ### 共享内存缓存
 
-从 v1.2.960 开始，`cache.shared_memory_enabled = true` 可选择共享内存后端。默认值仍为 `false`，使用旧版单缓存容量和 LRU 行为。旧版缓存不会因内存压力而收缩。
+从 v1.2.960 开始，`cache.shared_memory_enabled = true` 可选择共享内存后端。此后端将缓存分组到内存池中，并可在内存压力下回收缓存内存。默认值仍为 `false`，各缓存使用独立容量。
 
 共享后端要求同时设置 `query.max_memory_limit_enabled = true` 和非零的 `query.max_server_memory_usage`。缺少任一条件都会导致启动失败。请根据主机和工作负载选择服务器限制。以下示例使用 8 GiB 服务器限制：
 
@@ -381,7 +369,7 @@ memory_cache_column_data = 0
 
 三个比例之和不得超过 `80`。它们设置的是池容量上限，而不是预分配内存。单缓存限制不会预留内存，也不能突破池预算。所有共享内存缓存默认启用并受池约束，但原始 `memory_cache_column_data` 默认关闭。`kind_max_bytes` 中的条目会覆盖这些默认值。
 
-共享后端忽略旧版单缓存容量选项，包括 `iceberg_table_meta_count` 和 `enable_table_meta_cache`。磁盘缓存选项仍然有效。共享后端采用 S3-FIFO 池逐出和内存压力回收机制，不能再假定每个缓存使用独立 LRU。回收可在查询终止前释放可逐出的缓存内存，但不能保证查询不会发生内存不足。查询仍持有的值不一定立即释放。
+共享后端忽略旧版单缓存容量选项，包括 `iceberg_table_meta_count` 和 `enable_table_meta_cache`。请改用 `kind_max_bytes`。磁盘缓存选项仍然有效。缓存限制不约束查询总内存。活动查询持有的内存不一定立即释放。
 
 请在 [system.caches](/sql/sql-reference/system-tables/system-caches) 中查看各缓存和池的使用量。使用 [SYSTEM$SET_CACHE_CAPACITY](/sql/sql-functions/table-functions/set-cache-capacity) 可设置临时字节限制、调整池大小，或用 `'default'` 恢复缓存的启动限制。
 

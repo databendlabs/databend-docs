@@ -317,17 +317,7 @@ The following is a list of the parameters available within the [cache] section:
 | data_cache_storage       | The type of storage used for table data cache. Available options: "none" (disables table data cache), "disk" (enables disk cache). Defaults to "none". |
 | iceberg_table_meta_count | Controls the number of Iceberg table metadata entries to cache. Set to `0` to disable metadata caching.                                                |
 
-### Legacy Inverted Index Payload Cache
-
-Since v1.2.953, `[cache].inverted_index_payload_size` is the total legacy memory budget for payload pages and complete postings/positions components. Its default increased from `8589934592` (8 GiB) to `17179869184` (16 GiB).
-
-For a total budget `B`, the complete-component cache receives `floor(B / 4)` bytes. The page cache receives the remainder. The default capacities are 12 GiB for `memory_cache_inverted_index_payload` and 4 GiB for `memory_cache_inverted_index_full_payload`. These are two shares of one budget, not two copies of the configured total. Setting the legacy option to `0` disables both memory caches; it does not disable index reads or configured disk caching.
-
-The shared backend ignores this legacy option and its fixed split. Both cache kinds use the `index` pool. Set their separate limits under `[cache.kind_max_bytes]` with the two names above. Inspect their individual rows in [system.caches](/sql/sql-reference/system-tables/system-caches).
-
 ### Legacy Vector Index Cache
-
-Since v1.2.953, `memory_cache_vector_index_file` retains decoded HNSW indexes shared by readers, not serialized index-file buffers. Its byte accounting includes retained search workspaces. Do not estimate this cache from index-file size alone.
 
 With the default legacy backend, these `[cache]` options select its capacity:
 
@@ -342,7 +332,7 @@ The shared backend below ignores these legacy options. It puts decoded vector in
 
 ### Shared Memory Cache
 
-Since v1.2.960, `cache.shared_memory_enabled = true` selects a shared memory backend. The default remains `false`, with the legacy per-cache capacities and LRU behavior. Legacy caches do not shrink under memory pressure.
+Since v1.2.960, `cache.shared_memory_enabled = true` selects a shared memory backend. This backend groups caches into memory pools and can reclaim cache memory under memory pressure. The default remains `false`, with separate capacities for each cache.
 
 The shared backend requires both `query.max_memory_limit_enabled = true` and a nonzero `query.max_server_memory_usage`. Startup fails if either requirement is missing. Choose a server limit that fits the host and workload. The example below uses an 8 GiB server limit:
 
@@ -373,7 +363,7 @@ memory_cache_column_data = 0
 
 The three ratios must sum to at most `80`. They size pool ceilings, not preallocated memory. A per-cache limit cannot reserve memory or exceed its pool budget. All shared memory caches start enabled and bounded by their pools, except raw `memory_cache_column_data`, which starts disabled. Entries in `kind_max_bytes` override these defaults.
 
-The shared backend ignores legacy per-cache capacity options, including `iceberg_table_meta_count`, and `enable_table_meta_cache`. Disk cache options still apply. Use S3-FIFO pool eviction and pressure-driven reclamation instead of assuming per-cache LRU behavior. Reclamation can free evictable cache memory before query termination, but it does not guarantee that a query cannot run out of memory. Values still held by queries might not be released immediately.
+The shared backend ignores legacy per-cache capacity options, including `iceberg_table_meta_count`, and `enable_table_meta_cache`. Use `kind_max_bytes` instead. Disk cache options still apply. Cache limits do not bound total query memory. Memory held by active queries might not be released immediately.
 
 Inspect per-cache and pool usage in [system.caches](/sql/sql-reference/system-tables/system-caches). Use [SYSTEM$SET_CACHE_CAPACITY](/sql/sql-functions/table-functions/set-cache-capacity) for temporary byte limits, pool resizing, and restoring a cache's startup limit with `'default'`.
 
