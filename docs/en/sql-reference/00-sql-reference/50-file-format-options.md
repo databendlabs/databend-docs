@@ -238,9 +238,11 @@ The compression algorithm.
 
 **Default**: `NONE`
 
-## TSV Options
+<a id="tsv-options"></a>
 
-Databend TSV (also called `TEXT` in `v1.2.891-nightly` and later) uses the same format and options under both names. This page keeps `TSV` as the primary term for compatibility with older server versions.
+## TEXT / TSV Options
+
+Databend TSV (also called `TEXT` in `v1.2.891-nightly` and later) uses the same format and options under both names. The examples use `TSV` for compatibility with older server versions.
 
 Databend TSV is subject to the following conditions:
 

@@ -149,7 +149,8 @@ with connection1.begin() as trans:
     connection1.execute(text("CREATE TABLE IF NOT EXISTS booklist(title VARCHAR, author VARCHAR, date VARCHAR)"))
     connection1.execute(text("INSERT INTO booklist VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')"))
 
-result = connection2.execute(text("SELECT * FROM booklist"))
+# connection2 仍使用 default 数据库，因此查询时指定完整库表名。
+result = connection2.execute(text("SELECT * FROM bookstore.booklist"))
 results = result.fetchall()
 
 for (title, author, date) in results:

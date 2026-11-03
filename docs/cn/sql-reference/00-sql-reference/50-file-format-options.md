@@ -237,9 +237,12 @@ Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，
 
 **默认值**: `NONE`
 
-## TSV 选项
+<a id="tsv-options"></a>
+<a id="tsv-选项"></a>
 
-Databend TSV（在 `v1.2.891-nightly` 及之后版本中也称为 `TEXT`）在两种名称下使用相同的格式和选项。为了兼容旧版本 Server，本页仍以 `TSV` 作为主要术语。
+## TEXT / TSV 选项
+
+Databend TSV（在 `v1.2.891-nightly` 及之后版本中也称为 `TEXT`）在两种名称下使用相同的格式和选项。为了兼容旧版本 Server，示例仍使用 `TSV`。
 
 Databend TSV 遵循以下规则：
 

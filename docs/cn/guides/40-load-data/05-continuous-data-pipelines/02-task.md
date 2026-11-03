@@ -84,15 +84,15 @@ ALTER TASK task_consume_data RESUME;
 SHOW TASKS LIKE 'task_%';
 LIST @sensor_events_stage;
 SELECT * FROM sensor_events ORDER BY event_time DESC LIMIT 5;
-SELECT * FROM task_history('task_consume_data', 5);
+SELECT * FROM TASK_HISTORY(TASK_NAME => 'task_consume_data', RESULT_LIMIT => 5);
 ```
 
 ### 步骤 6： 调整或改写 Task
 
 ```sql
 ALTER TASK task_consume_data
-    SET SCHEDULE = 30 SECOND,
-        WAREHOUSE = 'etl_wh_medium';
+    SET SCHEDULE = 30 SECOND
+    WAREHOUSE = 'etl_wh_medium';
 
 ALTER TASK task_consume_data
     MODIFY AS
@@ -103,7 +103,7 @@ FILE_FORMAT = (TYPE = PARQUET);
 ALTER TASK task_consume_data RESUME;
 
 SELECT *
-FROM task_history('task_consume_data', 5)
+FROM TASK_HISTORY(TASK_NAME => 'task_consume_data', RESULT_LIMIT => 5)
 ORDER BY completed_time DESC;
 ```
 
@@ -148,7 +148,7 @@ ORDER BY event_time DESC
 LIMIT 5;
 
 SELECT *
-FROM task_history('task_stream_merge', 5);
+FROM TASK_HISTORY(TASK_NAME => 'task_stream_merge', RESULT_LIMIT => 5);
 ```
 
 只要 `STREAM_STATUS('<database>.<stream_name>')` 返回 TRUE（例如 `task_demo.sensor_events_stream`），Task 就会运行；否则保持暂停，直到下一批增量到达。

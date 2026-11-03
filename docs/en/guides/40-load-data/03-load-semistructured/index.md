@@ -12,7 +12,7 @@ Semi-structured data contains tags or markers to separate semantic elements whil
 | ----------- | ----------- | ----- |
 | **Parquet** | Efficient columnar storage format | [Loading Parquet](load-semistructured/load-parquet) |
 | **CSV** | Comma-separated values | [Loading CSV](load-semistructured/load-csv) |
-| **TSV** | Tab-separated values | [Loading TSV](load-semistructured/load-tsv) |
+| **TEXT / TSV** | Tab-separated values | [Loading TEXT / TSV](load-semistructured/load-tsv) |
 | **NDJSON** | Newline-delimited JSON | [Loading NDJSON](load-semistructured/load-ndjson) |
 | **ORC** | Optimized Row Columnar format | [Loading ORC](load-semistructured/load-orc) |
 | **Avro** | Row-based format with schema definition | [Loading Avro](load-semistructured/load-avro) |

@@ -8,6 +8,7 @@ title: INFER_SCHEMA
 - **Parquet** - 原生支持模式推断
 - **CSV** - 支持自定义分隔符和表头检测
 - **NDJSON** - 换行分隔的 JSON 文件
+- **TEXT** - 文本文件。请参见 [TEXT / TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options)。
 
 **压缩支持**：所有格式均支持扩展名为 `.zip`、`.xz`、`.zst` 的压缩文件。
 

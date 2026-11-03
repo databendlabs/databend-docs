@@ -36,8 +36,8 @@ PUT fs:///Users/eric/Documents/iris.parquet @my_internal_stage;
 
 ### 步骤 3：从 Stage 文件推断列定义
 
-:::caution
-`infer_schema` 目前仅支持 Parquet 文件。
+:::note
+本教程使用 Parquet 文件。有关支持的格式和选项，请参见 [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema)。
 :::
 
 ```sql
