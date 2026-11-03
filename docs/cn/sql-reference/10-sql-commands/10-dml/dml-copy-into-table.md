@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<FunctionDescription description="引入或更新于：v1.2.704"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 COPY INTO 允许你从以下任一位置的文件中加载数据：
 
@@ -298,7 +298,7 @@ copyOptions ::=
 | DISABLE_VARIANT_CHECK | 将无效 JSON 替换为 null | `false`（无效 JSON 时报错） |
 | ON_ERROR | 错误处理方式：`continue`、`abort` 或 `abort_N` | `abort` |
 | MAX_FILES | 最大加载文件数（上限 15,000） | - |
-| RETURN_FAILED_ONLY | 仅返回失败的文件 | `false` |
+| RETURN_FAILED_ONLY | 仅返回记录了错误的文件，包括已加载部分行且容忍跳过错误行的文件 | `false` |
 | COLUMN_MATCH_MODE | Parquet 列名匹配模式 | `case-insensitive` |
 | SCHEMA_EVOLUTION | NDJSON 专用：用于推断目标表中缺失列的采样选项。要求目标表启用 `ENABLE_SCHEMA_EVOLUTION = true`，并且执行角色拥有目标表的 `ALTER` 权限。 | `AUTO` 采样 |
 
@@ -332,7 +332,22 @@ COPY INTO 返回数据加载结果摘要，包含以下列：
 | FIRST_ERROR | VARCHAR | YES | 源文件中发现的第一个错误 |
 | FIRST_ERROR_LINE | INT | YES | 第一个错误的行号 |
 
-若 `RETURN_FAILED_ONLY` 设为 `true`，则仅输出加载失败的文件。
+若 `RETURN_FAILED_ONLY` 为 `true`，输出包含记录了错误的文件。返回的文件可以同时有已加载行和被跳过行，不一定表示整个文件加载失败。没有记录错误的文件不会输出。
+
+### ABORT_N 下容忍的错误
+
+从 v1.2.957 开始，`ON_ERROR = ABORT_N` 下被容忍的错误行会计入每文件状态。对于 `N > 1`，加载器会在阈值以下跳过支持的行错误，并在错误数达到 `N` 时中止。`ABORT_1` 和阈值行为保持不变。
+
+COPY 在未达到阈值的情况下完成时：
+
+- `ROWS_LOADED` 统计该文件已加载的行数。
+- `ERRORS_SEEN` 包括被容忍的错误行，而不只是使加载中止的错误。
+- `FIRST_ERROR` 和 `FIRST_ERROR_LINE` 表示该文件首个记录的错误及其从 1 开始的行号。
+- 即使有效行已加载，`RETURN_FAILED_ONLY = true` 仍包含有被容忍错误的文件。
+
+例如，一个 CSV 文件包含三行有效数据和四行可跳过的错误数据，在 `ABORT_5` 下可以完成。文件状态报告 `ROWS_LOADED = 3`、`ERRORS_SEEN = 4`。使用 `RETURN_FAILED_ONLY = true` 时仍会显示该文件。使用 `ABORT_4` 时，语句会中止，而不是返回上述成功摘要。
+
+对于 `CONTINUE` 和 `ABORT_N`，CSV 较早输入批次中的列数错误也会保留在文件状态中。这适用于支持跳过的行错误，例如 CSV 和 NDJSON 行错误，并不使所有存储或格式错误都可以跳过。在将已完成的加载视为无数据丢失之前，请检查错误列。
 
 ## 示例
 
