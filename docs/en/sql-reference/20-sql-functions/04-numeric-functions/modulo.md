@@ -22,12 +22,14 @@ MODULO( <x>, <y> )
 
 When the operands resolve to DECIMAL types, `MODULO`, `MOD`, and `%` compute an exact decimal remainder instead of converting the operands to Float64. Use explicit DECIMAL casts when you require this behavior; do not assume a mixed floating-point expression uses decimal arithmetic.
 
-For operands `DECIMAL(P1, S1)` and `DECIMAL(P2, S2)`, the result is DECIMAL with:
+For resolved operand types `DECIMAL(P1, S1)` and `DECIMAL(P2, S2)`, the result is DECIMAL with:
 
 - Scale `S = max(S1, S2)`.
 - Precision `P = min(P1 - S1, P2 - S2) + S`.
 
-A nonzero remainder has the dividend's sign, not the divisor's sign. A zero divisor raises an error. These rules apply to the decimal overload, not a claim that every numeric input returns DECIMAL.
+Constant expressions can resolve to narrower types than their written DECIMAL casts.
+
+A nonzero remainder has the dividend's sign, not the divisor's sign. A zero divisor or an overflow during decimal calculation raises an error. These rules apply to the decimal overload, not a claim that every numeric input returns DECIMAL.
 
 ```sql
 SELECT
