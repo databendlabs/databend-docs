@@ -4,7 +4,7 @@ sidebar_position: 0
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: SQL v1.2.799; Python/JavaScript v1.2.339; WASM v1.2.936"/>
+<FunctionDescription description="Introduced or updated: SQL v1.2.799; Python/JavaScript v1.2.339; WASM v1.2.936; Sandbox/resource limits v1.2.957"/>
 
 Creates a scalar user-defined function (Scalar UDF). The same `CREATE FUNCTION` statement supports three implementation styles:
 
@@ -105,6 +105,21 @@ SELECT calculate_bmi(70.0, 1.75) AS bmi;
 
 Python runtime requires Databend Enterprise. You can install PyPI packages via `PACKAGES` and import stage files via `IMPORTS`.
 
+### Worker Sandbox and Dependencies
+
+Since v1.2.957, local Python workers must enter an OS sandbox before user code runs. Linux requires kernel 5.13 or later, Landlock enabled in the active LSM list, seccomp, and x86_64 or aarch64. Container seccomp profiles must permit the `landlock_*` syscalls. If sandbox setup fails, execution fails with `Python UDF sandbox is unavailable, refusing to run user code`. There is no local sandbox bypass switch.
+
+- Workers receive an allowlisted environment, not the query node's full environment. Each worker has a private writable directory for temporary files, dependencies, and stage imports.
+- Python installations and required system libraries are read-only. Access to query configuration/data files and other processes' environment files is denied. Path metadata lookup can still reveal that a path exists.
+- User code cannot open network sockets, start child programs/processes, or signal the query process. Use External Functions for external services instead of making network calls inside local Python code.
+- macOS workers run without the OS sandbox and log a warning. Use macOS only for local development, not for untrusted UDFs. Other non-Linux platforms refuse local Python execution.
+
+Dependency installation runs on the query node, outside the worker sandbox. Requirements must use package names with optional extras/version specifiers, such as `numpy>=1.26`. pip options, URLs, direct references, local paths, and environment markers are rejected. Operator-configured pip mirrors/proxies and CA settings remain supported through an allowlist.
+
+`python_udf_pip_only_binary = true` is the default. Only wheel packages are installed. Setting it to `false` permits source distributions to execute build scripts on the query node. Do not treat the worker sandbox as protection from dependency-installation code.
+
+Local Python scalar and aggregate functions share worker admission, queue, and request-timeout controls. Workers belong to one query execution and are not reused across queries. Python worker memory is not charged to the query allocator, and process limits do not bound total worker memory. Use OS resource controls for memory containment. See [Script UDF Resources](/guides/self-hosted/references/node-config/query-config#script-udf-resources) for configuration and timeout scope.
+
 ### Data type mappings (Python)
 
 | Databend Type | Python Type |
@@ -161,6 +176,8 @@ SELECT numpy_sqrt(9.0) AS sqrt_val;
 
 ## JavaScript
 
+Since v1.2.957, each in-process JavaScript runtime has a default heap limit of 1024 MiB and an operation deadline of 300 seconds. The deadline covers argument/result conversion, async continuations, and top-level module code. These limits do not impose a Python worker memory limit. See [Script UDF Resources](/guides/self-hosted/references/node-config/query-config#script-udf-resources).
+
 ### Data type mappings (JavaScript)
 
 | Databend Type | JavaScript Type |
@@ -205,6 +222,8 @@ $$;
 ## WebAssembly (WASM)
 
 WASM UDFs let you implement scalar functions in Rust and run the compiled module directly in Databend.
+
+Since v1.2.957, each WASM instance has a default linear-memory limit of 1024 MiB. `udf_script_execution_timeout_secs` applies only to JavaScript; WASM does not yet have an execution timeout. Neither in-process engine observes query cancellation during a running call. Do not assume these controls can interrupt an infinite WASM loop.
 
 WASM modules must use Arrow UDF ABI 3.0, identified by the `ARROWUDF_VERSION_3_0` export. ABI 3.0 was introduced in `arrow-udf` 0.3.0 and uses Arrow type names such as `int32`. Earlier modules use legacy type names such as `int4` and are not compatible with the current typed function lookup. Modules that introduce an ABI version above 3 are not supported by the current runtime.
 

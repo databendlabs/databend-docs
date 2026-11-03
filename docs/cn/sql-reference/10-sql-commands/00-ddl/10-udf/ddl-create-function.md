@@ -4,7 +4,7 @@ sidebar_position: 0
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：SQL v1.2.799；Python/JavaScript v1.2.339；WASM v1.2.936"/>
+<FunctionDescription description="Introduced or updated: SQL v1.2.799; Python/JavaScript v1.2.339; WASM v1.2.936; Sandbox/resource limits v1.2.957"/>
 
 创建标量用户自定义函数（Scalar UDF）。同一条 `CREATE FUNCTION` 语句支持以下三种实现方式：
 
@@ -106,6 +106,21 @@ SELECT calculate_bmi(70.0, 1.75) AS bmi;
 
 Python 运行时需要企业版。你可以用 `PACKAGES` 安装 PyPI 包，用 `IMPORTS` 引入 Stage 文件（例如模型、依赖压缩包）。
 
+### Worker 沙箱与依赖
+
+从 v1.2.957 开始，本地 Python Worker 必须先进入 OS 沙箱，再执行用户代码。Linux 要求内核版本不低于 5.13，活动 LSM 列表中启用 Landlock，支持 seccomp，并使用 x86_64 或 aarch64。容器的 seccomp 配置必须允许 `landlock_*` 系统调用。沙箱设置失败时，执行会报错 `Python UDF sandbox is unavailable, refusing to run user code`。本地沙箱没有绕过开关。
+
+- Worker 只接收允许列表中的环境变量，不会继承 Query 节点的完整环境。每个 Worker 都有私有可写目录，用于临时文件、依赖和 Stage 导入。
+- Python 安装目录和所需系统库只读。禁止读取 Query 配置/数据文件和其他进程的环境文件。路径元数据查询仍可能暴露路径是否存在。
+- 用户代码不能打开网络 Socket、启动子程序/子进程，或向 Query 进程发送信号。如需访问外部服务，请使用 External Functions，而不是在本地 Python 代码中发起网络调用。
+- macOS Worker 不使用 OS 沙箱，并会记录警告。macOS 仅适用于本地开发，不适合执行不可信 UDF。其他非 Linux 平台拒绝本地 Python 执行。
+
+依赖安装在 Query 节点上执行，不在 Worker 沙箱中。依赖必须使用包名称及可选的 extras/版本约束，例如 `numpy>=1.26`。pip 选项、URL、直接引用、本地路径和环境标记会被拒绝。运维配置的 pip 镜像/代理和 CA 设置仍通过允许列表获得支持。
+
+`python_udf_pip_only_binary = true` 是默认值，只安装 wheel 包。将它设为 `false` 会允许源码分发包在 Query 节点上执行构建脚本。不要认为 Worker 沙箱能够防护依赖安装代码。
+
+本地 Python 标量和聚合函数共用 Worker 准入、排队和请求超时控制。Worker 属于一次查询执行，不会跨查询复用。Python Worker 内存不计入查询分配器，进程数量限制也不能约束 Worker 总内存。请使用 OS 资源控制实现内存隔离。配置方法和超时范围请参阅[脚本 UDF 资源](/guides/self-hosted/references/node-config/query-config#script-udf-resources)。
+
 ### 数据类型映射（Python）
 
 | Databend 类型 | Python 类型 |
@@ -162,6 +177,8 @@ SELECT numpy_sqrt(9.0) AS sqrt_val;
 
 ## JavaScript
 
+从 v1.2.957 开始，每个进程内 JavaScript 运行时的默认堆限制为 1024 MiB，操作截止时间为 300 秒。该期限覆盖参数/结果转换、异步延续和模块顶层代码。这些限制不会为 Python Worker 设置内存上限。请参阅[脚本 UDF 资源](/guides/self-hosted/references/node-config/query-config#script-udf-resources)。
+
 ### 数据类型映射（JavaScript）
 
 | Databend 类型 | JavaScript 类型 |
@@ -206,6 +223,8 @@ $$;
 ## WebAssembly（WASM）
 
 WASM UDF 支持使用 Rust 实现标量函数，并在 Databend 中直接运行编译后的模块。
+
+从 v1.2.957 开始，每个 WASM 实例的默认线性内存限制为 1024 MiB。`udf_script_execution_timeout_secs` 仅适用于 JavaScript；WASM 尚无执行超时。这两个进程内引擎都不会在运行中的调用内响应查询取消。不要认为这些控制可以中断 WASM 无限循环。
 
 WASM 模块必须使用 Arrow UDF ABI 3.0，可通过导出的 `ARROWUDF_VERSION_3_0` 标识确认。ABI 3.0 从 `arrow-udf` 0.3.0 开始引入，并使用 `int32` 等 Arrow 类型名。更早的模块使用 `int4` 等旧类型名，与当前的类型化函数查找不兼容；高于 3 的 ABI 版本也不受当前运行时支持。
 
