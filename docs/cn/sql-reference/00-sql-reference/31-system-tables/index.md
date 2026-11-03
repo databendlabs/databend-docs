@@ -32,6 +32,13 @@ Databend 提供了一组系统表，其中包含有关 Databend 部署、数据�
 | [system.query_cache](system-query-cache.md) | 提供有关查询缓存的信息。 |
 | [system.locks](system-locks.md) | 包含系统中已获取锁的信息。 |
 
+### 用户与角色
+
+| 表 | 描述 |
+|-------|-------------|
+| [system.users](system-users.md) | 列出用户元数据，可见性取决于当前会话。 |
+| [system.roles](system-roles.md) | 列出可用角色；具有全局 `GRANT` 权限时列出租户内的所有角色。 |
+
 ### 函数与设置
 
 | 表 | 描述 |

@@ -4,9 +4,19 @@ title: system.query_log
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.696"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 A read-only in-memory table stores all the query logs. For the specific fields available in the query logs, refer to the [Examples](#examples) section.
+
+## Credential Masking
+
+Since v1.2.957, query history masks values in recognized credential-bearing SQL syntax. Examples include user passwords, connection credentials, remote UDF headers and URL credentials, webhook options, and secret-named settings. Valid query and DML expressions remain visible. A predicate such as `WHERE token = 'abc'` is user data, not a credential option, so its literal is not automatically hidden.
+
+For SQL that cannot be parsed, history masking hides values while preserving statement structure for diagnosis. Logged error copies are scrubbed using the hidden values recorded for the statement. Errors returned to the submitting client are not changed by this scrubbing.
+
+:::caution[Logs can still contain sensitive data]
+Masking is not a general data-redaction policy. Pre-planning request logs use a different masking path. Malformed SQL, unrecognized credential option names, and some procedure arguments or task scripts can still expose credentials there. Transformed secret values and short unquoted values can also escape error scrubbing. Restrict access to query history and server logs. Do not put secrets in ordinary query literals.
+:::
 
 ## Setting a Session Tag
 

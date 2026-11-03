@@ -4,7 +4,7 @@ title: system_history.query_history
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.764"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -16,6 +16,10 @@ import EEFeature from '@site/src/components/EEFeature';
 - **安全审计**：谁在何时何地执行了哪些查询（Query）
 - **合规性跟踪**：满足监管要求的完整审计跟踪
 - **使用情况监控**：数据库活动模式和用户行为分析
+
+## 凭证脱敏
+
+从 v1.2.957 开始，`query_text` 会对可识别的 SQL 凭证值进行脱敏。普通查询字面量仍可能显示。日志中的错误会使用已记录的隐藏值进行清理；返回给提交查询的客户端的错误保持不变。有关范围和限制，请参阅[凭证脱敏](../31-system-tables/system-query-log.md#credential-masking)。这不会清理旧版本已记录的历史数据。
 
 ## 字段
 

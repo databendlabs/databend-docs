@@ -4,9 +4,11 @@ title: system.user_functions
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.315"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 Contains information about user-defined functions and external functions in the system.
+
+Since v1.2.957, remote UDF metadata hides server header values as `***`. It also masks URL usernames, passwords, query-parameter values, and fragments in the displayed address. This affects the displayed definition, not the stored connection credentials or function execution. The shared metadata formatter applies the same masking to `/v1/user_functions` output.
 
 See also: [SHOW USER FUNCTIONS](/sql/sql-commands/administration-cmds/show-user-functions).
 
