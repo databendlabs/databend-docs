@@ -87,7 +87,7 @@ INSERT INTO sensor_readings VALUES (1, 22);         -- same sensor, new value
 DELETE FROM sensor_readings WHERE sensor_id = 2;     -- pure deletion
 INSERT INTO sensor_readings VALUES (3, 18.5);        -- brand-new sensor
 
-SELECT * FROM sensor_readings_stream; -- still empty (Append-Only ignores non-inserts)
+SELECT * FROM sensor_readings_stream; -- captures new INSERTs, not DELETE events
 
 SELECT sensor_id, temperature, change$action, change$is_update
 FROM sensor_readings_stream_std
@@ -107,7 +107,9 @@ Output:
 └────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
- Standard streams capture each change with context: updates show up as DELETE+INSERT on the same `sensor_id`, while standalone deletions/insertions appear individually. Append-Only streams stay empty because they track inserts only.
+Standard streams capture each change with context: updates show up as DELETE+INSERT on the same `sensor_id`, while standalone deletions/insertions appear individually.
+
+The Append-Only stream captures the INSERTs for `sensor_id` 1 and 3. It does not report DELETE events. If you consumed this stream in Example 1, these INSERTs form its new delta.
 
 ## Example 3: Incremental Stream Join
 
@@ -236,6 +238,6 @@ Rows stay in each stream until `WITH CONSUME` runs, so inserts that arrive at di
 - Base tables gain `_origin_version`, `_origin_block_id`, `_origin_block_row_num` for debugging row provenance.
 
 **Integrations**
-- Pair streams with tasks using `task_history('<name>', <limit>)` for scheduled incremental loads.
+- Pair streams with tasks for scheduled incremental loads. Use `TASK_HISTORY(TASK_NAME => '<name>', RESULT_LIMIT => <limit>)` to view execution history.
 - Use [`WITH CONSUME`](02-task.md) when you want to drain only the latest delta.
 

@@ -1,6 +1,6 @@
 ---
-title: 将 TSV 数据导入 Databend
-sidebar_label: TSV
+title: 将 TEXT / TSV 数据导入 Databend
+sidebar_label: TEXT / TSV
 ---
 
 ## 什么是 TSV？
@@ -32,7 +32,7 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 从 Databend `v1.2.890-nightly` 开始，`TEXT` 可作为 `TSV` 的别名使用。本指南中的示例仍然使用 `TYPE = TSV`，以确保在旧版本 Server 上也能正常工作。如果你的环境只面向 `v1.2.890-nightly` 及之后版本，也可以使用 `TYPE = TEXT`。
 :::
 
-- 更多 TSV 文件格式选项，请参考 [TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options) 。
+- 更多 TSV 文件格式选项，请参考 [TEXT / TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options) 。
 - 更多 COPY INTO 表选项，请参考 [COPY INTO 表](/sql/sql-commands/dml/dml-copy-into-table) 。
 
 ## 教程：从 TSV 文件加载数据

@@ -34,9 +34,9 @@ PUT fs:///Users/eric/Documents/iris.parquet @my_internal_stage;
 ```
 
 ### Step 3: Query column definitions from the staged file
-:::caution
+:::note
 
-`infer_schema` currently only supports parquet file format.
+This tutorial uses a Parquet file. For supported formats and options, see [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema).
 
 :::
 

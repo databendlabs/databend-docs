@@ -73,7 +73,7 @@ UPDATE sensor_readings SET temperature = 22 WHERE sensor_id = 1; -- 更新
 DELETE FROM sensor_readings WHERE sensor_id = 2;                -- 删除
 INSERT INTO sensor_readings VALUES (3, 18.5);                   -- 新增
 
-SELECT * FROM sensor_readings_stream; -- 仍为空（Append-Only Stream 模式忽略 UPDATE / DELETE）
+SELECT * FROM sensor_readings_stream; -- 包含新增的 INSERT，不包含 DELETE 事件
 
 SELECT sensor_id, temperature, change$action, change$is_update
 FROM sensor_readings_stream_std
@@ -92,6 +92,8 @@ ORDER BY change$row_id;
 ```
 
 更新对应“删除旧值 + 写入新值”，独立的 DELETE/INSERT 则各自占一条，因而在消费前始终能拿到最终状态。
+
+Append-Only Stream 会捕获本例中 `sensor_id` 为 3 的 INSERT，不会报告 DELETE 事件。如果你已在示例 1 中消费该 Stream，这次 INSERT 会成为新的增量。
 
 ## 示例 3：增量 Join 与计算
 
@@ -214,5 +216,5 @@ ORDER BY o.customer_id;
 - 基表上还有 `_origin_version`、`_origin_block_id`、`_origin_block_row_num`，方便排查“最终值从何而来”。
 
 **联动任务**
-- 结合 Task 可以按计划自动消费 Stream，使用 `task_history('<name>', <limit>)` 查看执行记录。
+- 结合 Task 可以按计划自动消费 Stream，使用 `TASK_HISTORY(TASK_NAME => '<name>', RESULT_LIMIT => <limit>)` 查看执行记录。
 - SQL 中搭配 `WITH CONSUME`，即可在批式作业里只处理“本次新增”的数据。

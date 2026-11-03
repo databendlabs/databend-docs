@@ -31,9 +31,9 @@ This guide provides detailed instructions on how to import data into Databend.
 
 
 <details>
-<summary> TSV </summary>
+<summary> TEXT / TSV </summary>
 
-- [Load TSV into table](./03-load-semistructured/02-load-tsv.md)
+- [Load TEXT / TSV into table](./03-load-semistructured/02-load-tsv.md)
 - [Export table to TSV](../50-unload-data/02-unload-tsv.md)
 - [Query TSV directly](./04-transform/02-querying-tsv.md)
 
