@@ -48,7 +48,7 @@ Where:
 
 ## Name Resolution
 
-Since v1.2.957, only an unqualified table reference can resolve to a CTE. In a scope where a CTE named `t1` is visible:
+Only an unqualified table reference can resolve to a CTE. In a scope where a CTE named `t1` is visible:
 
 - `FROM t1` uses the CTE, even if a table has the same name.
 - `FROM db.t1` or `FROM catalog.db.t1` uses the named table, not the CTE.

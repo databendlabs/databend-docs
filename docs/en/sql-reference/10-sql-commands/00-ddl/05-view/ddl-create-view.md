@@ -33,7 +33,7 @@ CREATE [ OR REPLACE ] VIEW [ IF NOT EXISTS ] [ db. ]view_name [ (<column>, ...) 
 
 ## Name Resolution and Compatibility
 
-Since v1.2.957, new views capture the target view's catalog and database as their definition namespace. Unqualified base-table names resolve in that namespace. A different session database at creation or query time does not change that choice. Qualify a base-table name to use another database.
+New views capture the target view's catalog and database as their definition namespace. Unqualified base-table names resolve in that namespace. A different session database at creation or query time does not change that choice. Qualify a base-table name to use another database.
 
 CTE references must remain unqualified. A name such as `db.t1` refers to a table, even if the query defines a CTE named `t1`. See [WITH Clause](../../20-query-syntax/with-clause.md#name-resolution).
 
