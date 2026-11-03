@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="Introduced or updated: v1.2.955"/>
+<FunctionDescription description="Introduced or updated: v1.2.960"/>
 
 本页介绍 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中可用的 Query 节点配置。
 
@@ -318,6 +318,45 @@ cn=
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | data_cache_storage | 表数据缓存的存储类型。可选："none"（禁用表数据缓存）、"disk"（启用磁盘缓存），默认为 "none"。 |
 | iceberg_table_meta_count | 缓存的 Iceberg 表元数据条目数量，设为 `0` 禁用元数据缓存。 |
+
+<a id="shared-memory-cache"></a>
+
+### 共享内存缓存
+
+从 v1.2.960 开始，`cache.shared_memory_enabled = true` 可选择共享内存后端。默认值仍为 `false`，使用旧版单缓存容量和 LRU 行为。旧版缓存不会因内存压力而收缩。
+
+共享后端要求同时设置 `query.max_memory_limit_enabled = true` 和非零的 `query.max_server_memory_usage`。缺少任一条件都会导致启动失败。请根据主机和工作负载选择服务器限制。以下示例使用 8 GiB 服务器限制：
+
+```toml
+[query]
+max_memory_limit_enabled = true
+max_server_memory_usage = 8589934592
+
+[cache]
+shared_memory_enabled = true
+meta_max_ratio = 10
+index_max_ratio = 40
+data_max_ratio = 10
+
+[cache.kind_max_bytes]
+memory_cache_table_data = 268435456
+memory_cache_column_data = 0
+```
+
+`CACHE_SHARED_MEMORY_ENABLED=true` 是此后端开关对应的环境变量。使用它仍必须满足服务器内存限制要求。
+
+| 共享选项 | 默认值 | 含义 |
+|---------------|---------|---------|
+| `meta_max_ratio` | `10` | 表、段和索引元数据占服务器内存限制的百分比。 |
+| `index_max_ratio` | `40` | Bloom、向量、倒排和空间索引数据的百分比。 |
+| `data_max_ratio` | `10` | 原始列数据和已解码列数组的百分比。 |
+| `kind_max_bytes` | 空映射 | 池内可选的单缓存字节限制。仅支持配置文件；使用 `[cache.kind_max_bytes]` 和 `memory_cache_*` 名称。`0` 禁用缓存。 |
+
+三个比例之和不得超过 `80`。它们设置的是池容量上限，而不是预分配内存。单缓存限制不会预留内存，也不能突破池预算。所有共享内存缓存默认启用并受池约束，但原始 `memory_cache_column_data` 默认关闭。`kind_max_bytes` 中的条目会覆盖这些默认值。
+
+共享后端忽略旧版单缓存容量选项，包括 `iceberg_table_meta_count` 和 `enable_table_meta_cache`。磁盘缓存选项仍然有效。共享后端采用 S3-FIFO 池逐出和内存压力回收机制，不能再假定每个缓存使用独立 LRU。回收可在查询终止前释放可逐出的缓存内存，但不能保证查询不会发生内存不足。查询仍持有的值不一定立即释放。
+
+请在 [system.caches](/sql/sql-reference/system-tables/system-caches) 中查看各缓存和池的使用量。使用 [SYSTEM$SET_CACHE_CAPACITY](/sql/sql-functions/table-functions/set-cache-capacity) 可设置临时字节限制、调整池大小，或用 `'default'` 恢复缓存的启动限制。
 
 ### [cache.disk] 部分
 

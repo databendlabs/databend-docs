@@ -2,67 +2,79 @@
 title: system.caches
 ---
 
-An overview of various caches managed in Databend, including usage and hit rate statistics.
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.960"/>
+
+Shows enabled caches on each query node, with capacity, usage, and lookup statistics. Disabled memory caches and pools are not listed. A disk tier can remain visible when its memory cache is disabled.
 
 ## Columns
 
-| Column    | Description                                                              |
-|-----------|--------------------------------------------------------------------------|
-| node      | The node name                                                            |
-| name      | Cache name (same as the first parameter in `system$set_cache_capacity`)  |
-| num_items | Number of cached entries                                                 |
-| size      | Size of cached entries (count or bytes depending on `unit`)              |
-| capacity  | Maximum capacity (count or bytes depending on `unit`)                    |
-| unit      | Unit of `size` and `capacity`: `count` or `bytes`                       |
-| access    | Total number of cache accesses                                           |
-| hit       | Number of cache hits                                                     |
-| miss      | Number of cache misses                                                   |
+| Column | Description |
+|--------|-------------|
+| node | Query node name. A warehouse can return one row per node for the same cache. |
+| name | Cache name, or a shared pool summary such as `__pool:meta`. |
+| num_items | Entries currently in the cache. |
+| size | Charged resident bytes. This can include evicted values still held by queries. For disk tiers, this is the stored byte size. |
+| capacity | Capacity in the specified `unit`. `18446744073709551615` means no separate per-cache limit; the shared pool still bounds it. |
+| unit | Capacity unit: `count` or `bytes`. Shared memory caches and pools use `bytes`. |
+| access | Cache accesses. Pool summary rows report `0`. |
+| hit | Cache hits. Pool summary rows report `0`. |
+| miss | Cache misses. Pool summary rows report `0`. |
 
-## Cache List
+The legacy backend remains the default. It uses each cache's existing count or byte capacity. Since v1.2.960, the opt-in shared backend groups memory caches into three pools. See [Query Config](/guides/self-hosted/references/node-config/query-config#shared-memory-cache) for startup requirements and configuration.
 
-| Cache Name                                   | Cached Object                                      | Unit  | Notes |
-|----------------------------------------------|----------------------------------------------------|-------|-------|
-| memory_cache_table_snapshot                  | Table snapshot                                     | count | Enabled by default; default capacity is usually sufficient |
-| memory_cache_table_statistics                | Table statistics                                   | count | |
-| memory_cache_compact_segment_info            | Compressed table segment metadata                  | bytes | |
-| memory_cache_segment_statistics              | Segment-level statistics                           | bytes | |
-| memory_cache_column_oriented_segment_info    | Column-oriented segment metadata                   | bytes | |
-| disk_cache_column_data                       | On-disk column data cache                          | bytes | Cannot be adjusted via `system$set_cache_capacity` |
-| memory_cache_bloom_index_filter              | Bloom filter data                                  | bytes | One entry per column per block. Memory usage is small. Monitor hit rate for point-lookup workloads. |
-| memory_cache_bloom_index_file_meta_data      | Bloom filter metadata                              | count | Each table can cache up to as many entries as it has blocks. Memory usage is small. Monitor hit rate for point-lookup workloads. |
-| memory_cache_inverted_index_file_meta_data   | Inverted index metadata                            | count | |
-| memory_cache_inverted_index_file             | Inverted index data                                | bytes | |
-| memory_cache_vector_index_file_meta_data     | Vector index metadata                              | count | |
-| memory_cache_vector_index_file               | Vector index data                                  | bytes | |
-| memory_cache_spatial_index_file_meta_data    | Spatial index metadata                             | count | |
-| memory_cache_spatial_index_file              | Spatial index data                                 | bytes | |
-| memory_cache_virtual_column_file_meta_data   | Virtual column file metadata                       | count | |
-| memory_cache_prune_partitions                | Partition pruning cache                            | count | Enabled by default. Caches pruning results for deterministic queries. Set capacity to 0 to bypass for pruning testing. |
-| memory_cache_parquet_meta_data               | Parquet file metadata                              | count | Used by Parquet-based sources |
-| memory_cache_iceberg_table                   | Iceberg table metadata                             | count | |
+## Memory Cache Names
 
-## Example
+The pool column shows the grouping in the shared backend. Read `unit` from the table for the active backend instead of assuming that a metadata cache always uses entry counts.
+
+| Cache name | Shared pool | Cached object |
+|------------|-------------|---------------|
+| memory_cache_table_snapshot | meta | Table snapshots |
+| memory_cache_table_statistics | meta | Table statistics |
+| memory_cache_compact_segment_info | meta | Compressed segment metadata |
+| memory_cache_column_oriented_segment_info | meta | Column-oriented segment metadata |
+| memory_cache_segment_block_metas | meta | Decoded segment block metadata |
+| memory_cache_segment_statistics | meta | Segment statistics |
+| memory_cache_bloom_index_file_meta_data | meta | Bloom index metadata |
+| memory_cache_inverted_index_meta_data | meta | Inverted index metadata |
+| memory_cache_vector_index_file_meta_data | meta | Vector index metadata |
+| memory_cache_spatial_index_file_meta_data | meta | Spatial index metadata |
+| memory_cache_virtual_column_file_meta_data | meta | Virtual column metadata |
+| memory_cache_parquet_meta_data | meta | Parquet file metadata |
+| memory_cache_iceberg_table | meta | Iceberg table metadata |
+| memory_cache_prune_partitions | meta | Partition pruning results |
+| memory_cache_bloom_index_filter | index | Bloom filter data |
+| memory_cache_vector_index_file | index | Vector indexes |
+| memory_cache_vector_index_refine | index | Vector refinement data |
+| memory_cache_inverted_index_lookup | index | Inverted index lookups |
+| memory_cache_inverted_index_payload | index | Inverted index payloads |
+| memory_cache_inverted_index_full_payload | index | Full inverted index payloads |
+| memory_cache_spatial_index_file | index | Spatial index data |
+| memory_cache_column_data | data | Raw column data; off by default in the shared backend |
+| memory_cache_table_data | data | Decoded column arrays |
+
+`memory_cache_block_meta` was removed. Use the names returned by the current server. Configured disk tiers have separate `disk_cache_*` rows, such as `disk_cache_column_data`. They cannot be resized with [SYSTEM$SET_CACHE_CAPACITY](../../20-sql-functions/17-table-functions/set-cache-capacity.md).
+
+## Shared Pool Rows
+
+The shared backend adds `__pool:meta`, `__pool:index`, and `__pool:data` when their capacities are nonzero. These rows summarize the same memory as their member caches. Do not add pool usage to member-cache usage. A pool's lookup counters are zero; use the member rows for hit rates.
+
+A cache without its own byte limit reports capacity `18446744073709551615`, not the pool capacity. Do not treat this sentinel as allocatable memory or add it to capacity totals. Charged resident bytes can stay nonzero after eviction while a query still holds a value. Cache limits are not a guarantee that a query cannot run out of memory.
+
+## Examples
 
 ```sql
-SELECT * FROM system.caches;
-```
-
-Check utilization and hit rate for all caches:
-
-```sql
-SELECT
-    node,
-    name,
-    capacity,
-    if(unit = 'count', (num_items + 1) / (capacity + 1),
-       unit = 'bytes', (size + 1) / (capacity + 1), -1) AS utilization,
-    if(access = 0, 0, hit / access)  AS hit_rate,
-    if(access = 0, 0, miss / access) AS miss_rate,
-    num_items,
-    size,
-    unit,
-    access,
-    hit,
-    miss
+SELECT node, name, num_items, size, capacity, unit, access, hit, miss
 FROM system.caches;
 ```
+
+Inspect shared pool budgets separately:
+
+```sql
+SELECT node, name, size, capacity
+FROM system.caches
+WHERE name IN ('__pool:meta', '__pool:index', '__pool:data');
+```
+
+For bytes still held inside the cache rather than all charged resident bytes, use the `cache_in_cache_bytes` and `cache_pool_in_cache_bytes` metrics. The corresponding resident metrics are `cache_resident_bytes` and `cache_pool_resident_bytes`.

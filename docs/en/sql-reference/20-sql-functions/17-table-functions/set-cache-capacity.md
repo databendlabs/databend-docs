@@ -2,44 +2,63 @@
 title: SYSTEM$SET_CACHE_CAPACITY
 ---
 
-Sets the maximum capacity for a named cache at runtime. Changes take effect immediately but are **not persisted** — the cache reverts to the value in the configuration file after a restart.
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-See also: [system.caches](../../00-sql-reference/31-system-tables/system-caches.md)
+<FunctionDescription description="Introduced or updated: v1.2.960"/>
+
+Changes cache capacity at runtime across the warehouse's query nodes. The result contains each node's status. Changes are not persisted. After a restart, Databend rebuilds capacities from its configuration and backend defaults.
+
+See [system.caches](../../00-sql-reference/31-system-tables/system-caches.md) for cache names and [Query Config](/guides/self-hosted/references/node-config/query-config#shared-memory-cache) for the optional shared backend.
 
 ## Syntax
 
 ```sql
-CALL system$set_cache_capacity('<cache_name>', <new_capacity>)
+CALL system$set_cache_capacity('<cache_name>', <new_capacity>);
+CALL system$set_cache_capacity('<cache_name>', 'default');
 ```
 
-| Parameter    | Description                                                                                                                          |
-|--------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| cache_name   | The name of the cache (see the cache list in [system.caches](../../00-sql-reference/31-system-tables/system-caches.md)) |
-| new_capacity | New capacity value. Unit (count or bytes) depends on the cache type.                                                                 |
+| Parameter | Description |
+|-----------|-------------|
+| cache_name | A `memory_cache_*` name. With the shared backend, also accepts `pool:meta`, `pool:index`, `pool:data`, or `all`. |
+| new_capacity | Nonnegative integer. The legacy backend uses the cache's `count` or `bytes` unit. The shared backend uses bytes. `0` disables the cache or pool. |
 
-## Notes
+## Backend Rules
 
-- If the new capacity is **larger** than the current value, existing cache entries are retained.
-- If the new capacity is **smaller**, entries may be evicted according to the LRU policy.
-- Changes are **not persisted**. After a restart, the capacity reverts to the configuration file value.
-- `disk_cache_column_data` cannot be adjusted with this command.
+- The legacy backend remains the default. It uses per-cache LRU eviction. It rejects pool targets, `all`, and `'default'`.
+- Since v1.2.960, the shared backend uses S3-FIFO pools. A per-cache byte limit remains subject to the pool's budget; it does not reserve memory for that cache.
+- With the shared backend, `'default'` restores a cache's startup limit from `cache.kind_max_bytes` or its built-in default. It does not reset a pool. It is not supported for `all` or `pool:*`.
+- Most shared caches start enabled with no separate per-cache limit. Raw `memory_cache_column_data` starts disabled unless configured otherwise. Its `'default'` can therefore turn it off again.
+- `all` accepts only `0`. It sets all three shared pool capacities to zero. It does not disable configured disk tiers. Restore each pool with a numeric capacity when needed.
+- Use `pool:meta` as the command target, not the system-table summary name `__pool:meta`.
+- No `disk_cache_*` tier can be resized with this command.
+- Lowering a limit can evict entries. Memory held by active queries might not be released immediately.
 
 ## Examples
 
-Set the bloom index metadata cache to 5000 entries:
+With the legacy backend, set the Bloom index metadata cache to 5000 entries:
 
 ```sql
 CALL system$set_cache_capacity('memory_cache_bloom_index_file_meta_data', 5000);
-
-┌────────────────────────┬────────┐
-│ node                   │ result │
-├────────────────────────┼────────┤
-│ Gwo2DYOLZ9zAdYbGTWY9y6 │ Ok     │
-└────────────────────────┴────────┘
 ```
 
-Disable partition pruning cache for testing:
+Disable the partition pruning memory cache with either backend:
 
 ```sql
 CALL system$set_cache_capacity('memory_cache_prune_partitions', 0);
+```
+
+The following commands require the shared backend:
+
+```sql
+-- Limit decoded column arrays to 256 MiB within their data pool.
+CALL system$set_cache_capacity('memory_cache_table_data', 268435456);
+
+-- Restore this cache's startup limit, not necessarily an unlimited state.
+CALL system$set_cache_capacity('memory_cache_table_data', 'default');
+
+-- Change the entire index pool to 1 GiB.
+CALL system$set_cache_capacity('pool:index', 1073741824);
+
+-- Disable all shared memory pools, leaving disk tiers unchanged.
+CALL system$set_cache_capacity('all', 0);
 ```

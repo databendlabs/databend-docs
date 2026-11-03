@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="Introduced or updated: v1.2.955"/>
+<FunctionDescription description="Introduced or updated: v1.2.960"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -316,6 +316,43 @@ The following is a list of the parameters available within the [cache] section:
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | data_cache_storage       | The type of storage used for table data cache. Available options: "none" (disables table data cache), "disk" (enables disk cache). Defaults to "none". |
 | iceberg_table_meta_count | Controls the number of Iceberg table metadata entries to cache. Set to `0` to disable metadata caching.                                                |
+
+### Shared Memory Cache
+
+Since v1.2.960, `cache.shared_memory_enabled = true` selects a shared memory backend. The default remains `false`, with the legacy per-cache capacities and LRU behavior. Legacy caches do not shrink under memory pressure.
+
+The shared backend requires both `query.max_memory_limit_enabled = true` and a nonzero `query.max_server_memory_usage`. Startup fails if either requirement is missing. Choose a server limit that fits the host and workload. The example below uses an 8 GiB server limit:
+
+```toml
+[query]
+max_memory_limit_enabled = true
+max_server_memory_usage = 8589934592
+
+[cache]
+shared_memory_enabled = true
+meta_max_ratio = 10
+index_max_ratio = 40
+data_max_ratio = 10
+
+[cache.kind_max_bytes]
+memory_cache_table_data = 268435456
+memory_cache_column_data = 0
+```
+
+`CACHE_SHARED_MEMORY_ENABLED=true` is the environment-variable equivalent of the backend switch. It does not remove the server memory-limit requirements.
+
+| Shared option | Default | Meaning |
+|---------------|---------|---------|
+| `meta_max_ratio` | `10` | Percentage of the server memory limit for table, segment, and index metadata. |
+| `index_max_ratio` | `40` | Percentage for Bloom, vector, inverted, and spatial index data. |
+| `data_max_ratio` | `10` | Percentage for raw column data and decoded column arrays. |
+| `kind_max_bytes` | Empty map | Optional per-cache byte limits within the pools. Config-file only; use `[cache.kind_max_bytes]` with `memory_cache_*` names. `0` disables a cache. |
+
+The three ratios must sum to at most `80`. They size pool ceilings, not preallocated memory. A per-cache limit cannot reserve memory or exceed its pool budget. All shared memory caches start enabled and bounded by their pools, except raw `memory_cache_column_data`, which starts disabled. Entries in `kind_max_bytes` override these defaults.
+
+The shared backend ignores legacy per-cache capacity options, including `iceberg_table_meta_count`, and `enable_table_meta_cache`. Disk cache options still apply. Use S3-FIFO pool eviction and pressure-driven reclamation instead of assuming per-cache LRU behavior. Reclamation can free evictable cache memory before query termination, but it does not guarantee that a query cannot run out of memory. Values still held by queries might not be released immediately.
+
+Inspect per-cache and pool usage in [system.caches](/sql/sql-reference/system-tables/system-caches). Use [SYSTEM$SET_CACHE_CAPACITY](/sql/sql-functions/table-functions/set-cache-capacity) for temporary byte limits, pool resizing, and restoring a cache's startup limit with `'default'`.
 
 ### [cache.disk] Section
 
