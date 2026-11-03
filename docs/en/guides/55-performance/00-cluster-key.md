@@ -128,6 +128,10 @@ ALTER TABLE sales SET OPTIONS(
 - Monitor clustering metrics regularly
 - Re-cluster when `average_depth` becomes too high
 
+### Streaming Merge Rollout
+
+Horizontal recluster streaming merge was introduced in v1.2.952. Since v1.2.957, `enable_recluster_multiway_merge` defaults to `0`; the previous sort-based path remains the default. Opt in with `SET enable_recluster_multiway_merge = 1` only after workload evaluation. The separate `enable_recluster_inverted_index_merge` setting defaults to `1`, but requires eligible streaming tasks and compatible indexes. See [Streaming Multiway Merge](/sql/sql-commands/ddl/clusterkey/dml-recluster-table#streaming-multiway-merge) for eligibility, fallback behavior, and session controls.
+
 ## Best Practices
 
 | Practice | Benefit |

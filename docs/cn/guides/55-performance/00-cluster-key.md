@@ -128,6 +128,10 @@ ALTER TABLE sales SET OPTIONS(
 - 定期监控聚类指标
 - 当 `average_depth` 过高时执行重聚类
 
+### 流式归并发布范围
+
+水平重聚类流式归并在 v1.2.952 中引入。从 v1.2.957 开始，`enable_recluster_multiway_merge` 默认为 `0`；原有排序路径仍是默认路径。请先评估工作负载，再用 `SET enable_recluster_multiway_merge = 1` 显式启用。独立的 `enable_recluster_inverted_index_merge` 设置默认为 `1`，但需要符合条件的流式任务和兼容索引。有关适用条件、回退行为和会话控制，请参阅[流式多路归并](/sql/sql-commands/ddl/clusterkey/dml-recluster-table#streaming-multiway-merge)。
+
 ## 最佳实践
 
 | 实践方案 | 优势 |
