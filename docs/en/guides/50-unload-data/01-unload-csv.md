@@ -2,6 +2,10 @@
 title: Unloading CSV File
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
+
 ## Unloading CSV File
 
 Syntax:
@@ -23,6 +27,12 @@ FILE_FORMAT = (
 - More CSV options refer to [CSV File Format Options](/sql/sql-reference/file-format-options#csv-options)
 - Unloading into multiple files use the [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
 - More details about the syntax can be found in [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
+
+## Input and Output Escaping
+
+Since v1.2.957, `ESCAPE` is consistently load-only. CSV output doubles embedded quotes and keeps backslashes literal. It ignores `ESCAPE` when choosing whether to quote values or headers. Use `ESCAPE = ''` when reading this output to preserve literal backslashes.
+
+`QUOTE_MINIMAL` can still make empty strings and literal `NULL_DISPLAY` strings indistinguishable from NULL. Choose a suitable NULL marker and quote style. A shared named format does not guarantee a lossless round trip. See [CSV ESCAPE](/sql/sql-reference/file-format-options#escape) for the input/output contract and the changed minimal-quoting behavior.
 
 ## Tutorial
 

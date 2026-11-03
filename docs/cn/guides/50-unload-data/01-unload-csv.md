@@ -2,6 +2,10 @@
 title: 导出 CSV
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
+
 ## 导出 CSV
 
 语法：
@@ -23,6 +27,12 @@ FILE_FORMAT = (
 - 更多 CSV 选项请参考 [CSV 文件格式选项](/sql/sql-reference/file-format-options#csv-options)
 - 导出到多个文件请使用 [MAX_FILE_SIZE Copy 选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
 - 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到
+
+## 输入与输出转义
+
+从 v1.2.957 开始，`ESCAPE` 一致地只用于导入。CSV 导出重复嵌入的引号，并按字面保留反斜杠。判断是否为值或 Header 加引号时，导出会忽略 `ESCAPE`。读取这些输出时，请使用 `ESCAPE = ''` 保留字面反斜杠。
+
+`QUOTE_MINIMAL` 仍可能使空字符串和字面 `NULL_DISPLAY` 字符串与 NULL 无法区分。请选择合适的 NULL 标记和引号模式。共用一个命名格式不保证无损往返。有关输入/输出规则及最小引号行为变化，请参阅 [CSV ESCAPE](/sql/sql-reference/file-format-options#escape)。
 
 ## 教程
 

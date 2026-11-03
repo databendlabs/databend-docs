@@ -3,7 +3,7 @@ title: 文件格式选项
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.941"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 Databend 支持多种文件格式用于数据导入与导出。本页介绍支持的文件格式及其相关选项。
 
@@ -54,9 +54,9 @@ formatTypeOptions ::=
 
 Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，并遵循以下规则：
 
-- 如果字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，则必须加引号。
-- 在带引号的字符串中，除了 [QUOTE](#quote) 之外不会转义任何字符。
-- [FIELD_DELIMITER](#field_delimiter) 和 [QUOTE](#quote) 之间不应留有空格。
+- CSV 导出在带引号的字段内重复嵌入的引号，并按字面保留反斜杠。
+- 使用 `QUOTE_STYLE = 'quote_minimal'` 时，若字符串编码的值或 Header 包含引号、字段分隔符或记录分隔符的首字节，导出会加引号。仅包含 [ESCAPE](#escape) 字符不要求导出加引号。
+- [FIELD_DELIMITER](#field_delimiter) 和 [QUOTE](#quote仅导入) 之间不应留有空格。
 
 ### RECORD_DELIMITER
 
@@ -97,6 +97,10 @@ Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，
 
 在某些 CSV 变体中，引号使用特殊转义字符（如 `\`）来转义，而不是通过重复引号。
 
+**仅导入。** 从 v1.2.957 开始，`ESCAPE` 一致地只影响输入解析。它不改变导出内容或导出加引号行为，包括 Header。同一引号风格下，使用 `ESCAPE = ''` 或 `ESCAPE = '\\'` 导出会生成相同字节。Databend 不导出反斜杠转义方言的 CSV。
+
+若要读取 Databend CSV 导出结果且不消耗字面反斜杠，请在导入时使用 `ESCAPE = ''`。启用反斜杠转义的读取器可能消耗字面反斜杠，或误读结束引号前的尾部反斜杠。导入和导出复用同一个命名格式并不保证无损往返。
+
 **可用值**: `'\\'` 或 `''`（空，表示仅使用双引号转义）
 
 **默认值**: `''`
@@ -133,6 +137,8 @@ Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，
 | `QUOTE_MINIMAL`           | 仅在 CSV 格式需要时才对字段加引号。                            |
 
 **默认值**: `QUOTE_NOT_NULL`
+
+从 v1.2.957 开始，最小引号模式不再仅因值包含输入 `ESCAPE` 字符而加引号。这可能改变非空 `ESCAPE` 下的导出字节。最小引号模式仍可能使空字符串或字面 `NULL_DISPLAY` 字符串与 NULL 无法区分。例如，字面 `\N` 可能与默认 NULL 标记冲突。关闭输入转义不能解决这些冲突；请为数据选择不冲突的 NULL 标记和合适的引号模式。
 
 ### NAN_DISPLAY
 
@@ -250,6 +256,10 @@ Databend TSV 遵循以下规则：
 - 除了分隔符之外，以下字符也会被转义：`\b`、`\f`、`\r`、`\n`、`\t`、`\0`、`\\`、`\'`。
 - [QUOTE](#quote仅导入) 不属于此格式。
 - NULL 表示为 `\N`。
+
+从 v1.2.957 开始，导入时会将反斜杠后跟已配置字段或记录分隔符的序列解码为该分隔符本身。例如，使用 `FIELD_DELIMITER = '|'` 时，值 `a|b` 导出为 `a\|b`，重新导入后为 `a|b`，不会多出反斜杠。这适用于 `COPY` 导入、Stage `SELECT` 和 Schema 推断。标准转义保持原有行为。不相关的未知转义仍保留反斜杠，例如 `q` 不是分隔符时的 `\q`。
+
+整行导入仍支持空字段分隔符。TEXT/TSV 导出要求字段分隔符非空。
 
 :::note
 1. 在 Databend 中，TSV 和 CSV 之间的主要区别不是使用制表符代替逗号作为字段分隔符（可以通过选项更改），而是使用转义而不是引用来解决[分隔符冲突](https://en.wikipedia.org/wiki/Delimiter#Delimiter_collision)

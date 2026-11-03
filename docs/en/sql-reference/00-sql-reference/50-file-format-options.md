@@ -3,7 +3,7 @@ title: Input & Output File Formats
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.941"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 Databend accepts a variety of file formats both as a source and as a target for data loading or unloading. This page explains the supported file formats and their available options.
 
@@ -55,9 +55,9 @@ formatTypeOptions ::=
 
 Databend CSV is compliant with [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) and is subject to the following conditions:
 
-- A string must be quoted if it contains the character of a [QUOTE](#quote), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
-- No character will be escaped in a quoted string except [QUOTE](#quote).
-- No space should be left between a [FIELD_DELIMITER](#field_delimiter) and a [QUOTE](#quote).
+- CSV output doubles embedded quotes inside quoted fields and preserves backslashes literally.
+- With `QUOTE_STYLE = 'quote_minimal'`, output quotes a string-encoded value or header when it contains the quote, field delimiter, or the record delimiter's first byte. An [ESCAPE](#escape) character alone does not require output quoting.
+- No space should be left between a [FIELD_DELIMITER](#field_delimiter) and a [QUOTE](#quote-load-only).
 
 ### RECORD_DELIMITER
 
@@ -98,7 +98,11 @@ Character used to escape the quote character within quoted values, in addition t
 
 In some variants of CSV, quotes are escaped using a special escape character like `\`, instead of escaping quotes by doubling quoting.
 
-**Available Values**: `'\\'` or `''` (emtpy, means only use double quoting)
+**Load only.** Since v1.2.957, `ESCAPE` consistently affects only input parsing. It changes neither output contents nor output quoting, including headers. Unloading with `ESCAPE = ''` or `ESCAPE = '\\'` produces identical bytes for the same quote style. Databend does not output a backslash-escaped CSV dialect.
+
+To read Databend CSV output without consuming literal backslashes, use `ESCAPE = ''` on load. A reader with backslash escaping can consume literal backslashes or misread a trailing backslash before a closing quote. Reusing the same named format for input and output does not guarantee a lossless round trip.
+
+**Available Values**: `'\\'` or `''` (empty, means only use double quoting)
 
 **Default**: `''`
 
@@ -134,6 +138,8 @@ Controls how CSV values are quoted during output.
 | `QUOTE_MINIMAL`           | Quote a field only when required by the CSV output format.   |
 
 **Default**: `QUOTE_NOT_NULL`
+
+Since v1.2.957, minimal quoting no longer quotes a value solely because it contains the configured input `ESCAPE` character. This can change output bytes for nonempty `ESCAPE`. Minimal quoting can still make empty strings or literal `NULL_DISPLAY` strings indistinguishable from NULL. For example, a literal `\N` can collide with the default NULL marker. Disabling input escaping does not resolve these collisions; choose distinct NULL markers and suitable quoting for your data.
 
 ### NAN_DISPLAY
 
@@ -250,6 +256,10 @@ Databend TSV is subject to the following conditions:
 - In addition to delimters, these characters in are also escaped: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\\`, `\'`.
 - [QUOTE](#quote-load-only) is NOT part of the format.
 - NULL is represent as `\N`.
+
+Since v1.2.957, loading decodes a backslash followed by a configured field or record delimiter to the delimiter itself. For example, with `FIELD_DELIMITER = '|'`, the value `a|b` unloads as `a\|b` and reloads as `a|b`, not with an extra backslash. This applies to `COPY` loading, stage `SELECT`, and schema inference. Standard escapes keep their behavior. Unrelated unknown escapes, such as `\q` when `q` is not a delimiter, keep the backslash.
+
+An empty field delimiter remains supported for whole-line loading. TEXT/TSV unloading requires a nonempty field delimiter.
 
 :::note
 1. In Databend, the main difference between TSV and CSV is NOT using a tab instead of a comma as a field delemiter (which can be changed by options), but using escaping instead of quoting for
