@@ -19,7 +19,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ## Credential Masking
 
-Since v1.2.957, `query_text` masks recognized SQL credential values. Ordinary query literals can remain visible. Logged errors are scrubbed using recorded hidden values; errors returned to the submitting client are unchanged. See [Credential Masking](../31-system-tables/system-query-log.md#credential-masking) for the scope and limitations. This does not sanitize history that was recorded by older versions.
+`query_text` masks recognized SQL credential values. Ordinary query literals can remain visible. Logged errors are scrubbed using recorded hidden values; errors returned to the submitting client are unchanged. See [Credential Masking](../31-system-tables/system-query-log.md#credential-masking) for the scope and limitations. This does not sanitize history that was recorded by older versions.
 
 ## Fields
 

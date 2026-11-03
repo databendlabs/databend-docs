@@ -10,7 +10,7 @@ Contains metadata for SQL users visible to the current session. [SHOW USERS](/sq
 
 ## Visibility
 
-The visibility filter was introduced in v1.2.957:
+Visibility follows these rules:
 
 - A session with the global `GRANT` privilege sees all users in the tenant.
 - Other sessions see only the account whose username and hostname both match the current user.

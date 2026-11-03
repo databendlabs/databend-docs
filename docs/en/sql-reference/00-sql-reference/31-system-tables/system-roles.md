@@ -10,7 +10,7 @@ Contains role metadata visible to the current session.
 
 ## Visibility
 
-Since v1.2.957, a session with the global `GRANT` privilege can read all roles in the tenant. Other sessions see only roles available to the current user. Available roles include directly granted roles, inherited roles, and the implicit `public` role.
+A session with the global `GRANT` privilege can read all roles in the tenant. Other sessions see only roles available to the current user. Available roles include directly granted roles, inherited roles, and the implicit `public` role.
 
 The global `GRANT` exception applies to `system.roles`. [SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles) still lists the current user's available roles, even for a session with global `GRANT`.
 

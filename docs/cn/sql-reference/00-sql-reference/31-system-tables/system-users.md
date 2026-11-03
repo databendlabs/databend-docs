@@ -10,7 +10,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ## 可见性
 
-可见性过滤于 v1.2.957 引入：
+可见性遵循以下规则：
 
 - 具有全局 `GRANT` 权限的会话可以看到租户内的所有用户。
 - 其他会话只能看到用户名和 hostname 均与当前用户匹配的账户。

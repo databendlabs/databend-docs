@@ -10,7 +10,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ## 可见性
 
-从 v1.2.957 开始，`SHOW USERS` 和直接查询 `system.users` 使用相同的可见性规则：
+`SHOW USERS` 和直接查询 `system.users` 使用相同的可见性规则：
 
 - 具有全局 `GRANT` 权限的会话可以列出租户内的所有用户。
 - 其他会话只能看到与当前用户的用户名和 hostname 均匹配的账户。用户名相同但 hostname 不同的其他账户不可见。

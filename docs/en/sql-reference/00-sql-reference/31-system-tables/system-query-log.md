@@ -10,7 +10,7 @@ A read-only in-memory table stores all the query logs. For the specific fields a
 
 ## Credential Masking
 
-Since v1.2.957, query history masks values in recognized credential-bearing SQL syntax. Examples include user passwords, connection credentials, remote UDF headers and URL credentials, webhook options, and secret-named settings. Valid query and DML expressions remain visible. A predicate such as `WHERE token = 'abc'` is user data, not a credential option, so its literal is not automatically hidden.
+Query history masks values in recognized credential-bearing SQL syntax. Examples include user passwords, connection credentials, remote UDF headers and URL credentials, webhook options, and secret-named settings. Valid query and DML expressions remain visible. A predicate such as `WHERE token = 'abc'` is user data, not a credential option, so its literal is not automatically hidden.
 
 For SQL that cannot be parsed, history masking hides values while preserving statement structure for diagnosis. Logged error copies are scrubbed using the hidden values recorded for the statement. Errors returned to the submitting client are not changed by this scrubbing.
 

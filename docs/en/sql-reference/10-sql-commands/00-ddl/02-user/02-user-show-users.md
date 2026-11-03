@@ -10,7 +10,7 @@ Lists the SQL users visible to the current session.
 
 ## Visibility
 
-Since v1.2.957, `SHOW USERS` and direct queries of `system.users` use the same visibility rules:
+`SHOW USERS` and direct queries of `system.users` use the same visibility rules:
 
 - A session with the global `GRANT` privilege can list all users in the tenant.
 - Other sessions see only the current user's matching username and hostname. A different account with the same username but another hostname is not visible.

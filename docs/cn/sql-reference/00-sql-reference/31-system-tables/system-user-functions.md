@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 包含系统中用户定义函数和外部函数的信息。
 
-从 v1.2.957 开始，远程 UDF 元数据中的服务端请求头值会显示为 `***`。显示的地址中，URL 用户名、密码、查询参数值和片段也会被脱敏。这只影响显示的定义，不会修改已存储的连接凭证或函数执行行为。共用的元数据格式化逻辑会对 `/v1/user_functions` 输出应用相同的脱敏规则。
+远程 UDF 元数据中的服务端请求头值会显示为 `***`。显示的地址中，URL 用户名、密码、查询参数值和片段也会被脱敏。这只影响显示的定义，不会修改已存储的连接凭证或函数执行行为。共用的元数据格式化逻辑会对 `/v1/user_functions` 输出应用相同的脱敏规则。
 
 另请参阅：[SHOW USER FUNCTIONS](/sql/sql-commands/administration-cmds/show-user-functions)。
 

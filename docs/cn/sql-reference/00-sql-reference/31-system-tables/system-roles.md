@@ -10,7 +10,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ## 可见性
 
-从 v1.2.957 开始，具有全局 `GRANT` 权限的会话可以读取租户内的所有角色。其他会话只能看到当前用户可用的角色。可用角色包括直接授予的角色、继承的角色和隐式可用的 `public` 角色。
+具有全局 `GRANT` 权限的会话可以读取租户内的所有角色。其他会话只能看到当前用户可用的角色。可用角色包括直接授予的角色、继承的角色和隐式可用的 `public` 角色。
 
 全局 `GRANT` 的例外规则适用于 `system.roles`。即使会话具有全局 `GRANT` 权限，[SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles) 仍只列出当前用户可用的角色。
 
