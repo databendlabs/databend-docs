@@ -2,6 +2,10 @@
 title: TO_DECIMAL
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.959"/>
+
 将一个值转换为 DECIMAL 数据类型。
 
 ## 语法
@@ -30,6 +34,37 @@ TO_DECIMAL
 | 'G'              | 分组（千位）分隔符（在输入中需要 ','）                               | "1,234"    |
 | 'S'              | 符号（'+' 或 '-'，作为前缀应用于结果）                               | "-123"     |
 | 字面量字符       | 任何字面量字符必须与输入完全匹配                                     | "NT$123"   |
+
+<a id="numeric-conversion"></a>
+
+## 数值转换
+
+当数值转换丢弃小数位时，`numeric_cast_option` 控制舍入行为：
+
+- `rounding` 为默认值。它舍入到最接近的值，恰好在中点时向远离零的方向舍入。
+- `truncating` 向零截断小数位。
+
+FLOAT 和 DOUBLE 输入使用实际存储的精确二进制浮点值。转换会缩放该值，并仅执行一次舍入或截断以得到目标标度。转换不会先将值替换为其最短十进制显示文本。因此，浮点值转换后的数字可能与创建该值时使用的十进制字符串不同。
+
+例如，DOUBLE `1.1` 不等于精确的十进制数 `1.1`。需要保留十进制文本时，请使用十进制字面量或字符串。将已有的 FLOAT 或 DOUBLE 转换为 DECIMAL，无法恢复转换前已经丢失的数字。
+
+```sql
+SET numeric_cast_option = 'rounding';
+SELECT
+    TO_DECIMAL(1.1::DOUBLE, 38, 18) AS from_float,
+    TO_DECIMAL('1.1', 38, 18) AS from_text,
+    TO_DECIMAL((-0.125)::DOUBLE, 18, 2) AS rounded;
+-- Expected values: 1.100000000000000089, 1.100000000000000000, -0.13
+
+SET numeric_cast_option = 'truncating';
+SELECT TO_DECIMAL((-0.125)::DOUBLE, 18, 2) AS truncated;
+-- Expected value: -0.12
+UNSET numeric_cast_option;
+```
+
+结果超出目标精度时会报错，包括舍入导致的溢出。NaN、正无穷和负无穷无法转换为 DECIMAL。`TRY_CAST` 和 `TRY_TO_DECIMAL` 在转换失败时返回 NULL。VARIANT 内部存储的浮点数也使用相同的二进制值转换规则。
+
+有关算术运算和显式 ROUND 行为，请参阅 [Decimal 规则](/sql/sql-reference/data-types/decimal#decimal-rules)。类型转换设置不会改变这些舍入规则。下方示例使用默认的 `rounding` 设置。
 
 ## 示例
 
