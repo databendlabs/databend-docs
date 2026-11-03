@@ -14,11 +14,11 @@ Databend 会将新对象的所有权授予创建时会话的当前角色。您�
 
 ## 创建权限与当前角色
 
-创建权限和所有权是两个独立的概念。创建 Connection 或 Sequence 时，Databend 检查用户有效权限中的 `CREATE CONNECTION` 或 `CREATE SEQUENCE`。这些权限可以直接授予用户，也可以来自已启用的角色，包括辅助角色。提供创建权限的角色不会自动成为对象的所有者。仅有 `SUPER` 不代表拥有这两项创建权限。
+Databend 根据直接授予用户的权限和会话当前角色的权限检查创建权限，辅助角色不能授权创建。创建 Connection 和 Sequence 分别需要 `CREATE CONNECTION` 和 `CREATE SEQUENCE` 权限，仅有 `SUPER` 不代表拥有这两项权限。
 
-创建时的当前角色可以是 `public`。只要用户拥有所需的创建权限，创建就会成功，所有权归 `public`。Databend 不会强制用户切换角色来避免这种所有权归属。
+当前角色同时会成为新对象的所有者。创建对象前，请通过 [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) 切换到拥有创建权限、并且应当拥有该对象的角色。也可以通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 或 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 设置 `DEFAULT_ROLE`，新会话开始时会使用该角色作为当前角色。如果当前角色是 `public`，只有 `public` 或用户本身直接拥有所需权限时才能创建，且新对象的所有权归 `public`。
 
-最佳实践是在创建对象前，通过 [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) 切换到预期的所有者角色。也可以通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 或 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 设置 `DEFAULT_ROLE`，使新会话默认使用该角色。这些操作用于控制所有权归属，不能代替所需的创建权限。
+对已存在的对象执行 `CREATE ... IF NOT EXISTS` 不会改变其所有者。`CREATE OR REPLACE` 会让当前角色成为替换后对象的所有者。
 
 ## 不允许撤销所有权
 

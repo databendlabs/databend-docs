@@ -14,11 +14,11 @@ Databend assigns ownership of a new object to the session's current role. You ca
 
 ## Creation Privileges and the Current Role
 
-Creation privileges and ownership are separate. For connections and sequences, Databend checks the user's effective `CREATE CONNECTION` or `CREATE SEQUENCE` privileges. These privileges can come from a direct grant or an enabled role, including a secondary role. The role that supplies the privilege does not automatically become the owner. `SUPER` alone does not supply either creation privilege.
+Databend checks creation privileges against privileges granted directly to the user and the session's current role. Secondary roles do not authorize creation. For connections and sequences, the required privileges are `CREATE CONNECTION` and `CREATE SEQUENCE`. `SUPER` alone does not supply either privilege.
 
-The current role can remain `public` during creation. If the user has the required creation privilege, creation succeeds and ownership belongs to `public`. Databend does not require the user to switch roles to avoid this ownership choice.
+The current role is also the owner of the new object. Before creating an object, use [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) to switch to the role that holds the creation privilege and should own the object. Alternatively, set `DEFAULT_ROLE` with [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) or [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user); the default role becomes the current role at the start of a new session. If the current role is `public`, creation succeeds only when `public` or the user holds the privilege directly, and `public` owns the new object.
 
-As a best practice, use [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) to select the intended owner before creating objects. Alternatively, set `DEFAULT_ROLE` with [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) or [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user). The default role becomes the current role at the start of a new session. These steps control ownership; they do not replace the required creation privileges.
+`CREATE ... IF NOT EXISTS` does not change the owner of an existing object. `CREATE OR REPLACE` makes the current role the owner of the replacement object.
 
 ## Revoking Ownership Not Allowed
 
