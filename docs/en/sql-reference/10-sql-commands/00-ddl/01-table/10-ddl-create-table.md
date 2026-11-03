@@ -49,8 +49,33 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 [ ENGINE = FUSE ]
 [ PARTITION BY ( <expr> [ , <expr> ... ] ) ]
 [ CLUSTER BY ( <expr> [ , <expr> ... ] ) ]
+[ TTL <ttl_expression> ]
 [ <fuse_engine_option> = <value> ... ]
 ```
+
+### Row-Level TTL
+
+TTL defines when rows expire. The TTL definition does not schedule cleanup. Use [`ALTER TABLE ... MATERIALIZE TTL`](90-alter-table.md#row-level-ttl) to delete expired rows explicitly. The manual cleanup command and the expression rules below are available in v1.2.953.
+
+```sql
+CREATE TABLE retained_events (
+    id INT,
+    event_time TIMESTAMP
+) TTL event_time + INTERVAL 30 DAY;
+```
+
+A TTL expression must use one of these forms:
+
+- `<time_column>` for an absolute expiration time.
+- `<time_column> + INTERVAL <nonnegative_integer> <unit>` for a retention period.
+
+The column must have type `DATE`, `TIMESTAMP`, or `TIMESTAMP_TZ`. Nullable columns and STORED computed columns are supported. VIRTUAL computed columns are not supported. Interval units are `MICROSECOND`, `SECOND`, `MINUTE`, `HOUR`, `DAY`, `WEEK`, `MONTH`, `QUARTER`, and `YEAR`.
+
+Use an unqualified column name and an unquoted, nonnegative integer interval. Constant timestamps, function calls, casts, multiple-column expressions, negative intervals, and string-valued intervals such as `INTERVAL '30' DAY` are not valid definitions.
+
+TTL is supported only on persistent Fuse tables. Temporary and transient tables do not support TTL. `SHOW CREATE TABLE` includes the stored TTL definition. You can also specify TTL before `AS SELECT` when creating a table from a query.
+
+See [Row-Level TTL](90-alter-table.md#row-level-ttl) for cutoff comparisons, privileges, security-policy behavior, and examples.
 
 ### Fuse Table Partitioning
 
