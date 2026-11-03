@@ -16,6 +16,10 @@ Databend accelerates query performance through data clustering, table partitioni
 | [**Full-Text Index**](03-fulltext-index.md) | Enable lightning-fast semantic text search capabilities | When you need advanced text search functionality like relevance scoring and fuzzy matching |
 | [**Ngram Index**](ngram-index.md) | Accelerate pattern matching with wildcards | When your queries use LIKE operators with wildcards (especially '%keyword%') on large text columns |
 
+## Distributed Execution
+
+See [Distributed Query Settings](distributed-query.md) for Flight setup connection reuse and per-Exchange buffer budgets. These controls are not total query or node memory limits.
+
 ## Feature Availability
 
 | Feature | Community | Enterprise | Cloud |

@@ -16,6 +16,10 @@ Databend 通过数据聚类、表分区、结果缓存、物化视图和专用�
 | [**Full-Text Index**](03-fulltext-index.md) | 实现毫秒级语义文本搜索 | 需高级文本功能（相关性评分/模糊匹配）时 |
 | [**Ngram Index**](ngram-index.md) | 加速通配符匹配 | 在大型文本列使用 `LIKE '%keyword%` 类查询时 |
 
+## 分布式执行
+
+有关 Flight 设置连接复用和每个 Exchange 的缓冲预算，请参阅[分布式查询设置](distributed-query.md)。这些控制不是查询或节点总内存限制。
+
 ## 功能可用性
 
 | 功能 | 社区版 | 企业版 | Cloud |
