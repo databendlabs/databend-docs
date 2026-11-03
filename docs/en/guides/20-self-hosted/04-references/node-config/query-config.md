@@ -317,6 +317,14 @@ The following is a list of the parameters available within the [cache] section:
 | data_cache_storage       | The type of storage used for table data cache. Available options: "none" (disables table data cache), "disk" (enables disk cache). Defaults to "none". |
 | iceberg_table_meta_count | Controls the number of Iceberg table metadata entries to cache. Set to `0` to disable metadata caching.                                                |
 
+### Legacy Inverted Index Payload Cache
+
+Since v1.2.953, `[cache].inverted_index_payload_size` is the total legacy memory budget for payload pages and complete postings/positions components. Its default increased from `8589934592` (8 GiB) to `17179869184` (16 GiB).
+
+For a total budget `B`, the complete-component cache receives `floor(B / 4)` bytes. The page cache receives the remainder. The default capacities are 12 GiB for `memory_cache_inverted_index_payload` and 4 GiB for `memory_cache_inverted_index_full_payload`. These are two shares of one budget, not two copies of the configured total. Setting the legacy option to `0` disables both memory caches; it does not disable index reads or configured disk caching.
+
+The shared backend ignores this legacy option and its fixed split. Both cache kinds use the `index` pool. Set their separate limits under `[cache.kind_max_bytes]` with the two names above. Inspect their individual rows in [system.caches](/sql/sql-reference/system-tables/system-caches).
+
 ### Legacy Vector Index Cache
 
 Since v1.2.953, `memory_cache_vector_index_file` retains decoded HNSW indexes shared by readers, not serialized index-file buffers. Its byte accounting includes retained search workspaces. Do not estimate this cache from index-file size alone.

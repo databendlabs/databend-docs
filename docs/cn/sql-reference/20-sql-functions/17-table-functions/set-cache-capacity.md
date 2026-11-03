@@ -33,6 +33,12 @@ CALL system$set_cache_capacity('<cache_name>', 'default');
 - 不能通过此命令调整任何 `disk_cache_*` 层的容量。
 - 降低限制可能逐出条目。活动查询持有的内存不一定立即释放。
 
+### 倒排索引负载目标
+
+从 v1.2.953 开始，传统目标 `memory_cache_inverted_index_payload` 接受页缓存和 `memory_cache_inverted_index_full_payload` 的组合预算。值 `B` 将 `floor(B / 4)` 字节分配给完整组件缓存，其余部分分配给页缓存。它不会将页缓存行的容量设为 `B`。将此目标设为 `0` 会禁用两个传统负载内存缓存。
+
+在共享后端中，同一目标仅改变页缓存类型。若要改变 `memory_cache_inverted_index_full_payload` 的限制，请单独调整它。两者仍受 `index` 池约束。这些运行时变更不改变磁盘层容量，也不会在重启后保留。
+
 ## 示例
 
 在旧版后端中，将 Bloom 索引元数据缓存设为 5000 个条目：

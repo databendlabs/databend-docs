@@ -33,6 +33,12 @@ CALL system$set_cache_capacity('<cache_name>', 'default');
 - No `disk_cache_*` tier can be resized with this command.
 - Lowering a limit can evict entries. Memory held by active queries might not be released immediately.
 
+### Inverted Index Payload Target
+
+Since v1.2.953, the legacy target `memory_cache_inverted_index_payload` accepts a combined budget for the page cache and `memory_cache_inverted_index_full_payload`. A value `B` assigns `floor(B / 4)` bytes to the complete-component cache and the remainder to pages. It does not set the page row's capacity to `B`. Setting this target to `0` disables both legacy payload memory caches.
+
+With the shared backend, this same target changes only the page-cache kind. Resize `memory_cache_inverted_index_full_payload` separately to change its limit. Both remain subject to the `index` pool. These runtime changes do not alter disk-tier capacities or persist after restart.
+
 ## Examples
 
 With the legacy backend, set the Bloom index metadata cache to 5000 entries:

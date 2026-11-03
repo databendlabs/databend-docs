@@ -319,6 +319,16 @@ cn=
 | data_cache_storage | 表数据缓存的存储类型。可选："none"（禁用表数据缓存）、"disk"（启用磁盘缓存），默认为 "none"。 |
 | iceberg_table_meta_count | 缓存的 Iceberg 表元数据条目数量，设为 `0` 禁用元数据缓存。 |
 
+<a id="legacy-inverted-index-payload-cache"></a>
+
+### 传统倒排索引负载缓存
+
+从 v1.2.953 开始，`[cache].inverted_index_payload_size` 是负载页和完整 postings/positions 组件的传统内存总预算。默认值从 `8589934592`（8 GiB）增加到 `17179869184`（16 GiB）。
+
+对于总预算 `B`，完整组件缓存获得 `floor(B / 4)` 字节，页缓存获得剩余部分。默认容量为 `memory_cache_inverted_index_payload` 的 12 GiB 和 `memory_cache_inverted_index_full_payload` 的 4 GiB。它们是同一预算的两部分，不是各自拥有一份配置总量。将传统选项设为 `0` 会禁用两个内存缓存，但不会禁用索引读取或已配置的磁盘缓存。
+
+共享后端忽略此传统选项及其固定拆分。两个缓存类型均使用 `index` 池。可在 `[cache.kind_max_bytes]` 中使用上述两个名称分别设置限制。请在 [system.caches](/sql/sql-reference/system-tables/system-caches) 中查看各自的行。
+
 <a id="legacy-vector-index-cache"></a>
 
 ### 传统向量索引缓存

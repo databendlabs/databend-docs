@@ -58,6 +58,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 从 v1.2.953 开始，向量索引缓存保留共享的已解码对象。其 `size` 包括解码后的索引内存和保留的搜索工作区，而不只是序列化文件字节。被查询持有的索引在淘汰后仍可能计入用量。有关比例/字节优先级及独立的共享后端控制，请参阅[传统向量索引缓存](/guides/self-hosted/references/node-config/query-config#legacy-vector-index-cache)。这些数值不表示查询总内存或进程 RSS。
 
+## 倒排索引负载容量
+
+从 v1.2.953 开始，传统负载预算拆分给 `memory_cache_inverted_index_payload`（页）和 `memory_cache_inverted_index_full_payload`（完整 postings/positions 组件）。默认总量 16 GiB 对应两行容量分别为 12 GiB 和 4 GiB。它们的容量是独立份额，不是各额外拥有 16 GiB。有关字节拆分和启动选项，请参阅[传统倒排索引负载缓存](/guides/self-hosted/references/node-config/query-config#legacy-inverted-index-payload-cache)。
+
+在共享后端中，两行均属于 `index` 池，使用独立的单类型限制。传统的 75%/25% 拆分不适用。在两个后端中，调整页缓存名称的效果不同；请参阅 [SYSTEM$SET_CACHE_CAPACITY](../../20-sql-functions/17-table-functions/set-cache-capacity.md)。
+
 ## 共享池行
 
 共享后端会在池容量非零时添加 `__pool:meta`、`__pool:index` 和 `__pool:data`。这些行汇总的内存与其成员缓存相同。不要将池使用量与成员缓存使用量相加。池的查找计数为零；请使用成员行计算命中率。

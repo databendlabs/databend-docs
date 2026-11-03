@@ -58,6 +58,12 @@ The pool column shows the grouping in the shared backend. Read `unit` from the t
 
 Since v1.2.953, the vector-index cache retains shared decoded objects. Its `size` includes decoded index memory and retained search workspaces, not just serialized-file bytes. Query-held indexes can remain charged after eviction. See [Legacy Vector Index Cache](/guides/self-hosted/references/node-config/query-config#legacy-vector-index-cache) for ratio/byte precedence and the separate shared-backend controls. These figures do not measure total query memory or process RSS.
 
+## Inverted Index Payload Capacities
+
+Since v1.2.953, the legacy payload budget is split between `memory_cache_inverted_index_payload` (pages) and `memory_cache_inverted_index_full_payload` (complete postings/positions components). The default 16 GiB total gives these rows capacities of 12 GiB and 4 GiB. Their capacities are separate shares, not an additional 16 GiB each. See [Legacy Inverted Index Payload Cache](/guides/self-hosted/references/node-config/query-config#legacy-inverted-index-payload-cache) for the byte split and startup option.
+
+In the shared backend, both rows belong to the `index` pool and use independent per-kind limits. The legacy 75%/25% split does not apply. Resizing the page-cache name has different effects in the two backends; see [SYSTEM$SET_CACHE_CAPACITY](../../20-sql-functions/17-table-functions/set-cache-capacity.md).
+
 ## Shared Pool Rows
 
 The shared backend adds `__pool:meta`, `__pool:index`, and `__pool:data` when their capacities are nonzero. These rows summarize the same memory as their member caches. Do not add pool usage to member-cache usage. A pool's lookup counters are zero; use the member rows for hit rates.
