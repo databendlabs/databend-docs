@@ -7,7 +7,7 @@ slug: /sql-reference/table-engines/iceberg
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.725"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Databend 支持集成 [Apache Iceberg™](https://iceberg.apache.org/) catalog，增强了数据管理和分析的兼容性与灵活性。通过将 Apache Iceberg™ 强大的元数据和存储管理能力无缝融入平台，进一步扩展了 Databend 的功能边界。
 
@@ -226,6 +226,27 @@ ORDER BY
 | MAP&lt;KEYTYPE, VALUETYPE&gt;               | [MAP](/sql/sql-reference/data-types/map)                                 |
 | STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)                             |
 | LIST                                        | [ARRAY](/sql/sql-reference/data-types/array)                             |
+
+## Parquet 字段标识与物理类型
+
+从 v1.2.953 开始，当 Iceberg 表提供有效的 `schema.name-mapping.default` 属性时，Databend 可以读取未嵌入字段 ID 的 Parquet 文件。这是 Iceberg 表元数据属性，不是 `CREATE CATALOG` 连接参数。请通过 Iceberg 写入器或 catalog 维护它。
+
+该属性包含字段映射的 JSON 数组。例如，如果字段 ID `1` 属于 `current_name`，以下值将两个名称映射到同一标识：
+
+```json
+[
+  {"field-id": 1, "names": ["old_name", "current_name"]}
+]
+```
+
+- 显式 Parquet 字段 ID 优先。如果所有需要标识的字段都具有显式 ID，Databend 不会解析未使用的名称映射。
+- 对于没有 ID 的字段，映射可以解析历史别名，包括嵌套字段。请将别名保留在正确的父字段下。LIST/MAP 包装组不是额外的 Iceberg 标识层级。
+- 缺少映射时，Databend 不根据相同名称或表列位置猜测字段标识。未映射的物理字段不会仅因旧名称被复用就成为当前列。
+- 字段 ID 必须为正数，且在文件 Schema 内唯一。歧义映射和无效 ID 可能导致 Schema 错误。显式的无效 ID 不会被视为缺失 ID，再通过名称映射修复。
+
+Databend 还会使用每个文件的物理 Parquet Schema 解码。同一个 Iceberg DECIMAL 列可以同时有使用 `INT64` 和 `FIXED_LEN_BYTE_ARRAY` 编码的文件。读取时会保留这些物理编码，同时按 Iceberg 字段标识和逻辑类型对齐。投影、过滤和 Top-K 读取会使用对应的文件字段，而不是假设当前表顺序与文件顺序相同。
+
+这些支持不使任意 Schema 变更或不兼容的物理类型有效。导入或重命名列时，请保持 Iceberg Schema、字段标识和表名称映射一致。
 
 ## 管理 Catalog
 

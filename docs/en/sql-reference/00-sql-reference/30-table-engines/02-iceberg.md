@@ -7,7 +7,7 @@ slug: /sql-reference/table-engines/iceberg
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.725"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Databend supports the integration of an [Apache Iceberg™](https://iceberg.apache.org/) catalog, enhancing its compatibility and versatility for data management and analytics. This extends Databend's capabilities by seamlessly incorporating the powerful metadata and storage management capabilities of Apache Iceberg™ into the platform.
 
@@ -226,6 +226,27 @@ This table maps data types between Apache Iceberg™ and Databend. Please note t
 | MAP&lt;KEYTYPE, VALUETYPE&gt;               | [MAP](/sql/sql-reference/data-types/map)                                 |
 | STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)                             |
 | LIST                                        | [ARRAY](/sql/sql-reference/data-types/array)                             |
+
+## Parquet Field Identity and Physical Types
+
+Since v1.2.953, Databend can read Iceberg Parquet files without embedded field IDs when the table provides a valid `schema.name-mapping.default` property. This is an Iceberg table metadata property, not a `CREATE CATALOG` connection parameter. Maintain it through your Iceberg writer or catalog.
+
+The property contains a JSON array of field mappings. For example, if field ID `1` belongs to `current_name`, this value maps both names to that identity:
+
+```json
+[
+  {"field-id": 1, "names": ["old_name", "current_name"]}
+]
+```
+
+- Explicit Parquet field IDs take precedence. If all identity-bearing fields have explicit IDs, Databend does not parse an unused name mapping.
+- For fields without IDs, the mapping can resolve historical aliases, including nested fields. Keep aliases under the correct parent field. LIST/MAP wrapper groups are not additional Iceberg identity levels.
+- Databend does not guess field identity from matching names or table column positions when a mapping is absent. An unmapped physical field must not become a current column merely because its old name was reused.
+- Field IDs must be positive and unique within the file schema. Ambiguous mappings and invalid IDs can cause a schema error. An explicit invalid ID is not treated as a missing ID to repair through name mapping.
+
+Databend also uses each file's physical Parquet schema for decoding. One Iceberg DECIMAL column can have files encoded as `INT64` and `FIXED_LEN_BYTE_ARRAY`. Reads preserve those physical encodings while aligning to the Iceberg field identities and logical types. Projection, filtering, and Top-K reads use the corresponding file fields rather than assuming the current table order matches the file order.
+
+This support does not make arbitrary schema changes or incompatible physical types valid. Keep the Iceberg schema, field identities, and table name mapping consistent when importing or renaming columns.
 
 ## Managing Catalogs
 
