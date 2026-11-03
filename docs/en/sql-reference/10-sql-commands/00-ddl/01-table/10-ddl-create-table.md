@@ -22,6 +22,7 @@ Databend aims to be easy to use by design and does NOT require any of those oper
 - [CREATE TABLE](#create-table): Creates a table from scratch.
 - [CREATE TABLE ... LIKE](#create-table--like): Creates a table with the same column definitions as an existing one.
 - [CREATE TABLE ... AS](#create-table--as): Creates a table and inserts data with the results of a SELECT query.
+- [CREATE TABLE ... CLONE](15-ddl-clone-table.md): Creates an independent table that initially shares immutable source data files (experimental, v1.2.953).
 
 See also:
 

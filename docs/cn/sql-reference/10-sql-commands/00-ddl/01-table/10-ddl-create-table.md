@@ -22,6 +22,7 @@ Databend 以“开箱即用”为设计目标，创建表时无需上述任何�
 - [CREATE TABLE](#create-table)：从零开始创建表。
 - [CREATE TABLE ... LIKE](#create-table--like)：按已有表的列定义创建新表。
 - [CREATE TABLE ... AS](#create-table--as)：创建表并将 SELECT 查询结果作为数据插入。
+- [CREATE TABLE ... CLONE](15-ddl-clone-table.md)：创建独立的表，初始时共享源表的不可变数据文件（实验性功能，v1.2.953）。
 
 另请参阅：
 
