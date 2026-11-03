@@ -66,13 +66,13 @@ Send loading data request with the following command:
 Alternatively, use a Python script:
 
 ```python
-    import databend_driver
-    dsn = "databend://root:@localhost:8000/?sslmode=disable",
-    client = databend_driver.BlockingDatabendClient(dsn)
-    conn = client.get_conn()
-    query = "INSERT INTO book_db.books from @_databend_load file_format=(type=csv)"
-    progress = conn.load_file(query, "book.csv")
-    conn.close()
+import databend_driver
+dsn = "databend://root:@localhost:8000/?sslmode=disable"
+client = databend_driver.BlockingDatabendClient(dsn)
+conn = client.get_conn()
+query = "INSERT INTO book_db.books from @_databend_load file_format=(type=csv)"
+progress = conn.load_file(query, "books.csv")
+conn.close()
 ```
 
 Or use Java code:

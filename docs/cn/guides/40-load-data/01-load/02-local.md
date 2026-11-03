@@ -50,6 +50,18 @@ CREATE TABLE books (
 ❯ bendsql --query='INSERT INTO book_db.books VALUES;' --format=csv --data=@books.csv
 ```
 
+也可以使用 Python 脚本加载同一个 `books.csv` 文件：
+
+```python
+import databend_driver
+dsn = "databend://root:@localhost:8000/?sslmode=disable"
+client = databend_driver.BlockingDatabendClient(dsn)
+conn = client.get_conn()
+query = "INSERT INTO book_db.books from @_databend_load file_format=(type=csv)"
+progress = conn.load_file(query, "books.csv")
+conn.close()
+```
+
 :::note
 请确保本地 BendSQL 能直接连接到 Databend 的后端对象存储。
 如果无法连接，则需要指定 `--set presigned_url_disabled=1` 选项来禁用预签名 URL 功能。

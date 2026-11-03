@@ -31,9 +31,9 @@ Databend 强大的 ETL 能力支持从多种数据源和格式高效加载数据
 
 
 <details>
-<summary> TSV </summary>
+<summary> TEXT / TSV </summary>
 
-- [将 TSV 数据导入表](./03-load-semistructured/02-load-tsv.md)
+- [将 TEXT / TSV 数据导入表](./03-load-semistructured/02-load-tsv.md)
 - [将表导出为 TSV 格式](../50-unload-data/02-unload-tsv.md)
 - [直接查询 TSV 文件](./04-transform/02-querying-tsv.md)
 

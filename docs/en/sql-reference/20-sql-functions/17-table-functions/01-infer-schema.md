@@ -8,6 +8,7 @@ Automatically detects the file metadata schema and retrieves the column definiti
 - **Parquet** - Native support for schema inference
 - **CSV** - With customizable delimiters and header detection
 - **NDJSON** - Newline-delimited JSON files
+- **TEXT** - Text files. See [TEXT / TSV File Format Options](/sql/sql-reference/file-format-options#tsv-options).
 
 **Compression Support**: All formats also support compressed files with extensions `.zip`, `.xz`, `.zst`.
 

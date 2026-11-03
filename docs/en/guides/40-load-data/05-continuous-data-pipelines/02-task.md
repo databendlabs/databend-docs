@@ -127,11 +127,11 @@ LIMIT 5;
 
 -- Review recent executions for troubleshooting
 SELECT *
-FROM task_history('task_consume_data', 5);
+FROM TASK_HISTORY(TASK_NAME => 'task_consume_data', RESULT_LIMIT => 5);
 
 -- Change configuration later if needed
 ALTER TASK task_consume_data
-    SCHEDULE = 30 SECOND,
+    SET SCHEDULE = 30 SECOND
     WAREHOUSE = 'etl_wh_medium'; -- replace with your warehouse
 ```
 
@@ -144,12 +144,12 @@ You can change schedules, warehouses, or even the SQL payload without dropping t
 ```sql
 -- Tweak the schedule and warehouse
 ALTER TASK task_consume_data
-    SCHEDULE = 30 SECOND,
+    SET SCHEDULE = 30 SECOND
     WAREHOUSE = 'etl_wh_medium'; -- replace with your warehouse
 
 -- Update the SQL payload (replace the existing body)
 ALTER TASK task_consume_data
-    AS
+    MODIFY AS
 COPY INTO sensor_events
 FROM @sensor_events_stage
 FILE_FORMAT = (TYPE = PARQUET);
@@ -159,7 +159,7 @@ ALTER TASK task_consume_data RESUME;
 
 -- Review execution history for verification
 SELECT *
-FROM task_history('task_consume_data', 5)
+FROM TASK_HISTORY(TASK_NAME => 'task_consume_data', RESULT_LIMIT => 5)
 ORDER BY completed_time DESC;
 ```
 
@@ -208,7 +208,7 @@ ORDER BY event_time DESC
 LIMIT 5;
 
 SELECT *
-FROM task_history('task_stream_merge', 5);
+FROM TASK_HISTORY(TASK_NAME => 'task_stream_merge', RESULT_LIMIT => 5);
 ```
 
 The task fires only when `STREAM_STATUS('<database>.<stream_name>')` returns `TRUE`. Always prefix the stream with its database (for example `task_demo.sensor_events_stream`) so the task can resolve it regardless of the current schema, and use your own warehouse name in every `CREATE/ALTER TASK`.
