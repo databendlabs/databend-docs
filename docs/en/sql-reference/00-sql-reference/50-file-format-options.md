@@ -51,6 +51,43 @@ formatTypeOptions ::=
   COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | XZ | NONE
 ```
 
+## Numeric Input
+
+These rules apply when loading numeric fields directly into integer or DECIMAL columns from CSV, TSV/TEXT, or NDJSON. They also apply to numeric fields handled by the fast INSERT VALUES decoder.
+
+Set the session setting `numeric_cast_option` before loading. It is not a `FILE_FORMAT` option. The default `rounding` mode rounds to the nearest target value, with halfway values rounded away from zero. The `truncating` mode discards fractional digits toward zero.
+
+### Decimal Targets
+
+<FunctionDescription description="Introduced or updated: v1.2.954"/>
+
+DECIMAL fields are parsed from decimal text at the target precision and scale. This includes scientific notation and unquoted NDJSON numbers. The decoder does not first convert them to Float64. JSON string values that represent decimals use the same rounding setting. Nested DECIMAL values also use this setting.
+
+| Input text | Target type | `rounding` result | `truncating` result |
+|------------|-------------|-------------------|---------------------|
+| `1.235` | `DECIMAL(4, 2)` | `1.24` | `1.23` |
+| `-1.235` | `DECIMAL(4, 2)` | `-1.24` | `-1.23` |
+| `99.995` | `DECIMAL(4, 2)` | Conversion error | `99.99` |
+
+A rounding carry can exceed the target precision. For example, `100.00` does not fit `DECIMAL(4, 2)`.
+
+### Integer Targets
+
+For NDJSON integer targets, use JSON numbers rather than quoted JSON strings. Fractional and scientific-notation text is converted through exact decimal parsing, not Float64. Values beyond `2^53` therefore retain their significant digits. Conversion then applies the session rounding setting and checks the target integer range. Out-of-range values produce conversion errors instead of being clamped to the type limit.
+
+| Input text | Target type | Setting | Expected value |
+|------------|-------------|---------|----------------|
+| `1760000000123456789.4` | `BIGINT` | `rounding` | `1760000000123456789` |
+| `1760000000123456789.5` | `BIGINT` | `rounding` | `1760000000123456790` |
+| `1.760000000123456789e18` | `BIGINT` | `rounding` | `1760000000123456789` |
+| `-1.5` | `BIGINT` | `rounding` | `-2` |
+| `-1.9` | `BIGINT` | `truncating` | `-1` |
+| `9223372036854775807.5` | `BIGINT` | `rounding` | Conversion error |
+| `18446744073709551615.9` | `BIGINT UNSIGNED` | `truncating` | `18446744073709551615` |
+| `18446744073709551616` | `BIGINT UNSIGNED` | `rounding` | Conversion error |
+
+For COPY, `ON_ERROR` controls how conversion errors affect the load. These rules do not recover digits that a client or an earlier FLOAT/DOUBLE conversion has already lost. See [Numeric Conversion](../20-sql-functions/02-conversion-functions/index.md#numeric-conversion) for SQL cast behavior.
+
 ## CSV Options
 
 Databend CSV is compliant with [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) and is subject to the following conditions:

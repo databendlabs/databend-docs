@@ -50,6 +50,46 @@ formatTypeOptions ::=
   ROW_TAG = '<string>'
   COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | XZ | NONE
 ```
+
+<a id="numeric-input"></a>
+
+## 数值输入
+
+以下规则适用于从 CSV、TSV/TEXT 或 NDJSON 将数值字段直接加载到整数或 DECIMAL 列。它们也适用于快速 INSERT VALUES 解码器处理的数值字段。
+
+加载前请设置会话设置 `numeric_cast_option`。它不是 `FILE_FORMAT` 选项。默认的 `rounding` 模式舍入到最接近的目标值，恰好在中点时向远离零的方向舍入。`truncating` 模式向零截断小数位。
+
+### Decimal 目标类型
+
+<FunctionDescription description="Introduced or updated: v1.2.954"/>
+
+DECIMAL 字段根据目标精度和标度直接解析十进制文本。这包括科学计数法及未加引号的 NDJSON 数字。解码器不会先将它们转换为 Float64。表示十进制数的 JSON 字符串也使用相同的舍入设置。嵌套的 DECIMAL 值也使用此设置。
+
+| 输入文本 | 目标类型 | `rounding` 结果 | `truncating` 结果 |
+|----------|----------|-----------------|-------------------|
+| `1.235` | `DECIMAL(4, 2)` | `1.24` | `1.23` |
+| `-1.235` | `DECIMAL(4, 2)` | `-1.24` | `-1.23` |
+| `99.995` | `DECIMAL(4, 2)` | 转换错误 | `99.99` |
+
+舍入进位可能导致结果超出目标精度。例如，`100.00` 无法存入 `DECIMAL(4, 2)`。
+
+### 整数目标类型
+
+对于 NDJSON 整数目标类型，请使用 JSON 数字，而非带引号的 JSON 字符串。带小数或科学计数法的文本使用精确的十进制解析进行转换，而不是通过 Float64 转换。因此，超过 `2^53` 的值仍可保留有效数字。随后，转换会应用会话舍入设置，并检查目标整数范围。超出范围的值会产生转换错误，不会被限制在类型边界值。
+
+| 输入文本 | 目标类型 | 设置 | 预期值 |
+|----------|----------|------|--------|
+| `1760000000123456789.4` | `BIGINT` | `rounding` | `1760000000123456789` |
+| `1760000000123456789.5` | `BIGINT` | `rounding` | `1760000000123456790` |
+| `1.760000000123456789e18` | `BIGINT` | `rounding` | `1760000000123456789` |
+| `-1.5` | `BIGINT` | `rounding` | `-2` |
+| `-1.9` | `BIGINT` | `truncating` | `-1` |
+| `9223372036854775807.5` | `BIGINT` | `rounding` | 转换错误 |
+| `18446744073709551615.9` | `BIGINT UNSIGNED` | `truncating` | `18446744073709551615` |
+| `18446744073709551616` | `BIGINT UNSIGNED` | `rounding` | 转换错误 |
+
+对于 COPY，`ON_ERROR` 控制转换错误对加载操作的影响。这些规则无法恢复客户端或先前 FLOAT/DOUBLE 转换已丢失的数字。有关 SQL 类型转换行为，请参阅[数值转换](../20-sql-functions/02-conversion-functions/index.md#numeric-conversion)。
+
 ## CSV 选项
 
 Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，并遵循以下规则：

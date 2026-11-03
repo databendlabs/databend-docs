@@ -2,6 +2,10 @@
 title: '转换函数（Conversion Functions）'
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
+
 本页面全面概述了 Databend 中的转换函数（Conversion Functions），按功能组织以便参考。
 
 ## 类型转换函数（Type Conversion Functions）
@@ -41,9 +45,13 @@ title: '转换函数（Conversion Functions）'
 | [BUILD_BITMAP](build-bitmap.md) | 从整数数组构建位图 | `BUILD_BITMAP([1,2,3])` → `bitmap value` |
 | [TO_BITMAP](to-bitmap.md) | 将值转换为 BITMAP 类型 | `TO_BITMAP([1,2,3])` → `bitmap value` |
 
+<a id="numeric-conversion"></a>
+
+## 数值转换
+
 在将值从一种类型转换为另一种类型时，请注意以下事项：
 
-- 当从浮点数、十进制数或字符串转换为整数或带小数部分的十进制数时，Databend 会将值四舍五入到最接近的整数。该行为由 `numeric_cast_option` 设置控制（默认为 'rounding'），它决定了数值转换操作的方式。当 `numeric_cast_option` 设置为 'truncating' 时，Databend 会截断小数部分，丢弃任何小数值。
+- `numeric_cast_option` 控制丢弃小数位的转换。默认的 `rounding` 模式舍入到最接近的目标值，恰好在中点时向远离零的方向舍入。整数目标类型的标度为零。DECIMAL 目标类型使用其声明的标度。`truncating` 模式向零截断多余的小数位。
 
     ```sql title='示例：'
     SELECT CAST('0.6' AS DECIMAL(10, 0)), CAST(0.6 AS DECIMAL(10, 0)), CAST(1.5 AS INT);
@@ -65,7 +73,7 @@ title: '转换函数（Conversion Functions）'
     └──────────────────────────────────────────────────────────────────────────────────┘
     ```
 
-    下表总结了数值转换操作，突出显示了不同源数据类型和目标数值数据类型之间的转换可能性。请注意，字符串到整数转换要求源字符串必须包含整数值。
+    下表总结了数值转换操作。字符串到整数的转换接受有效的数值文本，包括带小数的值和科学计数法。转换会应用 `numeric_cast_option` 并检查目标整数范围；字符串不必是整数字面量。
 
     | 源类型        | 目标类型 |
     |----------------|-------------|
@@ -74,7 +82,11 @@ title: '转换函数（Conversion Functions）'
     | Decimal        | Decimal     |
     | Float          | Int         |
     | Decimal        | Int         |
-    | String (Int)   | Int         |
+    | String (numeric text) | Int         |
 
+
+    将 CSV、TSV/TEXT 和 NDJSON 输入到整数或 DECIMAL 列时，遵循[文件格式选项](../../00-sql-reference/50-file-format-options.md#numeric-input)中的数值输入规则。此会话设置不是 `FILE_FORMAT` 选项。有关 DECIMAL 转换的详细信息，请参阅 [TO_DECIMAL](to-decimal.md)。
+
+## 其他转换
 
 - Databend 还提供多种函数，用于将表达式转换为不同的日期和时间格式。更多信息，请参阅[日期时间函数（Date & Time Functions）](../05-datetime-functions/index.md)。

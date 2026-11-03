@@ -2,6 +2,10 @@
 title: 'Conversion Functions'
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
+
 This page provides a comprehensive overview of Conversion functions in Databend, organized by functionality for easy reference.
 
 ## Type Conversion Functions
@@ -41,9 +45,11 @@ This page provides a comprehensive overview of Conversion functions in Databend,
 | [BUILD_BITMAP](build-bitmap.md) | Builds a bitmap from an array of integers | `BUILD_BITMAP([1,2,3])` → `bitmap value` |
 | [TO_BITMAP](to-bitmap.md) | Converts a value to BITMAP type | `TO_BITMAP([1,2,3])` → `bitmap value` |
 
+## Numeric Conversion
+
 Please note the following when converting a value from one type to another:
 
-- When converting from floating-point, decimal numbers, or strings to integers or decimal numbers with fractional parts, Databend rounds the values to the nearest integer. This is determined by the setting `numeric_cast_option` (defaults to 'rounding') which controls the behavior of numeric casting operations. When `numeric_cast_option` is explicitly set to 'truncating', Databend will truncate the decimal part, discarding any fractional values.
+- `numeric_cast_option` controls conversions that discard fractional digits. The default `rounding` mode rounds to the nearest target value, with halfway values rounded away from zero. Integer targets have scale zero. DECIMAL targets use their declared scale. The `truncating` mode discards excess fractional digits toward zero.
 
     ```sql title='Example:'
     SELECT CAST('0.6' AS DECIMAL(10, 0)), CAST(0.6 AS DECIMAL(10, 0)), CAST(1.5 AS INT);
@@ -65,7 +71,7 @@ Please note the following when converting a value from one type to another:
     └──────────────────────────────────────────────────────────────────────────────────┘
     ```
 
-    The table below presents a summary of numeric casting operations, highlighting the casting possibilities between different source and target numeric data types. Please note that, it specifies the requirement for String to Integer casting, where the source string must contain an integer value.
+    The table below summarizes numeric conversions. String-to-integer conversion accepts valid numeric text, including fractional values and scientific notation. It applies `numeric_cast_option` and checks the target integer range; the string does not need to be an integer literal.
 
     | Source Type    | Target Type |
     |----------------|-------------|
@@ -74,7 +80,11 @@ Please note the following when converting a value from one type to another:
     | Decimal        | Decimal     |
     | Float          | Int         |
     | Decimal        | Int         |
-    | String (Int)   | Int         |
+    | String (numeric text) | Int         |
 
+
+    CSV, TSV/TEXT and NDJSON input into integer or DECIMAL columns follows the numeric input rules in [File Format Options](../../00-sql-reference/50-file-format-options.md#numeric-input). This session setting is not a `FILE_FORMAT` option. For DECIMAL conversion details, see [TO_DECIMAL](to-decimal.md).
+
+## Other Conversions
 
 - Databend also offers a variety of functions for converting expressions into different date and time formats. For more information, see [Date & Time Functions](../05-datetime-functions/index.md).
