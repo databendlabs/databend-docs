@@ -63,6 +63,7 @@ title: 数值函数
 | Function | Description | Example |
 |----------|-------------|---------|
 | [ABS](abs.md) | 返回 x 的绝对值 | `ABS(-5)` → `5` |
+| [MIN_SCALE](min-scale.md) | 返回精确表示十进制数值所需的最少小数位数 | `MIN_SCALE(1.2300::DECIMAL(10, 4))` → `2` |
 | [SIGN](sign.md) | 返回 x 的符号 | `SIGN(-5)` → `-1` |
 | [FACTORIAL](factorial.md) | 返回 x 的阶乘 | `FACTORIAL(5)` → `120` |
 | [RAND](rand.md) | 返回 0 到 1 之间的随机数 | `RAND()` → `0.123...` (随机) |
