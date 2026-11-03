@@ -16,6 +16,8 @@ Databend 通过数据聚类、表分区、结果缓存、物化视图和专用�
 | [**Full-Text Index**](03-fulltext-index.md) | 实现毫秒级语义文本搜索 | 需高级文本功能（相关性评分/模糊匹配）时 |
 | [**Ngram Index**](ngram-index.md) | 加速通配符匹配 | 在大型文本列使用 `LIKE '%keyword%` 类查询时 |
 
+有关尚未发布的可选最终聚合输出路径，请参阅[聚合 TopN](aggregate-top-n.md)。它与扫描裁剪不同，不限制查询总内存。
+
 ## 功能可用性
 
 | 功能 | 社区版 | 企业版 | Cloud |

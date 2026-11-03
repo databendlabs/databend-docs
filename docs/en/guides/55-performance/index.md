@@ -16,6 +16,8 @@ Databend accelerates query performance through data clustering, table partitioni
 | [**Full-Text Index**](03-fulltext-index.md) | Enable lightning-fast semantic text search capabilities | When you need advanced text search functionality like relevance scoring and fuzzy matching |
 | [**Ngram Index**](ngram-index.md) | Accelerate pattern matching with wildcards | When your queries use LIKE operators with wildcards (especially '%keyword%') on large text columns |
 
+For the unreleased optional final-aggregation output path, see [Aggregate TopN](aggregate-top-n.md). It is separate from scan pruning and does not bound total query memory.
+
 ## Feature Availability
 
 | Feature | Community | Enterprise | Cloud |
