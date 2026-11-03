@@ -4,7 +4,7 @@ sidebar_position: 0
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: SQL v1.2.799; Python/JavaScript v1.2.339; WASM v1.2.936; Sandbox/resource limits v1.2.957"/>
+<FunctionDescription description="Introduced or updated: SQL v1.2.799; Python/JavaScript v1.2.339; WASM v1.2.936; Python scalar workers v1.2.955; Sandbox/resource limits v1.2.957"/>
 
 创建标量用户自定义函数（Scalar UDF）。同一条 `CREATE FUNCTION` 语句支持以下三种实现方式：
 
@@ -107,6 +107,8 @@ SELECT calculate_bmi(70.0, 1.75) AS bmi;
 Python 运行时需要企业版。你可以用 `PACKAGES` 安装 PyPI 包，用 `IMPORTS` 引入 Stage 文件（例如模型、依赖压缩包）。
 
 ### Worker 沙箱与依赖
+
+从 v1.2.955 开始，本地 Python 标量 UDF 在查询专属的 Worker 进程中运行，不再共享 Query 进程的 Python 解释器。每个本地运行时按需创建 Worker，并在一次 SQL 执行内复用，不跨查询复用。并发调用遵循 SQL `max_threads`，同时受节点和租户容量约束。额外的空闲 Worker 默认在 300 秒后回收；每个运行时保留一个最低 Worker。这些进程边界与 v1.2.957 引入的 OS 沙箱不同。
 
 从 v1.2.957 开始，本地 Python Worker 必须先进入 OS 沙箱，再执行用户代码。Linux 要求内核版本不低于 5.13，活动 LSM 列表中启用 Landlock，支持 seccomp，并使用 x86_64 或 aarch64。容器的 seccomp 配置必须允许 `landlock_*` 系统调用。沙箱设置失败时，执行会报错 `Python UDF sandbox is unavailable, refusing to run user code`。本地沙箱没有绕过开关。
 

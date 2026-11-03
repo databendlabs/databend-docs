@@ -57,7 +57,7 @@ For SQL setup and the trust boundary, see [External Access Integrations](/guides
 
 ### Script UDF Resources
 
-These node configuration options belong in `[query]`, not `[query.settings]`. Since v1.2.957, local Python UDFs and UDAFs use the mandatory OS sandbox described in [CREATE SCALAR FUNCTION](/sql/sql-commands/ddl/udf/ddl-create-function#python).
+These node configuration options belong in `[query]`, not `[query.settings]`. Query-owned scalar Python workers and automatic worker-capacity selection were introduced in v1.2.955. Since v1.2.957, local Python UDFs and UDAFs use the mandatory OS sandbox described in [CREATE SCALAR FUNCTION](/sql/sql-commands/ddl/udf/ddl-create-function#python).
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|

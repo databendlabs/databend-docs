@@ -4,7 +4,7 @@ sidebar_position: 0
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: SQL v1.2.799; Python/JavaScript v1.2.339; WASM v1.2.936; Sandbox/resource limits v1.2.957"/>
+<FunctionDescription description="Introduced or updated: SQL v1.2.799; Python/JavaScript v1.2.339; WASM v1.2.936; Python scalar workers v1.2.955; Sandbox/resource limits v1.2.957"/>
 
 Creates a scalar user-defined function (Scalar UDF). The same `CREATE FUNCTION` statement supports three implementation styles:
 
@@ -106,6 +106,8 @@ SELECT calculate_bmi(70.0, 1.75) AS bmi;
 Python runtime requires Databend Enterprise. You can install PyPI packages via `PACKAGES` and import stage files via `IMPORTS`.
 
 ### Worker Sandbox and Dependencies
+
+Since v1.2.955, local Python scalar UDFs run in query-owned worker processes instead of sharing the Query process's Python interpreter. Each local runtime creates workers on demand and reuses them within one SQL execution, never across queries. Concurrent calls follow SQL `max_threads`, bounded by node and tenant capacity. Extra idle workers retire after 300 seconds by default; one minimum worker per runtime is retained. These process boundaries are separate from the OS sandbox added in v1.2.957.
 
 Since v1.2.957, local Python workers must enter an OS sandbox before user code runs. Linux requires kernel 5.13 or later, Landlock enabled in the active LSM list, seccomp, and x86_64 or aarch64. Container seccomp profiles must permit the `landlock_*` syscalls. If sandbox setup fails, execution fails with `Python UDF sandbox is unavailable, refusing to run user code`. There is no local sandbox bypass switch.
 

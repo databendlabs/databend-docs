@@ -61,7 +61,7 @@ SQL 配置与信任边界见[外部访问集成](/guides/security/external-acces
 
 ### 脚本 UDF 资源
 
-以下节点配置属于 `[query]`，不是 `[query.settings]`。从 v1.2.957 开始，本地 Python UDF 和 UDAF 使用 [CREATE SCALAR FUNCTION](/sql/sql-commands/ddl/udf/ddl-create-function#python) 中描述的强制 OS 沙箱。
+以下节点配置属于 `[query]`，不是 `[query.settings]`。查询专属的 Python 标量 Worker 和自动 Worker 容量选择在 v1.2.955 中引入。从 v1.2.957 开始，本地 Python UDF 和 UDAF 使用 [CREATE SCALAR FUNCTION](/sql/sql-commands/ddl/udf/ddl-create-function#python) 中描述的强制 OS 沙箱。
 
 | 参数 | 默认值 | 说明 |
 |-----------|---------|-------------|
