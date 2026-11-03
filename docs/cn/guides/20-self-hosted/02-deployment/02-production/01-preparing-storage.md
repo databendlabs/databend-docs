@@ -26,15 +26,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 export AWS_REGION='ap-northeast-1'
 ```
 
-缓存未命中时，Databend 向 `https://s3.ap-northeast-1.amazonaws.com/<bucket>` 发送匿名 `HEAD` 请求。这样，在只能通过区域端点访问 S3 的网络中，无需先探测全局端点。`AWS_REGION` 选择探测目的地，并不强制将 Bucket 的探测区域设为该值。
+这样，Databend 无需先访问 S3 全局端点即可探测 Bucket 区域。`AWS_REGION` 选择要访问的端点，不会覆盖 Bucket 的实际区域。请在网络和端点策略中允许访问区域端点。
 
-- 即使响应状态为 `301` 或 `403`，探测也会读取 `x-amz-bucket-region`。区域探测不会跟随重定向。
-- 非空的成功结果使用现有一小时区域缓存，缓存键为配置的端点和 Bucket。
-- 没有该 Header 时，区域仍未知。不会将猜测区域缓存或写入 Stage 元数据。Operator 仍可使用现有 `AWS_REGION` 回退。
-- 区域探测失败或缺少 Header 时，不会重试全局端点。对于外部 SQL 位置，若端点出站策略拒绝区域目的地，探测会改用配置的端点。策略检查和探测共用一个十秒截止时间。
-- 受信任的服务端存储配置不使用外部 SQL 端点策略。此变更不会为 SQL 位置绕过策略。
-
-显式设置区域、使用自定义端点（包括显式区域 AWS 端点）或未设置 `AWS_REGION` 时，此优化不适用。对于 GovCloud、China、ISO 或 EUSC 等其他 AWS 分区，也不会选择区域探测；它们保留原有探测路径。
+此行为仅适用于 AWS 商业分区区域，不改变已显式设置区域或自定义端点的存储位置。
 
 如果探测仍超时，请检查 DNS、路由和端点策略。可以在存储配置或 Stage 连接中显式设置正确区域，以避免探测。区域发现不授予 Bucket 访问权限；仍须配置所需 S3 权限和凭据。
 

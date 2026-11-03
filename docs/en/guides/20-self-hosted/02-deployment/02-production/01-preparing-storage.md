@@ -24,15 +24,9 @@ Set `AWS_REGION` in the Query service environment to a reachable AWS commercial 
 export AWS_REGION='ap-northeast-1'
 ```
 
-On a cache miss, Databend sends an anonymous `HEAD` request to `https://s3.ap-northeast-1.amazonaws.com/<bucket>`. This avoids probing the global endpoint on networks that can reach S3 only through a regional endpoint. `AWS_REGION` selects the probe destination; it does not force the bucket's detected region to that value.
+This lets Databend detect the bucket region without first reaching the global S3 endpoint. `AWS_REGION` selects the endpoint to contact. It does not override the bucket's actual region. Allow access to the regional endpoint in your network and endpoint policy.
 
-- Detection reads `x-amz-bucket-region` even when the response status is `301` or `403`. The regional probe does not follow redirects.
-- Successful nonempty results use the existing one-hour region cache, keyed by the configured endpoint and bucket.
-- Without that header, the region remains unknown. No guessed region is cached or persisted to stage metadata. The operator can still use the existing `AWS_REGION` fallback.
-- A failed or headerless regional probe does not retry the global endpoint. For external SQL locations, if the endpoint egress policy rejects the regional destination, detection probes the configured endpoint instead. Policy checking and detection share one ten-second deadline.
-- Trusted server storage configuration does not use the external SQL endpoint policy. This change does not bypass the policy for SQL locations.
-
-The optimization does not apply when the region is explicit, the endpoint is custom (including an explicit regional AWS endpoint), or `AWS_REGION` is unset. It also does not select regional probes for other AWS partitions, such as GovCloud, China, ISO, or EUSC. Their existing detection path remains unchanged.
+This behavior applies only to AWS commercial regions. It does not change locations with an explicit region or custom endpoint.
 
 If detection still times out, check DNS, routing, and the endpoint policy. You can avoid detection by setting the correct region explicitly in the storage configuration or stage connection. Region discovery does not grant access to the bucket; keep the required S3 permissions and credentials.
 
