@@ -9,6 +9,7 @@ title: 存储阶段（Stage）
 | 命令 | 描述 |
 |---------|-------------|
 | [CREATE STAGE](01-ddl-create-stage.md) | 创建用于存储文件的新 Stage |
+| [ALTER STAGE](07-ddl-alter-stage.md) | 修改 Stage 的存储位置、文件格式或注释 |
 | [DROP STAGE](02-ddl-drop-stage.md) | 删除 Stage |
 | [PRESIGN](presign.md) | 为 Stage 访问生成预签名 URL |
 
