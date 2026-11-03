@@ -26,25 +26,9 @@ VACUUM TEMPORARY FILES [RETAIN <number> {SECONDS | DAYS}] [LIMIT <limit>]
 
 Requires global `SUPER` privilege. The command does not return a result set.
 
-## Cleanup Budget and Progress
-
-Since v1.2.953, spill cleanup runs concurrently. `LIMIT` is a soft bound, not an exact maximum number of deleted files. The scheduler stops starting new tasks when the budget is exhausted. Tasks already in flight can finish and exceed the limit.
-
-Spill cleanup charges successfully deleted paths to the budget. It also charges paths in a failed delete request because the backend might have deleted part of that request. These uncertain deletions do not increase the reported successful-removal count. The remaining temporary-table session allowance uses the charged budget, not just the progress count. An exhausted budget leaves no allowance for session cleanup in that run.
-
-Failed spill deletions are logged. Remaining work can be retried in a later run. A completed command does not guarantee that every eligible spill path was removed.
-
-While the command runs, inspect `system.processes` from another session:
-
-```sql
-SELECT current_query_id, status,
-       scan_progress_read_rows, scan_progress_read_bytes
-FROM system.processes;
-```
-
-Identify the row for the running VACUUM statement. During its spill cleanup, `scan_progress_read_rows` reports the running successful-removal count. It can include spill metadata and directory-marker paths. It is not a table-row count or a count of cleaned temporary-table sessions. `scan_progress_read_bytes` does not report deleted byte sizes.
-
-The status can show `[VACUUM] removed <count> temporary files`. Status updates are rate-limited, so the text can lag behind the progress counter. Short runs might finish before this status appears. The command still returns no result set.
+:::note[LIMIT is not an exact deletion cap]
+Concurrent cleanup tasks can finish after the budget is exhausted. The number of removed spill paths can exceed `LIMIT`. Check server logs for failed deletions. Run the command again if eligible files remain.
+:::
 
 ## Examples
 
