@@ -6,7 +6,7 @@ slug: /sql-commands/ddl/table/alter-table
  
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.845"/>
+<FunctionDescription description="Introduced or updated: v1.2.956"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -57,6 +57,7 @@ MODIFY [ COLUMN ] <column_name> [ COMMENT '<comment>' ]
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> SET MASKING POLICY <policy_name>
        [ USING ( <column_reference> [ , <column_reference> ... ] ) ]
+       [ OPTIONS ( where_use_unmasked_value = <boolean> ) ]
 
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> UNSET MASKING POLICY
@@ -82,6 +83,22 @@ DROP [ COLUMN ] <column_name>
 :::caution
 You must `ALTER TABLE ... MODIFY COLUMN <col> UNSET MASKING POLICY` before changing the column definition or dropping the column; otherwise the statement fails because the column is still protected by a security policy.
 :::
+
+### Masking Policy WHERE Option
+
+Since v1.2.956, `OPTIONS (where_use_unmasked_value = true)` allows the bound column's original values in eligible `SELECT WHERE` expressions. The default is `false`. Use an unquoted Boolean literal, `true` or `false`.
+
+This authorization belongs to the column binding, not the policy definition, role, or session. It affects all readers of that binding. Selected values remain masked. Other expression contexts, including `JOIN ON`, `GROUP BY`, `HAVING`, and `ORDER BY`, remain masked.
+
+:::caution
+Readers can infer original values from predicate matches or row counts. Enable this option only when that disclosure is acceptable.
+:::
+
+To update the option, use the same policy and the same `USING` columns as the existing binding. Put `OPTIONS` after `USING`, if present. Use `UNSET MASKING POLICY` before changing the policy or its argument columns.
+
+Setting `false`, repeating `SET MASKING POLICY` without `OPTIONS`, or unsetting the policy clears the option. The usual table and policy privileges still apply.
+
+See [Filter on Original Values in SELECT WHERE](/guides/security/data-protection/masking-policy#filter-on-original-values-in-select-where) for examples, alias/subquery scope, and mixed-version deployment limits.
 
 ### Examples
 
