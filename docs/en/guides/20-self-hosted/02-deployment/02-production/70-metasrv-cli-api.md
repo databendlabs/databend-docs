@@ -5,6 +5,10 @@ description:
     Access Databend Meta Service Cluster with Command Line Interface
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
+
 The binary `databend-meta` provides several handy commands to access the KVApi of databend meta service.
 `databend-meta --help` also includes a simple guide on using these CLI commands.
 
@@ -147,3 +151,43 @@ Output is the key values of every key starting with `prefix`.
   ]
 ]
 ```
+
+## Lua gRPC Client Options
+
+`databend-metactl lua` provides a separate Lua interface. Since v1.2.953, `metactl.new_grpc_client(address[, opts])` accepts an optional options table. Its default RPC timeout increased from 2 seconds to 60 seconds. This change does not set the timeout for every Meta Service CLI command or for the HTTP APIs.
+
+The options table supports these fields. Omitted fields keep their defaults. Unknown fields cause an error.
+
+| Field | Meaning | Default |
+| --- | --- | --- |
+| `timeout` | RPC timeout, in seconds | `60` |
+| `auto_sync_interval` | Client synchronization interval, in seconds | `1` |
+| `username` | gRPC username | Inherited from the CLI client configuration |
+| `password` | gRPC password | Inherited from the CLI client configuration |
+| `max_msg_size` | Maximum gRPC message size, in bytes | Client library default |
+
+`timeout` and `auto_sync_interval` accept fractional seconds. Each value must be finite, positive, and representable as a nonzero duration. Negative values, zero, overflow, and values that round to zero are rejected.
+
+The client inherits the configured credentials and TLS settings. The Lua table can override the credentials. It cannot override TLS. Configure TLS through the CLI client options, not through this table.
+
+For a read-only example, save this script as `read-meta.lua`. Use a Meta Service endpoint that your existing client configuration can access.
+
+```lua
+local client = metactl.new_grpc_client("127.0.0.1:9191", {
+    timeout = 120,
+    auto_sync_interval = 2
+})
+local value, err = client:get("example/key")
+assert(err == nil, tostring(err))
+print(metactl.to_string(value))
+```
+
+Run the script with your configured client credentials and TLS settings:
+
+```shell
+databend-metactl lua --file read-meta.lua
+```
+
+A larger timeout allows more time for an RPC. It does not remove overload or make writes safe to retry. A timed-out write can still commit on the server.
+
+Failed Lua client RPCs are logged at `WARN` with elapsed time. Successful calls that take at least 500 milliseconds are also logged at `WARN`. Use these logs to identify slow or failed calls. They are not a performance guarantee.
