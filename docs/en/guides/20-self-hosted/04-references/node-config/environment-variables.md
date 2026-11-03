@@ -69,8 +69,6 @@ export ALIBABA_CLOUD_OIDC_PROVIDER_ARN='<oidc-provider-arn>'
 export ALIBABA_CLOUD_OIDC_TOKEN_FILE='/var/run/secrets/ack.alibabacloud.com/rrsa-tokens/token'
 ```
 
-Use the token-file path mounted by your deployment. The Query service must be able to read it. `ALIBABA_CLOUD_ROLE_ARN` now populates `storage.oss.role_arn`. The OIDC provider and token-file variables remain credential-loader inputs; this change does not add configuration fields for them or new session-token aliases.
-
-This alignment prevents a keyless RRSA configuration from enabling anonymous OSS fallback merely because the role was supplied through the Alibaba Cloud variable. Credential-loading failures can then use the existing temporary-error retry path. This is not a guarantee that all STS failures recover or that all OSS `403` responses are transient. Check federation, role permissions, bucket policy, and STS availability when requests fail.
+Use the token-file path mounted by your deployment. The Query service must be able to read it. If access fails, check identity federation, role permissions, bucket policy, and STS availability.
 
 Keep access keys and projected tokens out of shared logs. Use deployment secret injection instead of saving real credentials in shell history.

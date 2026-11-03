@@ -71,8 +71,6 @@ export ALIBABA_CLOUD_OIDC_PROVIDER_ARN='<oidc-provider-arn>'
 export ALIBABA_CLOUD_OIDC_TOKEN_FILE='/var/run/secrets/ack.alibabacloud.com/rrsa-tokens/token'
 ```
 
-请使用部署实际挂载的令牌文件路径。Query 服务必须能够读取该文件。`ALIBABA_CLOUD_ROLE_ARN` 现在会填充 `storage.oss.role_arn`。OIDC Provider 和令牌文件变量仍由凭据加载器使用；此变更不会为它们添加配置字段，也不会新增 Session Token 别名。
-
-此对齐可避免无静态密钥的 RRSA 配置仅因角色来自 Alibaba Cloud 变量而启用匿名 OSS 回退。凭据加载失败后，可以使用现有临时错误重试路径。这不保证所有 STS 故障都会恢复，也不代表所有 OSS `403` 都是临时错误。请求失败时，请检查身份联合、角色权限、Bucket Policy 和 STS 可用性。
+请使用部署实际挂载的令牌文件路径。Query 服务必须能够读取该文件。如果访问失败，请检查身份联合、角色权限、Bucket Policy 和 STS 可用性。
 
 不要将 Access Key 和投射令牌写入共享日志。请使用部署的 Secret 注入，不要将真实凭据保存到 Shell 历史记录。
