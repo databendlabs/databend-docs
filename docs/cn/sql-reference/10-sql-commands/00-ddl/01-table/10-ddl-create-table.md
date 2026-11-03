@@ -231,6 +231,53 @@ CREATE TABLE employees (
 频繁查询且对性能敏感时选 **STORED**；计算成本可接受且需节省空间时选 **VIRTUAL**。  
 :::
 
+<a id="persisted-expression-restrictions"></a>
+
+## 持久化表达式限制
+
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+从 v1.2.952 开始，Databend 验证以下定义时会拒绝依赖会话或查询上下文的函数：
+
+- 计算列，包括 `STORED` 和 `VIRTUAL`。
+- `CLUSTER BY` 和 `PARTITION BY` 表达式。
+- 表 TTL 表达式。
+
+存储层过滤器也采用此受限验证。这并不意味着每个普通查询的 `WHERE` 子句都受此限制。
+
+不要在这些表达式中使用 `current_database()`、`current_user()`、角色函数、`getvariable()` / `$var`、`last_query_id()` 或 `timezone()`。将上下文函数嵌套在其他函数中也无效。Databend 会在它被折叠为字面量之前拒绝该函数。
+
+用户定义函数也不允许使用，包括纯 SQL UDF。例如，即使 UDF 仅将输入值加一，也不能用于计算列定义。缓存中的 UDF 定义同样无法绕过此限制。
+
+`array_sort()` 必须显式指定 NULL 排序顺序。`array_sort(a)` 和 `array_sort(a, 'asc')` 都依赖会话的默认 NULL 排序顺序，因此会在这些定义中被拒绝。请使用三个参数，例如 `array_sort(a, 'asc', 'nulls last')`。
+
+```sql
+-- Rejected: the computed expression reads session context.
+CREATE TABLE invalid_context(
+    a STRING,
+    b STRING AS (concat(a, current_database())) STORED
+);
+
+-- Rejected: the null order depends on a session setting.
+CREATE TABLE invalid_sort(
+    a ARRAY(INT),
+    b ARRAY(INT) AS (array_sort(a)) STORED
+);
+
+-- Explicit null ordering passes this context check.
+-- Creating a computed column still requires an Enterprise license.
+CREATE TABLE explicit_sort(
+    a ARRAY(INT),
+    b ARRAY(INT) AS (array_sort(a, 'asc', 'nulls last')) STORED
+);
+```
+
+请使用满足各功能其他规则的确定性内置表达式。分区表达式仍必须仅引用一个源列。TTL 的语法和类型限制仍然有效。
+
+这些检查并不保证每种类型转换或表达式都独立于会话设置。例如，普通的时区敏感类型转换仍使用捕获的函数上下文。已有存储键保留兼容性重绑定；此变更不是对现有键定义的迁移。
+
+列的 `DEFAULT` 表达式使用独立的验证路径。它们仍可以使用上下文函数，例如 `DEFAULT current_user()`。
+
 ## MySQL 兼容性
 
 Databend 语法与 MySQL 的差异主要在数据类型及部分索引提示。

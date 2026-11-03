@@ -63,6 +63,8 @@ CREATE TABLE sales (
 ALTER TABLE sales CLUSTER BY (region, order_date);
 ```
 
+Since v1.2.952, new or changed cluster-key definitions reject session-context functions and UDFs. For example, `CLUSTER BY (concat(to_string(order_id), current_database()))` is not valid. Use deterministic built-in expressions. See [Persisted Expression Restrictions](/sql/sql-commands/ddl/table/ddl-create-table#persisted-expression-restrictions) for context-function and `array_sort()` rules.
+
 ## Choosing the Right Cluster Key
 
 Select columns based on your most common query filters:

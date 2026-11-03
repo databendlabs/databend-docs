@@ -225,6 +225,7 @@ Moving a row rewrites it, so it costs more than an in-place update.
 For Fuse table partition expressions:
 
 - Each expression must be deterministic and reference exactly one source column.
+- Since v1.2.952, definition-time checks reject session-context functions and UDFs. See [Persisted Expression Restrictions](/sql/sql-commands/ddl/table/ddl-create-table#persisted-expression-restrictions).
 - Use multiple expressions—not one multi-column expression—for composite partitioning.
 - `BUCKET()` requires a constant bucket count from `1` through `4294967295`.
 - Columns referenced by the partition key cannot be dropped or have their data types changed.
