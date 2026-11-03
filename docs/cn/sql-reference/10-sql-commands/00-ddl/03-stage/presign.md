@@ -54,8 +54,6 @@ PRESIGN [ { DOWNLOAD | UPLOAD }] @<stage_name>/.../<file_name> [ EXPIRE = <expir
 
 Query 身份需要在存储账户范围获取用户委托密钥的权限。例如，在存储账户上分配 `Storage Blob Delegator`，并同时保留容器上的数据角色。SAS 的有效访问权限是签名权限与身份数据权限的交集。仅有 Delegator 角色并不授予 Blob 数据访问权限。
 
-Databend 使用联合令牌换取 scope 为 `https://storage.azure.com/.default` 的 Entra Token，再请求用户委托密钥并签名 Blob URL。它按身份缓存访问令牌，并在令牌过期前刷新。它按身份/账户缓存委托密钥，且只在密钥有效期足以覆盖请求的 SAS 时复用。
-
 ### 有效期和请求 Header
 
 此回退要求 `EXPIRE` 在 `1` 至 `604800` 秒之间。接受 `EXPIRE = 604800`，但为容忍时钟偏差，有效期最多为七天减五分钟（`604500` 秒）。SAS 也不能晚于其委托密钥过期。此上限不改变其他存储后端的有效期规则。

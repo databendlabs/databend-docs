@@ -54,8 +54,6 @@ Configure the Query service's Azure Workload Identity environment:
 
 The Query identity needs permission to get a user delegation key at storage-account scope. For example, assign `Storage Blob Delegator` on the storage account in addition to the data role on the container. The effective SAS access is the intersection of its signed permissions and the identity's data permissions. The delegator role alone does not grant blob data access.
 
-Databend exchanges the federated token for an Entra token with scope `https://storage.azure.com/.default`, requests a user delegation key, and signs the blob URL. It caches access tokens per identity and refreshes them before expiry. It caches delegation keys per identity/account and reuses a key only while it remains valid for the requested SAS.
-
 ### Expiry and Request Headers
 
 For this fallback, `EXPIRE` must be from `1` through `604800` seconds. `EXPIRE = 604800` is accepted, but the validity is capped at seven days minus five minutes (`604500` seconds) to allow clock skew. A SAS also cannot outlive its delegation key. This cap does not change other storage backends' expiry rules.
