@@ -4,9 +4,15 @@ title: system.query_log
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.696"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 A read-only in-memory table stores all the query logs. For the specific fields available in the query logs, refer to the [Examples](#examples) section.
+
+## Scan and I/O Metrics
+
+Since v1.2.953, storage I/O fields use per-query counters, including reported remote-node I/O. FUSE Parquet scan progress counts workload before prewhere and runtime filters, not the rows that survive them. Logical scan bytes can be estimated and are not storage-transfer bytes. A small result does not prove that little data was scanned.
+
+For the field definitions, live `system.processes` mapping, and timing scope, see [Query History Metric Scopes](../32-system-history-tables/query-history.md#metric-scopes).
 
 ## Setting a Session Tag
 
