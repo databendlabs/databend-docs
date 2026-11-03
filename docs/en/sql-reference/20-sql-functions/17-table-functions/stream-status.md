@@ -28,6 +28,15 @@ SELECT * FROM STREAM_STATUS('<database_name>.<stream_name>');
 SELECT * FROM STREAM_STATUS('<stream_name>');  -- Uses current database
 ```
 
+## Arguments
+
+The argument is a string that contains the stream name. Use single quotes around the string, for example `'mydb.s'`. Include the database name when you use the function in a task.
+
+- Do not replace the single quotes with double quotes or backticks. For example, `"mydb.s"`, `"mydb"."s"`, and `` `mydb`.`s` `` are SQL identifiers, not strings.
+- Do not put identifier quotes inside the string. For example, `'"mydb"."s"'` and `` '`mydb`.`s`' `` are not equivalent to `'mydb.s'`. The function treats the inner quotes as part of the names.
+
+These rules also apply to `STREAM_STATUS` in a task's `WHEN` condition. Saving a task condition does not confirm that the string refers to a valid stream. Check the name with `SELECT * FROM STREAM_STATUS('mydb.s');`.
+
 ## Examples
 
 ```sql

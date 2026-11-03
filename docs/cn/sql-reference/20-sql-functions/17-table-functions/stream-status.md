@@ -28,6 +28,15 @@ SELECT * FROM STREAM_STATUS('<database_name>.<stream_name>');
 SELECT * FROM STREAM_STATUS('<stream_name>');  -- 使用当前数据库
 ```
 
+## 参数
+
+参数是包含流名称的字符串。使用单引号包裹字符串，例如 `'mydb.s'`。在任务中使用此函数时，必须包含数据库名称。
+
+- 不要用双引号或反引号替代单引号。例如，`"mydb.s"`、`"mydb"."s"` 和 `` `mydb`.`s` `` 是 SQL 标识符，不是字符串。
+- 不要在字符串内部嵌套标识符引号。例如，`'"mydb"."s"'` 和 `` '`mydb`.`s`' `` 不等同于 `'mydb.s'`。函数会把内部引号当作名称的一部分。
+
+这些规则同样适用于任务 `WHEN` 条件中的 `STREAM_STATUS`。条件保存成功不代表字符串引用了有效的流。请使用 `SELECT * FROM STREAM_STATUS('mydb.s');` 验证名称。
+
 ## 示例
 
 ```sql
