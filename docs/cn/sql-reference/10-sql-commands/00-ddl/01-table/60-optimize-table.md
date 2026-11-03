@@ -81,12 +81,9 @@ OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]
 
 将小段合并为较大段，不重写数据 Block。
 
-从 v1.2.952 开始，`COMPACT SEGMENT LIMIT n` 会先选择最新输入窗口，再读取段元数据：
+`COMPACT SEGMENT LIMIT n` 考虑最新的输入段。此限制不指定合并段数或输出段数。不需要合并的段可以保持不变。
 
-- 窗口按最新优先的顺序，从当前快照选择 `min(max(n, 2), segment_count)` 个段。`LIMIT 0` 和 `LIMIT 1` 仍会选择最多两个段。
-- 此限制约束被检查的输入段数。它不指定必须合并多少段，也不指定操作生成多少输出段。
-- Databend 不会在此窗口之外的旧段中查找合并候选。若所选段不需要合并，部分段可以保持不变。
-- 不指定 `LIMIT` 时，Databend 会考虑当前快照中的所有段。这并不是扫描历史快照。
+不指定 `LIMIT` 时，Databend 会考虑当前快照中的所有段。
 
 反复执行有限制的合并可能会一直保留较旧的碎片。当旧段也需要合并时，请定期执行不带 `LIMIT` 的 `COMPACT SEGMENT`。这些规则适用于 `COMPACT SEGMENT`，不适用于块合并。
 

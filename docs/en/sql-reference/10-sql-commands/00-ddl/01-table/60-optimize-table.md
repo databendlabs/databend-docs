@@ -81,12 +81,9 @@ OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]
 
 Merges small segments into larger segments without rewriting data blocks.
 
-Since v1.2.952, `COMPACT SEGMENT LIMIT n` selects the newest input window before it reads segment metadata:
+`COMPACT SEGMENT LIMIT n` considers the newest input segments. The limit does not specify the number of merged or output segments. Segments that do not need compaction can remain unchanged.
 
-- The window contains `min(max(n, 2), segment_count)` segments from the current snapshot, newest first. `LIMIT 0` and `LIMIT 1` still select up to two segments.
-- The limit bounds the input segments inspected. It does not specify how many segments must merge or how many output segments the operation creates.
-- Databend does not inspect older segments outside this window for merge candidates. It can leave some selected segments unchanged if they do not need compaction.
-- Without `LIMIT`, Databend considers all segments in the current snapshot. This is not a scan of historical snapshots.
+Without `LIMIT`, Databend considers all segments in the current snapshot.
 
 Repeated limited runs can leave older fragments untouched. Run `COMPACT SEGMENT` without `LIMIT` periodically when older segments also need compaction. These rules apply to `COMPACT SEGMENT`, not to block compaction.
 
