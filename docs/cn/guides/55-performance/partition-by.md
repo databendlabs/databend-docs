@@ -160,7 +160,7 @@ PARTITION BY (BUCKET(32, customer_id))
 WRITE_DISTRIBUTION_MODE = 'hash';
 ```
 
-该模式会在写入前按计算后的分区键归并数据，有助于减少小 Block 碎片。本地 Writer 布局和跨节点路由是不同的步骤；执行哪些步骤取决于具体操作。
+该模式会在写入前按计算后的分区键归并数据，有助于减少小 Block 碎片。
 
 `WRITE_DISTRIBUTION_MODE` 支持以下取值：
 
@@ -169,19 +169,9 @@ WRITE_DISTRIBUTION_MODE = 'hash';
 
 <FunctionDescription description="Introduced or updated: v1.2.952"/>
 
-从 v1.2.952 开始，写入布局也适用于 `REPLACE INTO`、`INSERT ALL` / `INSERT FIRST` 和 `MERGE INTO`：
+从 v1.2.952 开始，哈希写入布局也支持 `REPLACE INTO`、`INSERT ALL` / `INSERT FIRST` 和 `MERGE INTO`。
 
-| 操作 | 哈希写入行为 |
-|-----------|---------------------|
-| `INSERT` 和 `COPY INTO <table>` | 分布式路径可以先跨节点路由分区键，再在本地 Writer 之间归并数据。 |
-| `REPLACE INTO` | 只在插入新行的节点上应用布局。仅修改现有 Block 的节点不执行此布局。 |
-| `INSERT ALL` / `INSERT FIRST` | 在每个节点内部按目标表分别归并数据。同一目标表的多个分支共用该表的布局。 |
-| `MERGE INTO` | 在每个节点内部归并数据行。行 ID 输出绕过写入布局。 |
-| `UPDATE` | 不属于此次新增追加写入布局的范围；它会重写现有 Block。 |
-
-`INSERT ALL` / `INSERT FIRST` 和 `MERGE INTO` 不会新增跨节点的分区键路由。同一分区仍可能由多个节点写入。不要将 `hash` 理解为每种操作都保证集群内每个分区只有一个 Writer。
-
-当执行计划使用跨节点哈希分发时，它会引入网络 Shuffle。节点内部的归并本身不会添加此交换。请针对实际写入操作评估布局成本；小规模、单 Writer 的插入可能无法受益。
+哈希布局不保证集群内每个分区只有一个 Writer。请用实际写入工作负载评估导入性能。小规模、单 Writer 的插入可能无法受益。
 
 :::caution[不开哈希分发时，无序输入会很慢]
 使用默认的 `WRITE_DISTRIBUTION_MODE = 'none'` 时，数据按到达顺序写入。如果输入数据的分区值逐行混杂，Databend 会写出大量很小的 Block，导入会变得很慢。请给表设置 `WRITE_DISTRIBUTION_MODE = 'hash'`，或者按分区键对输入排序：

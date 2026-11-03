@@ -132,9 +132,7 @@ Below are the available Fuse Engine options, grouped by their purpose:
 - **Description:**
   Controls whether a partitioned write groups rows by the evaluated partition key before writing. The default, `none`, keeps the existing writer distribution. The `hash` mode requires `PARTITION BY` and can reduce small-block fragmentation.
 
-  Since v1.2.952, local write layout also covers `REPLACE INTO`, `INSERT ALL` / `INSERT FIRST`, and `MERGE INTO`. REPLACE applies it only on the node that inserts new rows. Multi-table inserts group each target separately. MERGE applies it to data rows, not row-ID outputs. UPDATE is not covered by this append layout.
-
-  Local grouping is not a cluster-wide routing guarantee. Distributed INSERT and COPY paths can hash-exchange rows between nodes. INSERT ALL / INSERT FIRST and MERGE do not add that cross-node exchange; one partition can still have writers on multiple nodes. Network shuffle costs apply where the execution plan uses a cross-node exchange.
+  Hash layout does not guarantee one writer per partition across the cluster. See [Hash-Distributed Writes](/guides/performance/partition-by#hash-distributed-writes) for supported write operations.
 
   **Example:**
   ```sql

@@ -83,7 +83,7 @@ PARTITION BY (BUCKET(32, customer_id))
 WRITE_DISTRIBUTION_MODE = 'hash';
 ```
 
-哈希写入模式必须与 `PARTITION BY` 一同使用，默认值为 `'none'`。从 v1.2.952 开始，本地布局也适用于 REPLACE、多表 INSERT 和 MERGE。多表 INSERT 和 MERGE 不会新增跨节点分区键路由。有关各操作的适用范围和 Shuffle 成本，请参阅[哈希分布式写入](/guides/performance/partition-by#hash-distributed-writes)。
+哈希写入模式必须与 `PARTITION BY` 一同使用，默认值为 `'none'`。支持的写入操作和布局建议请参阅[哈希分布式写入](/guides/performance/partition-by#hash-distributed-writes)。
 
 :::note
 

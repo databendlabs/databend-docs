@@ -158,7 +158,7 @@ PARTITION BY (BUCKET(32, customer_id))
 WRITE_DISTRIBUTION_MODE = 'hash';
 ```
 
-This mode groups rows by the evaluated partition key before writing. It can reduce small-block fragmentation. Local writer layout and cross-node routing are different steps; the operation determines which steps run.
+This mode groups rows by the evaluated partition key before writing. It can reduce small-block fragmentation.
 
 `WRITE_DISTRIBUTION_MODE` accepts:
 
@@ -167,19 +167,9 @@ This mode groups rows by the evaluated partition key before writing. It can redu
 
 <FunctionDescription description="Introduced or updated: v1.2.952"/>
 
-Since v1.2.952, the write layout also covers `REPLACE INTO`, `INSERT ALL` / `INSERT FIRST`, and `MERGE INTO`:
+Since v1.2.952, hash write layout also supports `REPLACE INTO`, `INSERT ALL` / `INSERT FIRST`, and `MERGE INTO`.
 
-| Operation | Hash write behavior |
-|-----------|---------------------|
-| `INSERT` and `COPY INTO <table>` | Distributed paths can route partition keys across nodes, then group rows among local writers. |
-| `REPLACE INTO` | Apply the layout only on the node that inserts new rows. Nodes that only mutate existing blocks do not run it. |
-| `INSERT ALL` / `INSERT FIRST` | Group rows within each node, separately for each target table. Repeated branches for one target share that target's layout. |
-| `MERGE INTO` | Group data rows within each node. The row-ID output bypasses the write layout. |
-| `UPDATE` | Not covered by this new append layout; it rewrites existing blocks. |
-
-`INSERT ALL` / `INSERT FIRST` and `MERGE INTO` do not add cross-node partition-key routing. The same partition can still be written on several nodes. Do not interpret `hash` as a cluster-wide single-writer guarantee for every operation.
-
-Cross-node hash redistribution adds a network shuffle where the plan uses it. Node-local regrouping does not itself add that exchange. Evaluate the layout cost for the actual write operation; small, single-writer inserts might not benefit.
+Hash layout does not guarantee one writer per partition across the cluster. Evaluate load performance with your write workload. Small, single-writer inserts might not benefit.
 
 :::caution[Unsorted input is slow without hash distribution]
 With the default `WRITE_DISTRIBUTION_MODE = 'none'`, rows are written in the order they arrive. If the input mixes partition values row by row, Databend writes many very small blocks and the load becomes slow. Either set `WRITE_DISTRIBUTION_MODE = 'hash'` on the table, or sort the input by the partition key:

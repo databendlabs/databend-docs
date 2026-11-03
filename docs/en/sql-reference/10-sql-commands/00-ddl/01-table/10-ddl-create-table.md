@@ -83,7 +83,7 @@ PARTITION BY (BUCKET(32, customer_id))
 WRITE_DISTRIBUTION_MODE = 'hash';
 ```
 
-The hash write mode requires `PARTITION BY`; its default value is `'none'`. Since v1.2.952, the local layout also covers REPLACE, multi-table INSERT, and MERGE. Multi-table INSERT and MERGE do not add cross-node partition-key routing. See [Hash-Distributed Writes](/guides/performance/partition-by#hash-distributed-writes) for operation-specific scope and shuffle costs.
+The hash write mode requires `PARTITION BY`; its default value is `'none'`. See [Hash-Distributed Writes](/guides/performance/partition-by#hash-distributed-writes) for supported write operations and layout guidance.
 
 :::note
 
