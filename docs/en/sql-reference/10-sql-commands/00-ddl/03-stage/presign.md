@@ -3,6 +3,10 @@ title: PRESIGN
 sidebar_position: 3
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.951"/>
+
 Generates the pre-signed URL for a staged file by the stage name and file path you provide. The pre-signed URL enables you to access the file through a web browser or an API request.
 
 :::tip
@@ -30,6 +34,64 @@ Where：
 `[ { DOWNLOAD | UPLOAD }]`: Specifies that the pre-signed URL is used for download or upload. The default value is `DOWNLOAD`.
 
 `[ EXPIRE = <expire_in_seconds> ]`: Specifies the length of time (in seconds) after which the pre-signed URL expires. The default value is 3,600 seconds.
+
+## Azure Blob Internal Stages with Workload Identity
+
+Since v1.2.951, `PRESIGN` can generate a single-blob User Delegation SAS for an Azure Blob internal or user stage backed by Azure Workload Identity. This fallback applies only when the stage operator cannot presign, the internal storage is Azblob, no account key is configured, and Workload Identity is available.
+
+External stages do not use this fallback. Other storage types and existing operator presign paths, including configured SAS credentials, keep their existing behavior. This feature does not add an account-key fallback to an operator that cannot presign.
+
+### Identity and Azure Permissions
+
+Configure the Query service's Azure Workload Identity environment:
+
+| Variable | Requirement |
+|----------|-------------|
+| `AZURE_CLIENT_ID` | Required; nonempty client ID. |
+| `AZURE_TENANT_ID` | Required; nonempty tenant ID. |
+| `AZURE_FEDERATED_TOKEN_FILE` | Required; readable federated token file. |
+| `AZURE_AUTHORITY_HOST` | Optional; defaults to `https://login.microsoftonline.com/`. |
+
+The Query identity needs permission to get a user delegation key at storage-account scope. For example, assign `Storage Blob Delegator` on the storage account in addition to the data role on the container. The effective SAS access is the intersection of its signed permissions and the identity's data permissions. The delegator role alone does not grant blob data access.
+
+Databend exchanges the federated token for an Entra token with scope `https://storage.azure.com/.default`, requests a user delegation key, and signs the blob URL. It caches access tokens per identity and refreshes them before expiry. It caches delegation keys per identity/account and reuses a key only while it remains valid for the requested SAS.
+
+### Expiry and Request Headers
+
+For this fallback, `EXPIRE` must be from `1` through `604800` seconds. `EXPIRE = 604800` is accepted, but the validity is capped at seven days minus five minutes (`604500` seconds) to allow clock skew. A SAS also cannot outlive its delegation key. This cap does not change other storage backends' expiry rules.
+
+| Operation | Method | SAS permissions | Returned headers |
+|-----------|--------|-----------------|------------------|
+| `DOWNLOAD` | `GET` | `sp=r` | No extra headers from this fallback. |
+| `UPLOAD` | `PUT` | `sp=cw` | `x-ms-blob-type: BlockBlob`; also `content-type` if supplied to presign. |
+
+The SAS is blob-scoped (`sr=b`) and HTTPS-only (`spr=https`). Include every returned header when using the URL. Treat the URL as a credential; do not publish it or write it to shared logs.
+
+For example, on a deployment with Azure-backed internal storage and the required identity/roles:
+
+```sql
+CREATE STAGE azure_internal;
+PRESIGN UPLOAD @azure_internal/books.csv EXPIRE = 3600;
+```
+
+Use the returned upload URL and headers. This example shows the required Blob type header; add any other headers returned by `PRESIGN`:
+
+```bash
+curl --fail -X PUT -T books.csv \
+  -H 'x-ms-blob-type: BlockBlob' \
+  '<presigned-url>'
+```
+
+```sql
+PRESIGN DOWNLOAD @azure_internal/books.csv EXPIRE = 3600;
+```
+
+### Troubleshooting
+
+- `storage doesn't support presign operation`: Check that this is an internal/user stage with Azblob storage, no account key, and all required Workload Identity variables. External stages do not qualify.
+- `StoragePermissionDenied`: Check identity federation, the account-scoped delegation permission, and the container data role. Entra diagnostics can include `error`, `error_codes`, and `trace_id`.
+- HTTP `429` or `5xx` from the token/key service maps to `StorageOther`, not a permission denial. Investigate throttling or service availability instead of assuming an RBAC failure.
+- An upload fails despite a signed URL: Include the returned `x-ms-blob-type` and any other headers. Check that the identity's data role permits creating or overwriting that blob.
 
 ## Examples
 
