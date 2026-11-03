@@ -2,6 +2,8 @@
 title: Fuse 表分区
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 # 使用分区加速裁剪并优化数据布局
 
 `PARTITION BY` 会将 Fuse 表的数据按规则物理隔离。Databend 不会让不同分区值的数据块（Block）和段（Segment）跨越分区边界，同时会把分区值记录在元数据中，从而在查询时跳过不可能满足条件的分区。
@@ -200,6 +202,10 @@ INSERT INTO events SELECT * FROM source;
 ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
 INSERT OVERWRITE events SELECT * FROM events ORDER BY DATE_TRUNC(month, event_time);
 ```
+
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+`DROP PARTITION KEY` 从 v1.2.952 开始可用。
 
 **更换分区键**：先删除，再添加新的分区键，然后重写整张表。
 

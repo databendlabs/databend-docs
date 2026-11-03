@@ -241,7 +241,9 @@ INSERT INTO events VALUES
 
 ## 删除分区键
 
-删除 Fuse 表的分区键。
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+删除 Fuse 表的分区键。`DROP PARTITION KEY` 从 v1.2.952 开始可用。
 
 ### 语法
 

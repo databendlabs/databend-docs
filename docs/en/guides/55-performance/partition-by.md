@@ -2,6 +2,8 @@
 title: Partitioning Fuse Tables
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 # Partitioning Fuse Tables for Faster Pruning and Predictable Data Layout
 
 `PARTITION BY` physically separates a Fuse table into partitions. Databend keeps blocks and segments from different partition values separate, records the partition values in metadata, and prunes partitions that cannot match a query predicate.
@@ -198,6 +200,10 @@ INSERT INTO events SELECT * FROM source;
 ALTER TABLE events PARTITION BY (DATE_TRUNC(month, event_time));
 INSERT OVERWRITE events SELECT * FROM events ORDER BY DATE_TRUNC(month, event_time);
 ```
+
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+`DROP PARTITION KEY` is available since v1.2.952.
 
 **Change the key:** drop it, add the new one, then rewrite the table.
 

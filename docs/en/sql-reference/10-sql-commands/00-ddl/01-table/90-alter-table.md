@@ -326,7 +326,9 @@ For key selection, hash partitioning, and query-pruning examples, see [Partition
 
 ## Removing the Partition Key
 
-Removes the partition key from a Fuse table.
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+Removes the partition key from a Fuse table. `DROP PARTITION KEY` is available since v1.2.952.
 
 ### Syntax
 
