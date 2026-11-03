@@ -4,7 +4,7 @@ title: TO_TIMESTAMP_TZ
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: Unreleased"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 将一个值转换为 [`TIMESTAMP_TZ`](../../00-sql-reference/10-data-types/datetime.md#timestamp_tz)，同时保留 UTC 瞬时点和时区偏移。如果你希望在出错时返回 `NULL` 而不是报错，请使用 `TRY_TO_TIMESTAMP_TZ`。
 

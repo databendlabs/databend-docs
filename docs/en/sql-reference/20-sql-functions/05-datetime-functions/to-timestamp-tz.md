@@ -4,7 +4,7 @@ title: TO_TIMESTAMP_TZ
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: Unreleased"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 Converts a value to [`TIMESTAMP_TZ`](../../00-sql-reference/10-data-types/datetime.md#timestamp_tz), keeping both the UTC moment and the timezone offset. Use `TRY_TO_TIMESTAMP_TZ` if you prefer `NULL` instead of an error.
 

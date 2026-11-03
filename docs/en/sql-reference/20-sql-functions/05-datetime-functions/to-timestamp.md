@@ -3,7 +3,7 @@ title: TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: Unreleased"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 Converts an expression to a date with time.
 
