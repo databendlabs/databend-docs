@@ -5,9 +5,9 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.777"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
-为创建索引前已存在的数据构建 Vector Index。
+使用当前索引定义和格式，为已有数据构建缺少的向量索引文件。
 
 ## 语法
 
@@ -17,9 +17,13 @@ REFRESH VECTOR INDEX <index_name> ON [<database>.]<table_name>
 
 ## 何时使用 REFRESH
 
-`REFRESH VECTOR INDEX` **仅在一种特定场景下使用**：在已包含数据的表上创建 Vector Index。
+以下场景需要运行 `REFRESH VECTOR INDEX`：
 
-对于创建索引前写入的数据，不会自动建立索引。你必须运行 `REFRESH VECTOR INDEX` 为这些已有数据构建索引。刷新完成后，所有后续的数据写入都会自动生成索引。
+- 在已包含数据的表上创建向量索引。
+- 替换索引定义（例如启用 [`refine = true`](create-vector-index.md#fp16-refinement)）后，需要使用新定义为已有数据块建立索引。
+- 需要为仅有旧格式索引文件的数据块构建当前格式的索引 bundle。此行为于 v1.2.957 引入。
+
+新写入的数据自动使用当前定义构建索引。刷新会跳过已有匹配的当前版本 bundle 的数据块。旧格式索引文件仍可读取。仅当其他活动索引均不再需要某个旧格式文件时，刷新才会从当前数据块元数据中移除对该文件的引用。保留快照不再引用该文件后，`VACUUM TABLE` 才会回收文件。
 
 ## 示例
 

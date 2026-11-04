@@ -5,9 +5,9 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.777"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
-Builds a Vector index for existing data that was inserted before the index was created.
+Builds missing vector index files for existing data using the current index definition and format.
 
 ## Syntax
 
@@ -17,9 +17,13 @@ REFRESH VECTOR INDEX <index_name> ON [<database>.]<table_name>
 
 ## When to Use REFRESH
 
-`REFRESH VECTOR INDEX` is **only needed in one specific scenario**: when you create a Vector index on a table that **already contains data**.
+Run `REFRESH VECTOR INDEX` in these cases:
 
-The existing rows (written before the index was created) will not be automatically indexed. You must run `REFRESH VECTOR INDEX` to build the index for this pre-existing data. After the refresh completes, all subsequent data writes will automatically generate the index.
+- You create a vector index on a table that already contains data.
+- You replace an index definition, for example to enable [`refine = true`](create-vector-index.md#fp16-refinement), and need to index existing blocks with the new definition.
+- You need to build current-format index bundles for blocks that have only legacy index files. This behavior was introduced in v1.2.957.
+
+New data writes automatically build indexes with the current definition. Refresh skips blocks that already have a matching current-version bundle. Older index files remain readable. Refresh removes a legacy file reference from the current block metadata only when no other active index needs it. `VACUUM TABLE` reclaims the file after retained snapshots no longer reference it.
 
 ## Examples
 
