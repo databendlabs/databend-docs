@@ -9,6 +9,14 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Re-clusters a table. For why and when to re-cluster a table, see [Re-clustering Table](index.md#re-clustering-table).
 
+### Distributed Execution
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+In a cluster, Databend schedules re-clustering across nodes automatically. `enable_distributed_recluster` is deprecated and has no effect. Setting it to `0` does not force local execution. Remove dependencies on this switch when you upgrade.
+
+For the supported range of `auto_compaction_segments_limit` after writes, see [Distributed Execution and Upgrade Compatibility](../01-table/60-optimize-table.md#distributed-execution-and-upgrade-compatibility). That setting does not control the `LIMIT` clause below.
+
 ### Syntax
 
 ```sql

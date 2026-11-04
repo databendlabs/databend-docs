@@ -50,11 +50,19 @@ Databend 为每个数据库和表创建唯一 ID，用于存储快照、段和�
 在 Databend 中，建议的理想块大小为 100 MB（未压缩）或 1,000,000 行，每个段包含 1,000 个块。为最大化表优化效果，需明确何时以及如何应用各种优化技术，如[段合并](#segment-compaction)和[块合并](#block-compaction)。
 - 使用 COPY INTO 或 REPLACE INTO 命令向包含聚簇键（Cluster Key）的表写入数据时，Databend 会自动触发重聚簇以及段和块合并流程。
 
-- 段与块合并支持在集群环境中分布式执行。可通过设置 ENABLE_DISTRIBUTED_COMPACT 为 1 启用，以提升集群环境中的查询性能和可扩展性。
+### 分布式执行与升级兼容性
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+在集群中，Databend 会自动分布式执行块合并。`enable_distributed_compact` 已弃用且不再生效。将其设为 `0` 不会强制本地执行。
+
+旧版本使用以下设置启用分布式合并。现有脚本可以保留此语句，但新脚本不再需要它：
 
   ```sql
   SET enable_distributed_compact = 1;
   ```
+
+`auto_compaction_segments_limit` 接受 `2` 到 `128` 之间的值，包含两个边界。此设置限制写入后自动重聚簇所考虑的 Segment 数量。升级前，请检查设置了更大值的脚本。请将这些值调整到支持的范围。此设置不替代手动 `OPTIMIZE TABLE` 或 `ALTER TABLE ... RECLUSTER` 命令的 `LIMIT` 子句。
 
 ### 段合并（Segment Compaction）
 

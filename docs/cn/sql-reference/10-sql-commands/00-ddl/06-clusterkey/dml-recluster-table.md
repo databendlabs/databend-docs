@@ -9,6 +9,14 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 对表进行重新聚类。有关为什么以及何时重新聚类表，请参阅 [重新聚类表](index.md#re-clustering-table)。
 
+### 分布式执行
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+在集群中，Databend 会自动跨节点调度重聚簇。`enable_distributed_recluster` 已弃用且不再生效。将其设为 `0` 不会强制本地执行。升级时，请移除对该开关的依赖。
+
+有关写入后 `auto_compaction_segments_limit` 的支持范围，请参阅[分布式执行与升级兼容性](../01-table/60-optimize-table.md#分布式执行与升级兼容性)。该设置不控制下文的 `LIMIT` 子句。
+
 ### 语法
 
 ```sql
