@@ -17,7 +17,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 :::
 
 :::note
-在任务中使用 `STREAM_STATUS` 时，引用流时必须包含数据库名称（例如 `STREAM_STATUS('mydb.stream_name')`）。
+引用流时可以只指定流名称，例如 `STREAM_STATUS('stream_name')`。省略数据库名称时，函数使用当前数据库。也可以显式指定数据库，例如 `STREAM_STATUS('mydb.stream_name')`。
 :::
 
 ## 语法
@@ -30,7 +30,7 @@ SELECT * FROM STREAM_STATUS('<stream_name>');  -- 使用当前数据库
 
 ## 参数
 
-参数是包含流名称的字符串。使用单引号包裹字符串，例如 `'mydb.s'`。在任务中使用此函数时，必须包含数据库名称。
+参数是包含流名称的字符串。使用单引号包裹字符串，例如 `'s'` 或 `'mydb.s'`。
 
 - 不要用双引号或反引号替代单引号。例如，`"mydb.s"`、`"mydb"."s"` 和 `` `mydb`.`s` `` 是 SQL 标识符，不是字符串。
 - 不要在字符串内部嵌套标识符引号。例如，`'"mydb"."s"'` 和 `` '`mydb`.`s`' `` 不等同于 `'mydb.s'`。函数会把内部引号当作名称的一部分。
