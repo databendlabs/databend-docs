@@ -24,8 +24,8 @@ docker run \
     -e QUERY_STORAGE_TYPE=s3 \
     -e AWS_S3_ENDPOINT="https://s3.us-east-2.amazonaws.com" \
     -e AWS_S3_BUCKET=databend-doc\
-    -e AWS_ACCESS_KEY_ID=<your-aws-access-key-id> \ 
-    -e AWS_SECRET_ACCESS_KEY=<your-aws-secrect-access-key> \ 
+    -e AWS_ACCESS_KEY_ID=<your-aws-access-key-id> \
+    -e AWS_SECRET_ACCESS_KEY=<your-aws-secrect-access-key> \
     datafuselabs/databend:v1.2.699-nightly
 ```
 
