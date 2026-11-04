@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.405"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 在 Databend 中创建新的倒排索引。
 
@@ -32,12 +32,15 @@ CREATE [ OR REPLACE ] INVERTED INDEX [IF NOT EXISTS] <index>
 
 ```sql
 IndexOptions ::=
-  TOKENIZER = 'english' | 'chinese'
-  FILTERS = 'english_stop' | 'english_stemmer' | 'chinese_stop'
-  INDEX_RECORD = 'position' | 'basic' | 'freq' 
+  TOKENIZER = 'english' | 'chinese' | 'japanese' | 'whitespace'
+  FILTERS = '<filter_name>[,<filter_name>...]'
+  INDEX_RECORD = 'position' | 'basic' | 'freq'
+  MODE = 'normal' | 'decompose'
+  USER_DICTIONARY = '@<stage>/<path>/userdict.csv'
 ```
 
-- `TOKENIZER` 指定如何对文本进行分词索引，支持 `english`（默认）和 `chinese` tokenizer。
+- `TOKENIZER` 选择文本分词方式。支持的值为 `english`（默认）、`chinese`、`japanese` 和 `whitespace`。
+- `whitespace` 于 v1.2.953 引入，适用于已经分词的文本。它只按 ASCII 空白字符拆分。标点符号、连字符和非 ASCII 分隔符仍保留在词元内部。小写转换仍然生效。
 
 - `FILTERS` 定义术语过滤规则：
 
@@ -49,6 +52,8 @@ IndexOptions ::=
 | `english_stop`    | 去除英语停用词，例如 "a"、"an"、"and" 等。 |
 | `english_stemmer` | 将同一单词的不同形式映射到共同词根。例如，"walking" 和 "walked" 都会映射到 "walk"。 |
 | `chinese_stop`    | 删除中文停用词，目前仅支持删除中文标点符号。                               |
+| `japanese_stop` | 根据词性标签移除日语词元。 |
+| `japanese_stemmer` | 将日语词转换为基本形式。 |
 
 - `INDEX_RECORD` 决定索引中实际存储的内容：
 
@@ -57,6 +62,63 @@ IndexOptions ::=
 | `position`   | 是      | 存储 DocId、词频和位置信息，占用空间最大，但评分效果更好，并支持短语搜索。 |
 | `basic`      | 否       | 仅存储 DocId，占用空间最小，但不支持像 "brown fox" 这样的短语搜索。 |
 | `freq`       | 否       | 存储 DocId 和词频，占用空间中等，不支持短语搜索，但评分可能更好。 |
+
+### 日语分词与用户词典 {/* #japanese-segmentation-and-user-dictionaries */}
+
+从 v1.2.953 开始，日语 tokenizer 支持 `MODE` 和 `USER_DICTIONARY`。这两个选项都要求设置 `TOKENIZER = 'japanese'`。
+
+| 选项 | 默认值 | 行为 |
+|--------|---------|----------|
+| `MODE` | `normal` | 使用 `decompose` 将已知复合词拆分为可单独搜索的组成部分。例如，`decompose` 可以将 `関西国際空港` 拆分为组成词元。`search` 不是有效的模式值。 |
+| `USER_DICTIONARY` | 无 | 创建索引时，从 Stage 文件读取用户词典。Stage 位置必须以 `@` 开头，且保留大小写。 |
+
+请准备 UTF-8 编码的 Lindera CSV 文件。简化格式的每行有三个字段：`surface,part_of_speech,reading`。不要添加表头。例如，将以下词条保存为 `/tmp/userdict.csv`：
+
+```csv
+Databend Cloud,カスタム名詞,データベンドクラウド
+```
+
+文件不得超过 **16 MiB（16,777,216 字节）**。无效的编码或 CSV 内容会导致索引创建失败。使用完整 IPADIC 格式的记录时，上下文 ID 还必须符合内置 IPADIC 词典的范围。
+
+创建 Stage，并通过 BendSQL 上传文件。下面的 `PUT` 是 BendSQL 命令，不是服务端 SQL：
+
+```sql
+CREATE STAGE ja_dict;
+PUT fs:///tmp/userdict.csv @ja_dict;
+```
+
+创建索引，并为现有行构建索引数据：
+
+```sql
+CREATE TABLE japanese_news (id INT, content STRING);
+
+INSERT INTO japanese_news VALUES
+  (4, 'Databend Cloud は MySQL 互換のデータベースだ'),
+  (5, 'Cloud ストレージにバックアップを置く');
+
+CREATE INVERTED INDEX news_idx ON japanese_news(content)
+TOKENIZER = 'japanese'
+FILTERS = 'japanese_stop,japanese_stemmer'
+USER_DICTIONARY = '@ja_dict/userdict.csv';
+
+REFRESH INVERTED INDEX news_idx ON japanese_news;
+
+SELECT id FROM japanese_news WHERE match(content, '"Databend Cloud"') ORDER BY id;
+-- 4
+
+SELECT id FROM japanese_news WHERE match(content, 'Cloud') ORDER BY id;
+-- 5
+```
+
+词典将 `Databend Cloud` 保留为一个词元。在搜索表达式内部加上双引号，才能将完整术语交给分析器。没有这些双引号时，查询语法会在分词前按空白拆分文本。在此示例中，`match(content, 'Databend Cloud')` 匹配第 5 行，而不是第 4 行。
+
+#### 词典生命周期与限制
+
+- 创建索引时，系统会将已验证的 CSV 复制到表存储。构建索引和查询都使用此快照，而不是 Stage 文件。
+- 编辑或删除 Stage 文件不会更新现有索引。要使用修改后的内容，请使用词典位置执行 `CREATE OR REPLACE INVERTED INDEX`，然后执行 `REFRESH INVERTED INDEX`，为现有行重建索引。仅执行 `REFRESH` 不会重新读取 Stage 文件。
+- 也可以在 `CREATE TABLE` 的内联倒排索引中指定 `USER_DICTIONARY`。临时表不支持带用户词典的索引。
+- 除通常的索引创建权限外，调用者还需要词典 Stage 的读取权限。上传文件需要相应的 Stage 写入权限。
+- `SHOW CREATE TABLE` 会显示用户提供的 `USER_DICTIONARY` 位置。存储快照位置属于内部信息。不要在用户 DDL 中设置保留选项 `user_dictionary_location`。
 
 ## 示例
 

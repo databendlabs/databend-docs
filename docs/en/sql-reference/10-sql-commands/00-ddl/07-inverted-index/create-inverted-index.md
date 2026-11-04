@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.405"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Creates a new inverted index in Databend.
 
@@ -32,12 +32,15 @@ CREATE [ OR REPLACE ] INVERTED INDEX [IF NOT EXISTS] <index>
 
 ```sql
 IndexOptions ::=
-  TOKENIZER = 'english' | 'chinese'
-  FILTERS = 'english_stop' | 'english_stemmer' | 'chinese_stop'
-  INDEX_RECORD = 'position' | 'basic' | 'freq' 
+  TOKENIZER = 'english' | 'chinese' | 'japanese' | 'whitespace'
+  FILTERS = '<filter_name>[,<filter_name>...]'
+  INDEX_RECORD = 'position' | 'basic' | 'freq'
+  MODE = 'normal' | 'decompose'
+  USER_DICTIONARY = '@<stage>/<path>/userdict.csv'
 ```
 
-- `TOKENIZER` specifies how text is segmented for indexing. It supports `english` (default) and `chinese` tokenizers.
+- `TOKENIZER` selects the text segmentation method. Supported values are `english` (default), `chinese`, `japanese`, and `whitespace`.
+- `whitespace`, introduced in v1.2.953, is for text that is already segmented. It splits only on ASCII whitespace. Punctuation, hyphens, and non-ASCII separators remain inside tokens. Lowercasing still applies.
 
 - `FILTERS` defines rules for term filtering:
 
@@ -49,6 +52,8 @@ IndexOptions ::=
 | `english_stop`    | Removes English stop words like "a", "an", "and" etc.                                                                   |
 | `english_stemmer` | Maps different forms of the same word to one common word. For example, "walking" and "walked" will be mapped to "walk". |
 | `chinese_stop`    | Removes Chinese stop words, currently only supports removal of Chinese punctuation marks.                               |
+| `japanese_stop` | Removes Japanese tokens by part-of-speech tags. |
+| `japanese_stemmer` | Converts Japanese words to their base forms. |
 
 - `INDEX_RECORD` determines what is to be stored for the index data:
 
@@ -57,6 +62,63 @@ IndexOptions ::=
 | `position`   | Yes      | Stores DocId, term frequency, and positions, occupies the most space, offers better scoring, and supports phrase terms. |
 | `basic`      | No       | Stores only the DocId, occupies minimal space, but doesn't support phrase searches like "brown fox".                    |
 | `freq`       | No       | Stores DocId and term frequency, occupies medium space, doesn't support phrase terms, but may provide better scores.    |
+
+### Japanese Segmentation and User Dictionaries
+
+Since v1.2.953, the Japanese tokenizer supports `MODE` and `USER_DICTIONARY`. Both options require `TOKENIZER = 'japanese'`.
+
+| Option | Default | Behavior |
+|--------|---------|----------|
+| `MODE` | `normal` | Use `decompose` to split known compound words into searchable components. For example, `decompose` splits `関西国際空港` into component terms. `search` is not a valid mode. |
+| `USER_DICTIONARY` | None | Read a user dictionary from a stage file when the index is created. The stage location must start with `@`. Its case is preserved. |
+
+Prepare a UTF-8 Lindera CSV file. The simple format has three fields per row: `surface,part_of_speech,reading`. Do not add a header. For example, save this entry as `/tmp/userdict.csv`:
+
+```csv
+Databend Cloud,カスタム名詞,データベンドクラウド
+```
+
+The file must not exceed **16 MiB (16,777,216 bytes)**. Invalid encoding or CSV content causes index creation to fail. For full IPADIC-format records, context IDs must also fit the embedded IPADIC dictionary.
+
+Create a stage and upload the file with BendSQL. `PUT` below is a BendSQL command, not server-side SQL:
+
+```sql
+CREATE STAGE ja_dict;
+PUT fs:///tmp/userdict.csv @ja_dict;
+```
+
+Create the index and build it for existing rows:
+
+```sql
+CREATE TABLE japanese_news (id INT, content STRING);
+
+INSERT INTO japanese_news VALUES
+  (4, 'Databend Cloud は MySQL 互換のデータベースだ'),
+  (5, 'Cloud ストレージにバックアップを置く');
+
+CREATE INVERTED INDEX news_idx ON japanese_news(content)
+TOKENIZER = 'japanese'
+FILTERS = 'japanese_stop,japanese_stemmer'
+USER_DICTIONARY = '@ja_dict/userdict.csv';
+
+REFRESH INVERTED INDEX news_idx ON japanese_news;
+
+SELECT id FROM japanese_news WHERE match(content, '"Databend Cloud"') ORDER BY id;
+-- 4
+
+SELECT id FROM japanese_news WHERE match(content, 'Cloud') ORDER BY id;
+-- 5
+```
+
+The dictionary keeps `Databend Cloud` as one token. Quote it inside the search expression to pass the complete term to the analyzer. Without those double quotes, the query grammar splits the text on whitespace before tokenization. In this example, `match(content, 'Databend Cloud')` matches row 5, not row 4.
+
+#### Dictionary Lifecycle and Limits
+
+- Index creation copies the validated CSV into table storage. Indexing and queries use this snapshot, not the stage file.
+- Editing or deleting the stage file does not update an existing index. To use changed content, run `CREATE OR REPLACE INVERTED INDEX` with the dictionary location. Then run `REFRESH INVERTED INDEX` for existing rows. `REFRESH` alone does not reload the stage file.
+- You can also specify `USER_DICTIONARY` on an inline inverted index in `CREATE TABLE`. Dictionary-backed indexes are not supported on temporary tables.
+- In addition to the usual index-creation privileges, the caller needs read access to the dictionary stage. Uploading the file requires the relevant stage write privileges.
+- `SHOW CREATE TABLE` shows the user-supplied `USER_DICTIONARY` location. The storage snapshot location is internal. Do not set the reserved `user_dictionary_location` option in user DDL.
 
 ## Examples
 
