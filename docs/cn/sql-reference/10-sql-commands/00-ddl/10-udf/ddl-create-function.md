@@ -106,6 +106,14 @@ SELECT calculate_bmi(70.0, 1.75) AS bmi;
 
 Python 运行时需要企业版。你可以用 `PACKAGES` 安装 PyPI 包，用 `IMPORTS` 引入 Stage 文件（例如模型、依赖压缩包）。
 
+### 受控 HTTP(S) 访问
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+对于本地 Python 函数，在 `CREATE FUNCTION` 或替换式 `ALTER FUNCTION` 定义的结束 `$$` 后添加 `EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...)`。Operator 必须在每个执行节点启用 `query.enable_python_udf_external_access`。开发者除满足原有 CREATE/ALTER 权限要求外，还需每个被引用 integration 的 `USAGE`。
+
+仅支持通过可使用代理的同步客户端访问获准的 HTTP(S) 目标。强制执行的 Linux worker 沙箱仍会拒绝原生 socket。远程标量沙箱执行、JavaScript 和 WASM 不支持此绑定。完整配置、示例及安全边界见[本地 Python UDF 访问](/guides/security/external-access-integration#本地-python-udf-访问)。
+
 ### 数据类型映射（Python）
 
 | Databend 类型 | Python 类型 |

@@ -105,6 +105,14 @@ SELECT calculate_bmi(70.0, 1.75) AS bmi;
 
 Python runtime requires Databend Enterprise. You can install PyPI packages via `PACKAGES` and import stage files via `IMPORTS`.
 
+### Controlled HTTP(S) Access
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+For a local Python function, append `EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...)` after the closing `$$` of a `CREATE FUNCTION` or replacement `ALTER FUNCTION` definition. The operator must enable `query.enable_python_udf_external_access` on every executing node. The author needs `USAGE` on every named integration, in addition to existing CREATE/ALTER privileges.
+
+Only approved HTTP(S) access through synchronous proxy-aware clients is supported. The mandatory Linux worker sandbox still denies native sockets. Remote scalar sandbox execution, JavaScript, and WASM do not support this binding. For the complete configuration, example, and security boundary, see [Local Python UDF Access](/guides/security/external-access-integration#local-python-udf-access).
+
 ### Data type mappings (Python)
 
 | Databend Type | Python Type |

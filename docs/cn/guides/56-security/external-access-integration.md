@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 使用 Network Rule 和 External Access Integration，可以在 operator 的主机限制范围内，通过 SQL 管理远程 UDF 的访问目标。你可以修改允许的目标或禁用 integration，无需逐个修改 UDF，也无需重启 Query 节点。每个 Query 节点都需要使用支持此功能的版本。
 
-此功能控制的是 **Databend Query 节点到远程 Apache Arrow Flight UDF 服务器的连接**。它不会向内联 Python、JavaScript 或 WASM 代码授予网络访问能力，也不控制远程 handler 向其他服务发起的请求。
+下文的远程 UDF 工作流控制 **Databend Query 节点到远程 Apache Arrow Flight UDF 服务器的连接**。本地 Python HTTP(S) 访问见[本地 Python UDF 访问](#本地-python-udf-访问)。Integration 不向内联 JavaScript 或 WASM 代码授予网络访问能力，也不控制远程 handler 向其他服务发起的请求。
 
 ## 工作原理
 
@@ -104,6 +104,67 @@ Databend 在远程 Flight schema 检查之前校验权限和策略。服务器 s
 GRANT USAGE ON UDF gcd TO ROLE udf_reader;
 ```
 
+## 本地 Python UDF 访问
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+本地 Python 标量和聚合 UDF 可以通过 integration 发起受控的 HTTP(S) 请求。每个执行查询的 Query 节点都需使用支持此功能的版本。Operator 必须在每个节点启用以下独立选项：
+
+```toml
+[query]
+enable_python_udf_external_access = true
+udf_server_allow_list = ["https://api.example.com"]
+```
+
+该选项默认为 `false`。未启用时，绑定 integration 的函数定义和调用会被拒绝。`enable_udf_server` 和 `udf_server_allow_insecure` 不启用或控制此 Python 访问。在 Databend Cloud 中，该选项由 operator 管理；请联系 Support，而非修改租户 SQL 设置。
+
+### 配置并绑定访问
+
+以下示例使用可信的 HTTPS API 和已有角色 `udf_developer`。请以管理员身份执行策略语句。函数开发者仍需全局 `SUPER` 来创建函数，或全局 `ALTER` 来修改函数，并拥有每个被引用 integration 的 `USAGE`。
+
+```sql
+CREATE NETWORK RULE events_rule
+    TYPE = HOST_PORT MODE = EGRESS
+    VALUE_LIST = ('api.example.com:443');
+CREATE EXTERNAL ACCESS INTEGRATION events_access
+    ALLOWED_NETWORK_RULES = (events_rule) ENABLED = TRUE;
+GRANT USAGE ON INTEGRATION events_access TO ROLE udf_developer;
+```
+
+使用已授权角色执行函数定义。请将示例端点替换为你的可信服务：
+
+```sql
+CREATE FUNCTION fetch_events(STRING) RETURNS STRING LANGUAGE python
+PACKAGES = ('requests') HANDLER = 'handler' AS $$
+import requests
+
+def handler(key):
+    response = requests.get('https://api.example.com/events', params={'key': key}, timeout=10)
+    response.raise_for_status()
+    return response.text
+$$ EXTERNAL_ACCESS_INTEGRATIONS = (events_access);
+```
+
+对于 Python 聚合函数定义或替换式 `ALTER FUNCTION` 定义，同样在 `$$` 后添加 `EXTERNAL_ACCESS_INTEGRATIONS = (...)` 后缀。所有被引用的 integration 都必须存在且已启用。目标必须匹配它们的至少一个规则。规则省略端口时使用 `443`。
+
+### 保持网络边界
+
+- 非空的 operator allow list 限制主机名。租户规则还必须允许目标端口。仅在 operator 启用此功能后，空列表才会将**公网**目标选择交给租户规则。
+- Databend 在连接前检查所有 DNS 结果。默认拒绝非公网 IP，包括私网、回环、链路本地或元数据地址、保留地址、组播，以及映射或转换类 IPv6 地址。混合公网与非公网的解析结果会被拒绝。仅 operator 能通过列出精确的 IP 字面量允许非公网目标。仅信任主机名不会获得此例外。Operator 列表仍仅比较主机；租户规则仍需授权端口。
+- 请使用支持代理的同步客户端，如 `requests` 或 `urllib.request`。不支持原生 TCP/UDP socket、异步或原生网络客户端以及 HTTP Upgrade。Linux worker 沙箱仍为强制要求。原有 `enable_udf_sandbox` 路由不变；外部标量沙箱路由会拒绝这些绑定。
+- 仅使用可信端点。HTTPS CONNECT 允许连接到获准端点的不透明数据流，不检查负载，也不强制校验 TLS SNI。请勿授权不可信的中继服务。
+- 未绑定 integration 的 worker 无网络访问能力。不存在无限制网络开关。安装包仍是独立的主机端操作，不受这些函数规则控制。
+
+### 撤销访问并处理失败
+
+要撤销已有访问，请禁用或删除 integration，或修改或删除其规则。撤销 integration `USAGE` 仅阻止后续绑定和修改。调用仍使用原有 UDF 权限。
+
+活动及空闲的 HTTP 连接和 CONNECT 隧道每秒重新检查策略，每次检查的截止时间为五秒。检查被拒绝或失败时，连接会关闭。元数据变更先异步传播，因此无法跨节点即时撤销。查询取消或完成时会关闭数据流。
+
+连接最长持续五分钟，每个 worker 最多有 32 个并发数据流。明文 HTTP 请求和响应体的上限为 16 MiB。此请求体限制不检查不透明的 CONNECT 数据流。请设置客户端超时，并按需拆分大规模传输。
+
+未捕获的 Python 网络异常会使 SQL 执行失败。捕获异常并返回 `None` 或 JSON 错误对象会产生普通返回值。要使摄取任务失败，请让异常继续抛出，或显式校验返回状态。
+
 ## 修改或禁用访问
 
 修改规则中的目标：
@@ -157,4 +218,4 @@ Integration 授权按名称保存，执行 `DROP INTEGRATION` 后仍会保留。
 - [ALTER FUNCTION](/sql/sql-commands/ddl/external-function/ddl-alter-function)
 - [GRANT](/sql/sql-commands/ddl/user/grant) 和 [REVOKE](/sql/sql-commands/ddl/user/revoke)
 
-当前规则和 integration 的实现不支持 Secret、OAuth 参数、`COMMENT` 或 `UNSET`。`EXTERNAL_ACCESS_INTEGRATIONS` 仅用于带 `ADDRESS` 的远程标量 UDF 定义。
+当前规则和 integration 的实现不支持 Secret、OAuth 参数、`COMMENT` 或 `UNSET`。`EXTERNAL_ACCESS_INTEGRATIONS` 支持带 `ADDRESS` 的远程标量 UDF 定义，也支持在 operator 按上述方式启用后的本地 Python 标量或聚合函数定义。
