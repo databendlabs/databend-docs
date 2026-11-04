@@ -32,6 +32,13 @@ System tables are organized in the `system` schema and can be queried using stan
 | [system.query_cache](system-query-cache.md) | Provides information about the query cache. |
 | [system.locks](system-locks.md) | Contains information about acquired locks in the system. |
 
+### Users & Roles
+
+| Table | Description |
+|-------|-------------|
+| [system.users](system-users.md) | Lists user metadata with session-dependent visibility. |
+| [system.roles](system-roles.md) | Lists available roles, or all tenant roles with global `GRANT`. |
+
 ### Functions & Settings
 
 | Table | Description |

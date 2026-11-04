@@ -11,8 +11,7 @@ COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
 FILE_FORMAT = (
     TYPE = NDJSON,
-    COMPRESSION = gzip,
-    OUTPUT_HEADER = true
+    COMPRESSION = gzip
 )
 [MAX_FILE_SIZE = <num>]
 [DETAILED_OUTPUT = true | false]

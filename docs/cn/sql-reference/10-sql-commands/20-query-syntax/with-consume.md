@@ -3,7 +3,7 @@ title: WITH CONSUME
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.469"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 在 SELECT 查询中从流中消费数据。
 
@@ -20,6 +20,8 @@ FROM <stream_name> WITH CONSUME [ AS <alias> ]
 :::note
 只要查询成功执行，即使仅使用 WHERE 条件查询了部分数据，WITH CONSUME 子句也会消费流捕获的所有数据。
 :::
+
+不带 `WITH CONSUME` 的普通 `SELECT` 不会消费 Stream。消费 Stream 的 DML 有自己的提交边界：即使没有改变目标表的任何行，也可能推进 Stream。有关偏移量提交、回滚和带标签的重试，请参阅[消费与无目标数据变更的 DML](/guides/load-data/continuous-data-pipelines/stream#consumption-and-no-op-dml)。
 
 ## 示例
 

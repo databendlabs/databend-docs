@@ -42,7 +42,7 @@ This example demonstrates the establishment of role-based ownership in Databend.
 ```sql
 -- Admin creates roles and assigns roles to corresponding users
 CREATE ROLE role1;
-CREATE USER u1 IDENTIFIED BY '123' WITH DEFAULT ROLE 'role1';
+CREATE USER u1 IDENTIFIED BY '123' WITH DEFAULT_ROLE = 'role1';
 GRANT CREATE ON db.* TO ROLE role1;
 GRANT ROLE role1 TO u1;
 
@@ -58,7 +58,7 @@ This example shows how to let a user create databases that are owned only by the
 ```sql
 CREATE ROLE part1_role;
 GRANT CREATE DATABASE ON *.* TO ROLE part1_role;
-CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT ROLE 'part1_role';
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'part1_role';
 GRANT ROLE part1_role TO user1;
 
 -- When user1 creates a database, ownership is assigned to part1_role.

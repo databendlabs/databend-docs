@@ -4,9 +4,19 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.644"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
-Lists all SQL users in the system. If you're using Databend Cloud, this command also shows the user accounts (email addresses) within your organization that are used to log in to Databend Cloud.
+Lists the SQL users visible to the current session.
+
+## Visibility
+
+`SHOW USERS` and direct queries of `system.users` use the same visibility rules:
+
+- A session with the global `GRANT` privilege can list all users in the tenant.
+- Other sessions see only the current user's matching username and hostname. A different account with the same username but another hostname is not visible.
+- Configured users follow the same identity filter. A configured user has hostname `%`.
+
+This filtering also applies to SQL sessions in Databend Cloud. An incomplete list does not mean that the other users were deleted.
 
 ## Syntax
 
@@ -15,6 +25,8 @@ SHOW USERS
 ```
 
 ## Examples
+
+Run this example with an administrative session that has global `GRANT` to see both users in the sample output.
 
 ```sql
 CREATE NETWORK POLICY my_network_policy ALLOWED_IP_LIST=('192.168.100.0/24');

@@ -2,6 +2,10 @@
 title: MEDIAN
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.959"/>
+
 聚合函数。
 
 MEDIAN() 函数计算数值数据序列的中位数。
@@ -24,7 +28,9 @@ MEDIAN(<expr>)
 
 ## 返回类型
 
-返回值的类型。
+对于整数或浮点数输入，结果为可为 NULL 的 Float64。对于 `DECIMAL(P, S)` 输入，结果为可为 NULL 的 `DECIMAL(P, S)`。
+
+MEDIAN 使用与 `QUANTILE_CONT(0.5)` 相同的计算。十进制插值舍入到输入标度，恰好在中点时向远离零的方向舍入。示例以及十进制数据与浮点分位数位置的区别，请参阅 [Decimal 插值](aggregate-quantile-cont.md#decimal-interpolation)。
 
 ## 示例
 
