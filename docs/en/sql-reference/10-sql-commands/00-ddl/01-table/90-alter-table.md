@@ -365,6 +365,73 @@ DROP PARTITION KEY
 ALTER TABLE events DROP PARTITION KEY;
 ```
 
+## Row-Level TTL
+
+Since v1.2.953, `MATERIALIZE TTL` deletes expired rows using the table's stored TTL definition. `SET TTL` replaces or adds the definition. `REMOVE TTL` removes it. Changing the definition does not itself delete rows. All three operations require `ALTER` on the table.
+
+### Syntax
+
+```sql
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+SET TTL <time_column> [ + INTERVAL <nonnegative_integer> <unit> ]
+
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> REMOVE TTL
+
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> MATERIALIZE TTL
+```
+
+See [CREATE TABLE: Row-Level TTL](10-ddl-create-table.md#row-level-ttl) for supported column types, interval units, and expression restrictions.
+
+### Cleanup Behavior
+
+`MATERIALIZE TTL` runs a synchronous deletion. It keeps the TTL definition unchanged. Defining TTL does not create a scheduled cleanup job or make expired rows invisible to ordinary queries.
+
+Let `cutoff` be the current time captured for this command. Cleanup uses these comparisons:
+
+| Stored definition | Row deletion condition |
+|-------------------|------------------------|
+| `TTL time_column` | `CAST(time_column AS TIMESTAMP) <= cutoff` |
+| `TTL time_column + INTERVAL n unit` | `CAST(time_column AS TIMESTAMP) < cutoff - INTERVAL n unit` |
+
+The retention form uses a strict comparison. It subtracts the interval from the cutoff before comparison. Do not replace it with `time_column + interval <= cutoff`; calendar boundaries can produce different results. Time conversion and interval arithmetic follow the SQL time-zone rules. Rows with `NULL` time values are not deleted.
+
+:::caution[TTL cleanup uses stored data, not query-visible data]
+The command requires `ALTER` on the table. It evaluates original stored values and deletes all expired rows, including rows hidden by a row access policy. Column masking does not change which rows expire. A masked SELECT is not a reliable preview of the deletion. Review the TTL definition before running cleanup.
+:::
+
+### Example
+
+```sql
+CREATE TABLE ttl_events (id INT, expires TIMESTAMP) TTL expires;
+
+INSERT INTO ttl_events VALUES
+  (1, '2000-01-01 00:00:00'),
+  (2, '2099-01-01 00:00:00'),
+  (3, NULL);
+
+ALTER TABLE ttl_events MATERIALIZE TTL;
+
+SELECT id FROM ttl_events ORDER BY id;
+-- 2
+-- 3
+
+ALTER TABLE ttl_events SET TTL expires + INTERVAL 1 DAY;
+SHOW CREATE TABLE ttl_events;
+
+ALTER TABLE ttl_events REMOVE TTL;
+```
+
+The sample result assumes that the command runs after 2000-01-01 and before 2099-01-01.
+
+### Limits and Schema Changes
+
+- Only persistent Fuse tables support TTL. Temporary and transient tables are not supported.
+- `MATERIALIZE TTL` requires an existing TTL definition. It fails if the table has no definition. `IF EXISTS` skips a missing table, not a missing TTL definition.
+- `MATERIALIZE TTL` cannot run inside an explicit transaction.
+- `REMOVE TTL` is a no-op when the table has no TTL. It does not restore deleted rows.
+- A column used by TTL cannot be dropped. A type change must keep the TTL valid. Renaming the column updates its name in the stored definition.
+- If the TTL definition changes during a commit retry, cleanup fails with `TTL definition changed; retry MATERIALIZE TTL`. Review the new definition before retrying.
+
 ## Fuse Engine Options
 
 <FunctionDescription description="Introduced or updated: v1.2.955"/>

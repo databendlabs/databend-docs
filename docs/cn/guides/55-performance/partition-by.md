@@ -227,6 +227,7 @@ UPDATE events SET event_time = '2026-10-05 12:00:00' WHERE event_id = 42;
 Fuse 表的分区表达式需要遵循以下规则：
 
 - 每个表达式必须是确定性的，并且只能引用一个源列。
+- 从 v1.2.952 开始，定义时的检查会拒绝会话上下文函数和 UDF。请参阅[持久化表达式限制](/sql/sql-commands/ddl/table/ddl-create-table#persisted-expression-restrictions)。
 - 复合分区应使用多个表达式，不能使用一个同时引用多列的表达式。
 - `BUCKET()` 的桶数量必须是 `1` 至 `4294967295` 范围内的整数字面量。
 - 分区键引用的列不能删除，也不能修改数据类型。

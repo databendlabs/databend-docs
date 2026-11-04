@@ -4,7 +4,7 @@ title: system_history.query_history
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.764"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -16,6 +16,10 @@ import EEFeature from '@site/src/components/EEFeature';
 - **Security Auditing**: Who executed what queries, when, and from where
 - **Compliance Tracking**: Complete audit trail for regulatory requirements
 - **Usage Monitoring**: Database activity patterns and user behavior analysis
+
+## Credential Masking
+
+`query_text` masks recognized SQL credential values. Ordinary query literals can remain visible. Logged errors are scrubbed using recorded hidden values; errors returned to the submitting client are unchanged. See [Credential Masking](../31-system-tables/system-query-log.md#credential-masking) for the scope and limitations. This does not sanitize history that was recorded by older versions.
 
 ## Fields
 

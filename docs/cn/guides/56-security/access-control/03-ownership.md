@@ -2,15 +2,23 @@
 title: 所有权
 ---
 
-所有权是一种特殊的权限，表示角色对 Databend 中特定数据对象（目前包括数据库、表、UDF 和 Stage）所拥有的独占权利和责任。
+所有权赋予角色对 Databend 中数据对象的控制权。支持所有权的对象包括数据库、表、UDF、Stage、Connection 和 Sequence。
 
 ## 授予所有权
 
-对象的所有权会自动授予创建它的用户的角色，并且可以使用 [GRANT](/sql/sql-commands/ddl/user/grant) 命令在角色之间转移：
+Databend 会将新对象的所有权授予创建时会话的当前角色。您可以使用 [GRANT](/sql/sql-commands/ddl/user/grant) 命令在角色之间转移所有权：
 
 - 将对象的所有权授予新角色会将完全所有权转移给新角色，并从之前的角色中移除。例如，如果角色 A 最初拥有一个表，并且您将所有权授予角色 B，则角色 B 将成为新的所有者，并且角色 A 将不再拥有该表的所有权。
-- 出于安全原因，不建议将所有权授予内置角色 `public`。如果用户在创建对象时具有 `public` 角色，则所有用户都将拥有该对象的所有权，因为每个用户默认都具有 `public` 角色。Databend 建议创建自定义角色并将其分配给用户，而不是使用 `public` 角色来进行明确的所有权管理。有关内置角色的信息，请参阅 [内置角色](02-roles.md)。
+- 避免将所有权授予内置角色 `public`。如果用户创建对象时的当前角色是 `public`，该对象的所有权就属于 `public`。由于每个用户默认都拥有 `public` 角色，其他用户也可以通过它行使所有权。对于需要限制访问的对象，请使用自定义角色。更多信息请参阅 [内置角色](02-roles.md)。
 - 无法为 `default` 数据库中的表授予所有权，因为它由内置角色 `account_admin` 拥有。
+
+## 创建权限与当前角色
+
+Databend 根据直接授予用户的权限和会话当前角色的权限检查创建权限，辅助角色不能授权创建。创建 Connection 和 Sequence 分别需要 `CREATE CONNECTION` 和 `CREATE SEQUENCE` 权限，仅有 `SUPER` 不代表拥有这两项权限。
+
+当前角色同时会成为新对象的所有者。创建对象前，请通过 [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) 切换到拥有创建权限、并且应当拥有该对象的角色。也可以通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 或 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 设置 `DEFAULT_ROLE`，新会话开始时会使用该角色作为当前角色。如果当前角色是 `public`，只有 `public` 或用户本身直接拥有所需权限时才能创建，且新对象的所有权归 `public`。
+
+对已存在的对象执行 `CREATE ... IF NOT EXISTS` 不会改变其所有者。`CREATE OR REPLACE` 会让当前角色成为替换后对象的所有者。
 
 ## 不允许撤销所有权
 
@@ -42,7 +50,7 @@ GRANT OWNERSHIP ON UDF calculate_profit TO ROLE 'data_owner';
 ```sql
 -- 管理员创建角色并将角色分配给相应的用户
 CREATE ROLE role1;
-CREATE USER u1 IDENTIFIED BY '123' WITH DEFAULT ROLE 'role1';
+CREATE USER u1 IDENTIFIED BY '123' WITH DEFAULT_ROLE = 'role1';
 GRANT CREATE ON db.* TO ROLE role1;
 GRANT ROLE role1 TO u1;
 
@@ -58,7 +66,7 @@ u1> SELECT * FROM db.t_old_exists; -- 失败，因为此表的所有者不是 ro
 ```sql
 CREATE ROLE part1_role;
 GRANT CREATE DATABASE ON *.* TO ROLE part1_role;
-CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT ROLE 'part1_role';
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'part1_role';
 GRANT ROLE part1_role TO user1;
 
 -- 当 user1 创建数据库时，所有权会被赋予 part1_role。

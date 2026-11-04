@@ -2,6 +2,10 @@
 title: QUANTILE_CONT
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.959"/>
+
 聚合函数。
 
 QUANTILE_CONT() 函数计算数值数据序列的插值分位数。
@@ -27,7 +31,36 @@ QUANTILE_CONT(level1, level2, ...)(<expr>)
 
 ## 返回类型
 
-基于水平数的 Float64 或 float64 数组。
+| 输入类型 | 一个分位数水平 | 多个分位数水平 |
+|----------|----------------|----------------|
+| 整数或浮点数 | Float64 | Array(Float64) |
+| DECIMAL(P, S) | DECIMAL(P, S) | Array(DECIMAL(P, S)) |
+
+聚合结果可为 NULL。
+
+<a id="decimal-interpolation"></a>
+
+## Decimal 插值
+
+对于 DECIMAL 输入，插值使用十进制系数，不会将数据值转换为 Float64。最终插值结果舍入到输入标度。恰好在中点时向远离零的方向舍入。`numeric_cast_option` 设置不会改变此规则。
+
+分位数水平和插值位置的小数部分仍使用浮点值，而不是任意精度十进制数。结果保留数据的十进制精度和标度。
+
+[MEDIAN](aggregate-median.md) 使用与 `QUANTILE_CONT(0.5)` 相同的插值规则。
+
+```sql
+SELECT
+    QUANTILE_CONT(0.5)(v::DECIMAL(10, 0)),
+    MEDIAN(v::DECIMAL(10, 0))
+FROM (VALUES (-1), (-2), (-3), (-4)) AS t(v);
+-- Expected values: -3, -3
+
+SELECT QUANTILE_CONT(0.0, 0.5, 1.0)(v::DECIMAL(10, 2))
+FROM (VALUES (1), (2), (3), (4)) AS t(v);
+-- Expected array: [1.00, 2.50, 4.00]
+```
+
+第一个查询的插值为 `-2.5`。输入标度为零，因此两个结果均为 `-3`，而不是 `-2` 或 Float64 值。
 
 ## 示例
 
