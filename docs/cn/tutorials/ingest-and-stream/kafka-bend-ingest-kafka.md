@@ -54,7 +54,7 @@ Created topic test-topic.
 ```sql
 CREATE DATABASE doc;
 
-CREATE    TABLE databend_topic (
+CREATE TABLE doc.databend_topic (
           id INT NOT NULL,
           name VARCHAR NOT NULL,
           age INT NOT NULL
@@ -62,6 +62,8 @@ CREATE    TABLE databend_topic (
 ```
 
 ### 步骤 4：安装并运行 bend-ingest-kafka
+
+以下命令的 DSN 需要指定 `doc` 数据库。RAW 模式会在 DSN 指定的数据库中创建表。
 
 1. 安装 bend-ingest-kafka：
 
@@ -85,7 +87,7 @@ INFO[0000] Starting worker worker-0
 3. 使用 BendSQL 连接 Databend Cloud 验证数据：
 
 ```bash
-cloudapp@(eric)/doc> SELECT * FROM databend_topic;
+cloudapp@(eric)/doc> SELECT * FROM doc.databend_topic;
 
 -[ RECORD 1 ]-----------------------------------
   id: 1
@@ -110,7 +112,7 @@ bend-ingest-kafka \
 会在 `doc` 数据库生成新表 `test_ingest`，示例数据如下：
 
 ```bash
-cloudapp@(eric)/doc> SELECT * FROM test_ingest;
+cloudapp@(eric)/doc> SELECT * FROM doc.test_ingest;
 
 -[ RECORD 1 ]-----------------------------------
            uuid: 17f9e56e-19ba-4d42-88a0-e16b27815d04
