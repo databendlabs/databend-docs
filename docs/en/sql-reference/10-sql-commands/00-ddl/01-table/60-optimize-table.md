@@ -50,11 +50,19 @@ Databend creates a unique ID for each database and table for storing the snapsho
 In Databend, it's advisable to aim for an ideal block size of either 100MB (uncompressed) or 1,000,000 rows, with each segment consisting of 1,000 blocks. To maximize table optimization, it's crucial to gain a clear understanding of when and how to apply various optimization techniques, such as [Segment Compaction](#segment-compaction) and [Block Compaction](#block-compaction).
 - When using the COPY INTO or REPLACE INTO command to write data into a table that includes a cluster key, Databend will automatically initiate a re-clustering process, as well as a segment and block compact process.
 
-- Segment & block compactions support distributed execution in cluster environments. You can enable them by setting ENABLE_DISTRIBUTED_COMPACT to 1. This helps enhance data query performance and scalability in cluster environments.
+### Distributed Execution and Upgrade Compatibility
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+In a cluster, Databend distributes block compaction automatically. `enable_distributed_compact` is deprecated and has no effect. Setting it to `0` does not force local execution.
+
+Older versions used the following setting to enable distributed compaction. Existing scripts can keep this statement, but new scripts do not need it:
 
   ```sql
   SET enable_distributed_compact = 1;
   ```
+
+`auto_compaction_segments_limit` accepts values from `2` to `128`, inclusive. This setting limits the segments considered for automatic re-clustering after a write. Before an upgrade, check any scripts that set a larger value. Change those values to the supported range. This setting does not replace the `LIMIT` clause of a manual `OPTIMIZE TABLE` or `ALTER TABLE ... RECLUSTER` command.
 
 ### Segment Compaction
 
