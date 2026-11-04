@@ -61,6 +61,12 @@ In the dialog box that appears, select the sharing scope. You can copy and share
 
 ## Exporting Query Results
 
+:::tip[Large result set downloads]
+
+Downloading large result sets from the worksheet can time out or fail. For large downloads, export the results to a stage or external storage, then download the files directly. See [Download Exported Files](/guides/unload-data/download-files).
+
+:::
+
 Databend Cloud provides the ability to export query results. However, this feature requires the organization Owner to grant the **EXPORT** permission to team members. For data security purposes, this feature is disabled by default.
 
 ![Alt text](@site/static/img/documents/worksheet/download.png)

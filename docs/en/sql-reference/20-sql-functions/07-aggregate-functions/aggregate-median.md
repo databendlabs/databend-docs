@@ -2,6 +2,10 @@
 title: MEDIAN
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.959"/>
+
 Aggregate function.
 
 The MEDIAN() function computes the median of a numeric data sequence.
@@ -24,7 +28,9 @@ MEDIAN(<expr>)
 
 ## Return Type
 
-the type of the value.
+For integer or floating-point inputs, the result is nullable Float64. For `DECIMAL(P, S)` input, the result is nullable `DECIMAL(P, S)`.
+
+MEDIAN uses the same calculation as `QUANTILE_CONT(0.5)`. Decimal interpolation rounds to the input scale, with halfway values rounded away from zero. See [Decimal Interpolation](aggregate-quantile-cont.md#decimal-interpolation) for examples and the distinction between decimal data and floating-point quantile positions.
 
 ## Example
 

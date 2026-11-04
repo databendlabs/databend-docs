@@ -8,9 +8,13 @@ title: 外部函数（External Function）
 
 | 命令 | 描述 |
 |---------|-------------|
-| [CREATE EXTERNAL FUNCTION](ddl-create-function.md) | 创建一个新的外部函数（External Function） |
-| [ALTER EXTERNAL FUNCTION](ddl-alter-function.md) | 修改一个现有的外部函数（External Function） |
-| [DROP EXTERNAL FUNCTION](ddl-drop-function.md) | 移除一个外部函数（External Function） |
+| [CREATE FUNCTION](ddl-create-function.md) | 创建一个新的外部函数（External Function） |
+| [ALTER FUNCTION](ddl-alter-function.md) | 修改一个现有的外部函数（External Function） |
+| [DROP FUNCTION](ddl-drop-function.md) | 移除一个外部函数（External Function） |
+
+## 使用 SQL 管理目标
+
+通过[外部访问集成](/guides/security/external-access-integration)，可以将远程标量 UDF 绑定到主机/端口规则。非空的 operator allow list 仍是上限。SQL 策略不会为内联脚本 UDF 提供网络访问能力。
 
 :::note
 Databend 外部函数允许你用自定义逻辑扩展 SQL，逻辑运行在远程服务器上，通过 [Apache Arrow Flight](https://arrow.apache.org/docs/format/Flight.html) 协议与 Databend 通信。远程处理程序可以用任意语言实现，Python 是最常见的选择，可通过 [databend-udf](https://pypi.org/project/databend-udf) 包快速上手。

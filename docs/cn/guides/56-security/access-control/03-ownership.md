@@ -42,7 +42,7 @@ GRANT OWNERSHIP ON UDF calculate_profit TO ROLE 'data_owner';
 ```sql
 -- 管理员创建角色并将角色分配给相应的用户
 CREATE ROLE role1;
-CREATE USER u1 IDENTIFIED BY '123' WITH DEFAULT ROLE 'role1';
+CREATE USER u1 IDENTIFIED BY '123' WITH DEFAULT_ROLE = 'role1';
 GRANT CREATE ON db.* TO ROLE role1;
 GRANT ROLE role1 TO u1;
 
@@ -58,7 +58,7 @@ u1> SELECT * FROM db.t_old_exists; -- 失败，因为此表的所有者不是 ro
 ```sql
 CREATE ROLE part1_role;
 GRANT CREATE DATABASE ON *.* TO ROLE part1_role;
-CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT ROLE 'part1_role';
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'part1_role';
 GRANT ROLE part1_role TO user1;
 
 -- 当 user1 创建数据库时，所有权会被赋予 part1_role。

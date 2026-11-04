@@ -3,8 +3,11 @@ title: Tracking and Transforming Data via Streams
 sidebar_label: Stream
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
+
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 A stream in Databend is an always-on change table: every committed INSERT, UPDATE, or DELETE is captured until you consume it. This page stays lean—first a quick overview, then one lab with real outputs so you can see streams in action.
 
@@ -18,6 +21,21 @@ A stream in Databend is an always-on change table: every committed INSERT, UPDAT
 | --- | --- | --- |
 | Standard (`APPEND_ONLY = false`) | INSERT + UPDATE + DELETE, collapsed to the latest state per row. | Slowly changing dimensions, compliance audits. |
 | Append-Only (`APPEND_ONLY = true`, default) | INSERT only. | Append-only fact/event ingestion. |
+
+## Consumption and No-Op DML
+
+A plain `SELECT` reads a stream without consuming it. Use [`WITH CONSUME`](/sql/sql-commands/query-syntax/with-consume) when a SELECT query must consume the changes. DML that consumes a stream, such as `INSERT ... SELECT` or `MERGE`, also advances its offset.
+
+A successful consuming DML statement can advance the stream even when it changes no target rows. For example, a `WHERE` condition can filter out every row read from the stream. The target table can keep its existing snapshot, but the consumed stream changes are no longer available to the next execution. Do not use an unchanged target row count or snapshot as proof that the stream was not consumed.
+
+The stream offset follows the statement's commit boundary:
+
+- In autocommit mode, a successful consuming DML statement commits the offset even without a new target snapshot.
+- In an explicit transaction, the offset update is buffered. [`COMMIT`](/sql/sql-commands/ddl/transaction/commit) persists it. [`ROLLBACK`](/sql/sql-commands/ddl/transaction/rollback) discards it.
+
+If a no-op consuming DML statement uses `deduplicate_label`, Databend commits the label with its stream offset. Retrying the same labeled request after commit does not consume the next batch while Databend still recognizes that label as a duplicate. Label retention and normal deduplication rules still apply. This is not an unlimited exactly-once guarantee.
+
+Stream batch hints still control which batch is read. A filter that removes all rows from that batch does not preserve it for a later execution. See [WITH Stream Hints](/sql/sql-commands/query-syntax/with-stream-hints).
 
 ## Example 1: Append-Only Stream
 
@@ -87,7 +105,7 @@ INSERT INTO sensor_readings VALUES (1, 22);         -- same sensor, new value
 DELETE FROM sensor_readings WHERE sensor_id = 2;     -- pure deletion
 INSERT INTO sensor_readings VALUES (3, 18.5);        -- brand-new sensor
 
-SELECT * FROM sensor_readings_stream; -- still empty (Append-Only ignores non-inserts)
+SELECT * FROM sensor_readings_stream; -- captures new INSERTs, not DELETE events
 
 SELECT sensor_id, temperature, change$action, change$is_update
 FROM sensor_readings_stream_std
@@ -107,7 +125,9 @@ Output:
 └────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
- Standard streams capture each change with context: updates show up as DELETE+INSERT on the same `sensor_id`, while standalone deletions/insertions appear individually. Append-Only streams stay empty because they track inserts only.
+Standard streams capture each change with context: updates show up as DELETE+INSERT on the same `sensor_id`, while standalone deletions/insertions appear individually.
+
+The Append-Only stream captures the INSERTs for `sensor_id` 1 and 3. It does not report DELETE events. If you consumed this stream in Example 1, these INSERTs form its new delta.
 
 ## Example 3: Incremental Stream Join
 
@@ -236,6 +256,6 @@ Rows stay in each stream until `WITH CONSUME` runs, so inserts that arrive at di
 - Base tables gain `_origin_version`, `_origin_block_id`, `_origin_block_row_num` for debugging row provenance.
 
 **Integrations**
-- Pair streams with tasks using `task_history('<name>', <limit>)` for scheduled incremental loads.
+- Pair streams with tasks for scheduled incremental loads. Use `TASK_HISTORY(TASK_NAME => '<name>', RESULT_LIMIT => <limit>)` to view execution history.
 - Use [`WITH CONSUME`](02-task.md) when you want to drain only the latest delta.
 

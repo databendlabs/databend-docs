@@ -5,7 +5,7 @@ sidebar_position: 9
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.953"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 为特定的数据库对象授予权限、角色和所有权。包括：
 
@@ -77,6 +77,9 @@ schemaObjectPrivileges ::=
 -- For UDF
   { USAGE }
 
+-- For INTEGRATION
+  { USAGE }
+
 -- For MASKING POLICY
   { CREATE MASKING POLICY | APPLY MASKING POLICY }
 
@@ -91,9 +94,23 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | INTEGRATION <integration_name>
   | MASKING POLICY <policy_name>
   | ROW ACCESS POLICY <policy_name>
 ```
+
+### 授予 Integration 权限
+
+```sql
+GRANT USAGE ON INTEGRATION <integration_name> TO ROLE <role_name>;
+GRANT ALL [ PRIVILEGES ] ON INTEGRATION <integration_name> TO ROLE <role_name>;
+```
+
+`USAGE` 是唯一的 integration 对象权限，`ALL` 授予的也是该权限。Integration 必须已存在。此权限允许在创建或修改远程 UDF 时引用该对象；创建仍需全局 `SUPER`，修改仍需全局 `ALTER`。调用已有 UDF 不额外要求 integration `USAGE`。
+
+由于 `USAGE` 是唯一的对象权限，`SHOW GRANTS` 可能将其显示为 `ALL ON INTEGRATION`。
+
+管理 integration 和 Network Rule 需要全局 `SUPER`；integration `USAGE` 不授权修改策略。参见[外部访问集成](/guides/security/external-access-integration)。
 
 ### 授予 ATTACH TABLE 权限
 

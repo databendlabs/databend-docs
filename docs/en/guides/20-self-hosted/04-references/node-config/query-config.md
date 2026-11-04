@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="Introduced or updated: v1.2.935"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -38,6 +38,22 @@ The following is a list of the parameters available within the [query] section:
 | table_engine_memory_enabled     | Flag to enable the Memory table engine.                                                                     |
 | max_running_queries             | Maximum number of queries that can be executed simultaneously, defaulting to 8, with 0 indicating no limit. |
 | data_retention_time_in_days_max | Sets the upper limit for the `data_retention_time_in_days` setting, with a default value of 90 days.        |
+
+### Remote UDF Servers
+
+These parameters belong in `[query]`. Use the same policy on every Query node:
+
+| Parameter | Description |
+|---|---|
+| enable_udf_server | Enables remote Arrow Flight UDF servers. Defaults to `false`. |
+| udf_server_allow_insecure | Permits non-HTTPS remote UDF server connections. Defaults to `false`. |
+| udf_server_allow_list | List of allowed server URLs, compared by host. Defaults to `[]`. |
+
+For a UDF without `EXTERNAL_ACCESS_INTEGRATIONS`, the target must match the config allow list. An empty list rejects the target.
+
+For a UDF with explicit integrations, a nonempty config list remains an operator host limit. The target must pass that list and the SQL host/port rules. An empty config list delegates destination control for integration-bound UDFs to tenant SQL policy administrators. It does not disable the `enable_udf_server` or TLS checks.
+
+For SQL setup and the trust boundary, see [External Access Integrations](/guides/security/external-access-integration).
 
 ### [query.users] Section
 

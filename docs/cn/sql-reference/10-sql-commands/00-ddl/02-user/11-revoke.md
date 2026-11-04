@@ -4,7 +4,7 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.953"/>
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
 
 撤销特定数据库对象的权限、角色和所有权。 这包括：
 
@@ -55,6 +55,9 @@ schemaObjectPrivileges ::=
 -- For UDF
   { USAGE }
 
+-- For INTEGRATION
+  { USAGE }
+
 -- For MASKING POLICY
   { CREATE MASKING POLICY | APPLY MASKING POLICY }
 
@@ -69,9 +72,21 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | INTEGRATION <integration_name>
   | MASKING POLICY <policy_name>
   | ROW ACCESS POLICY <policy_name>
 ```
+
+### 撤销 Integration 权限
+
+```sql
+REVOKE USAGE ON INTEGRATION <integration_name> FROM ROLE <role_name>;
+REVOKE ALL [ PRIVILEGES ] ON INTEGRATION <integration_name> FROM ROLE <role_name>;
+```
+
+此操作撤销在后续 UDF 定义中引用 integration 的权限，不会禁用已有 UDF，也不会撤销 UDF 调用权限。要阻止已有 integration 绑定调用，请禁用 integration 或修改规则。策略变更异步传播。
+
+请在删除对象之前撤销不再需要的 integration 授权。对象删除后，按名称保存的授权仍会保留。参见[外部访问集成](/guides/security/external-access-integration)。
 
 ### 撤销 ATTACH TABLE 权限
 

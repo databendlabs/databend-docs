@@ -3,6 +3,10 @@ title: 使用 Stream 追踪与转换数据
 sidebar_label: 流（Stream）
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
+
 Stream 是 Databend 用来记录行级变更的“增量表”。每次提交 INSERT/UPDATE/DELETE，Stream 都会缓存对应的最终状态，直到消费为止。本页沿用英语版的三个动手示例，帮助你快速体会两种模式以及增量计算的写法。
 
 ## 模式速览
@@ -13,6 +17,23 @@ Stream 是 Databend 用来记录行级变更的“增量表”。每次提交 IN
 | Append-Only Stream（默认，`APPEND_ONLY = true`） | 只捕获 INSERT | 纯追加型事实/日志流水 |
 
 Stream 不复制整张表，只保留“尚未消费的增量”。消费由谁触发、何时触发完全由你掌控。
+
+<a id="consumption-and-no-op-dml"></a>
+
+## 消费与无目标数据变更的 DML
+
+普通 `SELECT` 只读取 Stream，不会消费它。如果 SELECT 查询需要消费变更，请使用 [`WITH CONSUME`](/sql/sql-commands/query-syntax/with-consume)。消费 Stream 的 DML（如 `INSERT ... SELECT` 或 `MERGE`）也会推进其偏移量。
+
+消费 Stream 的 DML 语句成功执行后，即使未改变目标表的任何行，也可能推进 Stream。例如，`WHERE` 条件可以过滤掉从 Stream 读取的所有行。目标表可以保留现有快照，但下一次执行无法再读取已消费的 Stream 变更。不要根据目标表行数或快照未变化来判断 Stream 未被消费。
+
+Stream 偏移量遵循语句的提交边界：
+
+- 在 autocommit 模式下，成功的消费型 DML 语句会提交偏移量，即使没有生成新的目标表快照。
+- 在显式事务中，偏移量更新先被缓冲。[`COMMIT`](/sql/sql-commands/ddl/transaction/commit) 会持久化该更新。[`ROLLBACK`](/sql/sql-commands/ddl/transaction/rollback) 会丢弃该更新。
+
+如果无目标数据变更的消费型 DML 使用 `deduplicate_label`，Databend 会将该标签与 Stream 偏移量一起提交。提交后重试相同标签的请求时，只要 Databend 仍将该标签识别为重复请求，就不会消费下一批数据。标签保留期和通常的去重规则仍然适用。这不是无限期的 exactly-once 保证。
+
+Stream 批次提示仍然决定读取哪个批次。即使过滤条件移除了该批次的所有行，也不会为下次执行保留该批次。请参阅 [WITH Stream Hints](/sql/sql-commands/query-syntax/with-stream-hints)。
 
 ## 示例 1：Append-Only Stream
 
@@ -73,7 +94,7 @@ UPDATE sensor_readings SET temperature = 22 WHERE sensor_id = 1; -- 更新
 DELETE FROM sensor_readings WHERE sensor_id = 2;                -- 删除
 INSERT INTO sensor_readings VALUES (3, 18.5);                   -- 新增
 
-SELECT * FROM sensor_readings_stream; -- 仍为空（Append-Only Stream 模式忽略 UPDATE / DELETE）
+SELECT * FROM sensor_readings_stream; -- 包含新增的 INSERT，不包含 DELETE 事件
 
 SELECT sensor_id, temperature, change$action, change$is_update
 FROM sensor_readings_stream_std
@@ -92,6 +113,8 @@ ORDER BY change$row_id;
 ```
 
 更新对应“删除旧值 + 写入新值”，独立的 DELETE/INSERT 则各自占一条，因而在消费前始终能拿到最终状态。
+
+Append-Only Stream 会捕获本例中 `sensor_id` 为 3 的 INSERT，不会报告 DELETE 事件。如果你已在示例 1 中消费该 Stream，这次 INSERT 会成为新的增量。
 
 ## 示例 3：增量 Join 与计算
 
@@ -214,5 +237,5 @@ ORDER BY o.customer_id;
 - 基表上还有 `_origin_version`、`_origin_block_id`、`_origin_block_row_num`，方便排查“最终值从何而来”。
 
 **联动任务**
-- 结合 Task 可以按计划自动消费 Stream，使用 `task_history('<name>', <limit>)` 查看执行记录。
+- 结合 Task 可以按计划自动消费 Stream，使用 `TASK_HISTORY(TASK_NAME => '<name>', RESULT_LIMIT => <limit>)` 查看执行记录。
 - SQL 中搭配 `WITH CONSUME`，即可在批式作业里只处理“本次新增”的数据。

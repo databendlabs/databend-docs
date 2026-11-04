@@ -250,6 +250,51 @@ CREATE TABLE employees (
 Choose **STORED** for frequently queried columns where performance matters. Choose **VIRTUAL** to save storage space when computation cost is acceptable.
 :::
 
+## Persisted Expression Restrictions
+
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+Since v1.2.952, Databend rejects session- or query-context functions when it validates these definitions:
+
+- Computed columns, both `STORED` and `VIRTUAL`.
+- `CLUSTER BY` and `PARTITION BY` expressions.
+- Table TTL expressions.
+
+Storage-level filters also use this restricted validation. This does not apply the restriction to every ordinary query `WHERE` clause.
+
+Do not use `current_database()`, `current_user()`, role functions, `getvariable()` / `$var`, `last_query_id()`, or `timezone()` in these expressions. Nesting a context function inside another function does not make it valid. Databend rejects it before it can fold into a literal.
+
+User-defined functions are also not allowed, including pure SQL UDFs. For example, a UDF that only adds one to its input is still not valid in a computed-column definition. A cached UDF definition does not bypass this restriction.
+
+`array_sort()` must specify the null order explicitly. Both `array_sort(a)` and `array_sort(a, 'asc')` depend on the session's default null order and are rejected in these definitions. Use all three arguments, such as `array_sort(a, 'asc', 'nulls last')`.
+
+```sql
+-- Rejected: the computed expression reads session context.
+CREATE TABLE invalid_context(
+    a STRING,
+    b STRING AS (concat(a, current_database())) STORED
+);
+
+-- Rejected: the null order depends on a session setting.
+CREATE TABLE invalid_sort(
+    a ARRAY(INT),
+    b ARRAY(INT) AS (array_sort(a)) STORED
+);
+
+-- Explicit null ordering passes this context check.
+-- Creating a computed column still requires an Enterprise license.
+CREATE TABLE explicit_sort(
+    a ARRAY(INT),
+    b ARRAY(INT) AS (array_sort(a, 'asc', 'nulls last')) STORED
+);
+```
+
+Use deterministic built-in expressions that meet the feature's other rules. Partition expressions must still reference exactly one source column. TTL syntax and type restrictions still apply.
+
+These checks do not make every cast or expression independent of session settings. For example, ordinary timezone-sensitive casts still use the captured function context. Existing stored keys retain compatibility rebinding; this change is not a migration of existing key definitions.
+
+Column `DEFAULT` expressions use a separate validation path. They can still use context functions such as `DEFAULT current_user()`.
+
 ## MySQL Compatibility
 
 Databend's syntax is difference from MySQL mainly in the data type and some specific index hints.

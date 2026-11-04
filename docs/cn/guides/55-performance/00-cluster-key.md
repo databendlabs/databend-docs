@@ -63,6 +63,8 @@ CREATE TABLE sales (
 ALTER TABLE sales CLUSTER BY (region, order_date);
 ```
 
+从 v1.2.952 开始，新增或修改聚类键定义时会拒绝会话上下文函数和 UDF。例如，`CLUSTER BY (concat(to_string(order_id), current_database()))` 无效。请使用确定性的内置表达式。有关上下文函数和 `array_sort()` 的规则，请参阅[持久化表达式限制](/sql/sql-commands/ddl/table/ddl-create-table#persisted-expression-restrictions)。
+
 ## 选择合适 Cluster Key
 
 根据常用查询过滤条件选择列：

@@ -9,6 +9,7 @@ Databend 提供**企业级安全与可靠性功能**，全方位保护您的数�
 | [**访问控制**](/guides/security/access-control) | 管理用户权限 | 需要通过角色和对象所有权精细控制数据访问 |
 | [**审计追踪**](audit-trail.md) | 记录数据库活动 | 需要完整审计日志用于安全监控、合规检查或性能分析 |
 | [**网络策略**](/guides/security/network-policy) | 限制网络访问 | 需要限制只有特定 IP 段才能连接，即使凭据正确也拒绝其他来源 |
+| [**外部访问集成**](external-access-integration.md) | 限制远程 UDF 目标 | 需要通过 SQL 管理 Arrow Flight UDF 服务器的主机/端口规则 |
 | [**密码策略**](/guides/security/password-policy) | 设定密码规则 | 需要强制密码复杂度、定期轮换或账户锁定策略 |
 | [**数据保护策略**](/guides/security/data-protection) | 行级和列级数据保护 | 需要行级过滤、列级脱敏或两者组合使用 |
 | [**故障保护**](/guides/security/fail-safe) | 防止数据丢失 | 需要从 S3 兼容存储中恢复误删数据 |

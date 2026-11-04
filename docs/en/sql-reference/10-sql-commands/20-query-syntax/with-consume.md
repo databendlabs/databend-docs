@@ -3,7 +3,7 @@ title: WITH CONSUME
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.469"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Consumes data from a stream within a SELECT query.
 
@@ -20,6 +20,8 @@ FROM <stream_name> WITH CONSUME [ AS <alias> ]
 :::note
 As long as the query executes successfully, the WITH CONSUME clause will consume all data captured by the stream, even if only a portion of it is queried using a WHERE condition.
 :::
+
+A plain `SELECT` without `WITH CONSUME` does not consume the stream. DML that consumes a stream has a separate commit boundary: it can advance the stream even when no target row changes. See [Consumption and No-Op DML](/guides/load-data/continuous-data-pipelines/stream#consumption-and-no-op-dml) for offset commits, rollback and labeled retries.
 
 ## Examples
 
