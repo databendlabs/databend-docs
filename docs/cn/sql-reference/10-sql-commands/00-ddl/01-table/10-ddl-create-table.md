@@ -50,8 +50,33 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 [ ENGINE = FUSE ]
 [ PARTITION BY ( <expr> [ , <expr> ... ] ) ]
 [ CLUSTER BY ( <expr> [ , <expr> ... ] ) ]
+[ TTL <ttl_expression> ]
 [ <fuse_engine_option> = <value> ... ]
 ```
+
+### 行级 TTL {/* #row-level-ttl */}
+
+TTL 定义行何时过期。TTL 定义本身不会调度清理任务。请使用 [`ALTER TABLE ... MATERIALIZE TTL`](90-alter-table.md#row-level-ttl) 显式删除过期行。手动清理命令及以下表达式规则在 v1.2.953 中可用。
+
+```sql
+CREATE TABLE retained_events (
+    id INT,
+    event_time TIMESTAMP
+) TTL event_time + INTERVAL 30 DAY;
+```
+
+TTL 表达式必须使用以下形式之一：
+
+- `<time_column>`：指定绝对过期时间。
+- `<time_column> + INTERVAL <nonnegative_integer> <unit>`：指定保留时长。
+
+列类型必须为 `DATE`、`TIMESTAMP` 或 `TIMESTAMP_TZ`。支持可空列和 STORED 计算列，不支持 VIRTUAL 计算列。支持的时间间隔单位为 `MICROSECOND`、`SECOND`、`MINUTE`、`HOUR`、`DAY`、`WEEK`、`MONTH`、`QUARTER` 和 `YEAR`。
+
+请使用不带限定符的列名，以及不加引号的非负整数间隔。常量时间戳、函数调用、类型转换、多列表达式、负数间隔，以及 `INTERVAL '30' DAY` 这样的字符串间隔，都不是有效的定义。
+
+TTL 仅支持持久化 Fuse 表。临时表和瞬态表不支持 TTL。`SHOW CREATE TABLE` 会包含已存储的 TTL 定义。通过查询创建表时，也可以在 `AS SELECT` 之前指定 TTL。
+
+有关截止时间比较、权限、安全策略行为和示例，请参阅[行级 TTL](90-alter-table.md#row-level-ttl)。
 
 ### Fuse 表分区
 
