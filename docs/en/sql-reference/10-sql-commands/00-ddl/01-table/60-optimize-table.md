@@ -4,7 +4,7 @@ sidebar_position: 8
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
@@ -79,9 +79,13 @@ FROM
 OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]    
 ```
 
-Compacts the table data by merging small segments into larger ones.
+Merges small segments into larger segments without rewriting data blocks.
 
-- The option LIMIT sets the maximum number of segments to be compacted. In this case, Databend will select and compact the latest segments.
+`COMPACT SEGMENT LIMIT n` considers the newest input segments. The limit does not specify the number of merged or output segments. Segments that do not need compaction can remain unchanged.
+
+Without `LIMIT`, Databend considers all segments in the current snapshot.
+
+Repeated limited runs can leave older fragments untouched. Run `COMPACT SEGMENT` without `LIMIT` periodically when older segments also need compaction. These rules apply to `COMPACT SEGMENT`, not to block compaction.
 
 **Example**
 
@@ -125,6 +129,32 @@ FROM
 +-------------+---------------+---------------------------------------------+
 |         751 |             1 | The table does not need segment compact now |
 +-------------+---------------+---------------------------------------------+
+```
+
+**Limited compaction example**
+
+Each separate insert below creates a segment. The first compaction considers only the newest two segments. The unrestricted compaction can then merge the remaining older fragments.
+
+```sql
+CREATE TABLE compact_segment_latest_limit(a INT) BLOCK_PER_SEGMENT = 4;
+INSERT INTO compact_segment_latest_limit VALUES (1);
+INSERT INTO compact_segment_latest_limit VALUES (2);
+INSERT INTO compact_segment_latest_limit VALUES (3);
+INSERT INTO compact_segment_latest_limit VALUES (4);
+
+OPTIMIZE TABLE compact_segment_latest_limit COMPACT SEGMENT LIMIT 2;
+
+-- Expected counts: 3 segments, 4 blocks, 4 rows.
+SELECT segment_count, block_count, row_count
+FROM fuse_snapshot('default', 'compact_segment_latest_limit') LIMIT 1;
+
+OPTIMIZE TABLE compact_segment_latest_limit COMPACT SEGMENT;
+
+-- Expected counts: 1 segment, 4 blocks, 4 rows.
+SELECT segment_count, block_count, row_count
+FROM fuse_snapshot('default', 'compact_segment_latest_limit') LIMIT 1;
+
+DROP TABLE compact_segment_latest_limit;
 ```
 
 ### Block Compaction
