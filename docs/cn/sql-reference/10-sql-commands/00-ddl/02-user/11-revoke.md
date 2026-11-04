@@ -77,6 +77,17 @@ privileges_level ::=
   | ROW ACCESS POLICY <policy_name>
 ```
 
+### 撤销物化视图权限
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+```sql
+REVOKE SELECT ON MATERIALIZED VIEW [<database_name>.]<view_name> FROM ROLE <role_name>;
+REVOKE ALL [PRIVILEGES] ON MATERIALIZED VIEW [<database_name>.]<view_name> FROM ROLE <role_name>;
+```
+
+必须显式指定 `MATERIALIZED VIEW` 对象类型，并使用已有的物化视图名称。普通表语法、普通视图和通配符目标均会被拒绝。`ALL` 会移除该对象上的所有权限，包括旧版本遗留的非 `SELECT` 授权。它不会移除仍可允许读取的数据库级、全局或其他角色授权。要移除全部读取权限，还需检查这些有效授权。参见[物化视图](../05-view/materialized-view.md#访问控制要求)。
+
 ### 撤销 Integration 权限
 
 ```sql

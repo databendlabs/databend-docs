@@ -113,4 +113,26 @@ DROP MATERIALIZED VIEW IF EXISTS paid_orders_by_customer;
 
 ## Access control requirements
 
-To query, refresh, alter, show, or drop a materialized view, the user needs `SELECT` on its source table (or ownership that provides the equivalent access). Permissions are checked against the current source table identity, so source-table renames do not change this requirement.
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+Direct reads require effective `SELECT` on the materialized view. A database-level `SELECT` grant (`db.*`) or global `SELECT` grant (`*.*`) also authorizes these reads. Source-table `SELECT` alone no longer authorizes a direct materialized-view read.
+
+An administrator can grant access to an existing role:
+
+```sql
+GRANT SELECT ON MATERIALIZED VIEW default.paid_orders_by_customer TO ROLE reader;
+```
+
+A user with that effective role can query the materialized view without source-table access. This applies before the first refresh, after a refresh, and when reads include pending source changes. An explicit reference to the source table in the same query still requires source-table access. Optimizer rewrites of source-table queries continue to require source-table `SELECT`, not materialized-view `SELECT`.
+
+Creating a materialized view requires database `CREATE` and source-table `SELECT`. Creation does not automatically grant ownership or `SELECT` on the materialized view. This also applies to the creator. Before an upgrade, grant materialized-view `SELECT` to readers who previously relied only on source-table access. Existing effective database-level or global `SELECT` grants do not require an additional per-view grant.
+
+`system.materialized_views` visibility follows effective materialized-view `SELECT`. Materialized-view `SELECT` does not grant maintenance privileges. Existing management requirements are unchanged. For example, refresh and definition inspection still require source-table `SELECT` or equivalent access. Dropping a materialized view still requires database `DROP`. Source-table renames do not change source-identity checks.
+
+Use `ON MATERIALIZED VIEW` for object-level grants and revocations. Bare `ON db.view_name` syntax is rejected for materialized views. `GRANT ALL` and wildcard targets are not supported with `ON MATERIALIZED VIEW`. To remove a per-view grant:
+
+```sql
+REVOKE SELECT ON MATERIALIZED VIEW default.paid_orders_by_customer FROM ROLE reader;
+```
+
+`REVOKE ALL [PRIVILEGES] ON MATERIALIZED VIEW` also removes legacy privileges on that object. It does not remove broader database-level or global grants. See [GRANT](../02-user/10-grant.md#granting-materialized-view-privileges) and [REVOKE](../02-user/11-revoke.md#revoking-materialized-view-privileges).
