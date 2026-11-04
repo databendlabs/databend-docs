@@ -77,6 +77,17 @@ privileges_level ::=
   | ROW ACCESS POLICY <policy_name>
 ```
 
+### Revoking Materialized View Privileges
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+```sql
+REVOKE SELECT ON MATERIALIZED VIEW [<database_name>.]<view_name> FROM ROLE <role_name>;
+REVOKE ALL [PRIVILEGES] ON MATERIALIZED VIEW [<database_name>.]<view_name> FROM ROLE <role_name>;
+```
+
+Use the explicit `MATERIALIZED VIEW` object type and an existing materialized view name. Bare table syntax, regular views, and wildcard targets are rejected. `ALL` removes all privileges on this object, including legacy non-`SELECT` grants from older versions. It does not remove database-level, global, or other-role grants that can still authorize reads. To remove all read access, check those effective grants as well. See [Materialized Views](../05-view/materialized-view.md#access-control-requirements).
+
 ### Revoking Integration Privileges
 
 ```sql

@@ -99,6 +99,18 @@ privileges_level ::=
   | ROW ACCESS POLICY <policy_name>
 ```
 
+### 授予物化视图权限
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+```sql
+GRANT SELECT ON MATERIALIZED VIEW [<database_name>.]<view_name> TO ROLE <role_name>;
+```
+
+必须显式指定 `MATERIALIZED VIEW` 对象类型。目标必须是已有的物化视图，不能是表、普通视图或通配符。此对象类型仅支持 `SELECT`，不支持 `GRANT ALL`。对物化视图使用普通的 `ON db.view_name` 语法会被拒绝。
+
+此授权允许直接读取，并使对象在 `system.materialized_views` 中可见。它不授予源表访问权限或维护权限。有效的数据库级或全局 `SELECT` 也允许读取。创建物化视图不会自动向创建者授予该视图的所有权或 `SELECT`。升级指导和读取行为见[物化视图](../05-view/materialized-view.md#访问控制要求)。
+
 ### 授予 Integration 权限
 
 ```sql
