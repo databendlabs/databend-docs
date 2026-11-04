@@ -4,9 +4,19 @@ title: system.query_log
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.696"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 这是一个只读的内存表，用于存储所有的查询日志。关于查询日志中可用字段的具体信息，请参阅[示例](#examples)部分。
+
+## 凭证脱敏 {/* #credential-masking */}
+
+查询历史会对可识别的凭证相关 SQL 语法中的值进行脱敏。例如用户密码、连接凭证、远程 UDF 请求头和 URL 凭证、webhook 选项，以及名称表明含有敏感信息的设置。合法的查询和 DML 表达式仍会显示。`WHERE token = 'abc'` 这样的谓词属于用户数据，而不是凭证选项，因此其中的字面量不会被自动隐藏。
+
+对于无法解析的 SQL，历史记录中的脱敏会隐藏值，同时保留语句结构以供诊断。日志中的错误副本会使用该语句已记录的隐藏值进行清理。返回给提交查询的客户端的错误不会因此修改。
+
+:::caution[日志中仍可能包含敏感数据]
+脱敏不是通用的数据清理策略。规划前的请求日志使用另一条脱敏路径。其中的错误 SQL、未识别的凭证选项名称，以及部分存储过程参数或任务脚本，仍可能暴露凭证。经过变换的敏感值和较短的未加引号的值也可能无法从错误中清除。请限制对查询历史和服务端日志的访问。不要在普通查询字面量中放入敏感信息。
+:::
 
 ## 设置会话标签
 
