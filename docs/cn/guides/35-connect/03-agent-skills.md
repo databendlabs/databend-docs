@@ -25,7 +25,7 @@ description: 安装 Databend Cloud skill，让 Agent 协助您查询数据、管
 
 ```text
 请安装以下 databend-cloud skill。
-https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
+https://github.com/databendcloud/databend-cloud-skill
 
 按 SKILL.md 为 https://api.databend.cn 复用已有 API key，缺少时引导我保存。
 不要在聊天中索取 key。配置完成即停止，不连接数据库或执行 SQL。
@@ -50,9 +50,12 @@ curl --request POST 'https://api.databend.cn/v1/query' \
 
 ## 安全须知
 
-- 请勿在聊天中发送 token，也不要将其提交到代码仓库。本地凭证以明文保存，辅助脚本会将文件的 Unix 权限设为 `600`。
-- 请按需授予账号权限。Token 可访问该账号获准使用的组织，skill 本身不限制写操作。如需只读访问，请通过数据库权限控制。
-- Agent 可能将查询结果和日志提交给模型处理，请遵循组织的数据安全要求。
-- 如需撤销 token，请在 Cloud 控制台将其禁用或删除。替换本地密钥文件不会使旧 token 失效。
+- 为 Token 设置 IP 白名单，拒绝名单外的访问。白名单为空时不限制 IP。
+- 请添加 Agent 实际运行环境的出口 IP。远程 Agent 的出口 IP 可能与你的本地电脑不同。
+- Token 遵循账号当前的组织角色权限；只读访问需通过数据库权限控制。Skill 本身不提供只读沙箱。
+- 可在 Cloud 控制台禁用或删除 Token，以撤销访问权限。替换本地密钥文件不会使旧 Token 失效。
+- 可在 Cloud 控制台查看 Token 最近使用的 IP 和时间，但这不代表完整的请求审计记录。
+- 请勿将 Token 放入聊天、代码或代码仓库。本地凭证以明文保存，辅助脚本会将文件的 Unix 权限设为 `600`。
+- 查询结果和日志可能进入 Agent 的模型上下文，请遵循组织的数据安全要求。
 
-更多说明请参阅[身份认证](https://raw.githubusercontent.com/evotai/evot-skills/main/skills/databend-cloud/references/authentication.md)和 [Query API 参考](https://raw.githubusercontent.com/evotai/evot-skills/main/skills/databend-cloud/references/query-api.md)。
+更多说明请参阅[身份认证](https://raw.githubusercontent.com/databendcloud/databend-cloud-skill/main/references/authentication.md)和 [Query API 参考](https://raw.githubusercontent.com/databendcloud/databend-cloud-skill/main/references/query-api.md)。

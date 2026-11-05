@@ -25,7 +25,7 @@ Copy this message to install the skill and set up a reusable API key. Create a t
 
 ```text
 Install the databend-cloud skill:
-https://github.com/evotai/evot-skills/tree/main/skills/databend-cloud
+https://github.com/databendcloud/databend-cloud-skill
 
 Follow SKILL.md to reuse an API key or help me save one for https://api.databend.com.
 Keep the key out of chat. Stop after setup; do not connect or run SQL.
@@ -50,9 +50,12 @@ curl --request POST 'https://api.databend.com/v1/query' \
 
 ## Security
 
-- Keep tokens out of chat and repositories. Local credential files are plaintext; the helper sets Unix permissions to `600`.
-- Use least-privilege accounts. Tokens follow the account's org permissions. The skill is not a read-only sandbox; database privileges enforce read-only access.
+- Set a token IP allowlist to reject requests from other IPs. An empty allowlist means no IP restriction.
+- Allow the actual outbound IP of the agent's execution environment. A remote agent can use a different outbound IP from your local computer.
+- Tokens follow your account's current organization role. Use database permissions for read-only access. The skill is not a read-only sandbox.
+- Disable or delete tokens in the Cloud console to revoke access. Replacing a local key file does not revoke the old token.
+- View the token's last-used IP and time in the Cloud console. This is not a complete request audit log.
+- Keep tokens out of chat, code, and repositories. Local credential files are plaintext; the helper sets Unix permissions to `600`.
 - Results and logs can enter the agent's model context. Follow your data policy.
-- Revoke tokens in the Cloud console. Replacing a local key file does not revoke the old token.
 
-Details: [Authentication](https://raw.githubusercontent.com/evotai/evot-skills/main/skills/databend-cloud/references/authentication.md) · [Query API](https://raw.githubusercontent.com/evotai/evot-skills/main/skills/databend-cloud/references/query-api.md).
+Details: [Authentication](https://raw.githubusercontent.com/databendcloud/databend-cloud-skill/main/references/authentication.md) · [Query API](https://raw.githubusercontent.com/databendcloud/databend-cloud-skill/main/references/query-api.md).
