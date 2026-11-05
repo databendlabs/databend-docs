@@ -9,6 +9,7 @@ This page provides a comprehensive overview of stage operations in Databend, org
 | Command | Description |
 |---------|-------------|
 | [CREATE STAGE](01-ddl-create-stage.md) | Creates a new stage for storing files |
+| [ALTER STAGE](07-ddl-alter-stage.md) | Changes a stage location, file format, or comment |
 | [DROP STAGE](02-ddl-drop-stage.md) | Removes a stage |
 | [PRESIGN](presign.md) | Generates a pre-signed URL for stage access |
 
