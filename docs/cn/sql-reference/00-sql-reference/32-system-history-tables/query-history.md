@@ -53,12 +53,12 @@ import EEFeature from '@site/src/components/EEFeature';
 | agg_spilled_bytes         | BIGINT UNSIGNED  | 聚合操作期间溢出的字节数。                                    |
 | group_by_spilled_rows     | BIGINT UNSIGNED  | 分组操作期间溢出的行数。                                        |
 | group_by_spilled_bytes    | BIGINT UNSIGNED  | 分组操作期间溢出的字节数。                                       |
-| written_io_bytes          | BIGINT UNSIGNED  | 写入 I/O 的字节数。                                                            |
-| written_io_bytes_cost_ms  | BIGINT UNSIGNED  | 写入的 I/O 成本（以毫秒为单位）。                                                      |
-| scan_rows                 | BIGINT UNSIGNED  | 查询扫描的行数。                                                      |
-| scan_bytes                | BIGINT UNSIGNED  | 查询扫描的字节数。                                                     |
-| scan_io_bytes             | BIGINT UNSIGNED  | 扫描期间读取的 I/O 字节数。                                                  |
-| scan_io_bytes_cost_ms     | BIGINT UNSIGNED  | 扫描的 I/O 成本（以毫秒为单位）。                                                     |
+| written_io_bytes          | BIGINT UNSIGNED  | 归属于查询的存储写入字节数。 |
+| written_io_bytes_cost_ms  | BIGINT UNSIGNED  | 累计存储写操作时长，单位为毫秒。 |
+| scan_rows                 | BIGINT UNSIGNED  | 扫描工作量的行数，不是结果行数。请参阅[指标范围](#指标范围)。 |
+| scan_bytes                | BIGINT UNSIGNED  | 逻辑扫描工作量的字节数，不是存储读取字节数。 |
+| scan_io_bytes             | BIGINT UNSIGNED  | 归属于查询的存储读取字节数，范围不限于扫描输出。 |
+| scan_io_bytes_cost_ms     | BIGINT UNSIGNED  | 累计存储读操作时长，单位为毫秒。 |
 | scan_partitions           | BIGINT UNSIGNED  | 扫描的分区（Partition）数。                                                             |
 | total_partitions          | BIGINT UNSIGNED  | 涉及的总分区（Partition）数。                                                      |
 | result_rows               | BIGINT UNSIGNED  | 查询结果中的行数。                                                       |
@@ -76,6 +76,27 @@ import EEFeature from '@site/src/components/EEFeature';
 | peek_memory_usage         | VARIANT          | 查询执行期间的峰值内存使用情况（以 JSON 对象表示）。                              |
 | session_id                | VARCHAR          | 与查询关联的会话标识符。                                             |
 
+
+## 指标范围
+
+从 v1.2.953 开始，存储 I/O 字段使用每查询计数器。`scan_io_bytes` 和 `written_io_bytes` 包括本地节点 I/O 和已上报给查询的远程节点增量。对应的时长字段来自同一组计数器。每条日志中的 I/O 字段与 `resource_usage` 使用同一个快照。时长字段累计操作时间，不是查询的墙钟耗时。
+
+这些计数器度量归属于查询的存储操作，包括数据块和元数据 I/O。它们独立于逻辑扫描/写入进度和结果大小。写入查询可以同时报告读取和写入。例如，`INSERT ... SELECT` 读取源数据并写入目标数据。这两类字节度量不必相等。
+
+同样从 v1.2.953 开始，FUSE Parquet 扫描在 prewhere 和运行时过滤器移除行之前报告工作量。`scan_rows` 统计已扫描数据块的行数，即使没有行通过这些过滤器。被裁剪的数据块不会被扫描。`scan_bytes` 表示这些数据块的未压缩投影列工作量。当行选择下推跳过部分行的解码时，这些行的字节数可以通过估算得到。它不是存储传输字节数的精确计数。
+
+同一扫描工作量也用于 `system.processes.scan_progress_read_rows`、`scan_progress_read_bytes` 和 Profile 的 `ScanBytes`。实时的 `system.processes.data_read_bytes` 和 `data_write_bytes` 则使用每查询 I/O 计数器。过滤后的结果更小，本身不表示扫描工作量更少。解释指标时，请比较兼容的查询阶段和版本。
+
+查看已完成查询的度量：
+
+```sql
+SELECT query_id, scan_rows, scan_bytes, scan_io_bytes,
+       written_io_bytes, result_rows
+FROM system_history.query_history
+WHERE log_type = 2
+ORDER BY event_time DESC
+LIMIT 10;
+```
 
 ## 示例
 

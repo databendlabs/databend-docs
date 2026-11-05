@@ -6,7 +6,13 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.957"/>
 
-这是一个只读的内存表，用于存储所有的查询日志。关于查询日志中可用字段的具体信息，请参阅[示例](#examples)部分。
+这是一个只读的内存表，用于存储所有的查询日志。关于查询日志中可用字段的具体信息，请参阅[示例](#示例)部分。
+
+## 扫描与 I/O 指标
+
+从 v1.2.953 开始，存储 I/O 字段使用每查询计数器，包括已上报的远程节点 I/O。FUSE Parquet 扫描进度统计 prewhere 和运行时过滤器之前的工作量，不是通过过滤的行数。逻辑扫描字节数可以通过估算得到，不是存储传输字节数。结果较小不能证明扫描的数据较少。
+
+有关字段定义、实时 `system.processes` 映射和计时范围，请参阅[查询历史指标范围](../32-system-history-tables/query-history.md#指标范围)。
 
 ## 凭证脱敏 {/* #credential-masking */}
 

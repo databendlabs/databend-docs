@@ -8,6 +8,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 A read-only in-memory table stores all the query logs. For the specific fields available in the query logs, refer to the [Examples](#examples) section.
 
+## Scan and I/O Metrics
+
+Since v1.2.953, storage I/O fields use per-query counters, including reported remote-node I/O. FUSE Parquet scan progress counts workload before prewhere and runtime filters, not the rows that survive them. Logical scan bytes can be estimated and are not storage-transfer bytes. A small result does not prove that little data was scanned.
+
+For the field definitions, live `system.processes` mapping, and timing scope, see [Query History Metric Scopes](../32-system-history-tables/query-history.md#metric-scopes).
+
 ## Credential Masking
 
 Query history masks values in recognized credential-bearing SQL syntax. Examples include user passwords, connection credentials, remote UDF headers and URL credentials, webhook options, and secret-named settings. Valid query and DML expressions remain visible. A predicate such as `WHERE token = 'abc'` is user data, not a credential option, so its literal is not automatically hidden.

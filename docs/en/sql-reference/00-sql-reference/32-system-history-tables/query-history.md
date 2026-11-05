@@ -53,12 +53,12 @@ import EEFeature from '@site/src/components/EEFeature';
 | agg_spilled_bytes         | BIGINT UNSIGNED  | The number of bytes spilled during aggregation operations.                                    |
 | group_by_spilled_rows     | BIGINT UNSIGNED  | The number of rows spilled during group by operations.                                        |
 | group_by_spilled_bytes    | BIGINT UNSIGNED  | The number of bytes spilled during group by operations.                                       |
-| written_io_bytes          | BIGINT UNSIGNED  | The number of bytes written to IO.                                                            |
-| written_io_bytes_cost_ms  | BIGINT UNSIGNED  | The IO cost in milliseconds for writing.                                                      |
-| scan_rows                 | BIGINT UNSIGNED  | The number of rows scanned by the query.                                                      |
-| scan_bytes                | BIGINT UNSIGNED  | The number of bytes scanned by the query.                                                     |
-| scan_io_bytes             | BIGINT UNSIGNED  | The number of IO bytes read during scanning.                                                  |
-| scan_io_bytes_cost_ms     | BIGINT UNSIGNED  | The IO cost in milliseconds for scanning.                                                     |
+| written_io_bytes          | BIGINT UNSIGNED  | Storage-write bytes attributed to the query. |
+| written_io_bytes_cost_ms  | BIGINT UNSIGNED  | Accumulated storage-write operation duration, in milliseconds. |
+| scan_rows                 | BIGINT UNSIGNED  | Scan-workload rows, not result rows. See [Metric Scopes](#metric-scopes). |
+| scan_bytes                | BIGINT UNSIGNED  | Logical scan-workload bytes, not storage-read bytes. |
+| scan_io_bytes             | BIGINT UNSIGNED  | Storage-read bytes attributed to the query, including more than scan output. |
+| scan_io_bytes_cost_ms     | BIGINT UNSIGNED  | Accumulated storage-read operation duration, in milliseconds. |
 | scan_partitions           | BIGINT UNSIGNED  | The number of partitions scanned.                                                             |
 | total_partitions          | BIGINT UNSIGNED  | The total number of partitions involved.                                                      |
 | result_rows               | BIGINT UNSIGNED  | The number of rows in the query result.                                                       |
@@ -76,6 +76,27 @@ import EEFeature from '@site/src/components/EEFeature';
 | peek_memory_usage         | VARIANT          | The peak memory usage during query execution (as a JSON object).                              |
 | session_id                | VARCHAR          | The session identifier associated with the query.                                             |
 
+
+## Metric Scopes
+
+Since v1.2.953, storage I/O fields use per-query counters. `scan_io_bytes` and `written_io_bytes` include local-node I/O and remote-node deltas reported to the query. Their duration fields come from the same counters. The I/O fields and `resource_usage` use the same snapshot for each log entry. The duration fields accumulate operation time; they are not query wall-clock duration.
+
+These counters measure attributed storage operations, including block and metadata I/O. They are separate from logical scan/write progress and from result size. A write query can report both reads and writes. For example, `INSERT ... SELECT` reads source data and writes destination data. The two byte measures need not match.
+
+Also since v1.2.953, FUSE Parquet scans report workload before prewhere and runtime filters remove rows. `scan_rows` counts rows in scanned blocks, even when no row survives those filters. Pruned blocks are not scanned. `scan_bytes` represents the uncompressed projected-column workload for those blocks. When row-selection pushdown skips decoding some rows, bytes for those rows can be estimated. It is not a precise count of transferred storage bytes.
+
+The same scan workload feeds `system.processes.scan_progress_read_rows`, `scan_progress_read_bytes`, and the profile's `ScanBytes`. The live `system.processes.data_read_bytes` and `data_write_bytes` use the per-query I/O counters instead. A smaller filtered result does not by itself mean less scan work. Compare compatible query phases and versions when interpreting these metrics.
+
+To inspect completed-query measurements:
+
+```sql
+SELECT query_id, scan_rows, scan_bytes, scan_io_bytes,
+       written_io_bytes, result_rows
+FROM system_history.query_history
+WHERE log_type = 2
+ORDER BY event_time DESC
+LIMIT 10;
+```
 
 ## Examples
 
