@@ -2,6 +2,10 @@
 title: 环境变量
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.956"/>
+
 Databend 允许您利用环境变量的灵活性，既可以指向自定义配置文件，也可以对单个配置进行精确调整。此功能不仅使您能够在不中断默认设置的情况下进行修改，而且在您需要快速调整、使用容器化环境或需要保护敏感数据时，也被证明特别有用。
 
 :::note
@@ -42,3 +46,31 @@ export CONFIG_FILE='/etc/databend/databend-query.toml'
 当存储服务的环境变量与 Databend 的环境变量匹配时，Databend 也会接受它们。这允许您使用最熟悉的环境变量命名约定，从而无需记住其他变量名称并简化配置过程。
 
 为了用一个例子来说明，如果您想使用环境变量设置 S3 的访问密钥 ID，您可以灵活地使用 Databend 提供的 STORAGE_S3_ACCESS_KEY_ID 或通常与 AWS S3 关联的众所周知的 AWS_ACCESS_KEY_ID。
+
+<a id="alibaba-cloud-oss-credential-aliases"></a>
+
+### Alibaba Cloud OSS 凭据别名
+
+从 v1.2.956 开始，Query 服务将以下 Alibaba Cloud 别名加载到 OSS 配置：
+
+| Alibaba Cloud 变量 | Databend 变量 | 配置字段 |
+|------------------------|-------------------|---------------------|
+| `ALIBABA_CLOUD_ROLE_ARN` | `STORAGE_OSS_ROLE_ARN` | `storage.oss.role_arn` |
+| `ALIBABA_CLOUD_ACCESS_KEY_ID` | `STORAGE_OSS_ACCESS_KEY_ID` | `storage.oss.access_key_id` |
+| `ALIBABA_CLOUD_ACCESS_KEY_SECRET` | `STORAGE_OSS_ACCESS_KEY_SECRET` | `storage.oss.access_key_secret` |
+
+仅当 `STORAGE_OSS_ROLE_ARN` 未设置或为空时，角色别名才生效。Access Key 别名必须成对使用：两个 Databend Access Key 变量都未设置或为空，且两个 Alibaba Cloud Access Key 变量都非空。缺少一项的别名对会被忽略。加载器不会将一个 Databend Access Key 变量与一个 Alibaba Cloud 别名组合。
+
+配置优先级从低到高为：配置文件、环境变量、命令行参数。在环境变量层，非空 Databend 变量优先于这些别名。被接受的别名可以覆盖配置文件中的值。其他配置字段保持不变。
+
+对于 RRSA 部署，Pod 可以提供角色和 OIDC 输入，而不配置静态 Access Key：
+
+```bash
+export ALIBABA_CLOUD_ROLE_ARN='<role-arn>'
+export ALIBABA_CLOUD_OIDC_PROVIDER_ARN='<oidc-provider-arn>'
+export ALIBABA_CLOUD_OIDC_TOKEN_FILE='/var/run/secrets/ack.alibabacloud.com/rrsa-tokens/token'
+```
+
+请使用部署实际挂载的令牌文件路径。Query 服务必须能够读取该文件。如果访问失败，请检查身份联合、角色权限、Bucket Policy 和 STS 可用性。
+
+不要将 Access Key 和投射令牌写入共享日志。请使用部署的 Secret 注入，不要将真实凭据保存到 Shell 历史记录。
