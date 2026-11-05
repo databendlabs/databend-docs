@@ -113,7 +113,7 @@ Since v1.2.957, local Python workers must enter an OS sandbox before user code r
 
 - Workers receive an allowlisted environment, not the query node's full environment. Each worker has a private writable directory for temporary files, dependencies, and stage imports.
 - Python installations and required system libraries are read-only. Access to query configuration/data files and other processes' environment files is denied. Path metadata lookup can still reveal that a path exists.
-- User code cannot open network sockets, start child programs/processes, or signal the query process. Use External Functions for external services instead of making network calls inside local Python code.
+- User code cannot open native network sockets, start child programs/processes, or signal the query process. For integration-bound HTTP(S), see [Controlled HTTP(S) Access](#controlled-https-access).
 - macOS workers run without the OS sandbox and log a warning. Use macOS only for local development, not for untrusted UDFs. Other non-Linux platforms refuse local Python execution.
 
 Dependency installation runs on the query node, outside the worker sandbox. Requirements must use package names with optional extras/version specifiers, such as `numpy>=1.26`. pip options, URLs, direct references, local paths, and environment markers are rejected. Operator-configured pip mirrors/proxies and CA settings remain supported through an allowlist.
@@ -121,6 +121,14 @@ Dependency installation runs on the query node, outside the worker sandbox. Requ
 `python_udf_pip_only_binary = true` is the default. Only wheel packages are installed. Setting it to `false` permits source distributions to execute build scripts on the query node. Do not treat the worker sandbox as protection from dependency-installation code.
 
 Local Python scalar and aggregate functions share worker admission, queue, and request-timeout controls. Workers belong to one query execution and are not reused across queries. Python worker memory is not charged to the query allocator, and process limits do not bound total worker memory. Use OS resource controls for memory containment. See [Script UDF Resources](/guides/self-hosted/references/node-config/query-config#script-udf-resources) for configuration and timeout scope.
+
+### Controlled HTTP(S) Access
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+For a local Python function, append `EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...)` after the closing `$$` of a `CREATE FUNCTION` or replacement `ALTER FUNCTION` definition. The operator must enable `query.enable_python_udf_external_access` on every executing node. The author needs `USAGE` on every named integration, in addition to existing CREATE/ALTER privileges.
+
+Only approved HTTP(S) access through synchronous proxy-aware clients is supported. The mandatory Linux worker sandbox still denies native sockets. Remote scalar sandbox execution, JavaScript, and WASM do not support this binding. For the complete configuration, example, and security boundary, see [Local Python UDF Access](/guides/security/external-access-integration#local-python-udf-access).
 
 ### Data type mappings (Python)
 

@@ -84,6 +84,18 @@ Python 请求超时不是整个 SQL 的超时。普通查询超时仍控制总�
 
 进程数量和请求超时不提供 OS 强制执行的 Python 内存或 CPU 预算。Worker 内存不计入查询分配器。对于内存密集型包，请显式设置较小的 Worker 容量，并使用独立的 OS 资源控制。JavaScript 和 WASM 在进程内运行；WASM 没有执行超时，且这两个引擎都不会在运行中的调用内响应取消。
 
+### 本地 Python UDF 外部访问
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+| 参数 | 说明 |
+|---|---|
+| enable_python_udf_external_access | 允许本地 Python UDF 通过 integration 发起 HTTP(S) 请求。默认为 `false`。请在每个执行节点的 `[query]` 中设置。它不启用原生 socket，也不改变 UDF 执行路由。 |
+
+原有的 `udf_server_allow_list` 同时作为此访问的 operator 主机限制。非空列表和租户 `HOST_PORT` 规则必须同时允许目标。列表为空时，租户规则可在 operator 启用此功能后选择公网目标。非公网 IP 需要 operator 添加精确的 IP 字面量；仅列出主机名不够。租户规则仍需授权端口。
+
+此选项独立于远程 UDF 传输开关。Python worker 仍需强制执行的 Linux 沙箱和显式 integration 绑定。SQL 配置、撤销方式和端点信任限制见[本地 Python UDF 访问](/guides/security/external-access-integration#本地-python-udf-访问)。
+
 ### [query.users] 部分
 
 [[query.users]] 部分可用参数如下。有关管理员用户配置的更多信息，请参见[配置管理员用户](../admin-users.md)。

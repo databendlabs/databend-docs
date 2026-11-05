@@ -4,7 +4,7 @@ sidebar_position: 8
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
@@ -50,11 +50,19 @@ Databend 为每个数据库和表创建唯一 ID，用于存储快照、段和�
 在 Databend 中，建议的理想块大小为 100 MB（未压缩）或 1,000,000 行，每个段包含 1,000 个块。为最大化表优化效果，需明确何时以及如何应用各种优化技术，如[段合并](#segment-compaction)和[块合并](#block-compaction)。
 - 使用 COPY INTO 或 REPLACE INTO 命令向包含聚簇键（Cluster Key）的表写入数据时，Databend 会自动触发重聚簇以及段和块合并流程。
 
-- 段与块合并支持在集群环境中分布式执行。可通过设置 ENABLE_DISTRIBUTED_COMPACT 为 1 启用，以提升集群环境中的查询性能和可扩展性。
+### 分布式执行与升级兼容性
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+在集群中，Databend 会自动分布式执行块合并。`enable_distributed_compact` 已弃用且不再生效。将其设为 `0` 不会强制本地执行。
+
+旧版本使用以下设置启用分布式合并。现有脚本可以保留此语句，但新脚本不再需要它：
 
   ```sql
   SET enable_distributed_compact = 1;
   ```
+
+`auto_compaction_segments_limit` 接受 `2` 到 `128` 之间的值，包含两个边界。此设置限制写入后自动重聚簇所考虑的 Segment 数量。升级前，请检查设置了更大值的脚本。请将这些值调整到支持的范围。此设置不替代手动 `OPTIMIZE TABLE` 或 `ALTER TABLE ... RECLUSTER` 命令的 `LIMIT` 子句。
 
 ### 段合并（Segment Compaction）
 
@@ -79,9 +87,13 @@ FROM
 OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]    
 ```
 
-通过合并小段为较大段来优化表数据。
+将小段合并为较大段，不重写数据 Block。
 
-- LIMIT 选项设置最大合并段数，Databend 将选择并合并最新段。
+`COMPACT SEGMENT LIMIT n` 考虑最新的输入段。此限制不指定合并段数或输出段数。不需要合并的段可以保持不变。
+
+不指定 `LIMIT` 时，Databend 会考虑当前快照中的所有段。
+
+反复执行有限制的合并可能会一直保留较旧的碎片。当旧段也需要合并时，请定期执行不带 `LIMIT` 的 `COMPACT SEGMENT`。这些规则适用于 `COMPACT SEGMENT`，不适用于块合并。
 
 **示例**
 
@@ -125,6 +137,32 @@ FROM
 +-------------+---------------+---------------------------------------------+
 |         751 |             1 | The table does not need segment compact now |
 +-------------+---------------+---------------------------------------------+
+```
+
+**有限制的合并示例**
+
+下面每条独立的插入语句都会创建一个段。第一次合并只考虑最新的两个段。后续不带限制的合并可以继续合并较旧的碎片。
+
+```sql
+CREATE TABLE compact_segment_latest_limit(a INT) BLOCK_PER_SEGMENT = 4;
+INSERT INTO compact_segment_latest_limit VALUES (1);
+INSERT INTO compact_segment_latest_limit VALUES (2);
+INSERT INTO compact_segment_latest_limit VALUES (3);
+INSERT INTO compact_segment_latest_limit VALUES (4);
+
+OPTIMIZE TABLE compact_segment_latest_limit COMPACT SEGMENT LIMIT 2;
+
+-- Expected counts: 3 segments, 4 blocks, 4 rows.
+SELECT segment_count, block_count, row_count
+FROM fuse_snapshot('default', 'compact_segment_latest_limit') LIMIT 1;
+
+OPTIMIZE TABLE compact_segment_latest_limit COMPACT SEGMENT;
+
+-- Expected counts: 1 segment, 4 blocks, 4 rows.
+SELECT segment_count, block_count, row_count
+FROM fuse_snapshot('default', 'compact_segment_latest_limit') LIMIT 1;
+
+DROP TABLE compact_segment_latest_limit;
 ```
 
 ### 块合并（Block Compaction）

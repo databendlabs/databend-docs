@@ -4,7 +4,7 @@ sidebar_position: 8
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
@@ -50,11 +50,19 @@ Databend creates a unique ID for each database and table for storing the snapsho
 In Databend, it's advisable to aim for an ideal block size of either 100MB (uncompressed) or 1,000,000 rows, with each segment consisting of 1,000 blocks. To maximize table optimization, it's crucial to gain a clear understanding of when and how to apply various optimization techniques, such as [Segment Compaction](#segment-compaction) and [Block Compaction](#block-compaction).
 - When using the COPY INTO or REPLACE INTO command to write data into a table that includes a cluster key, Databend will automatically initiate a re-clustering process, as well as a segment and block compact process.
 
-- Segment & block compactions support distributed execution in cluster environments. You can enable them by setting ENABLE_DISTRIBUTED_COMPACT to 1. This helps enhance data query performance and scalability in cluster environments.
+### Distributed Execution and Upgrade Compatibility
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+In a cluster, Databend distributes block compaction automatically. `enable_distributed_compact` is deprecated and has no effect. Setting it to `0` does not force local execution.
+
+Older versions used the following setting to enable distributed compaction. Existing scripts can keep this statement, but new scripts do not need it:
 
   ```sql
   SET enable_distributed_compact = 1;
   ```
+
+`auto_compaction_segments_limit` accepts values from `2` to `128`, inclusive. This setting limits the segments considered for automatic re-clustering after a write. Before an upgrade, check any scripts that set a larger value. Change those values to the supported range. This setting does not replace the `LIMIT` clause of a manual `OPTIMIZE TABLE` or `ALTER TABLE ... RECLUSTER` command.
 
 ### Segment Compaction
 
@@ -79,9 +87,13 @@ FROM
 OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]    
 ```
 
-Compacts the table data by merging small segments into larger ones.
+Merges small segments into larger segments without rewriting data blocks.
 
-- The option LIMIT sets the maximum number of segments to be compacted. In this case, Databend will select and compact the latest segments.
+`COMPACT SEGMENT LIMIT n` considers the newest input segments. The limit does not specify the number of merged or output segments. Segments that do not need compaction can remain unchanged.
+
+Without `LIMIT`, Databend considers all segments in the current snapshot.
+
+Repeated limited runs can leave older fragments untouched. Run `COMPACT SEGMENT` without `LIMIT` periodically when older segments also need compaction. These rules apply to `COMPACT SEGMENT`, not to block compaction.
 
 **Example**
 
@@ -125,6 +137,32 @@ FROM
 +-------------+---------------+---------------------------------------------+
 |         751 |             1 | The table does not need segment compact now |
 +-------------+---------------+---------------------------------------------+
+```
+
+**Limited compaction example**
+
+Each separate insert below creates a segment. The first compaction considers only the newest two segments. The unrestricted compaction can then merge the remaining older fragments.
+
+```sql
+CREATE TABLE compact_segment_latest_limit(a INT) BLOCK_PER_SEGMENT = 4;
+INSERT INTO compact_segment_latest_limit VALUES (1);
+INSERT INTO compact_segment_latest_limit VALUES (2);
+INSERT INTO compact_segment_latest_limit VALUES (3);
+INSERT INTO compact_segment_latest_limit VALUES (4);
+
+OPTIMIZE TABLE compact_segment_latest_limit COMPACT SEGMENT LIMIT 2;
+
+-- Expected counts: 3 segments, 4 blocks, 4 rows.
+SELECT segment_count, block_count, row_count
+FROM fuse_snapshot('default', 'compact_segment_latest_limit') LIMIT 1;
+
+OPTIMIZE TABLE compact_segment_latest_limit COMPACT SEGMENT;
+
+-- Expected counts: 1 segment, 4 blocks, 4 rows.
+SELECT segment_count, block_count, row_count
+FROM fuse_snapshot('default', 'compact_segment_latest_limit') LIMIT 1;
+
+DROP TABLE compact_segment_latest_limit;
 ```
 
 ### Block Compaction

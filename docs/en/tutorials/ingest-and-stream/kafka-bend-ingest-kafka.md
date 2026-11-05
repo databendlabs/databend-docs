@@ -67,7 +67,7 @@ Create the target table in Databend Cloud:
 ```sql
 CREATE DATABASE doc;
 
-CREATE    TABLE databend_topic (
+CREATE TABLE doc.databend_topic (
           id INT NOT NULL,
           name VARCHAR NOT NULL,
           age INT NOT NULL
@@ -75,6 +75,8 @@ CREATE    TABLE databend_topic (
 ```
 
 ### Step 4: Install & Run bend-ingest-kafka
+
+Use a DSN that selects the `doc` database for the commands below. RAW mode creates its table in the database selected by the DSN.
 
 1. Install the bend-ingest-kafka tool by running the following command:
 
@@ -103,9 +105,9 @@ Welcome to BendSQL 0.19.2-1e338e1(2024-07-17T09:02:28.323121000Z).
 Connecting to tn3ftqihs--eric.gw.aws-us-east-2.default.databend.com:443 with warehouse eric as user cloudapp
 Connected to Databend Query v1.2.626-nightly-a055124b65(rust-1.81.0-nightly-2024-08-27T15:49:08.376336236Z)
 
-cloudapp@(eric)/doc> SELECT * FROM databend_topic;
+cloudapp@(eric)/doc> SELECT * FROM doc.databend_topic;
 
-SELECT * FROM databend_topic
+SELECT * FROM doc.databend_topic
 
 -[ RECORD 1 ]-----------------------------------
   id: 1
@@ -130,9 +132,9 @@ bend-ingest-kafka \
 You will get a new table in the `doc` database, containing the following rows:
 
 ```bash
-cloudapp@(eric)/doc> SELECT * FROM test_ingest;
+cloudapp@(eric)/doc> SELECT * FROM doc.test_ingest;
 
-SELECT * FROM test_ingest
+SELECT * FROM doc.test_ingest
 
 -[ RECORD 1 ]-----------------------------------
            uuid: 17f9e56e-19ba-4d42-88a0-e16b27815d04

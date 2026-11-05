@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.777"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 Creates a Vector index on a [VECTOR](/sql/sql-reference/data-types/vector) column for a table to enable efficient similarity search using the HNSW (Hierarchical Navigable Small World) algorithm.
 
@@ -16,12 +16,14 @@ Creates a Vector index on a [VECTOR](/sql/sql-reference/data-types/vector) colum
 CREATE [OR REPLACE] VECTOR INDEX [IF NOT EXISTS] <index_name>
 ON [<database>.]<table_name>(<column>)
 distance = '<metric>' [m = <number>] [ef_construct = <number>]
+[refine = true | false]
 
 -- Create a Vector index when creating a table
 CREATE [OR REPLACE] TABLE <table_name> (
     <column_definitions>,
     VECTOR INDEX <index_name> (<column>)
         distance = '<metric>' [m = <number>] [ef_construct = <number>]
+        [refine = true | false]
 )...
 ```
 
@@ -43,13 +45,48 @@ CREATE [OR REPLACE] TABLE <table_name> (
   - Must be >= 40
   - Typical range: 40-500
 
+- **`refine`** (optional, default: `false`) - Stores FP16 vectors with the index for result refinement. This option was introduced in v1.2.957. It adds storage and read costs. Query settings control how Databend uses the stored FP16 data.
+
+## FP16 Refinement
+
+Without refinement, vector index queries use SQ8-quantized scores. An index with `refine = true` can rescore candidates with FP16 vectors before selecting the final TopN rows. FP16 scores are still approximate. Refinement does not guarantee exact nearest neighbors or scores from the original full-precision vectors.
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `vector_refine_factor` | `2` | Accepts integers from `0` to `16`. For an eligible TopN search, uses `LIMIT * factor` as the candidate budget for FP16 rescoring. `0` disables refinement. `1` rescores the original candidate budget. Indexes without `refine = true` ignore this setting. |
+| `vector_search_ef` | `0` | Controls the HNSW search candidate list. `0` uses four times the candidate count. A nonzero value is raised to at least the candidate count. |
+
+Both settings were introduced in v1.2.957. Set them for the session with `SET`, or for one query with `SETTINGS`. Changing these settings does not require an index rebuild.
+
+```sql
+SET vector_refine_factor = 4;
+SET vector_search_ef = 400;
+```
+
+Eligible TopN searches read only FP16 pages that contain candidates. Queries that score every row, such as a distance projection or a search with ordinary column predicates, use FP16 scores for every scored row when refinement is enabled. Those queries do not use the TopN candidate budget to limit scoring.
+
+To enable refinement on an existing index, replace its definition with `refine = true`. Keep the other index options that you need. Then run [REFRESH VECTOR INDEX](refresh-vector-index.md) to build the new index version for existing data:
+
+```sql
+CREATE OR REPLACE VECTOR INDEX idx_product_embedding
+ON products(embedding)
+distance = 'cosine,l1,l2'
+m = 20
+ef_construct = 150
+refine = true;
+
+REFRESH VECTOR INDEX idx_product_embedding ON products;
+```
+
+Newly written data uses the current index definition automatically. Existing legacy index files remain readable. Refresh builds the current bundle format where it is missing. `VACUUM TABLE` reclaims index files that retained snapshots no longer reference.
+
 ## How Vector Index Works
 
 Vector indexes in Databend use the HNSW algorithm to build a multi-layered graph structure:
 
 1. **Graph Structure**: Each vector is a node with connections to its nearest neighbors
 2. **Search Process**: Queries navigate through graph layers, from coarse to fine, to find approximate nearest neighbors quickly
-3. **Quantization**: Raw vectors are quantized to reduce storage and improve query performance (with negligible accuracy loss)
+3. **Quantization**: SQ8 quantization reduces index storage. Optional FP16 data supports refinement. Both can affect search accuracy.
 4. **Automatic Building**: The index is automatically built as data is written. Every INSERT, COPY, or data load operation automatically generates the index for new rows - no manual maintenance required
 
 ## Examples
@@ -165,6 +202,31 @@ Result:
 └────┴─────────────────┴──────────────┘
 ```
 
+### Querying with FP16 Refinement
+
+```sql
+CREATE TABLE vector_refine_demo (
+    id INT NOT NULL,
+    embedding VECTOR(4) NOT NULL,
+    VECTOR INDEX idx(embedding) distance = 'l1' refine = true
+);
+
+INSERT INTO vector_refine_demo VALUES
+    (1, [1,0,0,0]), (2, [1,1,0,0]), (3, [0,1,0,0]);
+INSERT INTO vector_refine_demo VALUES
+    (4, [-1,0,0,0]), (5, [1,0.5,0,0]), (6, [1,0.25,0,0]);
+
+SETTINGS (vector_refine_factor = 4, vector_search_ef = 16)
+SELECT id, l1_distance(embedding, [1,0,0,0]::VECTOR(4)) AS d
+FROM vector_refine_demo
+ORDER BY d
+LIMIT 3;
+```
+
+For this data, the three returned rows have IDs `1`, `6`, and `5`, with distances `0`, `0.25`, and `0.5`.
+
+Use `SETTINGS (vector_refine_factor = 0)` to disable FP16 refinement for one query. This leaves the stored FP16 data unchanged.
+
 ## Performance Tuning
 
 ### Choosing Distance Metrics
@@ -193,5 +255,5 @@ Choose the appropriate distance metric based on your use case. See [Vector Funct
 
 - Vector indexes only support columns with [VECTOR](/sql/sql-reference/data-types/vector) data type
 - The `distance` parameter is required; indexes without it will be ignored
-- Quantization may introduce negligible errors in distance calculations (typically < 0.01%)
+- HNSW search and quantized scores are approximate. Accuracy depends on the data and index/search settings. Test recall with representative queries.
 - Index size increases with higher `m` values (approximately `m * vector_dimension * 4 bytes` per vector)

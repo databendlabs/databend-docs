@@ -2,15 +2,23 @@
 title: Ownership
 ---
 
-Ownership is a specialized privilege that signifies the exclusive rights and responsibilities a role holds over a specific data object (currently including a database, table, UDF, and stage) within Databend. 
+Ownership gives a role control over a data object in Databend. Objects with ownership include databases, tables, UDFs, stages, connections, and sequences.
 
 ## Granting Ownership
 
-An object's ownership is automatically granted to the role of the user who creates it and can be transferred between roles using the [GRANT](/sql/sql-commands/ddl/user/grant) command:
+Databend assigns ownership of a new object to the session's current role. You can transfer ownership between roles with the [GRANT](/sql/sql-commands/ddl/user/grant) command:
 
 - Granting ownership of an object to a new role transfers full ownership to the new role, removing it from the previous role. For example, if Role A initially owns a table and you grant ownership to Role B, Role B will become the new owner, and Role A will no longer have ownership rights to that table.
-- Granting ownership to the built-in role `public` is not recommended for security reasons. If a user is in the `public` role when creating a object, then all users will have ownership of the object because each user has the `public` role by default. Databend recommends creating and assigning customized roles to users instead of using the `public` role for clarified ownership management. For information about the built-in roles, see [Built-in Roles](02-roles.md).
+- Avoid assigning ownership to the built-in role `public`. If `public` is the current role when a user creates an object, `public` owns that object. Other users can then exercise ownership through `public`, which every user has by default. Use custom roles for objects that must have restricted access. For more information, see [Built-in Roles](02-roles.md).
 - Ownership cannot be granted for tables in the `default` database, as it is owned by the built-in role `account_admin`.
+
+## Creation Privileges and the Current Role
+
+Databend checks creation privileges against privileges granted directly to the user and the session's current role. Secondary roles do not authorize creation. For connections and sequences, the required privileges are `CREATE CONNECTION` and `CREATE SEQUENCE`. `SUPER` alone does not supply either privilege.
+
+The current role is also the owner of the new object. Before creating an object, use [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) to switch to the role that holds the creation privilege and should own the object. Alternatively, set `DEFAULT_ROLE` with [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) or [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user); the default role becomes the current role at the start of a new session. If the current role is `public`, creation succeeds only when `public` or the user holds the privilege directly, and `public` owns the new object.
+
+`CREATE ... IF NOT EXISTS` does not change the owner of an existing object. `CREATE OR REPLACE` makes the current role the owner of the replacement object.
 
 ## Revoking Ownership Not Allowed
 
@@ -42,7 +50,7 @@ This example demonstrates the establishment of role-based ownership in Databend.
 ```sql
 -- Admin creates roles and assigns roles to corresponding users
 CREATE ROLE role1;
-CREATE USER u1 IDENTIFIED BY '123' WITH DEFAULT ROLE 'role1';
+CREATE USER u1 IDENTIFIED BY '123' WITH DEFAULT_ROLE = 'role1';
 GRANT CREATE ON db.* TO ROLE role1;
 GRANT ROLE role1 TO u1;
 
@@ -58,7 +66,7 @@ This example shows how to let a user create databases that are owned only by the
 ```sql
 CREATE ROLE part1_role;
 GRANT CREATE DATABASE ON *.* TO ROLE part1_role;
-CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT ROLE 'part1_role';
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'part1_role';
 GRANT ROLE part1_role TO user1;
 
 -- When user1 creates a database, ownership is assigned to part1_role.

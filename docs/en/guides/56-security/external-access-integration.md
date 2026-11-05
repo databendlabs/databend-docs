@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Use network rules and external access integrations to manage remote UDF destinations with SQL, within the operator's host limit. You can change allowed destinations or disable an integration without editing each UDF or restarting Query nodes. Use a feature-supporting version on every Query node.
 
-This feature controls connections **from Databend Query nodes to remote Apache Arrow Flight UDF servers**. It does not grant network access to inline Python, JavaScript, or WASM code. It does not control requests that the remote handler makes to other services.
+The remote UDF workflow below controls connections **from Databend Query nodes to remote Apache Arrow Flight UDF servers**. For local Python HTTP(S) access, see [Local Python UDF Access](#local-python-udf-access). Integrations do not grant network access to inline JavaScript or WASM code. They do not control requests that a remote handler makes to other services.
 
 ## How It Works
 
@@ -104,6 +104,67 @@ Calling an existing UDF uses the existing UDF invocation permissions. Callers do
 GRANT USAGE ON UDF gcd TO ROLE udf_reader;
 ```
 
+## Local Python UDF Access
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+Local Python scalar and aggregate UDFs can use integrations for controlled HTTP(S) requests. Use feature-supporting versions on every executing Query node. The operator must enable this separate option on each node:
+
+```toml
+[query]
+enable_python_udf_external_access = true
+udf_server_allow_list = ["https://api.example.com"]
+```
+
+The option defaults to `false`. Without it, bound definitions and invocation fail closed. `enable_udf_server` and `udf_server_allow_insecure` do not enable or control this Python access. Databend Cloud operators manage the option; contact Support instead of changing tenant SQL settings.
+
+### Configure and Bind Access
+
+The following example uses a trusted HTTPS API and an existing `udf_developer` role. Run the policy statements as an administrator. The function author still needs global `SUPER` to create a function, or global `ALTER` to alter it, plus `USAGE` on every named integration.
+
+```sql
+CREATE NETWORK RULE events_rule
+    TYPE = HOST_PORT MODE = EGRESS
+    VALUE_LIST = ('api.example.com:443');
+CREATE EXTERNAL ACCESS INTEGRATION events_access
+    ALLOWED_NETWORK_RULES = (events_rule) ENABLED = TRUE;
+GRANT USAGE ON INTEGRATION events_access TO ROLE udf_developer;
+```
+
+Run the function definition with the authorized role. Replace the example endpoint with your trusted service:
+
+```sql
+CREATE FUNCTION fetch_events(STRING) RETURNS STRING LANGUAGE python
+PACKAGES = ('requests') HANDLER = 'handler' AS $$
+import requests
+
+def handler(key):
+    response = requests.get('https://api.example.com/events', params={'key': key}, timeout=10)
+    response.raise_for_status()
+    return response.text
+$$ EXTERNAL_ACCESS_INTEGRATIONS = (events_access);
+```
+
+Append the same `EXTERNAL_ACCESS_INTEGRATIONS = (...)` suffix after `$$` for Python aggregate definitions or replacement `ALTER FUNCTION` definitions. Every named integration must exist and be enabled. A destination must match at least one of their rules. An omitted rule port means `443`.
+
+### Keep the Network Boundary
+
+- A nonempty operator allow list limits hostnames. Tenant rules must also allow the destination port. An empty list delegates **public** destination selection to tenant rules only after the operator opts in.
+- Databend checks all DNS results before connecting. Non-public IPs, including private, loopback, link-local/metadata, reserved, multicast, and mapped or translated IPv6 addresses, are rejected by default. Mixed public/non-public answers fail closed. Only the operator can permit a non-public destination by listing its exact IP literal. Trusting a hostname alone does not grant this exception. The operator list remains host-only; a tenant rule must still authorize the port.
+- Use proxy-aware synchronous clients such as `requests` or `urllib.request`. Native TCP/UDP sockets, async/native networking clients, and HTTP Upgrade are not supported. The enforced Linux worker sandbox remains mandatory. Existing `enable_udf_sandbox` routing is unchanged; the external scalar sandbox route rejects these bindings.
+- Use only trusted endpoints. HTTPS CONNECT permits an opaque stream to an approved endpoint. It does not inspect payloads or enforce TLS SNI. Do not authorize an untrusted relay.
+- Without integrations, workers have no network access. There is no unrestricted-network switch. Package installation remains a separate host operation; these function rules do not govern it.
+
+### Revoke Access and Handle Failures
+
+Disable or drop an integration, or change or drop its rules, to revoke existing access. Revoking integration `USAGE` only blocks future bindings and alterations. Invocation uses existing UDF permissions.
+
+Active and idle HTTP connections and CONNECT tunnels recheck policy every second, with a five-second check deadline. A denied or failed check closes the connection. Metadata changes propagate asynchronously first, so revocation is not instantaneous across nodes. Query cancellation or completion closes the streams.
+
+Connections last at most five minutes, with at most 32 concurrent streams per worker. Plain HTTP request and response bodies have a 16 MiB limit. This body limit does not inspect opaque CONNECT streams. Set client timeouts and split large transfers when needed.
+
+An uncaught Python network exception fails SQL execution. Catching it and returning `None` or a JSON error object produces a normal return value. To fail an ingestion task, let the exception propagate or explicitly validate the returned status.
+
 ## Change or Disable Access
 
 Change the destinations in a rule:
@@ -157,4 +218,4 @@ Integration grants are name-based and remain after `DROP INTEGRATION`. Recreatin
 - [ALTER FUNCTION](/sql/sql-commands/ddl/external-function/ddl-alter-function)
 - [GRANT](/sql/sql-commands/ddl/user/grant) and [REVOKE](/sql/sql-commands/ddl/user/revoke)
 
-The current subset does not support secrets, OAuth parameters, `COMMENT`, or `UNSET` for rules and integrations. `EXTERNAL_ACCESS_INTEGRATIONS` is supported only on remote scalar UDF definitions with `ADDRESS`.
+The current subset does not support secrets, OAuth parameters, `COMMENT`, or `UNSET` for rules and integrations. `EXTERNAL_ACCESS_INTEGRATIONS` supports remote scalar UDF definitions with `ADDRESS`, and supported local Python scalar or aggregate definitions with the operator opt-in described above.

@@ -66,6 +66,14 @@ Since v1.2.957, Python UDAFs run in the same query-owned worker pool, OS sandbox
 
 To create a user-defined function, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the SUPER [privilege](/guides/security/access-control/privileges).
 
+## Controlled Python HTTP(S) Access
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+For a local Python aggregate, append `EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...)` after the closing `$$`. The operator must enable `query.enable_python_udf_external_access` on every executing node. Creating or altering the definition also requires `USAGE` on every named integration, in addition to existing privileges. JavaScript does not support this binding.
+
+The Linux worker sandbox remains mandatory. Use approved HTTP(S) destinations through synchronous proxy-aware clients, not native sockets. See [Local Python UDF Access](/guides/security/external-access-integration#local-python-udf-access) for setup, examples, revocation, and network limits. The average examples below do not use external access and remain unchanged.
+
 ## Examples
 
 ### Python average UDAF

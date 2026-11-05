@@ -66,6 +66,14 @@ $$
 
 创建 UDF 的用户或其 [current_role](/guides/security/access-control/roles) 必须拥有 SUPER [权限](/guides/security/access-control/privileges)。
 
+## Python 受控 HTTP(S) 访问
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+对于本地 Python 聚合函数，在结束 `$$` 后添加 `EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...)`。Operator 必须在每个执行节点启用 `query.enable_python_udf_external_access`。创建或修改定义时，除满足原有权限要求外，还需每个被引用 integration 的 `USAGE`。JavaScript 不支持此绑定。
+
+Linux worker 沙箱仍为强制要求。请通过支持代理的同步客户端访问获准的 HTTP(S) 目标，而非使用原生 socket。配置、示例、撤销方式和网络限制见[本地 Python UDF 访问](/guides/security/external-access-integration#本地-python-udf-访问)。下方平均值示例不使用外部访问，内容保持不变。
+
 ## 示例
 
 ### Python 平均值 UDAF

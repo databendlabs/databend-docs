@@ -6,7 +6,7 @@ slug: /sql-commands/ddl/table/alter-table
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.845"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -262,6 +262,73 @@ DROP PARTITION KEY
 ```sql
 ALTER TABLE events DROP PARTITION KEY;
 ```
+
+## 行级 TTL {/* #row-level-ttl */}
+
+从 v1.2.953 开始，`MATERIALIZE TTL` 会根据表中已存储的 TTL 定义删除过期行。`SET TTL` 用于替换或添加定义，`REMOVE TTL` 用于移除定义。修改定义本身不会删除行。这三种操作都需要表的 `ALTER` 权限。
+
+### 语法
+
+```sql
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+SET TTL <time_column> [ + INTERVAL <nonnegative_integer> <unit> ]
+
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> REMOVE TTL
+
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> MATERIALIZE TTL
+```
+
+有关支持的列类型、间隔单位和表达式限制，请参阅 [CREATE TABLE：行级 TTL](10-ddl-create-table.md#row-level-ttl)。
+
+### 清理行为
+
+`MATERIALIZE TTL` 同步执行删除，并保持 TTL 定义不变。定义 TTL 不会创建定时清理任务，也不会使过期行在普通查询中自动隐藏。
+
+令 `cutoff` 表示此命令捕获的当前时间。清理使用以下比较规则：
+
+| 已存储的定义 | 删除行的条件 |
+|-------------------|------------------------|
+| `TTL time_column` | `CAST(time_column AS TIMESTAMP) <= cutoff` |
+| `TTL time_column + INTERVAL n unit` | `CAST(time_column AS TIMESTAMP) < cutoff - INTERVAL n unit` |
+
+保留时长形式使用严格的小于比较。它先从截止时间中减去间隔，再进行比较。不要将其替换为 `time_column + interval <= cutoff`，因为在日历边界处可能产生不同结果。时间转换和间隔运算遵循 SQL 时区规则。时间值为 `NULL` 的行不会被删除。
+
+:::caution[TTL 清理使用已存储的数据，而非查询可见的数据]
+此命令需要表的 `ALTER` 权限。它根据原始存储值进行判断，并删除所有过期行，包括被行访问策略隐藏的行。列脱敏不会改变哪些行会过期。因此，脱敏后的 SELECT 不能可靠地预览删除范围。运行清理前，请检查 TTL 定义。
+:::
+
+### 示例
+
+```sql
+CREATE TABLE ttl_events (id INT, expires TIMESTAMP) TTL expires;
+
+INSERT INTO ttl_events VALUES
+  (1, '2000-01-01 00:00:00'),
+  (2, '2099-01-01 00:00:00'),
+  (3, NULL);
+
+ALTER TABLE ttl_events MATERIALIZE TTL;
+
+SELECT id FROM ttl_events ORDER BY id;
+-- 2
+-- 3
+
+ALTER TABLE ttl_events SET TTL expires + INTERVAL 1 DAY;
+SHOW CREATE TABLE ttl_events;
+
+ALTER TABLE ttl_events REMOVE TTL;
+```
+
+示例结果假设命令在 2000-01-01 之后、2099-01-01 之前运行。
+
+### 限制与表结构变更
+
+- 只有持久化 Fuse 表支持 TTL。不支持临时表和瞬态表。
+- `MATERIALIZE TTL` 要求表已有 TTL 定义。表没有定义时会报错。`IF EXISTS` 会跳过不存在的表，但不会跳过缺少 TTL 定义的表。
+- `MATERIALIZE TTL` 不能在显式事务内运行。
+- 表没有 TTL 时，`REMOVE TTL` 不执行任何操作。它不会恢复已删除的行。
+- TTL 引用的列不能被删除。类型变更必须保持 TTL 有效。重命名列会同步更新已存储定义中的列名。
+- 如果提交重试期间 TTL 定义发生变化，清理会失败并返回 `TTL definition changed; retry MATERIALIZE TTL`。重试前，请检查新定义。
 
 <a id="fuse-引擎选项"></a>
 

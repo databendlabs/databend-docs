@@ -113,4 +113,26 @@ DROP MATERIALIZED VIEW IF EXISTS paid_orders_by_customer;
 
 ## 访问控制要求
 
-查询、刷新、修改、查看或删除物化视图时，用户需要拥有其源表的 `SELECT` 权限（或拥有提供等效访问权限的所有权）。权限按源表当前的对象身份进行检查，因此重命名源表不会改变这一要求。
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+直接读取需要对物化视图拥有有效的 `SELECT` 权限。数据库级 `SELECT` 授权（`db.*`）或全局 `SELECT` 授权（`*.*`）也允许此类读取。仅拥有源表的 `SELECT` 权限不再允许直接读取物化视图。
+
+管理员可以向已有角色授予访问权限：
+
+```sql
+GRANT SELECT ON MATERIALIZED VIEW default.paid_orders_by_customer TO ROLE reader;
+```
+
+使用该有效角色的用户可以查询物化视图，无需源表访问权限。此规则适用于首次刷新前、刷新后，以及读取包含尚未刷新的源表变更时。同一查询中显式引用源表仍需源表访问权限。优化器对源表查询进行改写时，仍要求源表 `SELECT`，不要求物化视图 `SELECT`。
+
+创建物化视图需要数据库 `CREATE` 和源表 `SELECT`。创建不会自动授予物化视图的所有权或 `SELECT`。此规则同样适用于创建者。升级前，请向此前仅依赖源表访问权限的读取者授予物化视图 `SELECT`。已有有效数据库级或全局 `SELECT` 授权的用户无需额外的单视图授权。
+
+`system.materialized_views` 的可见性取决于有效的物化视图 `SELECT`。物化视图 `SELECT` 不授予维护权限。现有管理权限要求不变。例如，刷新和查看定义仍需源表 `SELECT` 或等效访问权限。删除物化视图仍需数据库 `DROP`。重命名源表不会改变基于源表对象身份的检查。
+
+对象级授权和撤销必须使用 `ON MATERIALIZED VIEW`。对物化视图使用普通的 `ON db.view_name` 语法会被拒绝。`ON MATERIALIZED VIEW` 不支持 `GRANT ALL` 或通配符目标。使用以下语句撤销单视图授权：
+
+```sql
+REVOKE SELECT ON MATERIALIZED VIEW default.paid_orders_by_customer FROM ROLE reader;
+```
+
+`REVOKE ALL [PRIVILEGES] ON MATERIALIZED VIEW` 还会移除该对象上旧版本保留的权限。它不会撤销更大范围的数据库级或全局授权。参见 [GRANT](../02-user/10-grant.md#授予物化视图权限) 和 [REVOKE](../02-user/11-revoke.md#撤销物化视图权限)。

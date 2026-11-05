@@ -22,6 +22,7 @@ Databend 以“开箱即用”为设计目标，创建表时无需上述任何�
 - [CREATE TABLE](#create-table)：从零开始创建表。
 - [CREATE TABLE ... LIKE](#create-table--like)：按已有表的列定义创建新表。
 - [CREATE TABLE ... AS](#create-table--as)：创建表并将 SELECT 查询结果作为数据插入。
+- [CREATE TABLE ... CLONE](15-ddl-clone-table.md)：创建独立的表，初始时共享源表的不可变数据文件（实验性功能，v1.2.953）。
 
 另请参阅：
 
@@ -49,8 +50,33 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 [ ENGINE = FUSE ]
 [ PARTITION BY ( <expr> [ , <expr> ... ] ) ]
 [ CLUSTER BY ( <expr> [ , <expr> ... ] ) ]
+[ TTL <ttl_expression> ]
 [ <fuse_engine_option> = <value> ... ]
 ```
+
+### 行级 TTL {/* #row-level-ttl */}
+
+TTL 定义行何时过期。TTL 定义本身不会调度清理任务。请使用 [`ALTER TABLE ... MATERIALIZE TTL`](90-alter-table.md#row-level-ttl) 显式删除过期行。手动清理命令及以下表达式规则在 v1.2.953 中可用。
+
+```sql
+CREATE TABLE retained_events (
+    id INT,
+    event_time TIMESTAMP
+) TTL event_time + INTERVAL 30 DAY;
+```
+
+TTL 表达式必须使用以下形式之一：
+
+- `<time_column>`：指定绝对过期时间。
+- `<time_column> + INTERVAL <nonnegative_integer> <unit>`：指定保留时长。
+
+列类型必须为 `DATE`、`TIMESTAMP` 或 `TIMESTAMP_TZ`。支持可空列和 STORED 计算列，不支持 VIRTUAL 计算列。支持的时间间隔单位为 `MICROSECOND`、`SECOND`、`MINUTE`、`HOUR`、`DAY`、`WEEK`、`MONTH`、`QUARTER` 和 `YEAR`。
+
+请使用不带限定符的列名，以及不加引号的非负整数间隔。常量时间戳、函数调用、类型转换、多列表达式、负数间隔，以及 `INTERVAL '30' DAY` 这样的字符串间隔，都不是有效的定义。
+
+TTL 仅支持持久化 Fuse 表。临时表和瞬态表不支持 TTL。`SHOW CREATE TABLE` 会包含已存储的 TTL 定义。通过查询创建表时，也可以在 `AS SELECT` 之前指定 TTL。
+
+有关截止时间比较、权限、安全策略行为和示例，请参阅[行级 TTL](90-alter-table.md#row-level-ttl)。
 
 ### Fuse 表分区
 
@@ -230,6 +256,53 @@ CREATE TABLE employees (
 :::tip
 频繁查询且对性能敏感时选 **STORED**；计算成本可接受且需节省空间时选 **VIRTUAL**。  
 :::
+
+<a id="persisted-expression-restrictions"></a>
+
+## 持久化表达式限制
+
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+从 v1.2.952 开始，Databend 验证以下定义时会拒绝依赖会话或查询上下文的函数：
+
+- 计算列，包括 `STORED` 和 `VIRTUAL`。
+- `CLUSTER BY` 和 `PARTITION BY` 表达式。
+- 表 TTL 表达式。
+
+存储层过滤器也采用此受限验证。这并不意味着每个普通查询的 `WHERE` 子句都受此限制。
+
+不要在这些表达式中使用 `current_database()`、`current_user()`、角色函数、`getvariable()` / `$var`、`last_query_id()` 或 `timezone()`。将上下文函数嵌套在其他函数中也无效。Databend 会在它被折叠为字面量之前拒绝该函数。
+
+用户定义函数也不允许使用，包括纯 SQL UDF。例如，即使 UDF 仅将输入值加一，也不能用于计算列定义。缓存中的 UDF 定义同样无法绕过此限制。
+
+`array_sort()` 必须显式指定 NULL 排序顺序。`array_sort(a)` 和 `array_sort(a, 'asc')` 都依赖会话的默认 NULL 排序顺序，因此会在这些定义中被拒绝。请使用三个参数，例如 `array_sort(a, 'asc', 'nulls last')`。
+
+```sql
+-- Rejected: the computed expression reads session context.
+CREATE TABLE invalid_context(
+    a STRING,
+    b STRING AS (concat(a, current_database())) STORED
+);
+
+-- Rejected: the null order depends on a session setting.
+CREATE TABLE invalid_sort(
+    a ARRAY(INT),
+    b ARRAY(INT) AS (array_sort(a)) STORED
+);
+
+-- Explicit null ordering passes this context check.
+-- Creating a computed column still requires an Enterprise license.
+CREATE TABLE explicit_sort(
+    a ARRAY(INT),
+    b ARRAY(INT) AS (array_sort(a, 'asc', 'nulls last')) STORED
+);
+```
+
+请使用满足各功能其他规则的确定性内置表达式。分区表达式仍必须仅引用一个源列。TTL 的语法和类型限制仍然有效。
+
+这些检查并不保证每种类型转换或表达式都独立于会话设置。例如，普通的时区敏感类型转换仍使用捕获的函数上下文。已有存储键保留兼容性重绑定；此变更不是对现有键定义的迁移。
+
+列的 `DEFAULT` 表达式使用独立的验证路径。它们仍可以使用上下文函数，例如 `DEFAULT current_user()`。
 
 ## MySQL 兼容性
 

@@ -114,7 +114,7 @@ Python 运行时需要企业版。你可以用 `PACKAGES` 安装 PyPI 包，用 
 
 - Worker 只接收允许列表中的环境变量，不会继承 Query 节点的完整环境。每个 Worker 都有私有可写目录，用于临时文件、依赖和 Stage 导入。
 - Python 安装目录和所需系统库只读。禁止读取 Query 配置/数据文件和其他进程的环境文件。路径元数据查询仍可能暴露路径是否存在。
-- 用户代码不能打开网络 Socket、启动子程序/子进程，或向 Query 进程发送信号。如需访问外部服务，请使用 External Functions，而不是在本地 Python 代码中发起网络调用。
+- 用户代码不能打开原生网络 Socket、启动子程序/子进程，或向 Query 进程发送信号。通过 integration 访问 HTTP(S) 的方法见[受控 HTTP(S) 访问](#受控-https-访问)。
 - macOS Worker 不使用 OS 沙箱，并会记录警告。macOS 仅适用于本地开发，不适合执行不可信 UDF。其他非 Linux 平台拒绝本地 Python 执行。
 
 依赖安装在 Query 节点上执行，不在 Worker 沙箱中。依赖必须使用包名称及可选的 extras/版本约束，例如 `numpy>=1.26`。pip 选项、URL、直接引用、本地路径和环境标记会被拒绝。运维配置的 pip 镜像/代理和 CA 设置仍通过允许列表获得支持。
@@ -122,6 +122,14 @@ Python 运行时需要企业版。你可以用 `PACKAGES` 安装 PyPI 包，用 
 `python_udf_pip_only_binary = true` 是默认值，只安装 wheel 包。将它设为 `false` 会允许源码分发包在 Query 节点上执行构建脚本。不要认为 Worker 沙箱能够防护依赖安装代码。
 
 本地 Python 标量和聚合函数共用 Worker 准入、排队和请求超时控制。Worker 属于一次查询执行，不会跨查询复用。Python Worker 内存不计入查询分配器，进程数量限制也不能约束 Worker 总内存。请使用 OS 资源控制实现内存隔离。配置方法和超时范围请参阅[脚本 UDF 资源](/guides/self-hosted/references/node-config/query-config#script-udf-resources)。
+
+### 受控 HTTP(S) 访问
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+对于本地 Python 函数，在 `CREATE FUNCTION` 或替换式 `ALTER FUNCTION` 定义的结束 `$$` 后添加 `EXTERNAL_ACCESS_INTEGRATIONS = (<integration_name>, ...)`。Operator 必须在每个执行节点启用 `query.enable_python_udf_external_access`。开发者除满足原有 CREATE/ALTER 权限要求外，还需每个被引用 integration 的 `USAGE`。
+
+仅支持通过可使用代理的同步客户端访问获准的 HTTP(S) 目标。强制执行的 Linux worker 沙箱仍会拒绝原生 socket。远程标量沙箱执行、JavaScript 和 WASM 不支持此绑定。完整配置、示例及安全边界见[本地 Python UDF 访问](/guides/security/external-access-integration#本地-python-udf-访问)。
 
 ### 数据类型映射（Python）
 

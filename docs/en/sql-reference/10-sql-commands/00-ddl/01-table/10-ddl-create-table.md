@@ -22,6 +22,7 @@ Databend aims to be easy to use by design and does NOT require any of those oper
 - [CREATE TABLE](#create-table): Creates a table from scratch.
 - [CREATE TABLE ... LIKE](#create-table--like): Creates a table with the same column definitions as an existing one.
 - [CREATE TABLE ... AS](#create-table--as): Creates a table and inserts data with the results of a SELECT query.
+- [CREATE TABLE ... CLONE](15-ddl-clone-table.md): Creates an independent table that initially shares immutable source data files (experimental, v1.2.953).
 
 See also:
 
@@ -49,8 +50,33 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 [ ENGINE = FUSE ]
 [ PARTITION BY ( <expr> [ , <expr> ... ] ) ]
 [ CLUSTER BY ( <expr> [ , <expr> ... ] ) ]
+[ TTL <ttl_expression> ]
 [ <fuse_engine_option> = <value> ... ]
 ```
+
+### Row-Level TTL
+
+TTL defines when rows expire. The TTL definition does not schedule cleanup. Use [`ALTER TABLE ... MATERIALIZE TTL`](90-alter-table.md#row-level-ttl) to delete expired rows explicitly. The manual cleanup command and the expression rules below are available in v1.2.953.
+
+```sql
+CREATE TABLE retained_events (
+    id INT,
+    event_time TIMESTAMP
+) TTL event_time + INTERVAL 30 DAY;
+```
+
+A TTL expression must use one of these forms:
+
+- `<time_column>` for an absolute expiration time.
+- `<time_column> + INTERVAL <nonnegative_integer> <unit>` for a retention period.
+
+The column must have type `DATE`, `TIMESTAMP`, or `TIMESTAMP_TZ`. Nullable columns and STORED computed columns are supported. VIRTUAL computed columns are not supported. Interval units are `MICROSECOND`, `SECOND`, `MINUTE`, `HOUR`, `DAY`, `WEEK`, `MONTH`, `QUARTER`, and `YEAR`.
+
+Use an unqualified column name and an unquoted, nonnegative integer interval. Constant timestamps, function calls, casts, multiple-column expressions, negative intervals, and string-valued intervals such as `INTERVAL '30' DAY` are not valid definitions.
+
+TTL is supported only on persistent Fuse tables. Temporary and transient tables do not support TTL. `SHOW CREATE TABLE` includes the stored TTL definition. You can also specify TTL before `AS SELECT` when creating a table from a query.
+
+See [Row-Level TTL](90-alter-table.md#row-level-ttl) for cutoff comparisons, privileges, security-policy behavior, and examples.
 
 ### Fuse Table Partitioning
 
@@ -249,6 +275,51 @@ CREATE TABLE employees (
 :::tip
 Choose **STORED** for frequently queried columns where performance matters. Choose **VIRTUAL** to save storage space when computation cost is acceptable.
 :::
+
+## Persisted Expression Restrictions
+
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+Since v1.2.952, Databend rejects session- or query-context functions when it validates these definitions:
+
+- Computed columns, both `STORED` and `VIRTUAL`.
+- `CLUSTER BY` and `PARTITION BY` expressions.
+- Table TTL expressions.
+
+Storage-level filters also use this restricted validation. This does not apply the restriction to every ordinary query `WHERE` clause.
+
+Do not use `current_database()`, `current_user()`, role functions, `getvariable()` / `$var`, `last_query_id()`, or `timezone()` in these expressions. Nesting a context function inside another function does not make it valid. Databend rejects it before it can fold into a literal.
+
+User-defined functions are also not allowed, including pure SQL UDFs. For example, a UDF that only adds one to its input is still not valid in a computed-column definition. A cached UDF definition does not bypass this restriction.
+
+`array_sort()` must specify the null order explicitly. Both `array_sort(a)` and `array_sort(a, 'asc')` depend on the session's default null order and are rejected in these definitions. Use all three arguments, such as `array_sort(a, 'asc', 'nulls last')`.
+
+```sql
+-- Rejected: the computed expression reads session context.
+CREATE TABLE invalid_context(
+    a STRING,
+    b STRING AS (concat(a, current_database())) STORED
+);
+
+-- Rejected: the null order depends on a session setting.
+CREATE TABLE invalid_sort(
+    a ARRAY(INT),
+    b ARRAY(INT) AS (array_sort(a)) STORED
+);
+
+-- Explicit null ordering passes this context check.
+-- Creating a computed column still requires an Enterprise license.
+CREATE TABLE explicit_sort(
+    a ARRAY(INT),
+    b ARRAY(INT) AS (array_sort(a, 'asc', 'nulls last')) STORED
+);
+```
+
+Use deterministic built-in expressions that meet the feature's other rules. Partition expressions must still reference exactly one source column. TTL syntax and type restrictions still apply.
+
+These checks do not make every cast or expression independent of session settings. For example, ordinary timezone-sensitive casts still use the captured function context. Existing stored keys retain compatibility rebinding; this change is not a migration of existing key definitions.
+
+Column `DEFAULT` expressions use a separate validation path. They can still use context functions such as `DEFAULT current_user()`.
 
 ## MySQL Compatibility
 

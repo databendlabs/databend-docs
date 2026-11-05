@@ -80,6 +80,18 @@ The Python request timeout is not a total SQL timeout. The normal query timeout 
 
 Process counts and request timeouts do not provide OS-enforced Python memory or CPU budgets. Worker memory is outside the query allocator. Use explicit smaller worker capacities for memory-heavy packages and separate OS resource controls. JavaScript and WASM run in-process; WASM has no execution timeout, and neither engine observes cancellation during a running call.
 
+### Local Python UDF External Access
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+| Parameter | Description |
+|---|---|
+| enable_python_udf_external_access | Allows integration-bound HTTP(S) from local Python UDFs. Defaults to `false`. Set it in `[query]` on every executing node. It does not enable native sockets or change UDF execution routing. |
+
+The existing `udf_server_allow_list` also supplies the operator hostname limit for this access. A nonempty list and tenant `HOST_PORT` rules must both authorize the target. With an empty list, tenant rules can select public destinations after opt-in. Non-public IPs require an exact operator IP-literal entry; a hostname entry alone is insufficient. Tenant rules must still authorize the port.
+
+This option is independent of remote UDF transport flags. Python workers still require the enforced Linux sandbox and explicit integration bindings. See [Local Python UDF Access](/guides/security/external-access-integration#local-python-udf-access) for SQL setup, revocation, and endpoint trust limits.
+
 ### [query.users] Section
 
 The following is a list of the parameters available within the [[query.users]] section. For more information about configuring admin users, see [Configuring Admin Users](../admin-users.md).

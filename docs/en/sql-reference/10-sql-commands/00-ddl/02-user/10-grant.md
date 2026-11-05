@@ -98,6 +98,18 @@ privileges_level ::=
   | ROW ACCESS POLICY <policy_name>
 ```
 
+### Granting Materialized View Privileges
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+```sql
+GRANT SELECT ON MATERIALIZED VIEW [<database_name>.]<view_name> TO ROLE <role_name>;
+```
+
+Use the explicit `MATERIALIZED VIEW` object type. The target must be an existing materialized view, not a table, regular view, or wildcard. Only `SELECT` is supported; `GRANT ALL` is not supported for this object type. Bare `ON db.view_name` syntax is rejected for a materialized view.
+
+This grant authorizes direct reads and visibility in `system.materialized_views`. It does not grant source-table access or maintenance privileges. Effective database-level or global `SELECT` also authorizes reads. Creating the materialized view does not automatically grant its creator ownership or `SELECT`. See [Materialized Views](../05-view/materialized-view.md#access-control-requirements) for upgrade guidance and read behavior.
+
 ### Granting Integration Privileges
 
 ```sql
