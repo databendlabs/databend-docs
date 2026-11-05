@@ -55,6 +55,18 @@ For a UDF with explicit integrations, a nonempty config list remains an operator
 
 For SQL setup and the trust boundary, see [External Access Integrations](/guides/security/external-access-integration).
 
+### Local Python UDF External Access
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+| Parameter | Description |
+|---|---|
+| enable_python_udf_external_access | Allows integration-bound HTTP(S) from local Python UDFs. Defaults to `false`. Set it in `[query]` on every executing node. It does not enable native sockets or change UDF execution routing. |
+
+The existing `udf_server_allow_list` also supplies the operator hostname limit for this access. A nonempty list and tenant `HOST_PORT` rules must both authorize the target. With an empty list, tenant rules can select public destinations after opt-in. Non-public IPs require an exact operator IP-literal entry; a hostname entry alone is insufficient. Tenant rules must still authorize the port.
+
+This option is independent of remote UDF transport flags. Python workers still require the enforced Linux sandbox and explicit integration bindings. See [Local Python UDF Access](/guides/security/external-access-integration#local-python-udf-access) for SQL setup, revocation, and endpoint trust limits.
+
 ### [query.users] Section
 
 The following is a list of the parameters available within the [[query.users]] section. For more information about configuring admin users, see [Configuring Admin Users](../admin-users.md).
