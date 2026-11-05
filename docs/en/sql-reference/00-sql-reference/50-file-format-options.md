@@ -3,7 +3,7 @@ title: Input & Output File Formats
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.941"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 Databend accepts a variety of file formats both as a source and as a target for data loading or unloading. This page explains the supported file formats and their available options.
 
@@ -55,7 +55,7 @@ formatTypeOptions ::=
 
 Databend CSV is compliant with [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) and is subject to the following conditions:
 
-- A string must be quoted if it contains the character of a [QUOTE](#quote), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
+- A string must be quoted if it contains the character of a [QUOTE](#quote), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
 - No character will be escaped in a quoted string except [QUOTE](#quote).
 - No space should be left between a [FIELD_DELIMITER](#field_delimiter) and a [QUOTE](#quote).
 
@@ -86,19 +86,19 @@ Delimiter character to separates fields in a record.
 
 Character used to quote values.
 
-For data loading, the quote is not necessary unless a string contains the character of a [QUOTE](#quote-load-only), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
+For data loading, the quote is not necessary unless a string contains the character of a [QUOTE](#quote-load-only), [ESCAPE](#escape-load-only), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
 
 **Available Values**: `'\''`, `'"'`, or ``'`'``(backtick)
 
 **Default**: `'"'`
 
-### ESCAPE
+### ESCAPE (Load Only)
 
 Character used to escape the quote character within quoted values, in addition to [QUOTE](#quote-load-only) itself. 
 
 In some variants of CSV, quotes are escaped using a special escape character like `\`, instead of escaping quotes by doubling quoting.
 
-**Available Values**: `'\\'` or `''` (emtpy, means only use double quoting)
+**Available Values**: `'\\'` or `''` (empty, means only use double quoting)
 
 **Default**: `''`
 
@@ -131,7 +131,7 @@ Controls how CSV values are quoted during output.
 | Available Values          | Description                                                  |
 |---------------------------|--------------------------------------------------------------|
 | `QUOTE_NOT_NULL` (Default)| Quote every non-NULL field in the CSV output.                |
-| `QUOTE_MINIMAL`           | Quote a field only when required by the CSV output format.   |
+| `QUOTE_MINIMAL`           | Quote a field only when it contains the [QUOTE](#quote-load-only) character, the [FIELD_DELIMITER](#field_delimiter) character, or the first character of [RECORD_DELIMITER](#record_delimiter). |
 
 **Default**: `QUOTE_NOT_NULL`
 

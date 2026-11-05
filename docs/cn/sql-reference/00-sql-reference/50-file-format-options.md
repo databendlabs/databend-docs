@@ -3,7 +3,7 @@ title: 文件格式选项
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.941"/>
+<FunctionDescription description="引入或更新: v1.2.957"/>
 
 Databend 支持多种文件格式用于数据导入与导出。本页介绍支持的文件格式及其相关选项。
 
@@ -54,7 +54,7 @@ formatTypeOptions ::=
 
 Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，并遵循以下规则：
 
-- 如果字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，则必须加引号。
+- 如果字符串包含 [QUOTE](#quote)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，则必须加引号。
 - 在带引号的字符串中，除了 [QUOTE](#quote) 之外不会转义任何字符。
 - [FIELD_DELIMITER](#field_delimiter) 和 [QUOTE](#quote) 之间不应留有空格。
 
@@ -85,13 +85,13 @@ Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，
 
 用于引用值的字符。
 
-对于数据导入，除非字符串包含 [QUOTE](#quote仅导入)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则不需要引号。
+对于数据导入，除非字符串包含 [QUOTE](#quote仅导入)、[ESCAPE](#escape仅导入)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则不需要引号。
 
 **可用值**: `'\''`、`'"'` 或 ``'`'``（反引号）
 
 **默认值**: `'"'`
 
-### ESCAPE
+### ESCAPE（仅导入）
 
 用于在带引号的值中转义引号字符的字符，除了 [QUOTE](#quote仅导入) 自身（双引号转义）之外的额外转义方式。
 
@@ -130,7 +130,7 @@ Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，
 | 可用值                     | 描述                                                         |
 |---------------------------|--------------------------------------------------------------|
 | `QUOTE_NOT_NULL`（默认）   | 对每个非 NULL 字段加引号。                                    |
-| `QUOTE_MINIMAL`           | 仅在 CSV 格式需要时才对字段加引号。                            |
+| `QUOTE_MINIMAL`           | 仅当字段包含 [QUOTE](#quote仅导入) 字符、[FIELD_DELIMITER](#field_delimiter) 字符或 [RECORD_DELIMITER](#record_delimiter) 的第一个字符时才加引号。 |
 
 **默认值**: `QUOTE_NOT_NULL`
 
