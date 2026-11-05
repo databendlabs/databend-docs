@@ -2,6 +2,10 @@
 title: Masking Policy
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.956"/>
+
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
@@ -134,11 +138,66 @@ Nested keys:
 ELSE delete_by_keypath(val, 'nested:secret')
 ```
 
+## Filter on Original Values in SELECT WHERE
+
+Since v1.2.956, a column's masking-policy binding can allow `SELECT WHERE` to use original values. The result still shows masked values. The option is `where_use_unmasked_value`, and its default is `false`.
+
+:::caution[This option exposes information about original values]
+This is a persistent authorization on the column binding, not a session setting or a per-role bypass. Every reader of that binding can test original values in an eligible `SELECT WHERE`. Row counts and matching row IDs can reveal sensitive information. Enable it only when that disclosure is acceptable.
+:::
+
+The following example removes `secret` from the returned JSON. Filtering on that key first returns no rows. After enabling the option, the filter finds a row, but the selected key remains `NULL`.
+
+```sql
+CREATE TABLE mask_lookup (id INT, data VARIANT);
+
+INSERT INTO mask_lookup VALUES
+  (1, parse_json('{"secret":"alice","public":1}')),
+  (2, parse_json('{"secret":"bob","public":2}'));
+
+CREATE MASKING POLICY lookup_mask
+AS (val VARIANT) RETURNS VARIANT -> object_delete(val, 'secret');
+
+ALTER TABLE mask_lookup MODIFY COLUMN data SET MASKING POLICY lookup_mask;
+
+SELECT count(*) FROM mask_lookup WHERE data['secret']::STRING = 'alice';
+-- 0
+
+ALTER TABLE mask_lookup MODIFY COLUMN data SET MASKING POLICY lookup_mask
+OPTIONS (where_use_unmasked_value = true);
+
+SELECT id, data['secret']::STRING, data['public']::INT
+FROM mask_lookup
+WHERE data['secret']::STRING = 'alice';
+-- 1 | NULL | 1
+```
+
+### Scope and Reset
+
+- The exception applies to authorized base-column references in the current `SELECT WHERE`. It also applies to SELECT-list aliases that resolve to those references.
+- The SELECT list, `JOIN ON`, `GROUP BY`, `HAVING`, and `ORDER BY` keep masked values. An outer WHERE over a subquery or CTE's masked output does not recover the original value.
+- The option belongs to one column binding. Other columns using the same policy do not inherit it.
+- To change only this option, repeat `SET MASKING POLICY` with the same policy. Keep the same `USING` columns, if any. Put `OPTIONS` after `USING`. To replace the policy or its argument columns, first use `UNSET MASKING POLICY`.
+- Setting the option to `false`, repeating `SET MASKING POLICY` without `OPTIONS`, or unsetting the policy clears this authorization.
+- Changing the option requires the same table and policy privileges as attaching the policy. It does not grant additional write privileges.
+
+```sql
+ALTER TABLE mask_lookup MODIFY COLUMN data SET MASKING POLICY lookup_mask
+OPTIONS (where_use_unmasked_value = false);
+
+SELECT count(*) FROM mask_lookup WHERE data['secret']::STRING = 'alice';
+-- 0
+```
+
+### Mixed-Version Deployments
+
+Older query nodes ignore this metadata and use masked WHERE values. If an older node rewrites the table metadata, it can remove the option. After an upgrade or downgrade, verify the binding before relying on original-value filtering. Do not assume consistent filter results across nodes that do not all support this option.
+
 ## Read / Write Behavior
 
 | Operation | Effect |
 |-----------|--------|
-| `SELECT` | Masked values |
+| `SELECT` | Masked values, except authorized original-value filtering in `WHERE` |
 | `INSERT` / `UPDATE` / `DELETE` | True values (writes are not masked) |
 
 ```sql

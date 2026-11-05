@@ -2,6 +2,10 @@
 title: 动态脱敏
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.956"/>
+
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
@@ -134,11 +138,66 @@ SELECT * FROM events WHERE data['content'] IS NOT NULL;
 ELSE delete_by_keypath(val, 'nested:secret')
 ```
 
+## 在 SELECT WHERE 中按原始值过滤 {/* #filter-on-original-values-in-select-where */}
+
+从 v1.2.956 开始，列的脱敏策略绑定可以允许 `SELECT WHERE` 使用原始值。返回结果仍然显示脱敏值。此选项名为 `where_use_unmasked_value`，默认值为 `false`。
+
+:::caution[此选项会暴露原始值的相关信息]
+这是列绑定上的持久化授权，不是会话设置，也不是针对某个角色的绕过选项。读取此绑定的所有用户，都可以在符合条件的 `SELECT WHERE` 中测试原始值。行数和匹配行的 ID 可能泄露敏感信息。只有可以接受此类信息披露时，才应启用此选项。
+:::
+
+以下示例从返回的 JSON 中删除 `secret`。最初按此键过滤时没有匹配行。启用选项后，过滤可以找到一行，但选出的键仍为 `NULL`。
+
+```sql
+CREATE TABLE mask_lookup (id INT, data VARIANT);
+
+INSERT INTO mask_lookup VALUES
+  (1, parse_json('{"secret":"alice","public":1}')),
+  (2, parse_json('{"secret":"bob","public":2}'));
+
+CREATE MASKING POLICY lookup_mask
+AS (val VARIANT) RETURNS VARIANT -> object_delete(val, 'secret');
+
+ALTER TABLE mask_lookup MODIFY COLUMN data SET MASKING POLICY lookup_mask;
+
+SELECT count(*) FROM mask_lookup WHERE data['secret']::STRING = 'alice';
+-- 0
+
+ALTER TABLE mask_lookup MODIFY COLUMN data SET MASKING POLICY lookup_mask
+OPTIONS (where_use_unmasked_value = true);
+
+SELECT id, data['secret']::STRING, data['public']::INT
+FROM mask_lookup
+WHERE data['secret']::STRING = 'alice';
+-- 1 | NULL | 1
+```
+
+### 范围与重置
+
+- 例外规则适用于当前 `SELECT WHERE` 中已授权的基础列引用。当该 WHERE 将 SELECT 列表中的别名解析为这类引用时，同样适用。
+- SELECT 列表、`JOIN ON`、`GROUP BY`、`HAVING` 和 `ORDER BY` 仍使用脱敏值。外层 WHERE 对子查询或 CTE 的脱敏输出进行过滤时，不会恢复原始值。
+- 此选项只属于一个列绑定。使用同一策略的其他列不会继承此选项。
+- 只修改此选项时，请使用相同的策略再次执行 `SET MASKING POLICY`。如有 `USING` 列，也必须保持相同。将 `OPTIONS` 放在 `USING` 之后。要更换策略或参数列，请先执行 `UNSET MASKING POLICY`。
+- 将选项设为 `false`、再次执行不带 `OPTIONS` 的 `SET MASKING POLICY`，或取消策略绑定，都会清除此授权。
+- 修改此选项需要与绑定策略相同的表权限和策略权限。它不会授予额外的写入权限。
+
+```sql
+ALTER TABLE mask_lookup MODIFY COLUMN data SET MASKING POLICY lookup_mask
+OPTIONS (where_use_unmasked_value = false);
+
+SELECT count(*) FROM mask_lookup WHERE data['secret']::STRING = 'alice';
+-- 0
+```
+
+### 混合版本部署
+
+旧版 query 节点会忽略此元数据，并在 WHERE 中使用脱敏值。如果旧节点重写表元数据，可能移除此选项。升级或降级后，在依赖原始值过滤之前，请验证此绑定。并非所有节点都支持此选项时，不应假定各节点的过滤结果一致。
+
 ## 读写行为
 
 | 操作 | 效果 |
 |------|------|
-| `SELECT` | 返回脱敏值 |
+| `SELECT` | 使用脱敏值，但已授权的 `WHERE` 原始值过滤除外 |
 | `INSERT` / `UPDATE` / `DELETE` | 使用真实值（写路径不脱敏） |
 
 ```sql

@@ -6,7 +6,7 @@ slug: /sql-commands/ddl/table/alter-table
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.953"/>
+<FunctionDescription description="Introduced or updated: v1.2.956"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -57,6 +57,7 @@ MODIFY [ COLUMN ] <column_name> [ COMMENT '<comment>' ]
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> SET MASKING POLICY <policy_name>
        [ USING ( <column_reference> [ , <column_reference> ... ] ) ]
+       [ OPTIONS ( where_use_unmasked_value = <boolean> ) ]
 
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> UNSET MASKING POLICY
@@ -82,6 +83,22 @@ DROP [ COLUMN ] <column_name>
 :::caution
 如果列已绑定脱敏策略，修改列定义或删除该列前必须先执行 `ALTER TABLE ... MODIFY COLUMN <col> UNSET MASKING POLICY`，否则操作会因安全策略仍然生效而失败。
 :::
+
+### 脱敏策略 WHERE 选项
+
+从 v1.2.956 开始，`OPTIONS (where_use_unmasked_value = true)` 允许在符合条件的 `SELECT WHERE` 表达式中使用绑定列的原始值。默认值为 `false`。请使用不带引号的布尔字面量 `true` 或 `false`。
+
+此授权属于列绑定，而不是策略定义、角色或会话。它影响读取此绑定的所有用户。选出的值仍然脱敏。其他表达式上下文，包括 `JOIN ON`、`GROUP BY`、`HAVING` 和 `ORDER BY`，仍然使用脱敏值。
+
+:::caution
+用户可以根据谓词的匹配结果或行数推断原始值。只有可以接受此类信息披露时，才应启用此选项。
+:::
+
+修改选项时，请使用与现有绑定相同的策略和 `USING` 列。如有 `USING`，将 `OPTIONS` 放在其后。要更换策略或参数列，请先执行 `UNSET MASKING POLICY`。
+
+设置为 `false`、再次执行不带 `OPTIONS` 的 `SET MASKING POLICY`，或取消策略绑定，都会清除此选项。通常的表权限和策略权限要求仍然适用。
+
+有关示例、别名和子查询的适用范围，以及混合版本部署的限制，请参阅[在 SELECT WHERE 中按原始值过滤](/guides/security/data-protection/masking-policy#filter-on-original-values-in-select-where)。
 
 ### 示例
 
