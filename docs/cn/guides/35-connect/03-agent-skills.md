@@ -31,10 +31,6 @@ https://github.com/databendcloud/databend-cloud-skill
 不要在聊天中索取 key。配置完成即停止，不连接数据库或执行 SQL。
 ```
 
-:::note
-这是 Databend 官方提供的 skill，非第三方项目。
-:::
-
 ## 快速验证
 
 运行以下命令，确认 token、组织和计算集群配置正确。请将占位符替换为实际值。

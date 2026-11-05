@@ -31,10 +31,6 @@ Follow SKILL.md to reuse an API key or help me save one for https://api.databend
 Keep the key out of chat. Stop after setup; do not connect or run SQL.
 ```
 
-:::note
-This is an official Databend skill, not a third-party skill.
-:::
-
 ## Quick Verification
 
 Run this command to make sure that your token, organization, and warehouse are correct. Replace the placeholders with your values.
