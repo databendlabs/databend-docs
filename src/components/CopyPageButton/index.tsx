@@ -46,14 +46,21 @@ const CopyDropdownButton: React.FC = () => {
   const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { metadata } = useDoc();
 
-  const sourceUrl = useMemo(
-    () =>
-      metadata?.source?.replace(
-        "@site",
-        "https://raw.githubusercontent.com/databendlabs/databend-docs/refs/heads/main",
-      ) || "",
-    [metadata],
-  );
+  // markdown-source-plugin emits `<permalink>.md` only at build time, so the
+  // dev server has no .md files. In development, keep using the GitHub raw
+  // source file as before.
+  const markdownUrl = useMemo(() => {
+    if (process.env.NODE_ENV === "development") {
+      return (
+        metadata?.source?.replace(
+          "@site",
+          "https://raw.githubusercontent.com/databendlabs/databend-docs/refs/heads/main",
+        ) || ""
+      );
+    }
+    const permalink = (metadata?.permalink || "").replace(/\/+$/, "");
+    return permalink ? `${permalink}.md` : "/index.md";
+  }, [metadata]);
 
   const markAsCopied = useCallback(() => {
     setIsCopied(true);
@@ -76,8 +83,16 @@ const CopyDropdownButton: React.FC = () => {
     async (url: string) => {
       setLoading(true);
       try {
-        const response = await axios.get(url);
-        if (response.status === 200) {
+        const response = await axios.get<string>(url, {
+          responseType: "text",
+        });
+        // A missing .md (e.g. on the dev server) can fall back to the SPA
+        // HTML shell with status 200, so reject HTML bodies too.
+        const isMarkdown =
+          response.status === 200 &&
+          typeof response.data === "string" &&
+          !/^\s*<(!doctype|html)/i.test(response.data);
+        if (isMarkdown) {
           await navigator.clipboard.writeText(response.data);
           markAsCopied();
         } else {
@@ -97,8 +112,8 @@ const CopyDropdownButton: React.FC = () => {
       void copyHtml();
       return;
     }
-    if (sourceUrl) void copyMarkdown(sourceUrl);
-  }, [copyHtml, copyMarkdown, metadata?.permalink, sourceUrl]);
+    void copyMarkdown(markdownUrl);
+  }, [copyHtml, copyMarkdown, markdownUrl, metadata?.permalink]);
 
   const openExternal = useCallback((url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
@@ -118,7 +133,7 @@ const CopyDropdownButton: React.FC = () => {
         icon: <LiaMarkdown size={21} />,
         label: $t("View as Markdown"),
         description: $t("View this page as plain text"),
-        action: () => openExternal(sourceUrl),
+        action: () => openExternal(markdownUrl),
       },
       {
         key: "gpt",
@@ -157,7 +172,7 @@ const CopyDropdownButton: React.FC = () => {
           ),
       },
     ],
-    [handleCopy, openExternal, sourceUrl],
+    [handleCopy, markdownUrl, openExternal],
   );
 
   const closeMenu = useCallback((returnFocus = false) => {
