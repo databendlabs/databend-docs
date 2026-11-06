@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="Introduced or updated: v1.2.955"/>
+<FunctionDescription description="Introduced or updated: v1.2.960"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -328,6 +328,56 @@ The following is a list of the parameters available within the [cache] section:
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | data_cache_storage       | The type of storage used for table data cache. Available options: "none" (disables table data cache), "disk" (enables disk cache). Defaults to "none". |
 | iceberg_table_meta_count | Controls the number of Iceberg table metadata entries to cache. Set to `0` to disable metadata caching.                                                |
+
+### Legacy Vector Index Cache
+
+With the default legacy backend, these `[cache]` options select its capacity:
+
+| Parameter | Default | Behavior |
+|-----------|---------|----------|
+| `vector_index_filter_size` | `64424509440` (60 GiB) | Byte capacity used only when `vector_index_filter_memory_ratio = 0`. |
+| `vector_index_filter_memory_ratio` | `0` | A nonzero percentage of the server memory limit used for cache sizing overrides the byte capacity. `0` selects `vector_index_filter_size`. |
+
+To disable legacy retention, set both options to `0`. Setting only `vector_index_filter_size = 0` does not disable retention while the ratio is nonzero. This does not disable vector-index reads or release an index still used by a query. Cache accounting is not a process RSS or total-query memory limit.
+
+The shared backend below ignores these legacy options. It puts decoded vector indexes in the `index` pool. Use `[cache.kind_max_bytes]` with `memory_cache_vector_index_file` to set a shared per-kind byte limit; `0` disables that cache.
+
+### Shared Memory Cache
+
+Since v1.2.960, `cache.shared_memory_enabled = true` selects a shared memory backend. This backend groups caches into memory pools and can reclaim cache memory under memory pressure. The default remains `false`, with separate capacities for each cache.
+
+The shared backend requires both `query.max_memory_limit_enabled = true` and a nonzero `query.max_server_memory_usage`. Startup fails if either requirement is missing. Choose a server limit that fits the host and workload. The example below uses an 8 GiB server limit:
+
+```toml
+[query]
+max_memory_limit_enabled = true
+max_server_memory_usage = 8589934592
+
+[cache]
+shared_memory_enabled = true
+meta_max_ratio = 10
+index_max_ratio = 40
+data_max_ratio = 10
+
+[cache.kind_max_bytes]
+memory_cache_table_data = 268435456
+memory_cache_column_data = 0
+```
+
+`CACHE_SHARED_MEMORY_ENABLED=true` is the environment-variable equivalent of the backend switch. It does not remove the server memory-limit requirements.
+
+| Shared option | Default | Meaning |
+|---------------|---------|---------|
+| `meta_max_ratio` | `10` | Percentage of the server memory limit for table, segment, and index metadata. |
+| `index_max_ratio` | `40` | Percentage for Bloom, vector, inverted, and spatial index data. |
+| `data_max_ratio` | `10` | Percentage for raw column data and decoded column arrays. |
+| `kind_max_bytes` | Empty map | Optional per-cache byte limits within the pools. Config-file only; use `[cache.kind_max_bytes]` with `memory_cache_*` names. `0` disables a cache. |
+
+The three ratios must sum to at most `80`. They size pool ceilings, not preallocated memory. A per-cache limit cannot reserve memory or exceed its pool budget. All shared memory caches start enabled and bounded by their pools, except raw `memory_cache_column_data`, which starts disabled. Entries in `kind_max_bytes` override these defaults.
+
+The shared backend ignores legacy per-cache capacity options, including `iceberg_table_meta_count`, and `enable_table_meta_cache`. Use `kind_max_bytes` instead. Disk cache options still apply. Cache limits do not bound total query memory. Memory held by active queries might not be released immediately.
+
+Inspect per-cache and pool usage in [system.caches](/sql/sql-reference/system-tables/system-caches). Use [SYSTEM$SET_CACHE_CAPACITY](/sql/sql-functions/table-functions/set-cache-capacity) for temporary byte limits, pool resizing, and restoring a cache's startup limit with `'default'`.
 
 ### [cache.disk] Section
 
