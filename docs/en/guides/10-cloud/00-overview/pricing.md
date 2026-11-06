@@ -52,6 +52,13 @@ Your data in Databend Cloud is physically stored in Amazon S3. Storage costs in 
 | Personal Edition | $23.00                 |
 | Business Edition | $23.00                 |
 
+Storage requests to Amazon S3 on AWS are also billed. The price depends on the request type.
+
+| Request Type   | Price per 1,000 Requests |
+| -------------- | ------------------------ |
+| Read requests  | $0.0004                  |
+| Write requests | $0.005                   |
+
 ### Cloud Service Pricing
 
 The cloud service fee currently includes fees for the API requests. Each time you run a SQL query with Databend Cloud, a REST API request is sent to the `databend-query` through the [Databend HTTP handler](/developer/apis/http). In the Personal Edition, you are billed $1 for every 10,000 API requests, while in the Business Edition, the cost is $2 for every 10,000 API requests.
