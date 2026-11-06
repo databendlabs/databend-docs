@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<FunctionDescription description="Introduced or updated: v1.2.704"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 COPY INTO allows you to load data from files located in one of the following locations:
 
@@ -296,7 +296,7 @@ These options are available for all file formats:
 | DISABLE_VARIANT_CHECK | Replaces invalid JSON with null | `false` (fails on invalid JSON) |
 | ON_ERROR | How to handle errors: `continue`, `abort`, or `abort_N` | `abort` |
 | MAX_FILES | Maximum number of files to load (up to 15,000) | - |
-| RETURN_FAILED_ONLY | Only returns failed files in output | `false` |
+| RETURN_FAILED_ONLY | Only returns files with recorded errors, including files with loaded rows and tolerated skipped rows | `false` |
 | COLUMN_MATCH_MODE | For Parquet: column name matching mode | `case-insensitive` |
 | SCHEMA_EVOLUTION | For NDJSON: sampling options used to infer columns that are missing from the target table. Requires `ENABLE_SCHEMA_EVOLUTION = true` and the `ALTER` privilege on the target table. | `AUTO` sampling |
 
@@ -330,7 +330,22 @@ COPY INTO provides a summary of the data loading results with these columns:
 | FIRST_ERROR      | VARCHAR | YES      | The first error found in the source file.       |
 | FIRST_ERROR_LINE | INT     | YES      | Line number of the first error.                 |
 
-If `RETURN_FAILED_ONLY` is set to `true`, the output will only contain the files that failed to load.
+If `RETURN_FAILED_ONLY` is `true`, the output contains files with recorded errors. A returned file can have loaded rows as well as skipped rows; it does not necessarily represent a fully failed file. Files without recorded errors are omitted.
+
+### Tolerated Errors with ABORT_N
+
+Since v1.2.957, tolerated bad rows under `ON_ERROR = ABORT_N` are included in per-file status. For `N > 1`, the loader skips supported row errors below the threshold and aborts when the error count reaches `N`. `ABORT_1` and the threshold behavior are unchanged.
+
+When COPY completes below the threshold:
+
+- `ROWS_LOADED` counts the rows loaded from that file.
+- `ERRORS_SEEN` includes tolerated bad rows, not just errors that abort loading.
+- `FIRST_ERROR` and `FIRST_ERROR_LINE` identify the first recorded error and its one-based line number for that file.
+- `RETURN_FAILED_ONLY = true` still includes a file with tolerated errors, even if valid rows were loaded.
+
+For example, a CSV file with three valid rows and four skippable row errors completes under `ABORT_5`. Its file status reports `ROWS_LOADED = 3` and `ERRORS_SEEN = 4`. The file remains visible with `RETURN_FAILED_ONLY = true`. Under `ABORT_4`, the statement aborts instead of returning that successful summary.
+
+CSV column-count errors from earlier input batches are also retained in the file status, for both `CONTINUE` and `ABORT_N`. This behavior applies to supported row-skipping errors, such as CSV and NDJSON row errors. It does not make every storage or format error skippable. Check the error columns before treating a completed load as lossless.
 
 ## Examples
 
