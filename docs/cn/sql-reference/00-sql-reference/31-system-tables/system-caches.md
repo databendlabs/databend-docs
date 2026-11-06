@@ -4,6 +4,8 @@ title: system.caches
 
 Databend 中各类缓存的概览，包含使用量和命中率统计信息。
 
+在自托管环境中，无需 SQL 即可采集节点本地统计，参见 [节点本地缓存统计（尚未发布）](/guides/self-hosted/operations/monitoring#node-local-cache-statistics)。
+
 ## 列说明
 
 | 列名      | 说明                                                                      |

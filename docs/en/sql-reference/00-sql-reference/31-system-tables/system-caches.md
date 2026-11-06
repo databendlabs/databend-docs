@@ -4,6 +4,8 @@ title: system.caches
 
 An overview of various caches managed in Databend, including usage and hit rate statistics.
 
+For self-hosted node-local monitoring without SQL, see [Node-local cache statistics (Unreleased)](/guides/self-hosted/operations/monitoring#node-local-cache-statistics).
+
 ## Columns
 
 | Column    | Description                                                              |
