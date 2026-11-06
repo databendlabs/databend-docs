@@ -4,11 +4,31 @@ sidebar_label: Preparing Storage
 description: Recommendations for preparing storage for Databend deployments.
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
+
 This topic explains the recommended storage configurations for deploying Databend in production environments.
 
 ## AWS S3
 
 When deploying Databend with AWS S3 in production environments, consider the following recommendations:
+
+### Region Detection on Private Networks
+
+Since v1.2.955, S3 region detection can probe a regional endpoint selected by `AWS_REGION`. This applies when the storage location has no explicit region and uses the default endpoint, `https://s3.amazonaws.com`. It applies to server storage configuration and SQL S3 locations, such as stages and `COPY` or `SELECT` locations.
+
+Set `AWS_REGION` in the Query service environment to a reachable AWS commercial region. For example:
+
+```bash
+export AWS_REGION='ap-northeast-1'
+```
+
+This lets Databend detect the bucket region without first reaching the global S3 endpoint. `AWS_REGION` selects the endpoint to contact. It does not override the bucket's actual region. Allow access to the regional endpoint in your network and endpoint policy.
+
+This behavior applies only to AWS commercial regions. It does not change locations with an explicit region or custom endpoint.
+
+If detection still times out, check DNS, routing, and the endpoint policy. You can avoid detection by setting the correct region explicitly in the storage configuration or stage connection. Region discovery does not grant access to the bucket; keep the required S3 permissions and credentials.
 
 ### Security
 
