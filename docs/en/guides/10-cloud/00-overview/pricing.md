@@ -45,12 +45,12 @@ A suspended warehouse does not consume any resources. By default, Databend Cloud
 
 ### Storage Pricing
 
-Your data in Databend Cloud is physically stored in Amazon S3. Storage costs in Databend Cloud are based on Amazon S3's pricing. Currently, both the Personal Edition and Business Edition are priced at $23.00 per month per terabyte (TB).
+Your data in Databend Cloud is physically stored in Amazon S3. Storage costs in Databend Cloud are based on Amazon S3's pricing. Both the Personal Edition and Business Edition cost $0.023 per gigabyte (GB) per month.
 
-| Edition          | Price per TB per Month |
+| Edition          | Price per GB per Month |
 | ---------------- | ---------------------- |
-| Personal Edition | $23.00                 |
-| Business Edition | $23.00                 |
+| Personal Edition | $0.023                 |
+| Business Edition | $0.023                 |
 
 ### Cloud Service Pricing
 
@@ -74,6 +74,8 @@ Service sizes are derived from the Warehouse XSmall. The monthly cost shown belo
 | 2XSmall | $0.50                  | $0.75                  | $360                          | $540                          |
 
 ## Example-1:
+
+These examples assume a 30-day month and 1 TB = 1024 GB. Example 1 assumes one 20-minute query each day. Example 2 assumes 50,000 API calls each day. Monthly totals use unrounded daily costs. Storage costs and totals are rounded to two decimal places.
 
 import BillingExample from '@site/src/components/BillingExample';
 
