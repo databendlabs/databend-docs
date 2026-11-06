@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="Introduced or updated: v1.2.955"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -54,6 +54,31 @@ For a UDF without `EXTERNAL_ACCESS_INTEGRATIONS`, the target must match the conf
 For a UDF with explicit integrations, a nonempty config list remains an operator host limit. The target must pass that list and the SQL host/port rules. An empty config list delegates destination control for integration-bound UDFs to tenant SQL policy administrators. It does not disable the `enable_udf_server` or TLS checks.
 
 For SQL setup and the trust boundary, see [External Access Integrations](/guides/security/external-access-integration).
+
+### Script UDF Resources
+
+These node configuration options belong in `[query]`, not `[query.settings]`. Query-owned scalar Python workers and automatic worker-capacity selection were introduced in v1.2.955. Since v1.2.957, local Python UDFs and UDAFs use the mandatory OS sandbox described in [CREATE SCALAR FUNCTION](/sql/sql-commands/ddl/udf/ddl-create-function#python).
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `enable_udf_python_script` | `true` | Allows local Python scripts, including aggregates. |
+| `enable_udf_sandbox` | `false` | Routes scalar Python functions to an external sandbox service. Python UDAFs are rejected in that mode. This does not disable the local OS sandbox. |
+| `python_udf_max_workers` | `0` | Node worker capacity. `0` uses `query.num_cpus`, or available CPU parallelism if `num_cpus = 0`. |
+| `python_udf_max_workers_per_tenant` | `0` | Tenant capacity on this node. `0` inherits the node capacity. |
+| `python_udf_max_workers_per_query` | `0` | Maximum resident workers for a query. `0` uses `M + P - 1`, where `M` is its local runtime count and `P` is effective parallelism. |
+| `python_udf_max_queued_queries` | `128` | Maximum admission waiters. Must be positive. |
+| `python_udf_queue_timeout_secs` | `60` | Admission wait timeout in seconds. Must be positive. |
+| `python_udf_execution_timeout_secs` | `300` | Timeout of each worker request, including interpreter startup on the first request. Must be positive. |
+| `python_udf_worker_idle_timeout_secs` | `300` | Idle timeout for extra workers. Keeps one minimum worker per runtime; it does not expire busy workers. Must be positive. |
+| `python_udf_pip_only_binary` | `true` | Installs wheels only. `false` permits source-distribution build scripts on the query node, outside the worker sandbox. |
+| `udf_script_memory_limit_mb` | `1024` | JavaScript heap per runtime and WASM linear memory per instance, in MiB. `0` means unlimited. Does not limit Python worker memory. |
+| `udf_script_execution_timeout_secs` | `300` | JavaScript operation deadline, including module initialization and conversion. `0` means unlimited. Not enforced for WASM. |
+
+Python capacities are local-node limits, not warehouse-wide limits. Nonzero configured worker limits must satisfy `query <= tenant <= node`. Effective parallelism follows SQL `max_threads`, bounded by node and tenant capacity. One minimum worker is admitted per registered runtime; additional workers grow on demand. A query budget that cannot fit its minimum runtimes fails instead of waiting forever.
+
+The Python request timeout is not a total SQL timeout. The normal query timeout still controls total execution. Cancellation or a failed/timed-out worker request poisons that runtime; batches are not retried automatically. Query completion terminates its workers. Workers are never shared with a later query.
+
+Process counts and request timeouts do not provide OS-enforced Python memory or CPU budgets. Worker memory is outside the query allocator. Use explicit smaller worker capacities for memory-heavy packages and separate OS resource controls. JavaScript and WASM run in-process; WASM has no execution timeout, and neither engine observes cancellation during a running call.
 
 ### Local Python UDF External Access
 

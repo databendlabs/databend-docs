@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.799"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 创建用户自定义聚合函数（UDAF），在 Databend 内置的 JavaScript 或 Python 运行时中执行。
 
@@ -36,7 +36,7 @@ $$
 | `STATE { <state_field_list> }` | 定义聚合过程中需要在部分聚合和最终聚合步骤间持久化的状态结构（例如 `STATE { sum DOUBLE, count DOUBLE }`）。 |
 | `<return_type>` | 聚合返回的数据类型。 |
 | `LANGUAGE` | 运行脚本的语言，支持 `javascript`、`python`。 |
-| `IMPORTS` / `PACKAGES` | 可选列表，用于加载额外文件（imports）或 PyPI 包（仅限 Python）。 |
+| `IMPORTS` / `PACKAGES` | 语句语法接受这些子句，但本地 Python 聚合函数不会安装包或导入文件。不要依赖这些子句提供 Python UDAF 依赖。 |
 | `<language_specific_code>` | 脚本主体，必须实现并暴露 `create_state`、`accumulate`、`merge` 和 `finish` 入口函数。 |
 | `DESC` | 可选描述。 |
 
@@ -46,6 +46,17 @@ $$
 - `accumulate(state, *args)` – 针对每个输入行更新状态。
 - `merge(state1, state2)` – 合并两个部分聚合状态。
 - `finish(state)` – 生成最终结果（返回 `None` 表示 SQL `NULL`）。
+
+## 运行时限制
+
+从 v1.2.957 开始，Python UDAF 与 Python 标量 UDF 使用相同的查询专属 Worker 池、OS 沙箱和配额。聚合状态保留在 Query 进程中，并随 Worker 请求传递。Worker 不会跨查询复用。
+
+- 在创建、绑定和执行时，`enable_udf_python_script` 都必须允许 Python。
+- `enable_udf_sandbox = true` 会为 Python 标量函数选择外部服务。该服务没有聚合 API，因此此模式下会拒绝 Python UDAF。此设置不能绕过强制使用的本地 OS 沙箱。
+- Linux 部署和依赖安装边界请参阅 [CREATE SCALAR FUNCTION](ddl-create-function.md#python)。macOS 仅用于本地开发，不提供 OS 沙箱。
+- Python Worker 数量和请求超时不会强制设置 Worker 内存上限。请参阅[脚本 UDF 资源](/guides/self-hosted/references/node-config/query-config#script-udf-resources)。
+- JavaScript UDAF 使用配置的进程内堆限制和操作截止时间，覆盖 `create_state`、`accumulate`、`merge` 和 `finish`。
+- 不支持 WASM 聚合函数。
 
 ## 访问控制要求
 
