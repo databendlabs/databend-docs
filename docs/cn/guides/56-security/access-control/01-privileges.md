@@ -12,6 +12,33 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ![Alt text](/img/guides/access-control-2.png)
 
+## 升级：始终执行对象权限检查
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+始终执行对象权限检查的构建移除了以下设置：
+
+- `enable_experimental_rbac_check`
+- `enable_experimental_connection_privilege_check`
+- `enable_experimental_sequence_privilege_check`
+
+Connection 和 Sequence 的权限检查之前默认关闭。升级后，用户必须拥有对象所有权或 `ACCESS CONNECTION` / `ACCESS SEQUENCE` 权限才能访问这些对象。仅有 `SUPER` 不再允许访问。这会影响 Stage 和 `COPY` 中的 `CONNECTION_NAME`，以及每次 `nextval` 调用，包括 `INSERT` 和列默认值中的调用。`SHOW CONNECTIONS` 和 `SHOW SEQUENCES` 会隐藏用户无法访问的对象。
+
+在权限检查关闭时创建的对象可能没有所有权记录。Databend 将这些对象视为由 `account_admin` 拥有。升级前，请确认哪些角色需要访问这些对象。升级后，管理员可以使用以下授权恢复访问。请将对象名和角色名替换为已有名称：
+
+```sql
+GRANT ACCESS CONNECTION ON CONNECTION storage_conn TO ROLE loader;
+GRANT ACCESS SEQUENCE ON SEQUENCE order_seq TO ROLE writer;
+```
+
+如果需要转移控制权，请按[所有权](03-ownership.md)中的说明使用 `GRANT OWNERSHIP`。创建 Connection 或 Sequence 的用户还必须拥有显式授予的 `CREATE CONNECTION` 或 `CREATE SEQUENCE` 权限。仅有 `SUPER` 并不够。
+
+Stage 和 UDF 的权限检查之前默认开启。如果您曾关闭这些检查，请在恢复工作负载前授予所需的 Stage `READ` / `WRITE` 权限和 UDF `USAGE` 权限。
+
+请从初始化脚本和客户端会话配置中移除这些设置。对这些名称执行 `SET` 和 `SET GLOBAL` 会报 `UnknownVariable`。HTTP `session.settings`、`SETTINGS (...)` 和 `SET_VAR` 会忽略这些名称，不会关闭权限检查。
+
+请在所有 Query 节点完成升级后再恢复工作负载。滚动升级期间，旧节点仍使用之前的权限检查行为。
+
 ## 管理权限
 
 使用以下命令管理角色权限：
