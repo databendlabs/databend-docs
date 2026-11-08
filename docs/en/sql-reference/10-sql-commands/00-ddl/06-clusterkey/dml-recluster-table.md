@@ -9,6 +9,20 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Re-clusters a table. For why and when to re-cluster a table, see [Re-clustering Table](index.md#re-clustering-table).
 
+<h3 id="optimize-recluster">Unified re-clustering syntax</h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+New scripts can use the canonical `OPTIMIZE TABLE` form:
+
+```sql
+OPTIMIZE TABLE [catalog.][database.]table_name RECLUSTER [FINAL] [WHERE condition] [LIMIT <segment_count>];
+```
+
+The `ALTER TABLE` syntax and examples below remain compatibility aliases. Both forms use the same re-clustering operation. The legacy `IF EXISTS` clause is accepted, but it does not skip a missing target in this operation. Check that the target exists before running maintenance.
+
+For materialized views, use the same `OPTIMIZE TABLE` form without `WHERE`. See [Materialized Views](../05-view/materialized-view.md#optimize-mv-recluster). For catalog-qualified compaction, see [OPTIMIZE TABLE](../01-table/60-optimize-table.md#recluster-syntax).
+
 ### Distributed Execution
 
 <FunctionDescription description="Introduced or updated: Unreleased"/>

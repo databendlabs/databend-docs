@@ -91,6 +91,20 @@ REFRESH MATERIALIZED VIEW paid_orders_by_customer;
 
 `RECLUSTER WHERE` is not supported for materialized views. To change the definition, use `CREATE OR REPLACE MATERIALIZED VIEW`; `ALTER VIEW` does not apply.
 
+<h3 id="optimize-mv-recluster">Re-cluster with OPTIMIZE TABLE</h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+Use `OPTIMIZE TABLE` to re-cluster a materialized view with a cluster key. This operation still requires an Enterprise license. `WHERE` is not supported.
+
+```sql
+OPTIMIZE TABLE [catalog.][database.]view_name RECLUSTER [FINAL] [LIMIT <n>];
+```
+
+The `ALTER MATERIALIZED VIEW ... RECLUSTER` syntax above remains a compatibility alias. `ALTER TABLE ... RECLUSTER` also resolves materialized-view targets. This does not enable other ordinary `ALTER TABLE` operations on materialized views. Keep using `ALTER MATERIALIZED VIEW` for the other layout changes above.
+
+Re-clustering reorganizes physical storage. It does not replace `REFRESH MATERIALIZED VIEW`. See [RECLUSTER TABLE](../06-clusterkey/dml-recluster-table.md#optimize-recluster) for execution precautions and [OPTIMIZE TABLE](../01-table/60-optimize-table.md#recluster-syntax) for the unified syntax.
+
 ## View and remove definitions
 
 ```sql

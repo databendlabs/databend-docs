@@ -91,6 +91,20 @@ REFRESH MATERIALIZED VIEW paid_orders_by_customer;
 
 物化视图不支持 `RECLUSTER WHERE`。如需修改定义，请使用 `CREATE OR REPLACE MATERIALIZED VIEW`；`ALTER VIEW` 不适用。
 
+<h3 id="optimize-mv-recluster">使用 OPTIMIZE TABLE 重聚簇</h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+使用 `OPTIMIZE TABLE` 对具有聚簇键的物化视图执行重聚簇。此操作仍需要 Enterprise 许可证。不支持 `WHERE`。
+
+```sql
+OPTIMIZE TABLE [catalog.][database.]view_name RECLUSTER [FINAL] [LIMIT <n>];
+```
+
+上文的 `ALTER MATERIALIZED VIEW ... RECLUSTER` 语法仍作为兼容别名保留。`ALTER TABLE ... RECLUSTER` 也能识别物化视图目标。这并不表示物化视图支持其他普通的 `ALTER TABLE` 操作。上文的其他布局修改仍需使用 `ALTER MATERIALIZED VIEW`。
+
+重聚簇会重新组织物理存储。它不能替代 `REFRESH MATERIALIZED VIEW`。有关执行注意事项，请参阅 [RECLUSTER TABLE](../06-clusterkey/dml-recluster-table.md#optimize-recluster)。有关统一语法，请参阅 [OPTIMIZE TABLE](../01-table/60-optimize-table.md#recluster-syntax)。
+
 ## 查看和删除定义
 
 ```sql
