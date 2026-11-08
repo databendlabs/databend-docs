@@ -2,6 +2,8 @@
 title: FUSE_SNAPSHOT
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 返回表的快照信息。有关 Databend 中快照的更多信息，请参阅 [什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
 
 另请参阅：
@@ -14,6 +16,25 @@ title: FUSE_SNAPSHOT
 ```sql
 FUSE_SNAPSHOT('<数据库名称>', '<表名称>')
 ```
+
+<h2 id="segment-zone-map">Segment Zone Map</h2>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+可空的 `STRING` 列 `segment_zone_map_location` 包含该快照的 Segment Zone Map 文件路径。值为 `NULL` 表示快照没有 Zone Map 指针。非 NULL 值不保证文件可读取，也不保证覆盖所有当前 Segment。
+
+对于 `default` 中已有的表 `mytable`，可检查最新快照：
+
+```sql
+SELECT snapshot_id, segment_count, segment_zone_map_location
+FROM FUSE_SNAPSHOT('default', 'mytable')
+ORDER BY timestamp DESC
+LIMIT 1;
+```
+
+当查询使用 Zone Map 裁剪时，`EXPLAIN` 的 Segment 裁剪统计中会包含 `zone map pruning: N to M`。`N` 和 `M` 分别是此步骤前后的 Segment 数量，不是行数。后续裁剪可能进一步减少数量。
+
+维护条件及独立的构建、查询控制请参阅 [Segment Zone Map](/sql/sql-reference/table-engines/fuse#segment-zone-map)。
 
 ## 示例
 

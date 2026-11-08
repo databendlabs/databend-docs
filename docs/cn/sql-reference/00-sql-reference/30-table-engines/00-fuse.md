@@ -157,6 +157,48 @@ CREATE TABLE <table_name> (
 
 ---
 
+<h3 id="segment-zone-map"><code>enable_segment_zone_map</code></h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+- **语法：** `enable_segment_zone_map = 0 / 1`
+- **默认值：** `1`
+- **描述：** 控制此表的 Segment Zone Map 维护。Segment Zone Map 保存每个 Segment 的列边界和 NULL 计数。查询可据此在读取 Segment 元数据前跳过无关 Segment。对于包含大量 Segment 的表，这可以减少选择性过滤查询的元数据读取量。它不会改变查询结果。
+
+[重聚簇](/sql/sql-commands/ddl/table/optimize-table#recluster-syntax)是唯一构建或刷新 Zone Map 的操作。`OPTIMIZE TABLE ... RECLUSTER [FINAL]` 每提交 10 轮会检查是否需要刷新。如果之后还有轮次提交，则在语句结束时再次检查。未提交任何轮次的语句不会构建 Zone Map。使用列式 Segment 元数据的表不使用此功能。活动事务内也会跳过构建。
+
+只有未覆盖的完整 Segment 估计数量**大于** `segment_zone_map_full_segment_threshold`（默认值：`50`）时才会刷新。此阈值不是 Segment 总数阈值。小碎片不会计为完整 Segment。刷新后仍可能存在未覆盖的 Segment。
+
+Zone Map 缺失、无法读取或只覆盖部分 Segment 时，查询仍可正常执行。没有可用 Zone Map 统计信息的 Segment 仍会经过常规裁剪。已重写的 Segment 不会被旧路径的统计信息排除。Zone Map 刷新失败不会导致重聚簇失败。
+
+**禁用单表维护：**
+
+```sql
+ALTER TABLE mytable SET OPTIONS(enable_segment_zone_map = 0);
+ALTER TABLE mytable UNSET OPTIONS(enable_segment_zone_map);
+```
+
+第二条语句恢复表的默认值。这些操作不会删除已有 Zone Map，也不会禁止查询使用已有 Zone Map。
+
+**会话控制：**
+
+| 设置 | 默认值 | 设为 `0` 时的效果 |
+|------|--------|------------------|
+| `enable_segment_zone_map` | `1` | 无论表选项如何，均停止构建和刷新 Zone Map。已有 Zone Map 仍可使用。 |
+| `enable_segment_zone_map_pruning` | `1` | 停止查询侧的 Zone Map 裁剪。仍会执行常规裁剪。不影响维护。 |
+
+例如，临时禁用查询侧的 Zone Map 裁剪以进行比较，然后恢复默认值：
+
+```sql
+SET enable_segment_zone_map_pruning = 0;
+EXPLAIN SELECT * FROM mytable WHERE a = 1;
+UNSET enable_segment_zone_map_pruning;
+```
+
+使用 [FUSE_SNAPSHOT](/sql/sql-functions/system-functions/fuse_snapshot#segment-zone-map) 和 `EXPLAIN` 检查 Zone Map 是否可用及其裁剪效果。无需手动创建索引或迁移数据。
+
+---
+
 ### `bloom_index_columns`
 
 - **语法：**

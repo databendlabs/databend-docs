@@ -2,6 +2,8 @@
 title: FUSE_SNAPSHOT
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 Returns the snapshot information of a table. For more information about what is snapshot in Databend, see [What are Snapshot, Segment, and Block?](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block).
 
 See Also:
@@ -14,6 +16,25 @@ See Also:
 ```sql
 FUSE_SNAPSHOT('<database_name>', '<table_name>')
 ```
+
+<h2 id="segment-zone-map">Segment Zone Map</h2>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+The nullable `STRING` column `segment_zone_map_location` contains the snapshot's segment zone map file path. A `NULL` value means that the snapshot has no zone map pointer. A non-NULL value does not guarantee that the file is readable or covers every current segment.
+
+For an existing table `mytable` in `default`, inspect the latest snapshot:
+
+```sql
+SELECT snapshot_id, segment_count, segment_zone_map_location
+FROM FUSE_SNAPSHOT('default', 'mytable')
+ORDER BY timestamp DESC
+LIMIT 1;
+```
+
+For a query that uses zone map pruning, `EXPLAIN` includes `zone map pruning: N to M` in the segment pruning statistics. `N` and `M` are the segment counts before and after this step. They are not row counts. Later pruning can reduce the count further.
+
+For maintenance conditions and independent build/query controls, see [Segment Zone Maps](/sql/sql-reference/table-engines/fuse#segment-zone-map).
 
 ## Examples
 

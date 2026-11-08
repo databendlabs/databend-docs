@@ -146,6 +146,48 @@ Below are the available Fuse Engine options, grouped by their purpose:
 
 ---
 
+<h3 id="segment-zone-map"><code>enable_segment_zone_map</code></h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+- **Syntax:** `enable_segment_zone_map = 0 / 1`
+- **Default:** `1`
+- **Description:** Controls segment zone map maintenance for this table. A segment zone map stores per-segment column bounds and NULL counts. Queries can use it to skip segments before reading their metadata. This reduces metadata reads for selective filters on tables with many segments. It does not change query results.
+
+[Re-clustering](/sql/sql-commands/ddl/table/optimize-table#recluster-syntax) is the only operation that builds or refreshes the zone map. `OPTIMIZE TABLE ... RECLUSTER [FINAL]` checks for a refresh after every 10 committed rounds and at the end if additional rounds committed. A statement that commits no round does not build a zone map. Tables with column-oriented segment metadata do not use this feature. Building is also skipped inside an active transaction.
+
+A refresh starts only when the estimated number of uncovered full segments is **greater than** `segment_zone_map_full_segment_threshold` (default: `50`). This is not a threshold on the total segment count. Small fragments do not count as full segments. A refresh can leave some segments uncovered.
+
+Missing, unreadable, or partial zone maps do not prevent queries. Segments without usable zone map statistics still pass through regular pruning. Rewritten segments are not excluded by statistics for their old paths. A zone map refresh failure does not fail re-clustering.
+
+**Disable maintenance for one table:**
+
+```sql
+ALTER TABLE mytable SET OPTIONS(enable_segment_zone_map = 0);
+ALTER TABLE mytable UNSET OPTIONS(enable_segment_zone_map);
+```
+
+The second statement restores the table default. These changes do not delete an existing zone map or disable its use by queries.
+
+**Session controls:**
+
+| Setting | Default | Effect when set to `0` |
+|---------|---------|------------------------|
+| `enable_segment_zone_map` | `1` | Stop building and refreshing zone maps, regardless of the table option. Existing zone maps remain usable. |
+| `enable_segment_zone_map_pruning` | `1` | Stop query-side zone map pruning. Regular pruning still runs. Maintenance is unchanged. |
+
+For example, disable query-side zone map pruning for a comparison, then restore the default:
+
+```sql
+SET enable_segment_zone_map_pruning = 0;
+EXPLAIN SELECT * FROM mytable WHERE a = 1;
+UNSET enable_segment_zone_map_pruning;
+```
+
+Use [FUSE_SNAPSHOT](/sql/sql-functions/system-functions/fuse_snapshot#segment-zone-map) and `EXPLAIN` to inspect zone map availability and pruning. No manual index creation or data migration is required.
+
+---
+
 ### `bloom_index_columns`
 - **Syntax:**
   `bloom_index_columns = '<column> [, <column> ...]'`
