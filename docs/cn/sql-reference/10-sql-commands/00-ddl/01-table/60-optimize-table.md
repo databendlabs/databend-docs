@@ -21,6 +21,26 @@ OPTIMIZE TABLE 通过合并较小的 Segment 和 Block 提升查询性能。合�
 
 </DetailsWrap>
 
+<h2 id="recluster-syntax">使用 OPTIMIZE TABLE 重聚簇</h2>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+使用 `OPTIMIZE TABLE ... RECLUSTER` 按聚簇键重新组织数据。目标可以是表或物化视图。目标必须具有聚簇键。
+
+```sql
+OPTIMIZE TABLE [catalog.][database.]table_name RECLUSTER [FINAL] [WHERE condition] [LIMIT <segment_count>];
+```
+
+`FINAL` 会重复执行重聚簇，直到目标完全聚簇。`WHERE` 用于选择普通表中需要重聚簇的数据。物化视图不支持 `WHERE`，并且需要 Enterprise 许可证。有关限制与执行注意事项，请参阅 [RECLUSTER TABLE](../06-clusterkey/dml-recluster-table.md#optimize-recluster)。有关视图维护，请参阅[物化视图](../05-view/materialized-view.md#optimize-mv-recluster)。
+
+现有的 `ALTER TABLE ... RECLUSTER` 和 `ALTER MATERIALIZED VIEW ... RECLUSTER` 形式仍作为兼容别名保留。新脚本可以对这两类目标使用 `OPTIMIZE TABLE`。查询日志将重聚簇归类为 `Update`，包括使用兼容别名的语句。
+
+`COMPACT`、`COMPACT SEGMENT` 和 `RECLUSTER` 现在均接受 `catalog.database.table` 名称。例如：
+
+```sql
+OPTIMIZE TABLE default.my_database.my_table COMPACT SEGMENT LIMIT 50;
+```
+
 ## Databend 数据存储：快照、段与块
 
 快照（Snapshot）、段（Segment）和块（Block）是 Databend 用于数据存储的核心概念，Databend 利用它们构建表数据的分层存储结构。

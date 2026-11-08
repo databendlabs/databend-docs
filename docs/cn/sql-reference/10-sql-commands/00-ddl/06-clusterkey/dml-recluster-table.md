@@ -9,6 +9,20 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 对表进行重新聚类。有关为什么以及何时重新聚类表，请参阅 [重新聚类表](index.md#re-clustering-table)。
 
+<h3 id="optimize-recluster">统一重聚簇语法</h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+新脚本可以使用规范的 `OPTIMIZE TABLE` 形式：
+
+```sql
+OPTIMIZE TABLE [catalog.][database.]table_name RECLUSTER [FINAL] [WHERE condition] [LIMIT <segment_count>];
+```
+
+下文的 `ALTER TABLE` 语法及示例仍作为兼容别名保留。两种形式执行相同的重聚簇操作。此操作接受旧语法中的 `IF EXISTS` 子句，但该子句不会跳过不存在的目标。执行维护前，请检查目标是否存在。
+
+对物化视图，可使用不带 `WHERE` 的同一 `OPTIMIZE TABLE` 形式。请参阅[物化视图](../05-view/materialized-view.md#optimize-mv-recluster)。有关使用 catalog 限定名称的合并操作，请参阅 [OPTIMIZE TABLE](../01-table/60-optimize-table.md#recluster-syntax)。
+
 ### 分布式执行
 
 <FunctionDescription description="Introduced or updated: Unreleased"/>

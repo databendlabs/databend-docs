@@ -21,6 +21,26 @@ OPTIMIZE TABLE compacts small segments and blocks to improve query performance. 
 
 </DetailsWrap>
 
+<h2 id="recluster-syntax">Re-clustering with OPTIMIZE TABLE</h2>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+Use `OPTIMIZE TABLE ... RECLUSTER` to reorganize data by its cluster key. The target can be a table or a materialized view. The target must have a cluster key.
+
+```sql
+OPTIMIZE TABLE [catalog.][database.]table_name RECLUSTER [FINAL] [WHERE condition] [LIMIT <segment_count>];
+```
+
+`FINAL` repeats re-clustering until the target is fully clustered. `WHERE` selects data for re-clustering on ordinary tables. Materialized views do not support `WHERE` and require an Enterprise license. See [RECLUSTER TABLE](../06-clusterkey/dml-recluster-table.md#optimize-recluster) for limits and execution precautions, and [Materialized Views](../05-view/materialized-view.md#optimize-mv-recluster) for view maintenance.
+
+The existing `ALTER TABLE ... RECLUSTER` and `ALTER MATERIALIZED VIEW ... RECLUSTER` forms remain compatibility aliases. New scripts can use `OPTIMIZE TABLE` for either target. Query logs classify re-clustering as `Update`, including the aliases.
+
+`COMPACT`, `COMPACT SEGMENT`, and `RECLUSTER` now accept `catalog.database.table` names. For example:
+
+```sql
+OPTIMIZE TABLE default.my_database.my_table COMPACT SEGMENT LIMIT 50;
+```
+
 ## Databend Data Storage: Snapshot, Segment, and Block
 
 Snapshot, segment, and block are the concepts Databend uses for data storage. Databend uses them to construct a hierarchical structure for storing table data.
