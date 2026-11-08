@@ -3,6 +3,8 @@ title: HTTP Handler
 sidebar_label: REST API
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 Databend HTTP Handler 是一个 REST API，可以让你通过 HTTP 请求直接向 Databend 发送 SQL 查询并获取结果。它适用于构建自定义集成、自动化脚本，或者需要在不使用驱动程序的情况下进行编程访问的场景。
 
 :::tip[推荐替代方案]
@@ -461,12 +463,32 @@ curl -u "user:password" \
 
 ---
 
+<h2 id="session-recovery">会话恢复</h2>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+仅使用物化 CTE 不会要求粘性路由。用户创建的临时表和活动事务仍要求请求发送到同一个节点。
+
+自定义 HTTP 客户端必须检查 `error.code`，包括 HTTP 400 响应中的错误码：
+
+| 错误码 | 含义 | 客户端操作 |
+|--------|------|------------|
+| `5110` (`SessionTimeout`) | 服务端已检查会话声明的临时表，确认这些表不存在。 | 使用返回的会话状态。响应会清除过期的临时表标志和粘性路由标志。 |
+| `5111` (`SessionLost`) | 请求可能被发送到错误的节点。原节点可能仍保留会话状态。 | 不要仅根据此错误码丢弃粘性状态。 |
+| `5113` (`SessionNodeLost`) | 粘性节点已不在集群中。该节点上的临时表和事务状态已丢失。 | 丢弃过期的粘性路由。如果响应包含修正后的会话，则使用该会话。 |
+
+对于 `5113`，HTTP 状态码仍为 400。错误消息仍以 `Sticky session state lost` 开头。不要通过 `BadArguments` 或错误码 `1006` 匹配此情况。旧响应会包装此错误，并在 `error.code` 中返回 HTTP 错误码 `400`。
+
+如果服务端能读取请求中的会话，`POST /v1/query` 会返回修正后的 `session`。该会话保留数据库、角色、设置和变量。它会清除 `need_sticky`、`need_keep_alive` 和 `internal.has_temp_table`。活动事务的状态变为 `Fail`。此恢复路径最多读取 1 MiB 的请求体。如果无法读取会话，响应不会包含修正后的会话。
+
+页面请求和 final 请求遇到 `5113` 时返回 `session: null`。登出、心跳和 catalog 请求只返回错误对象。不要恢复已丢失的事务或盲目重试语句。请检查驱动程序的恢复行为。此服务端变更不保证现有驱动程序会应用 HTTP 400 响应中的会话状态。
+
 ## HTTP 状态码
 
 | 状态码 | 描述 |
 |--------|------|
 | 200 | 成功（检查 `error` 字段以了解查询级别的错误） |
-| 400 | 请求格式无效 |
+| 400 | 请求格式无效或粘性节点已丢失；请检查 `error.code` |
 | 404 | 查询或页面不存在 |
 
 ---

@@ -3,6 +3,8 @@ title: HTTP Handler
 sidebar_label: REST API
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 The Databend HTTP Handler is a REST API that enables you to send SQL queries to Databend and receive results directly via HTTP requests. This is useful for building custom integrations, automation scripts, or when you need direct programmatic access without using a driver.
 
 :::tip[Recommended Alternatives]
@@ -461,12 +463,32 @@ curl -u "user:password" \
 
 ---
 
+<h2 id="session-recovery">Session Recovery</h2>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+A materialized CTE alone does not require sticky routing. User-created temporary tables and active transactions still require the same node.
+
+Custom HTTP clients must inspect `error.code`, including in HTTP 400 responses:
+
+| Error code | Meaning | Client action |
+|------------|---------|---------------|
+| `5110` (`SessionTimeout`) | The server checked for the claimed temporary tables and found none. | Use the returned session state. The response clears the stale temporary-table and sticky-routing flags. |
+| `5111` (`SessionLost`) | The request can have reached the wrong node. The original node can still hold the session state. | Do not discard sticky state based on this code alone. |
+| `5113` (`SessionNodeLost`) | The sticky node is no longer in the cluster. Its temporary tables and transaction state are lost. | Discard the stale sticky routing. Use the corrected session when the response includes one. |
+
+For `5113`, HTTP status remains 400. The error message still starts with `Sticky session state lost`. Do not match this case as `BadArguments` or code `1006`. Earlier responses wrapped this error and exposed HTTP code `400` in `error.code`.
+
+When the server can read the request session, `POST /v1/query` returns a corrected `session`. It preserves the database, role, settings, and variables. It clears `need_sticky`, `need_keep_alive`, and `internal.has_temp_table`. An active transaction becomes `Fail`. The recovery path reads at most 1 MiB of the request body. If it cannot read the session, the response contains no corrected session.
+
+Page and final requests return `session: null` for `5113`. Logout, heartbeat, and catalog requests return only the error object. Do not resume a lost transaction or retry statements blindly. Check your driver's recovery behavior. This server change does not guarantee that existing drivers apply session state from HTTP 400 responses.
+
 ## HTTP Status Codes
 
 | Code | Description |
 |------|-------------|
 | 200 | Success (check `error` field for query-level errors) |
-| 400 | Invalid request format |
+| 400 | Invalid request format or lost sticky node; inspect `error.code` |
 | 404 | Query or page not found |
 
 ---
