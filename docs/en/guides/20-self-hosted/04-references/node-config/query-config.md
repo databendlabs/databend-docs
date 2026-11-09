@@ -338,6 +338,44 @@ The following is a list of the parameters available within the [cache.disk] sect
 | path      | The path where the cache is stored when using disk cache.                                                |
 | max_bytes | The maximum amount of cached data in bytes when using disk cache. Defaults to 21474836480 bytes (20 GB). |
 
+<h3 id="unified-disk-cache">Unified Disk Cache</h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+The disk cache uses one byte budget for metadata, indexes, and data. It works with either memory cache backend. It requires an Enterprise Edition build, `data_cache_storage = "disk"`, and `max_bytes` greater than 1024. The default `data_cache_storage = "none"` keeps it disabled.
+
+```toml
+[cache]
+data_cache_storage = "disk"
+
+[cache.disk]
+path = "/data/cache"
+max_bytes = 107374182400
+meta_max_ratio = 10
+index_max_ratio = 20
+data_max_ratio = 70
+```
+
+The example gives the node a 100 GiB budget. The ratios below divide that budget. They are separate from the memory pool ratios under `[cache]`.
+
+| Parameter in `[cache.disk]` | Default | Purpose |
+|----------------------------|---------|---------|
+| meta_max_ratio | 10 | Metadata, including snapshots, segments, and index metadata. |
+| index_max_ratio | 20 | Index data, including Bloom filters and inverted, vector, and spatial index data. |
+| data_max_ratio | 70 | Raw column data and other cache-enabled Parquet reads. |
+
+Ratios are weights. Their sum need not be 100. A zero ratio disables that pool. At least one ratio must be nonzero. Decoded columns and decoded HNSW indexes remain memory-only. Stage tables and `COPY` bypass this disk cache.
+
+**Upgrade notes:**
+
+- Replace per-kind `disk_cache_*_size` limits with the total budget and pool ratios. These old limits are still accepted but ignored.
+- `data_cache_in_memory_bytes` and `table_data_cache_population_queue_size` are also accepted but ignored. Readers no longer cache raw column bytes in memory.
+- The first start removes files in the old cache layout. Expect cache misses while the new cache fills. This removes cached copies, not table objects in storage.
+- `data_cache_key_reload_policy = "reset"` remains the default. It starts with an empty cache after a restart. `"fuzzy"` reloads entries in the new layout within the configured capacities. It does not preserve old-layout entries.
+- With `shared_memory_enabled = true`, `memory_cache_segment_block_metas` now starts disabled, as in the legacy backend. To opt in, set a positive byte limit for this kind in `[cache.kind_max_bytes]`. It remains subject to the shared metadata pool budget.
+
+Use [SYSTEM$SET_CACHE_CAPACITY](/sql/sql-functions/table-functions/set-cache-capacity#disk-cache-controls) for runtime pool limits and disk-kind switches. See [system.caches](/sql/sql-reference/system-tables/system-caches#disk-cache-statistics) for monitoring.
+
 ## [spill] Section
 
 Databend can spill intermediate data to reduce memory pressure.

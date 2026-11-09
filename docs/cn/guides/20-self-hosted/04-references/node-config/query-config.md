@@ -340,6 +340,44 @@ cn=
 | path | 磁盘缓存的存储路径。 |
 | max_bytes | 磁盘缓存的最大数据量（字节），默认为 21474836480 字节（20 GB）。 |
 
+<h3 id="unified-disk-cache">统一磁盘缓存</h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+磁盘缓存使用一个字节预算存放元数据、索引和数据。两种内存缓存后端均可使用。启用条件为 Enterprise Edition 构建、`data_cache_storage = "disk"`，且 `max_bytes` 大于 1024。默认的 `data_cache_storage = "none"` 保持禁用。
+
+```toml
+[cache]
+data_cache_storage = "disk"
+
+[cache.disk]
+path = "/data/cache"
+max_bytes = 107374182400
+meta_max_ratio = 10
+index_max_ratio = 20
+data_max_ratio = 70
+```
+
+此示例为节点设置 100 GiB 预算。下列比例用于分配该预算。它们与 `[cache]` 中的内存池比例相互独立。
+
+| `[cache.disk]` 中的参数 | 默认值 | 用途 |
+|------------------------|--------|------|
+| meta_max_ratio | 10 | 元数据，包括快照、Segment 和索引元数据。 |
+| index_max_ratio | 20 | 索引数据，包括 Bloom Filter、倒排索引、向量索引和空间索引数据。 |
+| data_max_ratio | 70 | 原始列数据及其他启用缓存的 Parquet 读取。 |
+
+比例是权重，总和不必为 100。比例为零会禁用对应池。至少一个比例必须非零。解码后的列和 HNSW 索引仍仅缓存在内存中。Stage 表和 `COPY` 绕过此磁盘缓存。
+
+**升级注意事项：**
+
+- 使用总预算和池比例替代各类 `disk_cache_*_size` 容量限制。旧限制仍可解析，但不再生效。
+- `data_cache_in_memory_bytes` 和 `table_data_cache_population_queue_size` 仍可解析，但不再生效。读取器不再将原始列字节缓存在内存中。
+- 首次启动会删除旧缓存布局中的文件。新缓存填充期间会出现缓存未命中。此操作删除缓存副本，不删除存储中的表对象。
+- `data_cache_key_reload_policy = "reset"` 仍为默认值。节点重启后从空缓存开始。`"fuzzy"` 会在配置容量内重新加载新布局中的条目，不保留旧布局条目。
+- 使用 `shared_memory_enabled = true` 时，`memory_cache_segment_block_metas` 现在与旧后端一样默认禁用。如需启用，请在 `[cache.kind_max_bytes]` 中为此类型设置正的字节上限。它仍受共享元数据池预算限制。
+
+运行时池容量和磁盘缓存类型开关见 [SYSTEM$SET_CACHE_CAPACITY](/sql/sql-functions/table-functions/set-cache-capacity#disk-cache-controls)。监控方式见 [system.caches](/sql/sql-reference/system-tables/system-caches#disk-cache-statistics)。
+
 ## [spill] 部分
 
 Databend 支持将中间计算数据落盘（Spill），从而降低内存压力。
