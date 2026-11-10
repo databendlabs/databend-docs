@@ -18,7 +18,7 @@ KILL CONNECTION '<process_id>'
 
 ### Process ID
 
-`process_id` 是 `SHOW PROCESSLIST` 或 `system.processes` 返回的 `id` 列，用于标识服务端内部会话。旧版文档将其称为 `session_id`。占位符名称的变化不影响 SQL 语法。
+`process_id` 是 `SHOW PROCESSLIST` 或 `system.processes` 返回的 `id` 列，用于标识服务端内部会话。
 
 不要将 query ID、操作系统进程 ID（PID）或 HTTP client session ID 用作 `process_id`。
 

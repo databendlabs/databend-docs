@@ -18,7 +18,7 @@ KILL CONNECTION '<process_id>'
 
 ### Process ID
 
-`process_id` is the `id` column returned by `SHOW PROCESSLIST` or `system.processes`. It identifies an internal server session. Earlier documentation calls this value `session_id`. The placeholder name does not change the SQL syntax.
+`process_id` is the `id` column returned by `SHOW PROCESSLIST` or `system.processes`. It identifies an internal server session.
 
 Do not use a query ID, an operating system process ID (PID), or an HTTP client session ID as `process_id`.
 
