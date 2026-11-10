@@ -79,9 +79,13 @@ title: 定价与计费
 
 import BillingExample from '@site/src/components/BillingExample';
 
+<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/BillingExample/index.tsx -->
+
 <BillingExample example={1} />
 
 ## 例子 2：
+
+<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/BillingExample/index.tsx -->
 
 <BillingExample example={2} />
 
