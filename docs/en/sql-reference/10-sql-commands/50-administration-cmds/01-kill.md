@@ -13,8 +13,8 @@ KILL QUERY '<process_id>'
 KILL CONNECTION '<process_id>'
 ```
 
-- `KILL QUERY` cancels the current query without closing the session.
-- `KILL CONNECTION` terminates the session and cancels its current query.
+- `KILL QUERY` cancels the target session's current query.
+- `KILL CONNECTION` also marks the target server session as aborted. The effect depends on the protocol, as shown below.
 
 ### Process ID
 
@@ -22,12 +22,20 @@ KILL CONNECTION '<process_id>'
 
 Do not use a query ID, an operating system process ID (PID), or an HTTP client session ID as `process_id`.
 
-The lifetime of this ID depends on the connection protocol:
+The session lifetime and the effect of cancellation depend on the protocol:
 
-| Protocol | Lifetime of `system.processes.id` |
-|----------|----------------------------------|
-| MySQL | The ID stays the same for queries on the same connection. |
-| HTTP Query | Each new query submission creates a new internal server session and ID, even when it uses the same HTTP client session. |
+| Protocol | Lifetime of `process_id` | Cancellation behavior |
+|----------|-------------------------|-----------------------|
+| MySQL | One ID per connection, shared by its queries. | `KILL QUERY` keeps the connection usable. `KILL CONNECTION` ends it. |
+| HTTP Query | A new internal session and ID for each query submission. | Both cancel the target query. `KILL CONNECTION` does not end the HTTP client session or prevent new submissions. |
+
+You can also get the current internal session ID with [CONNECTION_ID](../../20-sql-functions/15-context-functions/connection-id.md):
+
+```sql
+SELECT CONNECTION_ID();
+```
+
+For MySQL, you can obtain this ID before you run the target query on the same connection. For HTTP Query, a separate `SELECT CONNECTION_ID()` returns its own ID, not the ID of a later query. Use `system.processes` to find another running query's ID.
 
 ## Permissions and Scope
 

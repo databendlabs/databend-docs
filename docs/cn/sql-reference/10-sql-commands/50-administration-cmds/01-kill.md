@@ -13,8 +13,8 @@ KILL QUERY '<process_id>'
 KILL CONNECTION '<process_id>'
 ```
 
-- `KILL QUERY` 取消当前查询，不关闭会话。
-- `KILL CONNECTION` 终止会话，并取消该会话的当前查询。
+- `KILL QUERY` 取消目标会话的当前查询。
+- `KILL CONNECTION` 还会将目标服务端会话标记为已中止。不同协议下的效果见下表。
 
 ### Process ID
 
@@ -22,12 +22,20 @@ KILL CONNECTION '<process_id>'
 
 不要将 query ID、操作系统进程 ID（PID）或 HTTP client session ID 用作 `process_id`。
 
-该 ID 的生命周期取决于连接协议：
+会话的生命周期和取消操作的效果取决于协议：
 
-| 协议 | `system.processes.id` 的生命周期 |
-|------|---------------------------------|
-| MySQL | 同一连接执行多条查询时，ID 保持不变。 |
-| HTTP Query | 每次提交新查询都会创建新的服务端内部会话和 ID，即使沿用同一个 HTTP client session。 |
+| 协议 | `process_id` 的生命周期 | 取消操作的效果 |
+|------|------------------------|----------------|
+| MySQL | 每个连接对应一个 ID，同一连接的多条查询共用该 ID。 | `KILL QUERY` 后连接仍可使用；`KILL CONNECTION` 终止连接。 |
+| HTTP Query | 每次提交查询都会创建新的内部会话和 ID。 | 两者都取消目标查询。`KILL CONNECTION` 不会终止 HTTP client session，也不阻止提交新查询。 |
+
+也可以使用 [CONNECTION_ID](../../20-sql-functions/15-context-functions/connection-id.md) 获取当前内部会话 ID：
+
+```sql
+SELECT CONNECTION_ID();
+```
+
+对于 MySQL，可以先获取该 ID，再在同一连接执行目标查询。对于 HTTP Query，单独执行 `SELECT CONNECTION_ID()` 返回的是它自身的 ID，不是后续查询的 ID。要查找另一条正在运行的查询，请使用 `system.processes`。
 
 ## 权限与范围
 
