@@ -2,18 +2,20 @@
 title: NOT LIKE
 ---
 
-Pattern not matching using an SQL pattern. Returns 1 (TRUE) or 0 (FALSE). If either expr or pat is NULL, the result is NULL.
+Returns `true` if the string does not match the SQL pattern, `false` if it does, and `NULL` if either argument is `NULL`.
+
+`<expr> NOT LIKE <pattern>` is the negation of `<expr> LIKE <pattern>`. See [LIKE](like.md) for wildcards, escaping, and the `ESCAPE` clause.
 
 ## Syntax
 
 ```sql
-<expr> NOT LIKE <pattern>
+<expr> NOT LIKE <pattern> [ ESCAPE <escape> ]
 ```
 
 ## Examples
 
 ```sql
-SELECT name, category FROM system.functions WHERE name like 'tou%' AND name not like '%64' ORDER BY name;
+SELECT name, category FROM system.functions WHERE name LIKE 'tou%' AND name NOT LIKE '%64' ORDER BY name;
 +----------+------------+
 | name     | category   |
 +----------+------------+
@@ -21,4 +23,11 @@ SELECT name, category FROM system.functions WHERE name like 'tou%' AND name not 
 | touint32 | conversion |
 | touint8  | conversion |
 +----------+------------+
+```
+
+`%` and `_` are wildcards. Escape them to match the characters literally:
+
+```sql
+SELECT '50% off' NOT LIKE '50\\%%', '500 items' NOT LIKE '50\\%%', '500 items' NOT LIKE '50#%%' ESCAPE '#';
+-- false, true, true
 ```
