@@ -29,18 +29,12 @@ The lifetime of this ID depends on the connection protocol:
 | MySQL | The ID stays the same for queries on the same connection. |
 | HTTP Query | Each new query submission creates a new internal server session and ID, even when it uses the same HTTP client session. |
 
-For HTTP Query, the client session ID in `X-Databend-Session-Id` or the response `session_id` field is not this internal server session ID. To cancel an HTTP query by its query ID, see [HTTP API: Cancel Query](/developer/apis/http#cancel-query).
-
 ## Permissions and Scope
 
 - SQL `KILL` requires the global `SUPER` privilege, including when you cancel your own query.
 - You can issue `KILL` from a different session or connection. The target session does not have to belong to the current user.
 - The command searches the current warehouse, including nodes in other clusters of that warehouse. It does not search other warehouses. Connect to the warehouse that runs the target query.
 - The target session must still exist. If the server cannot find it, the command returns `Not found session id`.
-
-:::caution
-`KILL QUERY` targets the query that runs in the specified session when the command executes. It does not check a query ID. If a reused session starts another query before `KILL QUERY` executes, the command can cancel that query instead.
-:::
 
 ## Examples
 

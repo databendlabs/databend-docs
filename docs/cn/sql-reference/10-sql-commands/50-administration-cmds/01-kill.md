@@ -29,18 +29,12 @@ KILL CONNECTION '<process_id>'
 | MySQL | 同一连接执行多条查询时，ID 保持不变。 |
 | HTTP Query | 每次提交新查询都会创建新的服务端内部会话和 ID，即使沿用同一个 HTTP client session。 |
 
-对于 HTTP Query，`X-Databend-Session-Id` 或响应中 `session_id` 字段的 client session ID 不是这里的服务端内部会话 ID。如需按 query ID 取消 HTTP 查询，请参阅 [HTTP API：取消查询](/developer/apis/http#取消查询)。
-
 ## 权限与范围
 
 - SQL `KILL` 需要全局 `SUPER` 权限，即使取消的是自己的查询。
 - 可以从另一个会话或连接发起 `KILL`，目标会话不必属于当前用户。
 - 命令会在当前 warehouse 内查找目标，包括同一 warehouse 中其他 cluster 的节点。它不会搜索其他 warehouse。请连接到目标查询所在的 warehouse。
 - 目标会话必须仍然存在。如果服务端找不到目标，会返回 `Not found session id`。
-
-:::caution
-`KILL QUERY` 取消的是命令执行时指定会话正在运行的查询，不会核对 query ID。如果复用的会话在 `KILL QUERY` 执行前已经开始另一条查询，命令可能会取消那条查询。
-:::
 
 ## 示例
 
