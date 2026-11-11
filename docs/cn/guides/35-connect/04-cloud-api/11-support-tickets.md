@@ -10,7 +10,7 @@ sidebar_label: "工单"
 - 不支持附件。创建工单或评论时带 `attachments` 会返回 HTTP 400。
 - 创建工单、添加评论和修改状态会通知支持团队。每个 token 可以连续发送 3 次这类请求，之后每 10 秒 1 次，超出时返回 HTTP 429。
 
-## 列出工单类别 {#list-ticket-categories}
+## 列出工单类别 {/* #list-ticket-categories */}
 
 `GET /api/v1/tickets/category-options` · Read · Self
 
@@ -20,7 +20,7 @@ sidebar_label: "工单"
 { "success": true, "data": [{ "name": "Warehouse", "value": 1 }, { "name": "Billing", "value": 8 }] }
 ```
 
-## 列出工单 {#list-tickets}
+## 列出工单 {/* #list-tickets */}
 
 `POST /api/v1/orgs/{orgSlug}/tickets/query` · Read · Creator
 
@@ -76,7 +76,7 @@ sidebar_label: "工单"
 
 `lastReplyAuthorType` 为 `customer` 或 `agent`。
 
-## 获取工单 {#get-a-ticket}
+## 获取工单 {/* #get-a-ticket */}
 
 `GET /api/v1/orgs/{orgSlug}/tickets/{ticketId}` · Read · Creator
 
@@ -87,7 +87,7 @@ sidebar_label: "工单"
 
 响应：`data` 是一张工单，包含 `id`、`number`、`subject`、`description`、`status`、`type`、`priority`、`tags`、`attachments`、`orgName`、`orgSlug`、`createdAt` 和 `updatedAt`。每个附件包含 `name`、`size`、`url` 和 `fileID`。API token 不能下载附件。
 
-## 列出工单评论 {#list-ticket-comments}
+## 列出工单评论 {/* #list-ticket-comments */}
 
 `GET /api/v1/orgs/{orgSlug}/tickets/{ticketId}/comments` · Read · Creator
 
@@ -102,7 +102,7 @@ sidebar_label: "工单"
 }
 ```
 
-## 创建工单 {#create-a-ticket}
+## 创建工单 {/* #create-a-ticket */}
 
 `POST /api/v1/orgs/{orgSlug}/tickets` · Write · Member
 
@@ -122,7 +122,7 @@ sidebar_label: "工单"
 { "success": true, "data": { "id": 3051 } }
 ```
 
-## 添加工单评论 {#add-a-ticket-comment}
+## 添加工单评论 {/* #add-a-ticket-comment */}
 
 `POST /api/v1/orgs/{orgSlug}/tickets/{ticketId}/comments` · Write · Creator
 
@@ -136,7 +136,7 @@ sidebar_label: "工单"
 
 响应：`{ "success": true }`。
 
-## 修改工单状态 {#change-ticket-status}
+## 修改工单状态 {/* #change-ticket-status */}
 
 `POST /api/v1/orgs/{orgSlug}/tickets/{ticketId}/{status}` · Write · Creator
 
@@ -148,9 +148,9 @@ sidebar_label: "工单"
 
 响应：`{ "success": true }`。
 
-## 类型 {#types}
+## 类型 {/* #types */}
 
-### 工单类别 {#ticket-category}
+### 工单类别 {/* #ticket-category */}
 
 | 取值 | 名称 | 取值 | 名称 |
 |---|---|---|---|
