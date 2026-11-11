@@ -17,6 +17,18 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 ## 工作原理
 
-当 Databend Cloud 支持团队提供您组织的受信主体信息后，您需要在自己的云账户中创建 IAM 角色或身份，授予访问对象存储所需的最小权限，并在信任策略中指定只允许 Databend Cloud 使用唯一的 External ID 来扮演该角色。此后 Databend Cloud 会按需假设该角色，使用短期凭证访问存储，并在会话结束后自动退出。
+对于 AWS，在 Databend Cloud 控制台的**连接**对话框中复制 **Role ARN**。Databend Cloud 会为您的组织创建这个主体。标准配置流程不需要提交支持工单，也不需要 Databend Cloud 支持团队人工审批。如果未显示 ARN，请联系支持团队。
+
+在您自己的 AWS 账户中创建一个独立的 IAM 角色。附加仅允许所需存储操作的权限策略。在信任策略中指定 Databend Cloud 主体，并使用外部 ID。然后在 Databend Connection 中填写您自己的角色 ARN 和相同的外部 ID。
+
+Databend Cloud 在访问存储时会代入您的角色。AWS STS 为该角色签发临时凭证。
+
+## 选择下一步任务
+
+| 任务 | 从这里开始 |
+|------|------------|
+| 从 Amazon S3 导入文件 | [从存储桶导入数据](/guides/load-data/load/s3)是主教程，统一介绍认证选择、Connection 和 Stage 创建、访问验证及数据导入。 |
+| 配置 AWS 角色权限和信任关系 | [使用 AWS IAM 角色进行认证](aws.md)负责 AWS 授权。创建角色后，请返回导入教程。 |
+| 查询 Stage 语法 | [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage)提供 SQL 语法和简短示例。 |
 
 <IndexOverviewList />
