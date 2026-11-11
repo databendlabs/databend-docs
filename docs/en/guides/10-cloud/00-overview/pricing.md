@@ -84,13 +84,13 @@ Service sizes are derived from the Warehouse XSmall. The monthly cost shown belo
 
 import BillingExample from '@site/src/components/BillingExample';
 
-<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/BillingExample/index.tsx -->
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/BillingExample/index.tsx */}
 
 <BillingExample example={1} />
 
 ## Example-2:
 
-<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/BillingExample/index.tsx -->
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/BillingExample/index.tsx */}
 
 <BillingExample example={2} />
 
