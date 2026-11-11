@@ -62,7 +62,7 @@ AS
   - 比较运算符，如等于、不等于、大于、小于等。
  
    :::note
-  警告：在任务中使用 STREAM_STATUS 时，引用流必须包含数据库名（例如 `STREAM_STATUS('mydb.stream_name')`）。
+  在任务中使用 STREAM_STATUS 时，请将流名称作为单引号字符串传入，例如 `STREAM_STATUS('stream_name')` 或 `STREAM_STATUS('mydb.stream_name')`。省略数据库名称时，函数使用当前数据库。不要用双引号或反引号替代单引号，也不要在字符串内嵌套标识符引号：`'"mydb"."stream_name"'` 和 `` '`mydb`.`stream_name`' `` 会把内部引号作为名称的一部分。条件保存成功不代表引用了有效的流。请使用 `SELECT * FROM STREAM_STATUS('mydb.stream_name');` 验证名称。参数规则参见 [STREAM_STATUS](../../../20-sql-functions/17-table-functions/stream-status.md#参数)。
    :::
 
 - 多个任务从同一表流消费变更数据时，会获取不同的增量。当某任务使用 DML 语句消费流中的变更数据后，流会推进偏移量，变更数据不再对后续任务可见。当前建议仅让一个任务消费同一流。可为同一表创建多个流，由不同任务分别消费。

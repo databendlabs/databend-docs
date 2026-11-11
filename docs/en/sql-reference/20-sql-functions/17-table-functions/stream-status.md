@@ -17,7 +17,7 @@ Query versions earlier than `v1.2.933-nightly` may also incorrectly report `true
 :::
 
 :::note
-When using `STREAM_STATUS` in tasks, you must include the database name when referencing the stream (e.g., `STREAM_STATUS('mydb.stream_name')`).
+You can reference a stream by its name alone, for example `STREAM_STATUS('stream_name')`. The function uses the current database when you omit the database name. You can also specify the database explicitly, for example `STREAM_STATUS('mydb.stream_name')`.
 :::
 
 ## Syntax
@@ -27,6 +27,15 @@ SELECT * FROM STREAM_STATUS('<database_name>.<stream_name>');
 -- OR
 SELECT * FROM STREAM_STATUS('<stream_name>');  -- Uses current database
 ```
+
+## Arguments
+
+The argument is a string that contains the stream name. Use single quotes around the string, for example `'s'` or `'mydb.s'`.
+
+- Do not replace the single quotes with double quotes or backticks. For example, `"mydb.s"`, `"mydb"."s"`, and `` `mydb`.`s` `` are SQL identifiers, not strings.
+- Do not put identifier quotes inside the string. For example, `'"mydb"."s"'` and `` '`mydb`.`s`' `` are not equivalent to `'mydb.s'`. The function treats the inner quotes as part of the names.
+
+These rules also apply to `STREAM_STATUS` in a task's `WHEN` condition. Saving a task condition does not confirm that the string refers to a valid stream. Check the name with `SELECT * FROM STREAM_STATUS('mydb.s');`.
 
 ## Examples
 
