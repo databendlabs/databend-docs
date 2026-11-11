@@ -9,7 +9,7 @@ Read the [Overview](./index.md) first for authentication, request conventions, a
 
 `POST /api/v1/query/orgs/{orgSlug}/query-history/query` · Read · Member
 
-Searches the query history of the organization. All body fields are optional. The server sets the organization from the path. Do not send `orgId`, `orgSlug`, `tenantId`, or `accountId`.
+Searches the query history of the organization. All body fields are optional, but the body must be a JSON object. Send `{}` to search without filters. The server sets the organization from the path. Do not send `orgId`, `orgSlug`, `tenantId`, or `accountId`.
 
 | Field | Type | Required | Description |
 |---|---|---|---|
@@ -24,6 +24,9 @@ Searches the query history of the organization. All body fields are optional. Th
 | `queryKind` | string | No | Statement kind, for example `Query`, `Insert`, or `CopyIntoTable`. |
 | `database` | string | No | Current database of the query. |
 | `sessionId` | string | No | Session ID. |
+| `userAgent` | string | No | Text in the client user agent. Any word can match. Use the `userAgent` value of a result item. |
+| `clusterId` | string | No | Cluster ID. Use the `clusterId` value of a result item. |
+| `nodeID` | string | No | Node ID. Use the `nodeID` value of a result item. The field name ends in an uppercase `ID`. |
 | `status` | integer | No | One [query status](#query-status). |
 | `statusList` | integer[] | No | Several query statuses. |
 | `queryDurationGte` | integer | No | Minimum duration in milliseconds. |
@@ -33,8 +36,8 @@ Searches the query history of the organization. All body fields are optional. Th
 | `queryTag` | string | No | Query tag. |
 | `queryHash` | string | No | Query hash. |
 | `queryParameterizedHash` | string | No | Hash of the statement without literal values. |
-| `sort` | string | No | One of `startTime`, `queryDuration`, `queryQueuedDuration`, `resultRows`, `scanRows`, `warehouse`. Default: `startTime`. |
-| `direction` | string | No | `asc` or `desc`. Default: `desc`. |
+| `sort` | string | No | One of `startTime`, `queryDuration`, `queryQueuedDuration`, `resultRows`, `scanRows`, `warehouse`. Send it together with `direction`. |
+| `direction` | string | No | `asc` or `desc`. Send it together with `sort`. If you omit both, the order is `startTime` `desc`. |
 
 Request example:
 

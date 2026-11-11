@@ -364,7 +364,7 @@ Returns the result of each table in the snapshot of a MySQL run. Results are ava
 | `orgSlug` | body | string | Yes | Organization ID. |
 | `status` | body | integer (enum) | No | Filter by [MySQL snapshot table status](#mysql-snapshot-table-status). |
 | `page` | body | integer | No | Page number. Default: 1. |
-| `perPage` | body | integer | No | Rows per page. Default: 20. |
+| `perPage` | body | integer | No | Rows per page. Default: 20. Maximum: 100. A larger value returns HTTP 400. |
 
 ```json
 {

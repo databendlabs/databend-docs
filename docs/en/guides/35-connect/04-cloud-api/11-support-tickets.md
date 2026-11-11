@@ -24,7 +24,7 @@ Returns the categories for [Create a Ticket](#create-a-ticket). See also [Ticket
 
 `POST /api/v1/orgs/{orgSlug}/tickets/query` · Read · Creator
 
-Returns the tickets that the account created in the organization, by the time of the last reply, newest first.
+Returns the tickets that the account created in the organization. By default, the newest last reply comes first. All body fields are optional. Send `{}` to list all tickets.
 
 | Field | Type | Required | Description |
 |---|---|---|---|
@@ -33,7 +33,12 @@ Returns the tickets that the account created in the organization, by the time of
 | `status` | string (enum) | No | `new`, `open`, `pending`, `hold`, `solved`, or `closed`. |
 | `category` | integer (enum) | No | [Ticket category](#ticket-category). |
 | `subject` | string | No | Text that the subject contains. |
-| `ticketNo` | string | No | Ticket number. |
+| `ticketNo` | string | No | Ticket number. Exact match. |
+| `priority` | string (enum) | No | `low`, `normal`, `high`, or `urgent`. |
+| `createdTimeFrom`, `createdTimeTo` | string | No | Range of the creation time, RFC 3339. |
+| `lastReplyTimeFrom`, `lastReplyTimeTo` | string | No | Range of the last reply time, RFC 3339. |
+| `sort` | string | No | `lastReplyTime` (default), `createdAt`, or `updatedAt`. |
+| `direction` | string | No | `asc` or `desc`. Default: `desc`. |
 
 Response example. `type` is the category name. `priority` is `low`, `normal`, `high`, or `urgent`.
 
@@ -103,7 +108,7 @@ Returns the public comments of a ticket, from the oldest.
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `category` | integer (enum) | Yes | [Ticket category](#ticket-category). |
+| `category` | integer (enum) | No | [Ticket category](#ticket-category). Default: `0` (Other). |
 | `subject` | string | Yes | Subject, at most 1,000 characters. |
 | `description` | string | No | Description of the problem. |
 

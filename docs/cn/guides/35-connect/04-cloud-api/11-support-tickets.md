@@ -24,7 +24,7 @@ sidebar_label: "工单"
 
 `POST /api/v1/orgs/{orgSlug}/tickets/query` · Read · Creator
 
-返回账户在该组织中创建的工单，按最近回复时间从新到旧排列。
+返回账户在该组织中创建的工单。默认按最近回复时间从新到旧排列。请求体中的字段都是可选的。要列出全部工单，传 `{}`。
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -33,7 +33,12 @@ sidebar_label: "工单"
 | `status` | string（枚举） | 否 | `new`、`open`、`pending`、`hold`、`solved` 或 `closed`。 |
 | `category` | integer（枚举） | 否 | [工单类别](#ticket-category)。 |
 | `subject` | string | 否 | 标题中包含的文字。 |
-| `ticketNo` | string | 否 | 工单编号。 |
+| `ticketNo` | string | 否 | 工单编号，精确匹配。 |
+| `priority` | string（枚举） | 否 | `low`、`normal`、`high` 或 `urgent`。 |
+| `createdTimeFrom`、`createdTimeTo` | string | 否 | 创建时间范围，RFC 3339 格式。 |
+| `lastReplyTimeFrom`、`lastReplyTimeTo` | string | 否 | 最近回复时间范围，RFC 3339 格式。 |
+| `sort` | string | 否 | `lastReplyTime`（默认）、`createdAt` 或 `updatedAt`。 |
+| `direction` | string | 否 | `asc` 或 `desc`。默认：`desc`。 |
 
 响应示例。`type` 是类别名称，`priority` 为 `low`、`normal`、`high` 或 `urgent`。
 
@@ -103,7 +108,7 @@ sidebar_label: "工单"
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
-| `category` | integer（枚举） | 是 | [工单类别](#ticket-category)。 |
+| `category` | integer（枚举） | 否 | [工单类别](#ticket-category)。默认：`0`（Other）。 |
 | `subject` | string | 是 | 标题，最多 1,000 个字符。 |
 | `description` | string | 否 | 问题描述。 |
 

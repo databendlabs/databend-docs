@@ -9,7 +9,7 @@ sidebar_label: "查询历史"
 
 `POST /api/v1/query/orgs/{orgSlug}/query-history/query` · Read · Member
 
-搜索组织的查询历史。请求体中的字段都是可选的。服务端从路径中确定组织，请勿传 `orgId`、`orgSlug`、`tenantId` 或 `accountId`。
+搜索组织的查询历史。请求体中的字段都是可选的，但请求体必须是一个 JSON 对象。不加过滤条件时，传 `{}`。服务端从路径中确定组织，请勿传 `orgId`、`orgSlug`、`tenantId` 或 `accountId`。
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -24,6 +24,9 @@ sidebar_label: "查询历史"
 | `queryKind` | string | 否 | 语句类型，例如 `Query`、`Insert` 或 `CopyIntoTable`。 |
 | `database` | string | 否 | 查询的当前数据库。 |
 | `sessionId` | string | 否 | 会话 ID。 |
+| `userAgent` | string | 否 | 客户端 User-Agent 中的文本，任一词匹配即可。取结果项的 `userAgent` 值。 |
+| `clusterId` | string | 否 | 集群 ID。取结果项的 `clusterId` 值。 |
+| `nodeID` | string | 否 | 节点 ID。取结果项的 `nodeID` 值。注意字段名末尾是大写的 `ID`。 |
 | `status` | integer | 否 | 单个[查询状态](#query-status)。 |
 | `statusList` | integer[] | 否 | 多个查询状态。 |
 | `queryDurationGte` | integer | 否 | 最短耗时，单位毫秒。 |
@@ -33,8 +36,8 @@ sidebar_label: "查询历史"
 | `queryTag` | string | 否 | 查询标签。 |
 | `queryHash` | string | 否 | 查询哈希。 |
 | `queryParameterizedHash` | string | 否 | 去掉字面值后的语句哈希。 |
-| `sort` | string | 否 | 取值为 `startTime`、`queryDuration`、`queryQueuedDuration`、`resultRows`、`scanRows`、`warehouse` 之一。默认：`startTime`。 |
-| `direction` | string | 否 | `asc` 或 `desc`。默认：`desc`。 |
+| `sort` | string | 否 | 取值为 `startTime`、`queryDuration`、`queryQueuedDuration`、`resultRows`、`scanRows`、`warehouse` 之一。须与 `direction` 一起传。 |
+| `direction` | string | 否 | `asc` 或 `desc`。须与 `sort` 一起传。两者都不传时，按 `startTime` `desc` 排序。 |
 
 请求示例：
 

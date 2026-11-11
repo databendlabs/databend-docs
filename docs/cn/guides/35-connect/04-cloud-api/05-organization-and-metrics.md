@@ -64,7 +64,7 @@ sidebar_label: "组织与监控"
 | `from` | 查询 | string | 是 | 开始时间，RFC 3339。 |
 | `to` | 查询 | string | 是 | 结束时间，RFC 3339，必须晚于 `from`。 |
 | `step` | 查询 | string | 是 | 数据点间隔，使用时长格式：`30s`、`60s`、`5m`、`1h`。 |
-| `warehouseName` | 查询 | string | 否 | 计算集群名称，用于计算集群相关指标。 |
+| `warehouseName` | 查询 | string | 否 | 计算集群名称。只对 `QueryStatusCount`、`QueryStatusCountByCluster`、`QueryHttpRequestsCount`、`QueryHttpRequestsCountByCluster` 和 `QueryAcquiredCountByCluster` 生效，把结果限定在这个计算集群。其他指标忽略此参数。 |
 | `taskId` | 查询 | integer | `TiDBSync`、`MySQLSync` 必填 | 数据集成任务 ID。 |
 
 `queryType` 取值：

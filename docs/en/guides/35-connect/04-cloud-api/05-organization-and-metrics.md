@@ -64,7 +64,7 @@ Returns a time series for one metric.
 | `from` | query | string | Yes | Start time, RFC 3339. |
 | `to` | query | string | Yes | End time, RFC 3339. Must be after `from`. |
 | `step` | query | string | Yes | Interval between points, as a duration: `30s`, `60s`, `5m`, `1h`. |
-| `warehouseName` | query | string | No | Warehouse name, for warehouse metrics. |
+| `warehouseName` | query | string | No | Warehouse name. Limits `QueryStatusCount`, `QueryStatusCountByCluster`, `QueryHttpRequestsCount`, `QueryHttpRequestsCountByCluster`, and `QueryAcquiredCountByCluster` to one warehouse. Other metrics ignore it. |
 | `taskId` | query | integer | For `TiDBSync` and `MySQLSync` | Data integration task ID. |
 
 `queryType` values:

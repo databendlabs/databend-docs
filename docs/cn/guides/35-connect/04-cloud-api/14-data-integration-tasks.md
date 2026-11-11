@@ -364,7 +364,7 @@ toc_max_heading_level: 4
 | `orgSlug` | 请求体 | string | 是 | 组织 ID。 |
 | `status` | 请求体 | integer（枚举） | 否 | 按 [MySQL 快照表状态](#mysql-snapshot-table-status)过滤。 |
 | `page` | 请求体 | integer | 否 | 页码。默认：1。 |
-| `perPage` | 请求体 | integer | 否 | 每页条数。默认：20。 |
+| `perPage` | 请求体 | integer | 否 | 每页条数。默认：20。最大：100，超过时返回 HTTP 400。 |
 
 ```json
 {
