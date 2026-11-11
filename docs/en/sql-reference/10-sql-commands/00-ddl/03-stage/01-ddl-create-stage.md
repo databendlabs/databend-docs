@@ -9,6 +9,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Creates an internal or external stage.
 
+For an end-to-end S3 workflow, start with [Loading from Bucket](/guides/load-data/load/s3). That tutorial covers authentication, Connection and Stage creation, access verification, and loading. Use this page to check Stage syntax and options.
+
 ## Syntax
 
 ```sql
@@ -48,7 +50,7 @@ externalStageParams ::=
   );
 ```
 
-For the connection parameters available for different storage services, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
+For the connection parameters available for different storage services, see [Connection Parameters](/sql/sql-reference/connect-parameters).
 
 For more information on `CONNECTION_NAME`, see [CREATE CONNECTION](../13-connection/create-connection.md).
 
@@ -109,66 +111,31 @@ DESC STAGE my_s3_stage;
 
 ### Example 3: Create External Stage with AWS IAM User
 
-This example creates an external stage named _iam_external_stage_ on Amazon S3 with an AWS Identity and Access Management (IAM) user.
+This example uses an IAM user's access keys. For Databend Cloud, [IAM role authentication](/guides/cloud/security/iam-role/aws) is recommended because it does not require storing access keys in Databend.
 
-#### Step 1: Create Access Policy for S3 Bucket
+#### Prepare AWS Access {/* #step-1-create-access-policy-for-s3-bucket */}
 
-The procedure below creates an access policy named _databend-access_ for the bucket _databend-toronto_ on Amazon S3:
+<span id="step-2-create-iam-user" />
 
-1. Log into the AWS Management Console, then select **Services** > **Security, Identity, & Compliance** > **IAM**.
-2. Select **Account settings** in the left navigation pane, and go to the **Security Token Service (STS)** section on the right page. Make sure the status of AWS region where your account belongs is **Active**.
-3. Select **Policies** in the left navigation pane, then select **Create policy** on the right page.
-4. Click the **JSON** tab, copy and paste the following code to the editor, then save the policy as _databend_access_.
+Follow [Configure Access Keys](/guides/load-data/load/s3#access-keys) to create a prefix-scoped read policy and an IAM user with an access key. That tutorial owns the AWS setup; you do not need a second policy or user for this example.
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "AllObjectActions",
-      "Effect": "Allow",
-      "Action": ["s3:*Object"],
-      "Resource": "arn:aws:s3:::databend-toronto/*"
-    },
-    {
-      "Sid": "ListObjectsInBucket",
-      "Effect": "Allow",
-      "Action": ["s3:ListBucket"],
-      "Resource": "arn:aws:s3:::databend-toronto"
-    }
-  ]
-}
-```
+#### Create the Stage {/* #step-3-create-external-stage */}
 
-#### Step 2: Create IAM User
-
-The procedure below creates an IAM user named _databend_ and attach the access policy _databend-access_ to the user.
-
-1. Select **Users** in the left navigation pane, then select **Add users** on the right page.
-2. Configure the user:
-   - Set the user name to _databend_.
-   - When setting permissions for the user, click **Attach policies directly**, then search for and select the access policy _databend-access_.
-3. After the user is created, click the user name to open the details page and select the **Security credentials** tab.
-4. In the **Access keys** section, click **Create access key**.
-5. Select **Third-party service** for the use case, and tick the checkbox below to confirm creation of the access key.
-6. Copy and save the generated access key and secret access key to a safe place.
-
-#### Step 3: Create External Stage
-
-Use the IAM role to create an external stage with better security.
+Use the IAM user's credentials in a Connection. This example uses the same bucket, prefix, and SQL object names as the loading tutorial. Replace the example values with your own configuration. Do not put real keys in shared examples, screenshots, or source control.
 
 ```sql
--- First create a connection using IAM role
-CREATE CONNECTION iam_s3_connection
+CREATE CONNECTION s3_books_conn
   STORAGE_TYPE = 's3'
-  ROLE_ARN = 'arn:aws:iam::123456789012:role/databend-access'
-  EXTERNAL_ID = 'my-external-id-123';
+  ACCESS_KEY_ID = '<your-access-key-id>'
+  SECRET_ACCESS_KEY = '<your-secret-access-key>'
+  REGION = 'us-east-2';
 
--- Create stage using the connection
-CREATE STAGE iam_external_stage
-  URL = 's3://databend-toronto'
-  CONNECTION = (CONNECTION_NAME = 'iam_s3_connection');
+CREATE STAGE s3_books_stage
+  URL = 's3://databend-toronto/load/'
+  CONNECTION = (CONNECTION_NAME = 's3_books_conn');
 ```
+
+If these objects already exist from the loading tutorial, reuse them. Continue with [Verify S3 Access](/guides/load-data/load/s3#verify-s3-access) and [Load the Sample Data](/guides/load-data/load/s3#load-sample-data).
 
 ### Example 4: Create External Stage on Cloudflare R2
 
@@ -190,7 +157,7 @@ The procedure below creates an R2 API token that includes an Access Key ID and a
 3. When configuring the API token, select the necessary permission and set the **TTL** as needed.
 4. Click **Create API Token** to obtain the Access Key ID and Secret Access Key. Copy and save them to a safe place.
 
-#### Step 3: Create External Stage
+#### Step 3: Create External Stage {/* #step-3-create-external-stage-1 */}
 
 Use the created Access Key ID and Secret Access Key to create an external stage named _r2_stage_.
 

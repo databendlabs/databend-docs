@@ -9,6 +9,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 创建内部或外部 Stage。
 
+完整的 S3 操作流程请从[从存储桶导入数据](/guides/load-data/load/s3)开始。该教程包含认证、Connection 和 Stage 创建、访问验证及数据导入。本页用于查询 Stage 语法和选项。
+
 ## 语法
 
 ```sql
@@ -48,7 +50,7 @@ externalStageParams ::=
   );
 ```
 
-不同存储服务可用的连接参数，请参见 [Connection Parameters](/00-sql-reference/51-connect-parameters.md)。
+不同存储服务可用的连接参数，请参见 [Connection Parameters](/sql/sql-reference/connect-parameters)。
 
 关于 `CONNECTION_NAME` 的更多信息，请参见 [CREATE CONNECTION](../13-connection/create-connection.md)。
 
@@ -109,66 +111,31 @@ DESC STAGE my_s3_stage;
 
 ### 示例 3：使用 AWS IAM 用户创建外部 Stage
 
-以下示例使用 AWS Identity and Access Management (IAM) 用户在 Amazon S3 上创建名为 _iam_external_stage_ 的外部 Stage。
+此示例使用 IAM 用户的访问密钥。Databend Cloud 推荐使用 [IAM 角色认证](/guides/cloud/security/iam-role/aws)，无需在 Databend 中保存访问密钥。
 
-#### 步骤 1：为 S3 存储桶创建访问策略
+#### 准备 AWS 访问权限 {/* #步骤-1为-s3-存储桶创建访问策略 */}
 
-以下步骤为 Amazon S3 上的存储桶 _databend-toronto_ 创建名为 _databend-access_ 的访问策略：
+<span id="步骤-2创建-iam-用户" />
 
-1. 登录 AWS 管理控制台，选择 **服务** > **安全性、身份与合规性** > **IAM**。
-2. 在左侧导航栏选择 **账户设置**，在右侧页面进入 **安全令牌服务 (STS)** 区域，确保所属 AWS 区域状态为 **活动**。
-3. 在左侧导航栏选择 **策略**，在右侧页面点击 **创建策略**。
-4. 点击 **JSON** 选项卡，将以下代码复制粘贴到编辑器，并将策略保存为 _databend_access_。
+按照[配置访问密钥](/guides/load-data/load/s3#access-keys)创建限定前缀的只读策略、IAM 用户和访问密钥。AWS 侧配置统一在该教程中维护，无需为此示例再创建一套策略或用户。
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "AllObjectActions",
-      "Effect": "Allow",
-      "Action": ["s3:*Object"],
-      "Resource": "arn:aws:s3:::databend-toronto/*"
-    },
-    {
-      "Sid": "ListObjectsInBucket",
-      "Effect": "Allow",
-      "Action": ["s3:ListBucket"],
-      "Resource": "arn:aws:s3:::databend-toronto"
-    }
-  ]
-}
-```
+#### 创建 Stage {/* #步骤-3创建外部-stage */}
 
-#### 步骤 2：创建 IAM 用户
-
-以下步骤创建名为 _databend_ 的 IAM 用户，并将访问策略 _databend-access_ 附加到该用户：
-
-1. 在左侧导航栏选择 **用户**，在右侧页面点击 **添加用户**。
-2. 配置用户：
-   - 用户名设为 _databend_。
-   - 设置权限时，点击 **直接附加策略**，搜索并选择访问策略 _databend-access_。
-3. 用户创建完成后，点击用户名进入详情页，选择 **安全凭证** 选项卡。
-4. 在 **访问密钥** 区域，点击 **创建访问密钥**。
-5. 用例选择 **第三方服务**，勾选下方复选框确认创建访问密钥。
-6. 复制并妥善保存生成的访问密钥和秘密访问密钥。
-
-#### 步骤 3：创建外部 Stage
-
-使用 IAM 角色创建安全性更高的外部 Stage。
+在 Connection 中使用 IAM 用户的凭证。此示例与导入教程使用相同的存储桶、前缀和 SQL 对象名称。请将示例值替换为您的实际配置。不要将真实密钥放入共享示例、截图或代码仓库。
 
 ```sql
--- 先使用 IAM 角色创建 Connection
-CREATE CONNECTION iam_s3_connection
+CREATE CONNECTION s3_books_conn
   STORAGE_TYPE = 's3'
-  ROLE_ARN = 'arn:aws:iam::123456789012:role/databend-access'
-  EXTERNAL_ID = 'my-external-id-123';
+  ACCESS_KEY_ID = '<your-access-key-id>'
+  SECRET_ACCESS_KEY = '<your-secret-access-key>'
+  REGION = 'us-east-2';
 
--- 使用 Connection 创建 Stage
-CREATE STAGE iam_external_stage
-  URL = 's3://databend-toronto'
-  CONNECTION = (CONNECTION_NAME = 'iam_s3_connection');
+CREATE STAGE s3_books_stage
+  URL = 's3://databend-toronto/load/'
+  CONNECTION = (CONNECTION_NAME = 's3_books_conn');
 ```
+
+如果已经在导入教程中创建这些对象，请直接复用。接下来请[验证 S3 访问](/guides/load-data/load/s3#verify-s3-access)，再[导入示例数据](/guides/load-data/load/s3#load-sample-data)。
 
 ### 示例 4：在 Cloudflare R2 上创建外部 Stage
 
@@ -190,7 +157,7 @@ CREATE STAGE iam_external_stage
 3. 配置令牌时选择所需权限，并按需设置 **TTL**。
 4. 点击 **创建 API 令牌** 获取 Access Key ID 和 Secret Access Key，复制并妥善保存。
 
-#### 步骤 3：创建外部 Stage
+#### 步骤 3：创建外部 Stage {/* #步骤-3创建外部-stage-1 */}
 
 使用已生成的 Access Key ID 和 Secret Access Key 创建名为 _r2_stage_ 的外部 Stage。
 
