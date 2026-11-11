@@ -61,7 +61,7 @@ Result:
 └────────────┴──────────┴────────┴─────────┴───────────┘
 ```
 
-Because `'1.5 days'` becomes 2 calendar days, adding it to a TIMESTAMP keeps the wall-clock time even across a daylight saving time change.
+Because `'1.5 days'` becomes 2 calendar days, adding it to a TIMESTAMP keeps the wall-clock time even across a daylight saving time change. A TIMESTAMP_TZ value keeps its own UTC offset instead, so the session time zone's daylight saving time changes do not apply: `'2024-03-09 12:00:00 -08:00'::TIMESTAMP_TZ + TO_INTERVAL('1.5 days')` returns `2024-03-11 12:00:00.000000 -0800`.
 
 ### Interval Arithmetic
 
