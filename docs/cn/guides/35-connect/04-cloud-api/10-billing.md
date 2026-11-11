@@ -7,7 +7,7 @@ sidebar_label: "账单"
 
 这些接口只读取账单和用量。金额是组织结算币种下的数值。付款、确认账单或修改支付方式请在 Cloud 控制台中操作。
 
-## 列出账单 {/* #list-bills */}
+## 列出账单 {#list-bills}
 
 `GET /api/v1/billing/orgs/{orgSlug}/billing-histories` · Read · Member
 
@@ -37,7 +37,7 @@ sidebar_label: "账单"
 }
 ```
 
-## 获取账单 {/* #get-a-bill */}
+## 获取账单 {#get-a-bill}
 
 `GET /api/v1/billing/orgs/{orgSlug}/billing-histories/{billingHistoryId}` · Read · Member
 
@@ -48,7 +48,7 @@ sidebar_label: "账单"
 
 响应：`data` 是一张账单，字段与[列出账单](#list-bills)的单项相同。
 
-## 获取账单明细 {/* #get-bill-details */}
+## 获取账单明细 {#get-bill-details}
 
 `GET /api/v1/billing/orgs/{orgSlug}/billing-histories/{billingHistoryId}/details-v2` · Read · Member
 
@@ -81,7 +81,7 @@ sidebar_label: "账单"
 
 此响应中的金额是十进制字符串。
 
-## 获取每日用量 {/* #get-daily-usage */}
+## 获取每日用量 {#get-daily-usage}
 
 `GET /api/v1/orgs/{orgSlug}/daily-usages` · Read · Member
 
@@ -122,9 +122,9 @@ sidebar_label: "账单"
 }
 ```
 
-## 类型 {/* #types */}
+## 类型 {#types}
 
-### 账单状态 {/* #bill-state */}
+### 账单状态 {#bill-state}
 
 | 取值 | 名称 | 含义 |
 |---|---|---|

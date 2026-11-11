@@ -7,7 +7,7 @@ sidebar_label: "SQL Task"
 
 SQL Task 是通过 `CREATE TASK` 创建的任务。如需列出或修改 SQL Task，请通过 Query API 执行 SQL。在控制台中创建的任务流见[任务流](./12-task-flows.md)。
 
-## 查看 SQL Task {/* #describe-a-sql-task */}
+## 查看 SQL Task {#describe-a-sql-task}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/tasks/{taskName}` · Read · Member
 
@@ -36,7 +36,7 @@ SQL Task 是通过 `CREATE TASK` 创建的任务。如需列出或修改 SQL Tas
 }
 ```
 
-## 查询 SQL Task 运行记录 {/* #query-sql-task-runs */}
+## 查询 SQL Task 运行记录 {#query-sql-task-runs}
 
 `POST /api/v1/orgs/{orgSlug}/tenant/tasks-runs/query` · Read · Member
 
@@ -89,9 +89,9 @@ SQL Task 是通过 `CREATE TASK` 创建的任务。如需列出或修改 SQL Tas
 }
 ```
 
-## 类型 {/* #types */}
+## 类型 {#types}
 
-### 任务运行状态 {/* #task-run-state */}
+### 任务运行状态 {#task-run-state}
 
 用于 SQL Task 运行记录（`state`）和任务流运行历史（`state`）。
 

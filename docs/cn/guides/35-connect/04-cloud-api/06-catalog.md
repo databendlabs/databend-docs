@@ -7,7 +7,7 @@ sidebar_label: "Catalog"
 
 Catalog 接口以您的 SQL 身份读取元数据，结果只包含您的 SQL 角色有权访问的对象。如需读取数据，请使用 Query API。
 
-## 列出数据库 {/* #list-databases */}
+## 列出数据库 {#list-databases}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/databases` · Read · Member
 
@@ -15,7 +15,7 @@ Catalog 接口以您的 SQL 身份读取元数据，结果只包含您的 SQL �
 { "success": true, "data": [{ "name": "default" }, { "name": "sales" }] }
 ```
 
-## 列出表 {/* #list-tables */}
+## 列出表 {#list-tables}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/databases/{database}/tables` · Read · Member
 
@@ -45,13 +45,13 @@ Catalog 接口以您的 SQL 身份读取元数据，结果只包含您的 SQL �
 }
 ```
 
-## 获取表 {/* #get-a-table */}
+## 获取表 {#get-a-table}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/databases/{database}/tables/{table}` · Read · Member
 
 返回单个表，字段与[列出表](#list-tables)相同。Catalog 返回建表语句时，`createQuery` 中包含 `CREATE TABLE` 语句。
 
-## 列出表的列 {/* #list-table-columns */}
+## 列出表的列 {#list-table-columns}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/databases/{database}/tables/{table}/fields` · Read · Member
 
@@ -65,7 +65,7 @@ Catalog 接口以您的 SQL 身份读取元数据，结果只包含您的 SQL �
 }
 ```
 
-## 获取表的日志查询配置 {/* #get-the-log-query-configuration-of-a-table */}
+## 获取表的日志查询配置 {#get-the-log-query-configuration-of-a-table}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/databases/{database}/tables/{table}/config` · Read · Member
 
@@ -95,7 +95,7 @@ Catalog 接口以您的 SQL 身份读取元数据，结果只包含您的 SQL �
 }
 ```
 
-## 列出 Stream {/* #list-streams */}
+## 列出 Stream {#list-streams}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/databases/{database}/streams` · Read · Member
 
@@ -116,7 +116,7 @@ Catalog 接口以您的 SQL 身份读取元数据，结果只包含您的 SQL �
 }
 ```
 
-## 搜索数据库和表 {/* #search-databases-and-tables */}
+## 搜索数据库和表 {#search-databases-and-tables}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/database-objects` · Read · Member
 

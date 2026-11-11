@@ -5,7 +5,7 @@ sidebar_label: "查询结果"
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。
 
-## 下载查询结果（CSV） {/* #download-a-query-result-as-csv */}
+## 下载查询结果（CSV） {#download-a-query-result-as-csv}
 
 `GET /api/v1/orgs/{orgSlug}/query/{queryId}/download` · Read · Export
 
@@ -36,13 +36,13 @@ curl --location 'https://api.databend.cn/api/v1/orgs/<organization-id>/query/<qu
 { "success": true }
 ```
 
-## 下载查询结果（Excel） {/* #download-a-query-result-as-excel */}
+## 下载查询结果（Excel） {#download-a-query-result-as-excel}
 
 `GET /api/v1/orgs/{orgSlug}/query/{queryId}/download-excel` · Read · Export
 
 与[下载查询结果（CSV）](#download-a-query-result-as-csv)相同。文件格式为 `.xlsx`，Content-Type 为 `application/vnd.ms-excel`。
 
-## 获取缓存的查询结果 {/* #get-a-cached-query-result */}
+## 获取缓存的查询结果 {#get-a-cached-query-result}
 
 `GET /api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` · Read · Member
 

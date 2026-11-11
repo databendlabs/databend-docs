@@ -9,7 +9,7 @@ description: 使用账户 API token 调用 Databend Cloud 控制台 API，管理
 本节同时面向开发者和 AI Agent。所有接口采用相同的结构：方法和路径、权限级别、参数和示例。如果某页的接口用到枚举或对象，该页末尾有“类型”一节加以说明。
 
 此 API **仅适用于 Databend Cloud**，不适用于自建部署的 Databend。
-## 开始之前 {/* #before-you-start */}
+## 开始之前 {#before-you-start}
 
 需要准备以下信息：
 
@@ -20,7 +20,7 @@ description: 使用账户 API token 调用 Databend Cloud 控制台 API，管理
 | 组织 ID | Cloud 控制台 → **管理 → 组织信息**，或调用[列出我的组织](./08-account.md#list-my-organizations)。API 中称为 `orgSlug`。 | `acme-prod` |
 | 计算集群 | 执行 SQL 的计算集群。只有 Query API 需要。 | `default` |
 
-## 鉴权 {/* #authentication */}
+## 鉴权 {#authentication}
 
 每个请求都在 `X-DATABENDCLOUD-TOKEN` 请求头中携带 token。
 
@@ -48,7 +48,7 @@ curl --request POST 'https://api.databend.cn/api/v2/data-integration/datasources
   --data '{"orgSlug":"<organization-id>","page":1,"perPage":20}'
 ```
 
-## 请求约定 {/* #request-conventions */}
+## 请求约定 {#request-conventions}
 
 API 分为两种风格：
 
@@ -57,7 +57,7 @@ API 分为两种风格：
 | v1 | `/api/v1/...` | 在路径中，即 `{orgSlug}`。 | 路径、查询字符串或 JSON 请求体。 |
 | v2 | `/api/v2/...` | 在 JSON 请求体中，即 `orgSlug`。此字段必填。 | JSON 请求体。所有 v2 接口都使用 `POST`，部分 v2 接口还有路径参数。 |
 
-### v2 JSON 规则 {/* #v2-json-rules */}
+### v2 JSON 规则 {#v2-json-rules}
 
 - 字段名使用小驼峰（lowerCamelCase）。
 - 枚举：请传数字，也接受枚举名。响应中始终返回数字。
@@ -67,12 +67,12 @@ API 分为两种风格：
 - 不要传未定义的字段，否则返回 HTTP 400。
 - 已在路径中出现的参数，不要再放进请求体。两者都有时以路径中的值为准。
 
-### v1 JSON 规则 {/* #v1-json-rules */}
+### v1 JSON 规则 {#v1-json-rules}
 
 - 字段名以各接口文档为准。部分任务运行记录的响应使用 snake_case。
 - 时间戳是 RFC 3339 字符串。
 
-### 分页 {/* #pagination */}
+### 分页 {#pagination}
 
 | 方式 | 请求字段 | 响应字段 | 使用的接口 |
 |---|---|---|---|
@@ -82,7 +82,7 @@ API 分为两种风格：
 
 每页条数建议不超过 100。使用分页令牌时，响应中没有 `nextPageToken` 表示没有下一页。分页令牌请以字符串传递。
 
-## 响应与错误 {/* #responses-and-errors */}
+## 响应与错误 {#responses-and-errors}
 
 成功的响应返回 HTTP 200，且 `"success": true`。大多数接口把结果放在 `data` 中，部分 v2 接口把字段直接放在顶层，例如 `id`、`tables` 或 `objects`。具体结构见各接口的响应示例。
 
@@ -110,7 +110,7 @@ v2 的 `message` 以 `[<KIND>-<CODE>]` 开头。`CLIENT-5001` 表示参数错误
 | 500 | 服务端错误。部分 v2 业务错误也返回 500，例如 `[SERVER-6000] server err: name orders_sync exists` 或 `[SERVER-6000] server err: datasource 12 not found`。 | 先看 `message`，只有临时性原因才重试。 |
 | 503、504 | 依赖服务不可用或请求超时。 | 是，需退避后重试。 |
 
-## 权限级别 {/* #access-levels */}
+## 权限级别 {#access-levels}
 
 每个接口都有对应的权限级别，服务端在每次请求时校验。
 
@@ -124,7 +124,7 @@ v2 的 `message` 以 `[<KIND>-<CODE>]` 开头。`CLIENT-5001` 表示参数错误
 
 Catalog、计算集群和统计类接口还会应用您账户的 SQL 权限。成员只能看到其 SQL 角色有权访问的对象。
 
-## 接口索引 {/* #endpoint-index */}
+## 接口索引 {#endpoint-index}
 
 类型 `Read` 不修改任何资源。类型 `Write` 会创建、修改、启动、停止或删除资源。类型 `Probe` 会从 Databend Cloud 连接外部系统。
 
@@ -216,7 +216,7 @@ Catalog、计算集群和统计类接口还会应用您账户的 SQL 权限。�
 
 [Query API](./01-query-api.md) 的接口（`/v1/query`）已经可用，按您账户的 SQL 权限执行。`POST /v1/query` 的类型是 `Write`，因为您发送的 SQL 可能修改数据。详见 [Agent Skills](../03-agent-skills.md)。
 
-## API Token 不能调用的接口 {/* #endpoints-that-api-tokens-cannot-call */}
+## API Token 不能调用的接口 {#endpoints-that-api-tokens-cannot-call}
 
 API token 不能调用其他控制台接口，例如：
 
@@ -232,7 +232,7 @@ API token 不能调用其他控制台接口，例如：
 | 计算集群变更 | 创建、调整规格、恢复、暂停、重命名、删除 | 请通过 Query API 执行计算集群管理 SQL。 |
 | 任务流变更 | 创建、更新、启动、暂停、删除 | 当前版本未开放。 |
 
-## 安全 {/* #security */}
+## 安全 {#security}
 
 - 本节所有接口都以您的账户和当前角色执行。建议为 Agent 使用专用账户，并只授予最小权限的角色。
 - 为 token 设置 IP 白名单，放行 Agent 运行环境的出口 IP。

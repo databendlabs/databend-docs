@@ -7,7 +7,7 @@ sidebar_label: "计算集群"
 
 这些接口只读取计算集群状态。如需创建、调整规格、恢复、暂停或删除计算集群，请通过 Query API 执行计算集群管理 SQL。这些 SQL 需要 `account_admin` 角色。
 
-## 列出计算集群 {/* #list-warehouses */}
+## 列出计算集群 {#list-warehouses}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/warehouses` · Read · Member
 
@@ -45,13 +45,13 @@ sidebar_label: "计算集群"
 
 `id` 是计算集群名称。`autoSuspend` 的单位是秒。
 
-## 获取计算集群 {/* #get-a-warehouse */}
+## 获取计算集群 {#get-a-warehouse}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/warehouses/{warehouseName}` · Read · Member
 
 返回单个计算集群。响应中的 `data` 是一个对象，字段与[列出计算集群](#list-warehouses)相同。HTTP 404 表示计算集群不存在。
 
-## 列出计算集群会话 {/* #list-warehouse-sessions */}
+## 列出计算集群会话 {#list-warehouse-sessions}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/warehouses/{warehouseName}/processes` · Read · Member
 
@@ -84,7 +84,7 @@ sidebar_label: "计算集群"
 }
 ```
 
-## 获取计算集群运行历史 {/* #get-warehouse-run-history */}
+## 获取计算集群运行历史 {#get-warehouse-run-history}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/warehouse-history/{warehouseName}` · Read · Member
 
@@ -120,7 +120,7 @@ sidebar_label: "计算集群"
 }
 ```
 
-## 列出计算集群规格 {/* #list-warehouse-sizes */}
+## 列出计算集群规格 {#list-warehouse-sizes}
 
 `GET /api/v1/orgs/{orgSlug}/warehouse-sizes` · Read · Member
 
@@ -146,8 +146,8 @@ sidebar_label: "计算集群"
 
 `creditCurrency` 是站点的货币符号，例如 `$` 或 `¥`。
 
-## 类型 {/* #types */}
+## 类型 {#types}
 
-### 计算集群状态 {/* #warehouse-state */}
+### 计算集群状态 {#warehouse-state}
 
 `Running`、`Starting`、`Started`、`Suspended`、`Terminated`、`Failed`。`state` 过滤不区分大小写。

@@ -5,7 +5,7 @@ sidebar_label: "组织"
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。
 
-## 获取组织 {/* #get-an-organization */}
+## 获取组织 {#get-an-organization}
 
 `GET /api/v1/orgs/{orgSlug}` · Read · Member
 
@@ -36,7 +36,7 @@ sidebar_label: "组织"
 }
 ```
 
-## 列出组织成员 {/* #list-organization-members */}
+## 列出组织成员 {#list-organization-members}
 
 `GET /api/v1/orgs/{orgSlug}/members` · Read · Member
 

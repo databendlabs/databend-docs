@@ -36,7 +36,7 @@ curl -s "https://api.databend.cn/v1/query/<query-id>/page/1" \
 
 响应中还可能有 `X-DATABEND-SESSION-ID`，它供 Cloud 控制台使用，脚本和 Agent 可以忽略。
 
-## 会话接口 {/* #session-endpoints */}
+## 会话接口 {#session-endpoints}
 
 **普通的 SQL 查询不需要调用这些接口**。执行 SQL 并读取结果，只需调用 `POST /v1/query`，沿 `next_uri` 读到结果结束，再调用 `final`。每个查询都在各自的会话中执行。
 
