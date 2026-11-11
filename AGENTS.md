@@ -10,6 +10,7 @@ Guidance for any AI agent or contributor working in the databend-docs repo. Foll
 4. New UI must support both light and dark themes using the existing CSS variables (never hardcode colors).
 5. If you delete or move a page (change its URL), add a redirect in `site-redirects.ts` to avoid 404s.
 6. Doc content must follow the ASD-STE100 (Simplified Technical English) specification: short sentences, one instruction per sentence, active voice, and consistent terminology.
+7. Write comments in docs with MDX syntax `{/* ... */}`. Do not use HTML comments `<!-- ... -->`.
 
 ## Repository layout
 
@@ -55,6 +56,18 @@ Supporting files:
    - Scope: translate only the files you created or edited in this task. Do not touch unrelated CN files and do not scan the whole tree.
    - Check `sync_exclusions.txt` first; skip translation for anything listed there.
 6. Verify the build: `npm run build:en` and `npm run build:cn` (or `npm run start:en` / `start:cn` for a quick local preview).
+
+## Comments
+
+Docs are parsed as MDX (Docusaurus v3). Use the MDX comment syntax `{/* ... */}`. Do not use HTML comments `<!-- ... -->`.
+
+```md
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/BillingExample/index.tsx */}
+
+<BillingExample example={1} />
+```
+
+Apply the same rule to the CN translation.
 
 ## details / DetailsWrap
 
@@ -120,6 +133,7 @@ Removing a doc or changing its path changes its public URL and will 404 for exis
 - [ ] Only the touched files were translated — no global re-translation.
 - [ ] Doc content follows the ASD-STE100 specification.
 - [ ] Every `<details>` is inside a `<DetailsWrap>`, with the import present.
+- [ ] Comments use `{/* ... */}`, not `<!-- ... -->`.
 - [ ] `FunctionDescription` version strings updated where behavior changed.
 - [ ] Any UI component works in light AND dark mode using theme variables.
 - [ ] Removed/moved URLs have redirects in `site-redirects.ts`.
