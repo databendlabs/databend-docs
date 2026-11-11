@@ -12,7 +12,7 @@ toc_max_heading_level: 4
 
 密钥：列表和详情接口会对 `serviceArgs` 中的所有密钥值脱敏。更新时，传回 `******` 表示保留已保存的密钥，也可以传入新值。详见[凭证脱敏](#credential-masking)。
 
-## 列出数据源 {#list-data-sources}
+## 列出数据源 {/* #list-data-sources */}
 
 `POST /api/v2/data-integration/datasources` · Read · Member
 
@@ -56,7 +56,7 @@ toc_max_heading_level: 4
 }
 ```
 
-## 获取数据源 {#get-a-data-source}
+## 获取数据源 {/* #get-a-data-source */}
 
 `POST /api/v2/data-integration/datasource/{datasourceId}/info` · Read · Member
 
@@ -71,7 +71,7 @@ toc_max_heading_level: 4
 { "success": true, "data": { "id": 12, "name": "orders_mysql", "serviceId": 2, "serviceArgs": "{...}" } }
 ```
 
-## 测试数据源连接 {#test-a-data-source-connection}
+## 测试数据源连接 {/* #test-a-data-source-connection */}
 
 `POST /api/v2/data-integration/datasource/test` · Probe · Member
 
@@ -95,7 +95,7 @@ toc_max_heading_level: 4
 { "success": false, "message": "dial tcp 10.0.0.12:3306: i/o timeout" }
 ```
 
-## 创建数据源 {#create-a-data-source}
+## 创建数据源 {/* #create-a-data-source */}
 
 `POST /api/v2/data-integration/datasource/create` · Write · Member
 
@@ -163,7 +163,7 @@ toc_max_heading_level: 4
 
 错误：名称重复时返回 HTTP 500，`message` 为 `[SERVER-6000] server err: name orders_mysql exists`。连接测试失败时返回的错误与[测试数据源连接](#test-a-data-source-connection)相同。
 
-## 更新数据源 {#update-a-data-source}
+## 更新数据源 {/* #update-a-data-source */}
 
 `POST /api/v2/data-integration/datasource/{datasourceId}/update` · Write · Member
 
@@ -194,7 +194,7 @@ toc_max_heading_level: 4
 { "success": true }
 ```
 
-## 删除数据源 {#delete-data-sources}
+## 删除数据源 {/* #delete-data-sources */}
 
 `POST /api/v2/data-integration/datasource/delete` · Write · Member
 
@@ -209,7 +209,7 @@ toc_max_heading_level: 4
 
 响应：`{ "success": true }`。如果其中任一数据源正被任务使用，请求失败，服务端不会删除任何数据源。请先删除或修改相关任务。
 
-## 列出 MySQL 表 {#list-mysql-tables}
+## 列出 MySQL 表 {/* #list-mysql-tables */}
 
 `POST /api/v2/data-integration/datasource/{datasourceId}/mysql/tables` · Probe · Member
 
@@ -226,7 +226,7 @@ toc_max_heading_level: 4
 { "success": true, "tables": ["customers", "orders", "order_items"] }
 ```
 
-## 列出 PostgreSQL 表 {#list-postgresql-tables}
+## 列出 PostgreSQL 表 {/* #list-postgresql-tables */}
 
 `POST /api/v2/data-integration/datasource/{datasourceId}/postgres/tables` · Probe · Member
 
@@ -236,7 +236,7 @@ toc_max_heading_level: 4
 { "success": true, "tables": ["public.orders", "public.customers"], "targetTableNames": ["orders", "customers"] }
 ```
 
-## 预览 MySQL 表规则 {#preview-mysql-table-rules}
+## 预览 MySQL 表规则 {/* #preview-mysql-table-rules */}
 
 `POST /api/v2/data-integration/datasource/{datasourceId}/mysql/preview-objects` · Probe · Member
 
@@ -278,7 +278,7 @@ toc_max_heading_level: 4
 }
 ```
 
-## 预览 TiDB 表规则 {#preview-tidb-table-rules}
+## 预览 TiDB 表规则 {/* #preview-tidb-table-rules */}
 
 `POST /api/v2/data-integration/datasource/{datasourceId}/tidb/preview-objects` · Probe · Member
 
@@ -296,7 +296,7 @@ toc_max_heading_level: 4
 
 响应：顶层字段与[预览 MySQL 表规则](#preview-mysql-table-rules)相同，但没有 `maxMatchedTables`。
 
-## 获取 AWS SQS (S3) 接入信息 {#get-aws-sqs-s3-setup-information}
+## 获取 AWS SQS (S3) 接入信息 {/* #get-aws-sqs-s3-setup-information */}
 
 `POST /api/v2/data-integration/aws-sqs-s3/setup-info` · Read · Member
 
@@ -318,15 +318,15 @@ toc_max_heading_level: 4
 }
 ```
 
-## 获取 TiDB 接入信息 {#get-tidb-setup-information}
+## 获取 TiDB 接入信息 {/* #get-tidb-setup-information */}
 
 `POST /api/v2/data-integration/tidb/setup-info` · Read · Member
 
 返回的字段与[获取 AWS SQS (S3) 接入信息](#get-aws-sqs-s3-setup-information)相同。TiDB 数据源使用 `roleARN` 读取 S3 时需要这些信息。
 
-## 类型 {#types}
+## 类型 {/* #types */}
 
-### Service ID {#service-id}
+### Service ID {/* #service-id */}
 
 | 取值 | 名称 | 数据源类型 |
 |---|---|---|
@@ -341,18 +341,18 @@ toc_max_heading_level: 4
 
 不要使用 `0`。可用的数据源类型取决于组织所在的云厂商和地域。
 
-### 凭证对象 {#credentials-objects}
+### 凭证对象 {/* #credentials-objects */}
 
 在[创建数据源](#create-a-data-source)、[更新数据源](#update-a-data-source)和[测试数据源连接](#test-a-data-source-connection)中传入以下对象之一。
 
-#### awsCredentials（`serviceId` 1） {#awscredentials-serviceid-1}
+#### awsCredentials（`serviceId` 1） {/* #awscredentials-serviceid-1 */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
 | `accessKey` | string | 是 | AWS access key ID。 |
 | `secretKey` | string | 是 | AWS secret access key。密钥。 |
 
-#### mysqlCredentials（`serviceId` 2） {#mysqlcredentials-serviceid-2}
+#### mysqlCredentials（`serviceId` 2） {/* #mysqlcredentials-serviceid-2 */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -365,7 +365,7 @@ toc_max_heading_level: 4
 | `serverId` | integer | 否 | Binlog 复制的 server ID，在组织内必须唯一。不传时，创建会自动生成，更新会保留当前值。 |
 | `charset` | string | 否 | 连接字符集。 |
 
-#### postgresCredentials（`serviceId` 3） {#postgrescredentials-serviceid-3}
+#### postgresCredentials（`serviceId` 3） {/* #postgrescredentials-serviceid-3 */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -379,7 +379,7 @@ toc_max_heading_level: 4
 | `slotName` | string | 否 | 逻辑复制槽。不传时由服务端生成名称。 |
 | `publication` | string | 否 | Publication。不传时由服务端生成名称。 |
 
-#### feiShuBot（`serviceId` 4） {#feishubot-serviceid-4}
+#### feiShuBot（`serviceId` 4） {/* #feishubot-serviceid-4 */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -388,7 +388,7 @@ toc_max_heading_level: 4
 | `template` | string | 否 | 消息模板。 |
 | `warehouse` | string | 是 | 机器人使用的计算集群名称。 |
 
-#### awsSqsS3（`serviceId` 5） {#awssqss3-serviceid-5}
+#### awsSqsS3（`serviceId` 5） {/* #awssqss3-serviceid-5 */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -400,7 +400,7 @@ toc_max_heading_level: 4
 
 不要传 `externalID` 或 `queueRegion`，这两个字段由服务端设置。
 
-#### tidbCredentials（`serviceId` 6） {#tidbcredentials-serviceid-6}
+#### tidbCredentials（`serviceId` 6） {/* #tidbcredentials-serviceid-6 */}
 
 TiDB 数据源从对象存储读取 TiCDC changefeed 文件和 Dumpling 导出文件。S3 前缀在任务上设置，不在数据源上设置。
 
@@ -419,7 +419,7 @@ TiDB 数据源从对象存储读取 TiCDC changefeed 文件和 Dumpling 导出�
 
 不要传 `externalID`、`ossInternalEndpoint` 或 `ossLoaderInternalEndpoint`，这些字段由服务端设置。
 
-#### kafkaConsumer（`serviceId` 7） {#kafkaconsumer-serviceid-7}
+#### kafkaConsumer（`serviceId` 7） {/* #kafkaconsumer-serviceid-7 */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -430,7 +430,7 @@ TiDB 数据源从对象存储读取 TiCDC changefeed 文件和 Dumpling 导出�
 
 数据源会忽略 `topics`、`dataFormat`、`offsetReset`、`maxBatchSizeBytes` 和 `maxBatchWaitSeconds`，请在任务上设置这些字段。
 
-#### mnsOss（`serviceId` 8） {#mnsoss-serviceid-8}
+#### mnsOss（`serviceId` 8） {/* #mnsoss-serviceid-8 */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -445,7 +445,7 @@ TiDB 数据源从对象存储读取 TiCDC changefeed 文件和 Dumpling 导出�
 | `accessKeySecret` | string | 是 | Access key secret。密钥。 |
 | `securityToken` | string | 否 | STS token。密钥。 |
 
-### 凭证脱敏 {#credential-masking}
+### 凭证脱敏 {/* #credential-masking */}
 
 本节所有接口使用同一套脱敏规则：
 

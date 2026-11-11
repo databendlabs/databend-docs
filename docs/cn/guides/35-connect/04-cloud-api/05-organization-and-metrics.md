@@ -5,7 +5,7 @@ sidebar_label: "组织与监控"
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。
 
-## 获取组织租户信息 {#get-organization-tenant-information}
+## 获取组织租户信息 {/* #get-organization-tenant-information */}
 
 `GET /api/v1/orgs/{orgSlug}/tenant` · Read · Member
 
@@ -30,7 +30,7 @@ sidebar_label: "组织与监控"
 }
 ```
 
-## 获取组织统计 {#get-organization-statistics}
+## 获取组织统计 {/* #get-organization-statistics */}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/statistics` · Read · Member
 
@@ -51,7 +51,7 @@ sidebar_label: "组织与监控"
 }
 ```
 
-## 获取监控指标 {#get-metrics}
+## 获取监控指标 {/* #get-metrics */}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/metrics/{queryType}` · Read · Member
 

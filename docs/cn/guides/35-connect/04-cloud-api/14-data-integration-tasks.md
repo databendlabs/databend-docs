@@ -18,7 +18,7 @@ toc_max_heading_level: 4
 | PostgreSQL（`3`） | `postgresTask` | 快照、CDC，或先快照再 CDC。 |
 | TiDB（`6`） | `tidbTask` | 快照、CDC，或先快照再 CDC。 |
 
-## 列出任务 {#list-tasks}
+## 列出任务 {/* #list-tasks */}
 
 `POST /api/v2/data-integration/tasks` · Read · Member
 
@@ -67,7 +67,7 @@ toc_max_heading_level: 4
 
 `kind` 取值为 `awsS3`、`awsSqsS3`、`mnsOss`、`kafka`、`mysql`、`postgres`、`tidb` 之一。`serviceArgs`（如果有）是任务对象的 JSON 字符串副本，请读取 `mysqlTask` 等结构化字段。
 
-## 获取任务 {#get-a-task}
+## 获取任务 {/* #get-a-task */}
 
 `POST /api/v2/data-integration/task/{taskId}/info` · Read · Member
 
@@ -78,7 +78,7 @@ toc_max_heading_level: 4
 
 响应：`data` 是一个任务对象，字段与[列出任务](#list-tasks)中的单项相同。SQS (S3)、MNS (OSS) 和 Kafka 任务还会通过 `runtimeConfig` 返回运行单元及其价格。
 
-## 预览源数据 {#preview-source-data}
+## 预览源数据 {/* #preview-source-data */}
 
 `POST /api/v2/data-integration/service/preview` · Probe · Member
 
@@ -120,7 +120,7 @@ toc_max_heading_level: 4
 }
 ```
 
-## 列出运行单元 {#list-runtime-units}
+## 列出运行单元 {/* #list-runtime-units */}
 
 `POST /api/v2/data-integration/runtime-units` · Read · Member
 
@@ -145,7 +145,7 @@ toc_max_heading_level: 4
 
 可用单元：`4XSmall`（1 CPU、4 GiB，默认）、`3XSmall`（2 CPU、8 GiB）、`2XSmall`（4 CPU、16 GiB）。
 
-## 创建任务 {#create-a-task}
+## 创建任务 {/* #create-a-task */}
 
 `POST /api/v2/data-integration/task/create` · Write · Member
 
@@ -248,7 +248,7 @@ toc_max_heading_level: 4
 { "success": true, "id": 45 }
 ```
 
-## 更新任务 {#update-a-task}
+## 更新任务 {/* #update-a-task */}
 
 `POST /api/v2/data-integration/task/{taskId}/update` · Write · Creator or Admin
 
@@ -261,7 +261,7 @@ toc_max_heading_level: 4
 
 响应：`{ "success": true }`。
 
-## 操作任务 {#operate-tasks}
+## 操作任务 {/* #operate-tasks */}
 
 `POST /api/v2/data-integration/task/operate` · Write · Creator or Admin
 
@@ -279,7 +279,7 @@ toc_max_heading_level: 4
 
 响应：`{ "success": true }`。HTTP 400 表示任务当前状态不允许该操作，例如 `task #45 orders_sync can only start from stopped (current: TaskRunning)`。服务端按传入顺序逐个处理，遇到第一个错误即停止，之前已处理的任务保持新状态。请根据 `message` 判断是哪个任务失败。
 
-## 列出任务运行记录 {#list-task-runs}
+## 列出任务运行记录 {/* #list-task-runs */}
 
 `POST /api/v2/data-integration/task/runs` · Read · Member
 
@@ -318,7 +318,7 @@ toc_max_heading_level: 4
 }
 ```
 
-## 获取任务运行详情 {#get-task-run-details}
+## 获取任务运行详情 {/* #get-task-run-details */}
 
 `POST /api/v2/data-integration/task/runs/{executeId}` · Read · Member
 
@@ -352,7 +352,7 @@ toc_max_heading_level: 4
 }
 ```
 
-## 列出 MySQL 快照的表级结果 {#list-mysql-snapshot-table-results}
+## 列出 MySQL 快照的表级结果 {/* #list-mysql-snapshot-table-results */}
 
 `POST /api/v2/data-integration/task/runs/{executeId}/mysql/snapshot/tables` · Read · Member
 
@@ -381,7 +381,7 @@ toc_max_heading_level: 4
 }
 ```
 
-## 列出 TiDB 全量同步的表级结果 {#list-tidb-full-sync-table-results}
+## 列出 TiDB 全量同步的表级结果 {/* #list-tidb-full-sync-table-results */}
 
 `POST /api/v2/data-integration/task/runs/{executeId}/tidb/full-sync/tables` · Read · Member
 
@@ -399,7 +399,7 @@ toc_max_heading_level: 4
 }
 ```
 
-## 获取 TiDB 任务指标 {#get-tidb-task-metrics}
+## 获取 TiDB 任务指标 {/* #get-tidb-task-metrics */}
 
 `POST /api/v2/data-integration/task/{taskId}/metrics` · Read · Member
 
@@ -455,7 +455,7 @@ toc_max_heading_level: 4
 | `snapshot_running` | 快照正在运行时为 `1`。 |
 | `snapshot_run_success_percent` | 最近 24 小时快照运行的成功率。 |
 
-## 获取同步指标 {#get-sync-metrics}
+## 获取同步指标 {/* #get-sync-metrics */}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/metrics/{queryType}` · Read · Member
 
@@ -481,16 +481,16 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 
 响应结构与[获取监控指标](./05-organization-and-metrics.md#get-metrics)相同，指标名与[获取 TiDB 任务指标](#get-tidb-task-metrics)相同。MySQL 任务还会返回 `cdc_source_lag_seconds`（binlog 读取落后源端的时间）和 `cdc_skipped_tables`，但不返回 `cdc_error_tables` 和 `cdc_backoff_tables`。
 
-## 类型 {#types}
+## 类型 {/* #types */}
 
-### 任务状态 {#task-status}
+### 任务状态 {/* #task-status */}
 
 | 取值 | 名称 |
 |---|---|
 | `1` | `TaskStopped` |
 | `2` | `TaskRunning` |
 
-### 任务运行结果 {#task-run-status}
+### 任务运行结果 {/* #task-run-status */}
 
 | 取值 | 名称 |
 |---|---|
@@ -498,7 +498,7 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `2` | `TaskRunSuccess` |
 | `3` | `TaskRunFail` |
 
-### 操作类型 {#operate-type}
+### 操作类型 {/* #operate-type */}
 
 | 取值 | 名称 | 效果 |
 |---|---|---|
@@ -508,7 +508,7 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `4` | `Resume` | 启动已停止的任务。MySQL 归档任务会保留当前时间窗口，失败的窗口会重新执行。 |
 | `5` | `Cancel` | 停止正在运行的任务。任务未在运行时返回 HTTP 400。 |
 
-### 同步模式 {#sync-mode}
+### 同步模式 {/* #sync-mode */}
 
 `mysqlTask.syncMode`、`postgresTask.syncMode` 和 `tidbTask.syncMode` 使用相同的取值。
 
@@ -518,7 +518,7 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `2` | 仅 CDC。 | `1` |
 | `3` | 先快照，再 CDC。 | `1` |
 
-### 文件类型 {#file-type}
+### 文件类型 {/* #file-type */}
 
 | 取值 | 格式 |
 |---|---|
@@ -526,7 +526,7 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `2` | Parquet |
 | `3` | NDJSON |
 
-### 加载出错处理 {#copy-on-error}
+### 加载出错处理 {/* #copy-on-error */}
 
 `awsS3File.copyIntoOnError`：
 
@@ -535,11 +535,11 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `1` | `CONTINUE`：跳过出错的行，继续加载。 |
 | `2` | `ABORT`：遇到第一个错误时停止加载。 |
 
-### MySQL 归档模式 {#mysql-archive-mode}
+### MySQL 归档模式 {/* #mysql-archive-mode */}
 
 `mysqlTask.archiveSchedule.archiveMode`：`1` 按天，`2` 按周，`3` 按月。
 
-### MySQL 快照表状态 {#mysql-snapshot-table-status}
+### MySQL 快照表状态 {/* #mysql-snapshot-table-status */}
 
 | 取值 | 名称 | 含义 |
 |---|---|---|
@@ -548,13 +548,13 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `3` | `Skipped` | 表没有可用的合并键，本次运行跳过了它。 |
 | `4` | `Pending` | 运行在快照处理到该表之前就结束了。 |
 
-### TiDB 全量同步表状态 {#tidb-full-sync-table-status}
+### TiDB 全量同步表状态 {/* #tidb-full-sync-table-status */}
 
 `1` 成功，`2` 失败。
 
-### 任务对象 {#task-objects}
+### 任务对象 {/* #task-objects */}
 
-#### TableField {#tablefield}
+#### TableField {/* #tablefield */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -563,7 +563,7 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `nullable` | boolean | 否 | 该列是否允许 `NULL`。 |
 | `defaultValue` | string | 否 | 默认值表达式。 |
 
-#### AwsS3File {#awss3file}
+#### AwsS3File {/* #awss3file */}
 
 用于 S3、SQS (S3) 和 MNS (OSS) 任务。
 
@@ -577,7 +577,7 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `copyIntoPurge` | boolean | 否 | 加载成功后删除源文件。 |
 | `copyIntoForce` | boolean | 否 | 即使文件之前已加载过，也重新加载。 |
 
-#### FileCsvArgs {#filecsvargs}
+#### FileCsvArgs {/* #filecsvargs */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -586,7 +586,7 @@ curl --get 'https://api.databend.cn/api/v1/orgs/<organization-id>/tenant/metrics
 | `compression` | string | 否 | 默认：`None`。其他取值与 Databend 文件格式选项 `COMPRESSION` 相同，例如 `GZIP` 或 `AUTO`。 |
 | `skipHeader` | integer | 否 | 要跳过的表头行数。 |
 
-#### KafkaConsumerArgs（任务） {#kafkaconsumerargs-task}
+#### KafkaConsumerArgs（任务） {/* #kafkaconsumerargs-task */}
 
 Kafka 配置中属于任务的部分。连接配置在[数据源](./13-data-sources.md#kafkaconsumer-serviceid-7)上。
 
@@ -598,7 +598,7 @@ Kafka 配置中属于任务的部分。连接配置在[数据源](./13-data-sour
 | `maxBatchSizeBytes` | integer | 否 | 单个输出文件的最大字节数。默认：`16777216`。 |
 | `maxBatchWaitSeconds` | integer | 否 | 写出一个文件前的最长等待时间。默认：`60`。 |
 
-#### MysqlTaskArgs {#mysqltaskargs}
+#### MysqlTaskArgs {/* #mysqltaskargs */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -625,7 +625,7 @@ Kafka 配置中属于任务的部分。连接配置在[数据源](./13-data-sour
 | `autoGenerateCondition` | boolean | 否 | 根据 `timeColumnName` 自动生成时间窗口条件。 |
 | `timezone` | string | 否 | IANA 时区，例如 `Asia/Shanghai`。默认：UTC。 |
 
-#### PostgresTaskArgs {#postgrestaskargs}
+#### PostgresTaskArgs {/* #postgrestaskargs */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -637,7 +637,7 @@ Kafka 配置中属于任务的部分。连接配置在[数据源](./13-data-sour
 | `snapshotWhereCondition` | string | 否 | 规则与 MysqlTaskArgs 相同，仅用于 syncMode `1`。 |
 | 调优参数 | integer | 否 | 与 MysqlTaskArgs 相同。 |
 
-#### TiDBTaskArgs {#tidbtaskargs}
+#### TiDBTaskArgs {/* #tidbtaskargs */}
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
@@ -662,7 +662,7 @@ Kafka 配置中属于任务的部分。连接配置在[数据源](./13-data-sour
 | `pollIntervalSeconds`、`batchFileCount`、`mergeIntervalSeconds`、`tableParallelism` | integer | 否 | 高级调优参数，不能为负数。`0` 表示使用服务端默认值。 |
 | `errorIntegration` | string | 否 | Databend Cloud 不支持，请不要设置。传入值时服务端返回 HTTP 400。 |
 
-#### 表规则 {#table-rules}
+#### 表规则 {/* #table-rules */}
 
 `tableRules` 使用 TiCDC 过滤器语法。每条规则的格式为 `schemaPattern.tablePattern`。以 `!` 开头的规则表示排除。
 
@@ -675,7 +675,7 @@ Kafka 配置中属于任务的部分。连接配置在[数据源](./13-data-sour
 
 服务端从最后一条规则往前匹配，第一条匹配上的规则生效。没有匹配任何规则的对象会被排除。如果列表中只有 `!` 规则，开头会隐含一条 `*.*`。创建任务前，请用[预览 MySQL 表规则](./13-data-sources.md#preview-mysql-table-rules)或[预览 TiDB 表规则](./13-data-sources.md#preview-tidb-table-rules)确认匹配结果。
 
-### 最近运行数据 {#last-run-data}
+### 最近运行数据 {/* #last-run-data */}
 
 任务上的 `lastRunData` 和运行记录上的 `responseData` 结构如下：
 

@@ -5,7 +5,7 @@ sidebar_label: "查询历史"
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。
 
-## 搜索查询历史 {#search-query-history}
+## 搜索查询历史 {/* #search-query-history */}
 
 `POST /api/v1/query/orgs/{orgSlug}/query-history/query` · Read · Member
 
@@ -86,7 +86,7 @@ sidebar_label: "查询历史"
 
 获取下一页时，请求体保持不变，并把 `cursors` 设为本次响应中的 `cursors`。`list` 为空表示没有更多数据。
 
-## 统计查询历史 {#count-query-history}
+## 统计查询历史 {/* #count-query-history */}
 
 `POST /api/v1/query/orgs/{orgSlug}/query-history/count` · Read · Member
 
@@ -98,7 +98,7 @@ sidebar_label: "查询历史"
 { "success": true, "data": 1284 }
 ```
 
-## 获取查询详情 {#get-query-details}
+## 获取查询详情 {/* #get-query-details */}
 
 `GET /api/v1/query/orgs/{orgSlug}/query-history/{queryId}/detail` · Read · Member
 
@@ -141,7 +141,7 @@ sidebar_label: "查询历史"
 }
 ```
 
-## 获取查询 Profile {#get-a-query-profile}
+## 获取查询 Profile {/* #get-a-query-profile */}
 
 `GET /api/v1/query/orgs/{orgSlug}/query-history/{queryId}/profile` · Read · Member
 
@@ -175,7 +175,7 @@ sidebar_label: "查询历史"
 
 示例省略了 `statistics_desc` 的内容。它的每个键是统计项名称，每个值包含 `index` 字段，表示该统计项在各节点 `statistics` 列表中的位置。
 
-## 列出查询历史中的 SQL 用户 {#list-sql-users-in-query-history}
+## 列出查询历史中的 SQL 用户 {/* #list-sql-users-in-query-history */}
 
 `GET /api/v1/query/orgs/{orgSlug}/query-history/sql-users` · Read · Member
 
@@ -185,9 +185,9 @@ sidebar_label: "查询历史"
 { "success": true, "data": ["alice@example.com", "etl_user"] }
 ```
 
-## 类型 {#types}
+## 类型 {/* #types */}
 
-### 查询状态 {#query-status}
+### 查询状态 {/* #query-status */}
 
 用于查询历史（`status`、`statusList`）。
 

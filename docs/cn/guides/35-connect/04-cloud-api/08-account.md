@@ -7,7 +7,7 @@ sidebar_label: "账户"
 
 这些接口作用于 token 所属的账户，而不是路径中的某个组织。服务端为 `X-DATABENDCLOUD-ORG` 指定的组织签发请求；不传该请求头时，使用账户的默认组织。账户必须是该组织的有效成员。
 
-## 获取当前账户 {#get-the-current-account}
+## 获取当前账户 {/* #get-the-current-account */}
 
 `GET /api/v1/account/info` · Read · Self
 
@@ -38,7 +38,7 @@ sidebar_label: "账户"
 }
 ```
 
-## 列出我的组织 {#list-my-organizations}
+## 列出我的组织 {/* #list-my-organizations */}
 
 `GET /api/v1/my/orgs` · Read · Self
 
@@ -73,7 +73,7 @@ sidebar_label: "账户"
 }
 ```
 
-## 列出我待处理的邀请 {#list-my-pending-invitations}
+## 列出我待处理的邀请 {/* #list-my-pending-invitations */}
 
 `GET /api/v1/my/org-membership-requests` · Read · Self
 

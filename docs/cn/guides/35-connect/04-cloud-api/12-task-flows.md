@@ -7,7 +7,7 @@ sidebar_label: "任务流"
 
 任务流（Task Flow）是在控制台中创建的一组 SQL Task，包含调度、计算集群和版本历史。以下接口均为只读的 v2 接口，需在请求体中传 `orgSlug`。
 
-## 列出任务流 {#list-task-flows}
+## 列出任务流 {/* #list-task-flows */}
 
 `POST /api/v2/taskflow` · Read · Member
 
@@ -74,7 +74,7 @@ sidebar_label: "任务流"
 }
 ```
 
-## 列出任务名 {#list-task-names}
+## 列出任务名 {/* #list-task-names */}
 
 `POST /api/v2/taskflow/names` · Read · Member
 
@@ -95,7 +95,7 @@ sidebar_label: "任务流"
 }
 ```
 
-## 获取任务流依赖图 {#get-the-dependency-graph-of-task-flows}
+## 获取任务流依赖图 {/* #get-the-dependency-graph-of-task-flows */}
 
 `POST /api/v2/taskflow/dag` · Read · Member
 
@@ -116,7 +116,7 @@ sidebar_label: "任务流"
 }
 ```
 
-## 获取任务流 {#get-a-task-flow}
+## 获取任务流 {/* #get-a-task-flow */}
 
 `POST /api/v2/taskflow/{taskflowId}/info` · Read · Member
 
@@ -127,7 +127,7 @@ sidebar_label: "任务流"
 
 响应：`data` 是一个任务流对象，字段与[列出任务流](#list-task-flows)中的单项相同。其中每个任务还可能包含 `runHistories`、`requireStream`、`requireTasks`、`errorIntegration` 和 `suspend_task_after_num_failures`。
 
-## 列出任务流版本 {#list-task-flow-versions}
+## 列出任务流版本 {/* #list-task-flow-versions */}
 
 `POST /api/v2/taskflow/versions` · Read · Member
 
@@ -166,7 +166,7 @@ sidebar_label: "任务流"
 }
 ```
 
-## 列出单个任务流的版本 {#list-the-versions-of-a-task-flow}
+## 列出单个任务流的版本 {/* #list-the-versions-of-a-task-flow */}
 
 `POST /api/v2/taskflow/versions/{taskflowId}` · Read · Member
 
@@ -179,7 +179,7 @@ sidebar_label: "任务流"
 
 响应：与[列出任务流版本](#list-task-flow-versions)相同，另外多一个 `data.taskflowName`。
 
-## 获取任务流的某个版本 {#get-a-task-flow-version}
+## 获取任务流的某个版本 {/* #get-a-task-flow-version */}
 
 `POST /api/v2/taskflow/versions/{taskflowId}/{version}` · Read · Member
 
@@ -191,7 +191,7 @@ sidebar_label: "任务流"
 
 响应：`data` 是一个版本对象，包含版本列表单项的字段，另外 `tasks` 中是该版本的任务定义。
 
-## 列出任务流运行历史 {#list-task-flow-run-history}
+## 列出任务流运行历史 {/* #list-task-flow-run-history */}
 
 `POST /api/v2/taskflow/histories` · Read · Member
 
@@ -227,7 +227,7 @@ sidebar_label: "任务流"
 }
 ```
 
-## 列出单个任务流的运行历史 {#list-the-run-history-of-a-task-flow}
+## 列出单个任务流的运行历史 {/* #list-the-run-history-of-a-task-flow */}
 
 `POST /api/v2/taskflow/histories/{taskflowId}` · Read · Member
 
@@ -252,13 +252,13 @@ sidebar_label: "任务流"
 }
 ```
 
-## 类型 {#types}
+## 类型 {/* #types */}
 
-### 条目类型 {#item-data-type}
+### 条目类型 {/* #item-data-type */}
 
 `1` 单个任务（一个 SQL Task），`2` 任务流（包含多个任务）。
 
-### 任务流状态 {#task-flow-status}
+### 任务流状态 {/* #task-flow-status */}
 
 | 取值 | 名称 |
 |---|---|
@@ -269,7 +269,7 @@ sidebar_label: "任务流"
 | `9` | `DropFailed` |
 | `10` | `Dropped` |
 
-### 调度类型 {#schedule-type}
+### 调度类型 {/* #schedule-type */}
 
 任务流的 `schedule.type`。`schedule.args` 是 JSON 字符串。
 
