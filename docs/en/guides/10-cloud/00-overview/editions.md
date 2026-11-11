@@ -27,7 +27,7 @@ The following are feature lists of Databend Cloud among editions:
 
 #### Release Management
 
-<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx -->
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx */}
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
@@ -38,7 +38,7 @@ tbody={[
 
 #### Security & Governance
 
-<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx -->
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx */}
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
@@ -60,7 +60,7 @@ tbody={[
 
 #### Compute Resource
 
-<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx -->
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx */}
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
@@ -74,7 +74,7 @@ tbody={[
 
 #### SQL Support
 
-<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx -->
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx */}
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}

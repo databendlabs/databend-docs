@@ -32,7 +32,7 @@ This section compares Databend Community with Databend Enterprise across key cap
 
 ### Core Database Engine
 
-<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx -->
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx */}
 
 <DatabendTable
 width={['70%', '15%', '15%']}
@@ -62,7 +62,7 @@ tbody={[
 
 ### Enterprise Security & Compliance
 
-<!-- https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx -->
+{/* https://github.com/databendlabs/databend-docs/blob/main/src/components/DatabendTable/index.tsx */}
 
 <DatabendTable
 width={['70%', '15%', '15%']}
