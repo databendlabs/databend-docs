@@ -36,6 +36,46 @@ curl -s "https://api.databend.com/v1/query/<query-id>/page/1" \
 
 Responses can also have `X-DATABEND-SESSION-ID`. The Cloud console uses it. Scripts and agents can ignore it.
 
+## Request Body
+
+`POST /v1/query` accepts the fields below. The server does not forward other fields, such as `stage_attachment` and `string_fields`. For the response format, see the [Databend HTTP API](/developer/apis/http).
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `sql` | string | Yes | The SQL statement. |
+| `session` | object | No | The session state that the query runs in. See the table below. |
+| `pagination` | object | No | Result paging. See the table below. |
+| `params` | JSON | No | Values for the placeholders in `sql`. Databend checks them. The server does not log them. |
+| `query_id` | string | No | A query ID that you choose, at most 1,024 characters. You know the ID before the first response arrives. |
+
+`session` fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `database` | string | Current database. Default: `default`. |
+| `role` | string | Role that runs the query. Default: the default role of your account. |
+| `settings` | object | Session settings. Each value is a string, for example `{"max_threads":"4"}`. |
+
+Each response has a `session` object with the state after the query, for example after `USE` or `SET`. To run the next query in the same state, send that object back unchanged in the next request. State that is not in this object, such as temporary tables, needs the [session endpoints](#session-endpoints).
+
+`pagination` fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `wait_time_secs` | integer | Seconds that a request waits for the next page. The server changes a value below 1 to 1, and a value above 30 to 30. |
+| `max_rows_per_page` | integer | Rows per page, at least 1. A page is also limited to about 4 MiB. |
+| `max_rows_in_buffer` | integer | Rows that the warehouse keeps ready for the client. |
+
+Request example:
+
+```json
+{
+  "sql": "SELECT count(*) FROM orders",
+  "session": { "database": "sales", "role": "analyst", "settings": { "max_threads": "4" } },
+  "pagination": { "wait_time_secs": 10, "max_rows_per_page": 1000 }
+}
+```
+
 ## Session Endpoints
 
 **An ordinary SQL query does not need these endpoints.** To run SQL and read the result, call `POST /v1/query`, follow `next_uri` until the result ends, and call `final`. Each query then runs in its own session.

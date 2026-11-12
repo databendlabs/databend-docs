@@ -36,6 +36,46 @@ curl -s "https://api.databend.cn/v1/query/<query-id>/page/1" \
 
 响应中还可能有 `X-DATABEND-SESSION-ID`，它供 Cloud 控制台使用，脚本和 Agent 可以忽略。
 
+## 请求体 {/* #request-body */}
+
+`POST /v1/query` 接受以下字段。其他字段（例如 `stage_attachment` 和 `string_fields`）服务端不会转发。响应格式见 [Databend HTTP API](/developer/apis/http)。
+
+| 字段 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `sql` | string | 是 | 要执行的 SQL 语句。 |
+| `session` | object | 否 | 查询运行时的会话状态，见下表。 |
+| `pagination` | object | 否 | 结果分页设置，见下表。 |
+| `params` | JSON | 否 | `sql` 中占位符的值，由 Databend 校验。服务端不会记录这些值。 |
+| `query_id` | string | 否 | 自定义的查询 ID，最长 1,024 个字符。这样在收到第一个响应前就能知道查询 ID。 |
+
+`session` 字段：
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `database` | string | 当前数据库。默认：`default`。 |
+| `role` | string | 执行查询的角色。默认：账户的默认角色。 |
+| `settings` | object | 会话设置，值都是字符串，例如 `{"max_threads":"4"}`。 |
+
+每个响应都带有一个 `session` 对象，表示查询执行后的状态，例如执行 `USE` 或 `SET` 之后的状态。要让下一个查询在同样的状态下执行，在下一个请求里原样传回这个对象。临时表等不在这个对象里的状态，需要使用[会话接口](#session-endpoints)。
+
+`pagination` 字段：
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `wait_time_secs` | integer | 每个请求等待下一页结果的秒数。小于 1 时按 1 处理，大于 30 时按 30 处理。 |
+| `max_rows_per_page` | integer | 每页行数，至少为 1。每页还受约 4 MiB 的大小限制。 |
+| `max_rows_in_buffer` | integer | 计算集群为客户端预先准备的行数。 |
+
+请求示例：
+
+```json
+{
+  "sql": "SELECT count(*) FROM orders",
+  "session": { "database": "sales", "role": "analyst", "settings": { "max_threads": "4" } },
+  "pagination": { "wait_time_secs": 10, "max_rows_per_page": 1000 }
+}
+```
+
 ## 会话接口 {/* #session-endpoints */}
 
 **普通的 SQL 查询不需要调用这些接口**。执行 SQL 并读取结果，只需调用 `POST /v1/query`，沿 `next_uri` 读到结果结束，再调用 `final`。每个查询都在各自的会话中执行。
