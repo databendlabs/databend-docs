@@ -92,7 +92,6 @@ sidebar_label: "账单"
 | `orgSlug` | 路径 | string | 是 | 组织 ID。 |
 | `from` | 查询 | string | 是 | 开始日期，`YYYY-MM-DD`。 |
 | `to` | 查询 | string | 否 | 结束日期，`YYYY-MM-DD`。默认：今天。 |
-| `maxConcurrency` | 查询 | integer | 否 | 服务端同时读取的天数。对于 API token，取值为 1 到 4，默认 4。大于 4 时按 4 处理。 |
 
 限制：对于 API token，时间范围最多 93 天，超出时返回 HTTP 400。
 

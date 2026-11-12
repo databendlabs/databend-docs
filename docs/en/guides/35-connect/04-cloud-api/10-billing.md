@@ -92,7 +92,6 @@ Returns the usage and the amount of each day, by warehouse, storage, cloud servi
 | `orgSlug` | path | string | Yes | Organization ID. |
 | `from` | query | string | Yes | First day, `YYYY-MM-DD`. |
 | `to` | query | string | No | Last day, `YYYY-MM-DD`. Default: today. |
-| `maxConcurrency` | query | integer | No | The number of days that the server reads at the same time. For API tokens, the value can be 1 to 4. Default: 4. A larger value is changed to 4. |
 
 Limits: for API tokens, the range can have at most 93 days. A longer range returns HTTP 400.
 
