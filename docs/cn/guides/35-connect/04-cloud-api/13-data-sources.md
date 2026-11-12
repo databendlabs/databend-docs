@@ -175,7 +175,7 @@ toc_max_heading_level: 4
 | `orgSlug` | 请求体 | string | 是 | 组织 ID。 |
 | `name` | 请求体 | string | 是 | 名称。 |
 | `serviceId` | 请求体 | integer（枚举） | 是 | 数据源当前的 [Service ID](#service-id)。 |
-| 一个[凭证对象](#credentials-objects) | 请求体 | object | 是 | 全部凭证字段。要保留的密钥传 `******`。 |
+| 一个[凭证对象](#credentials-objects) | 请求体 | object | 是 | 全部凭证字段。要保留的密钥传 `******`，见[凭证脱敏](#credential-masking)。 |
 
 请求示例：
 
@@ -290,7 +290,7 @@ toc_max_heading_level: 4
 | `orgSlug` | 请求体 | string | 是 | 组织 ID。 |
 | `s3Prefix` | 请求体 | string | 是 | 要读取的前缀。CDC 使用 changefeed 前缀，快照使用 Dumpling 前缀。 |
 | `sourceKind` | 请求体 | string（枚举） | 否 | `changefeed`（默认）：读取 `{prefix}/{db}/{table}/`。`dumpling`：读取 `{db}.{table}-schema.sql` 文件。 |
-| `tableRules`、`includeTables`、`excludeTables` | 请求体 | string[] | 否 | 表选择条件，规则与 MySQL 预览相同。 |
+| `tableRules`、`includeTables`、`excludeTables` | 请求体 | string[] | 否 | 表选择条件，规则与[预览 MySQL 表规则](#preview-mysql-table-rules)相同。 |
 | `limit` | 请求体 | integer | 否 | 最多返回的条数。`0` 表示使用服务端默认值。 |
 | `targetDatabasePrefix`、`targetDatabaseSuffix`、`targetTablePrefix`、`targetTableSuffix` | 请求体 | string | 否 | 用于生成响应中目标名称的前后缀。 |
 
@@ -360,7 +360,7 @@ toc_max_heading_level: 4
 | `port` | integer | 是 | 端口，例如 `3306`。 |
 | `username` | string | 是 | 用户名。CDC 需要该用户有 binlog 读取权限。 |
 | `password` | string | 是 | 密码。密钥。 |
-| `database` | string | 否 | 默认数据库。使用 `includeTables` 的任务必填，使用 `tableRules` 的任务不使用。 |
+| `database` | string | 否 | 默认数据库。使用 `includeTables` 的任务必填，使用 [`tableRules`](./14-data-integration-tasks.md#table-rules) 的任务不使用。 |
 | `sslMode` | string（枚举） | 否 | `disable`（默认）、`require`、`verify-ca` 或 `verify-full`。 |
 | `serverId` | integer | 否 | Binlog 复制的 server ID，在组织内必须唯一。不传时，创建会自动生成，更新会保留当前值。 |
 | `charset` | string | 否 | 连接字符集。 |
@@ -415,7 +415,7 @@ TiDB 数据源从对象存储读取 TiCDC changefeed 文件和 Dumpling 导出�
 | `s3Endpoint` | string | 否 | 兼容 S3 的存储的 endpoint。使用 `oss` 时必须为空。 |
 | `sqsQueueURL` | string | 否 | 事件模式使用的 SQS 标准队列 URL。不接受 FIFO 队列。`oss` 不支持。 |
 | `sqsRegion` | string | 否 | SQS 地域。默认：`s3Region`。 |
-| `database` | string | 否 | 默认源数据库。不使用 `tableRules` 的任务需要此字段。 |
+| `database` | string | 否 | 默认源数据库。不使用 [`tableRules`](./14-data-integration-tasks.md#table-rules) 的任务需要此字段。 |
 
 不要传 `externalID`、`ossInternalEndpoint` 或 `ossLoaderInternalEndpoint`，这些字段由服务端设置。
 

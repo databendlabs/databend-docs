@@ -6,17 +6,17 @@ toc_max_heading_level: 4
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.
 
-A data integration task reads from a [data source](./13-data-sources.md) and writes to a Databend table. The task type comes from the `serviceId` of its data source. All task endpoints are v2, except [Get Sync Metrics](#get-sync-metrics). Send `orgSlug` in the body.
+A data integration task reads from a [data source](./13-data-sources.md) and writes to a Databend table. The task type comes from the [`serviceId`](./13-data-sources.md#service-id) of its data source. All task endpoints are v2, except [Get Sync Metrics](#get-sync-metrics). Send `orgSlug` in the body.
 
 | Source (`serviceId`) | Task object | Mode |
 |---|---|---|
-| AWS S3 (`1`) | `awsS3File` | One-time file load. |
-| AWS SQS (S3) (`5`) | `awsS3File` | Continuous: loads new files from S3 event messages. |
-| Alibaba Cloud MNS (OSS) (`8`) | `awsS3File` | Continuous: loads new files from OSS event messages. |
-| Kafka (`7`) | `kafkaConsumer` | Continuous: writes NDJSON files to the stage `@kafka_consumer/<task-name>/`. |
-| MySQL (`2`) | `mysqlTask` | Snapshot, CDC, or snapshot then CDC. |
-| PostgreSQL (`3`) | `postgresTask` | Snapshot, CDC, or snapshot then CDC. |
-| TiDB (`6`) | `tidbTask` | Snapshot, CDC, or snapshot then CDC. |
+| AWS S3 (`1`) | [`awsS3File`](#awss3file) | One-time file load. |
+| AWS SQS (S3) (`5`) | [`awsS3File`](#awss3file) | Continuous: loads new files from S3 event messages. |
+| Alibaba Cloud MNS (OSS) (`8`) | [`awsS3File`](#awss3file) | Continuous: loads new files from OSS event messages. |
+| Kafka (`7`) | [`kafkaConsumer`](#kafkaconsumerargs-task) | Continuous: writes NDJSON files to the stage `@kafka_consumer/<task-name>/`. |
+| MySQL (`2`) | [`mysqlTask`](#mysqltaskargs) | Snapshot, CDC, or snapshot then CDC. |
+| PostgreSQL (`3`) | [`postgresTask`](#postgrestaskargs) | Snapshot, CDC, or snapshot then CDC. |
+| TiDB (`6`) | [`tidbTask`](#tidbtaskargs) | Snapshot, CDC, or snapshot then CDC. |
 
 ## List Tasks
 
@@ -165,7 +165,7 @@ Creates a task in the stopped state. To start it, call [Operate Tasks](#operate-
 | `mysqlTask` | [MysqlTaskArgs](#mysqltaskargs) | Depends | Required for MySQL tasks. |
 | `postgresTask` | [PostgresTaskArgs](#postgrestaskargs) | Depends | Required for PostgreSQL tasks. |
 | `tidbTask` | [TiDBTaskArgs](#tidbtaskargs) | Depends | Required for TiDB tasks. |
-| `continuousIngestion` | integer | No | `0` off, `1` on. The server sets it from the source type and sync mode. |
+| `continuousIngestion` | integer | No | `0` off, `1` on. The server sets it from the source type and [sync mode](#sync-mode). |
 | `runtimeConfig` | object | No | `{ "unit": "4XSmall" }`. Only for SQS (S3), MNS (OSS), and Kafka tasks. Default: the default unit of [List Runtime Units](#list-runtime-units). |
 
 Request example (MySQL, snapshot then CDC, one table):
@@ -187,7 +187,7 @@ Request example (MySQL, snapshot then CDC, one table):
 }
 ```
 
-Request example (MySQL, several databases with table rules):
+Request example (MySQL, several databases with [table rules](#table-rules)):
 
 ```json
 {
@@ -634,8 +634,8 @@ The task part of the Kafka settings. The connection is on the [data source](./13
 | `excludeTables` | string[] | No | Tables to leave out. |
 | `conflictKey` | string | Depends | Merge key column. Required for syncMode `2` and `3`. |
 | `allowDelete` | boolean | No | Apply source `DELETE` events to the target. |
-| `snapshotWhereCondition` | string | No | Same rules as in MysqlTaskArgs. Only for syncMode `1`. |
-| Tuning fields | integer | No | Same as in MysqlTaskArgs. |
+| `snapshotWhereCondition` | string | No | Same rules as in [MysqlTaskArgs](#mysqltaskargs). Only for [syncMode](#sync-mode) `1`. |
+| Tuning fields | integer | No | Same as in [MysqlTaskArgs](#mysqltaskargs). |
 
 #### TiDBTaskArgs
 

@@ -6,17 +6,17 @@ toc_max_heading_level: 4
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。
 
-数据集成任务从[数据源](./13-data-sources.md)读取数据并写入 Databend 表。任务类型由所用数据源的 `serviceId` 决定。除[获取同步指标](#get-sync-metrics)外，所有任务接口都是 v2 接口，需在请求体中传 `orgSlug`。
+数据集成任务从[数据源](./13-data-sources.md)读取数据并写入 Databend 表。任务类型由所用数据源的 [`serviceId`](./13-data-sources.md#service-id) 决定。除[获取同步指标](#get-sync-metrics)外，所有任务接口都是 v2 接口，需在请求体中传 `orgSlug`。
 
 | 数据源（`serviceId`） | 任务对象 | 模式 |
 |---|---|---|
-| AWS S3（`1`） | `awsS3File` | 一次性加载文件。 |
-| AWS SQS (S3)（`5`） | `awsS3File` | 持续加载：根据 S3 事件消息加载新文件。 |
-| 阿里云 MNS (OSS)（`8`） | `awsS3File` | 持续加载：根据 OSS 事件消息加载新文件。 |
-| Kafka（`7`） | `kafkaConsumer` | 持续消费：把 NDJSON 文件写入 stage `@kafka_consumer/<task-name>/`。 |
-| MySQL（`2`） | `mysqlTask` | 快照、CDC，或先快照再 CDC。 |
-| PostgreSQL（`3`） | `postgresTask` | 快照、CDC，或先快照再 CDC。 |
-| TiDB（`6`） | `tidbTask` | 快照、CDC，或先快照再 CDC。 |
+| AWS S3（`1`） | [`awsS3File`](#awss3file) | 一次性加载文件。 |
+| AWS SQS (S3)（`5`） | [`awsS3File`](#awss3file) | 持续加载：根据 S3 事件消息加载新文件。 |
+| 阿里云 MNS (OSS)（`8`） | [`awsS3File`](#awss3file) | 持续加载：根据 OSS 事件消息加载新文件。 |
+| Kafka（`7`） | [`kafkaConsumer`](#kafkaconsumerargs-task) | 持续消费：把 NDJSON 文件写入 stage `@kafka_consumer/<task-name>/`。 |
+| MySQL（`2`） | [`mysqlTask`](#mysqltaskargs) | 快照、CDC，或先快照再 CDC。 |
+| PostgreSQL（`3`） | [`postgresTask`](#postgrestaskargs) | 快照、CDC，或先快照再 CDC。 |
+| TiDB（`6`） | [`tidbTask`](#tidbtaskargs) | 快照、CDC，或先快照再 CDC。 |
 
 ## 列出任务 {/* #list-tasks */}
 
@@ -165,7 +165,7 @@ toc_max_heading_level: 4
 | `mysqlTask` | [MysqlTaskArgs](#mysqltaskargs) | 视情况 | MySQL 任务必填。 |
 | `postgresTask` | [PostgresTaskArgs](#postgrestaskargs) | 视情况 | PostgreSQL 任务必填。 |
 | `tidbTask` | [TiDBTaskArgs](#tidbtaskargs) | 视情况 | TiDB 任务必填。 |
-| `continuousIngestion` | integer | 否 | `0` 关闭，`1` 开启。服务端会根据数据源类型和同步模式自动设置。 |
+| `continuousIngestion` | integer | 否 | `0` 关闭，`1` 开启。服务端会根据数据源类型和[同步模式](#sync-mode)自动设置。 |
 | `runtimeConfig` | object | 否 | `{ "unit": "4XSmall" }`。仅用于 SQS (S3)、MNS (OSS) 和 Kafka 任务。默认使用[列出运行单元](#list-runtime-units)中的默认单元。 |
 
 请求示例（MySQL，先快照再 CDC，单表）：
@@ -187,7 +187,7 @@ toc_max_heading_level: 4
 }
 ```
 
-请求示例（MySQL，使用表规则同步多个数据库）：
+请求示例（MySQL，使用[表规则](#table-rules)同步多个数据库）：
 
 ```json
 {
@@ -634,8 +634,8 @@ Kafka 配置中属于任务的部分。连接配置在[数据源](./13-data-sour
 | `excludeTables` | string[] | 否 | 要排除的表。 |
 | `conflictKey` | string | 视情况 | 合并键列。syncMode `2` 和 `3` 必填。 |
 | `allowDelete` | boolean | 否 | 把源端 `DELETE` 事件同步到目标表。 |
-| `snapshotWhereCondition` | string | 否 | 规则与 MysqlTaskArgs 相同，仅用于 syncMode `1`。 |
-| 调优参数 | integer | 否 | 与 MysqlTaskArgs 相同。 |
+| `snapshotWhereCondition` | string | 否 | 规则与 [MysqlTaskArgs](#mysqltaskargs) 相同，仅用于 [syncMode](#sync-mode) `1`。 |
+| 调优参数 | integer | 否 | 与 [MysqlTaskArgs](#mysqltaskargs) 相同。 |
 
 #### TiDBTaskArgs {/* #tidbtaskargs */}
 

@@ -28,7 +28,7 @@ Searches the query history of the organization. All body fields are optional, bu
 | `clusterId` | string | No | Cluster ID. Use the `clusterId` value of a result item. |
 | `nodeID` | string | No | Node ID. Use the `nodeID` value of a result item. The field name ends in an uppercase `ID`. |
 | `status` | integer | No | One [query status](#query-status). |
-| `statusList` | integer[] | No | Several query statuses. |
+| `statusList` | integer[] | No | Several [query statuses](#query-status). |
 | `queryDurationGte` | integer | No | Minimum duration in milliseconds. |
 | `queryDurationLte` | integer | No | Maximum duration in milliseconds. |
 | `exceptionCode` | integer | No | Error code. |

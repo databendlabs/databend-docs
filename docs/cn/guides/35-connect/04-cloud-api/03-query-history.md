@@ -28,7 +28,7 @@ sidebar_label: "查询历史"
 | `clusterId` | string | 否 | 集群 ID。取结果项的 `clusterId` 值。 |
 | `nodeID` | string | 否 | 节点 ID。取结果项的 `nodeID` 值。注意字段名末尾是大写的 `ID`。 |
 | `status` | integer | 否 | 单个[查询状态](#query-status)。 |
-| `statusList` | integer[] | 否 | 多个查询状态。 |
+| `statusList` | integer[] | 否 | 多个[查询状态](#query-status)。 |
 | `queryDurationGte` | integer | 否 | 最短耗时，单位毫秒。 |
 | `queryDurationLte` | integer | 否 | 最长耗时，单位毫秒。 |
 | `exceptionCode` | integer | 否 | 错误码。 |

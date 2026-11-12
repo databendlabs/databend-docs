@@ -78,7 +78,7 @@ Response example:
 
 `POST /api/v2/taskflow/names` · Read · Member
 
-Returns the names of all tasks in task flows and of single tasks. `itemDataType` tells which. Use `taskFullName` to find the runs of a task in the SQL task run history.
+Returns the names of all tasks in task flows and of single tasks. [`itemDataType`](#item-data-type) tells which. Use `taskFullName` to find the runs of a task in the SQL task run history.
 
 | Field | Type | Required | Description |
 |---|---|---|---|

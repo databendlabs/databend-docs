@@ -78,7 +78,7 @@ sidebar_label: "任务流"
 
 `POST /api/v2/taskflow/names` · Read · Member
 
-返回任务流中的任务名以及单个任务的任务名，用 `itemDataType` 区分。可以用 `taskFullName` 在 SQL Task 运行记录中查找该任务的运行情况。
+返回任务流中的任务名以及单个任务的任务名，用 [`itemDataType`](#item-data-type) 区分。可以用 `taskFullName` 在 SQL Task 运行记录中查找该任务的运行情况。
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|

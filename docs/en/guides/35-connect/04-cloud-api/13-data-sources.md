@@ -175,7 +175,7 @@ Replaces the name and the credentials of a data source.
 | `orgSlug` | body | string | Yes | Organization ID. |
 | `name` | body | string | Yes | Name. |
 | `serviceId` | body | integer (enum) | Yes | The current [Service ID](#service-id) of the data source. |
-| One [credentials object](#credentials-objects) | body | object | Yes | All credential fields. For a secret that you keep, send `******`. |
+| One [credentials object](#credentials-objects) | body | object | Yes | All credential fields. For a secret that you keep, send `******`. See [Credential Masking](#credential-masking). |
 
 Request example:
 
@@ -290,7 +290,7 @@ Reads the object storage of a TiDB data source (`serviceId` 6). Shows which sour
 | `orgSlug` | body | string | Yes | Organization ID. |
 | `s3Prefix` | body | string | Yes | Prefix to read. For CDC, use the changefeed prefix. For a snapshot, use the Dumpling prefix. |
 | `sourceKind` | body | string (enum) | No | `changefeed` (default): reads `{prefix}/{db}/{table}/`. `dumpling`: reads `{db}.{table}-schema.sql` files. |
-| `tableRules`, `includeTables`, `excludeTables` | body | string[] | No | Table selection. Same rules as the MySQL preview. |
+| `tableRules`, `includeTables`, `excludeTables` | body | string[] | No | Table selection. Same rules as [Preview MySQL Table Rules](#preview-mysql-table-rules). |
 | `limit` | body | integer | No | Maximum number of returned pairs. `0` uses the server default. |
 | `targetDatabasePrefix`, `targetDatabaseSuffix`, `targetTablePrefix`, `targetTableSuffix` | body | string | No | Name affixes for the target names in the response. |
 
@@ -360,7 +360,7 @@ Send one of these objects in [Create a Data Source](#create-a-data-source), [Upd
 | `port` | integer | Yes | Port, for example `3306`. |
 | `username` | string | Yes | User name. The user needs binlog read privileges for CDC. |
 | `password` | string | Yes | Password. Secret. |
-| `database` | string | No | Default database. Required for tasks that use `includeTables`. Not used by tasks with `tableRules`. |
+| `database` | string | No | Default database. Required for tasks that use `includeTables`. Not used by tasks with [`tableRules`](./14-data-integration-tasks.md#table-rules). |
 | `sslMode` | string (enum) | No | `disable` (default), `require`, `verify-ca`, or `verify-full`. |
 | `serverId` | integer | No | Binlog replica server ID. It must be unique in the organization. If you omit it, create generates one and update keeps the current one. |
 | `charset` | string | No | Connection character set. |
@@ -415,7 +415,7 @@ The TiDB data source reads TiCDC changefeed files and Dumpling export files from
 | `s3Endpoint` | string | No | Endpoint of an S3-compatible store. Must be empty for `oss`. |
 | `sqsQueueURL` | string | No | SQS standard queue URL for event mode. FIFO queues are rejected. Not supported for `oss`. |
 | `sqsRegion` | string | No | SQS region. Default: `s3Region`. |
-| `database` | string | No | Default source database. Tasks without `tableRules` need it. |
+| `database` | string | No | Default source database. Tasks without [`tableRules`](./14-data-integration-tasks.md#table-rules) need it. |
 
 Do not send `externalID`, `ossInternalEndpoint`, or `ossLoaderInternalEndpoint`. The server sets them.
 
