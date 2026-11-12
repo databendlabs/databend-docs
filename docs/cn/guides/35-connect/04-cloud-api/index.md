@@ -15,7 +15,7 @@ description: 使用账户 API token 调用 Databend Cloud 控制台 API，管理
 
 | 信息 | 获取位置 | 示例 |
 |---|---|---|
-| API 地址 | 国际站使用 `https://api.databend.com`，中国站使用 `https://api.databend.cn`。 | `https://api.databend.cn` |
+| API 地址 | 固定值。 | `https://api.databend.cn` |
 | API token | Cloud 控制台 → **账户 API 令牌 → 访问令牌 → 生成新令牌**。 | `dbc_xxxxxxxxxxxx` |
 | 组织 ID | Cloud 控制台 → **管理 → 组织信息**，或调用[列出我的组织](./08-account.md#list-my-organizations)。API 中称为 `orgSlug`。 | `acme-prod` |
 | 计算集群 | 执行 SQL 的计算集群。只有 Query API 需要。 | `default` |
