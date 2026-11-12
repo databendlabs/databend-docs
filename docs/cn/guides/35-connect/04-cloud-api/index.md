@@ -213,7 +213,7 @@ Catalog 和计算集群接口还会应用您账户的 SQL 权限。成员只能�
 | | `POST` | `/api/v2/data-integration/task/{taskId}/metrics` | Read | Member |
 | | `GET` | `/api/v1/orgs/{orgSlug}/tenant/metrics/{TiDBSync\|MySQLSync}` | Read | Member |
 
-[Query API](./01-query-api.md) 的接口（`/v1/query`）已经可用，按您账户的 SQL 权限执行。`POST /v1/query` 的类型是 `Write`，因为您发送的 SQL 可能修改数据。详见 [Agent Skills](../03-agent-skills.md)。
+[`POST /v1/query`](./01-query-api.md) 的类型是 `Write`，因为您发送的 SQL 可能修改数据。详见 [Agent Skills](../03-agent-skills.md)。
 
 ## API Token 不能调用的接口 {/* #endpoints-that-api-tokens-cannot-call */}
 

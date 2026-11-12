@@ -213,7 +213,7 @@ Type `Read` does not change any resource. Type `Write` creates, changes, starts,
 | | `POST` | `/api/v2/data-integration/task/{taskId}/metrics` | Read | Member |
 | | `GET` | `/api/v1/orgs/{orgSlug}/tenant/metrics/{TiDBSync\|MySQLSync}` | Read | Member |
 
-The [Query API](./01-query-api.md) endpoints (`/v1/query`) are already available. They run with the SQL privileges of your account. `POST /v1/query` has type `Write` because the SQL that you send can change data. See [Agent Skills](../03-agent-skills.md).
+[`POST /v1/query`](./01-query-api.md) has type `Write` because the SQL that you send can change data. See [Agent Skills](../03-agent-skills.md).
 
 ## Endpoints That API Tokens Cannot Call
 
