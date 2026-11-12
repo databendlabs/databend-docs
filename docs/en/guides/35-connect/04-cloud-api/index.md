@@ -135,9 +135,9 @@ Type `Read` does not change any resource. Type `Write` creates, changes, starts,
 | | `GET` | `/v1/query/{queryId}/page/{pageNum}` | Read | Member |
 | | `GET` | `/v1/query/{queryId}/final` | Read | Member |
 | | `POST` | `/v1/query/{queryId}/kill` | Write | Member |
-| [Query results](./02-query-results.md) | `GET` | `/api/v1/orgs/{orgSlug}/query/{queryId}/download` | Read | Export |
+| [Query results](./02-query-results.md) | `GET` | `/api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` | Read | Member |
+| | `GET` | `/api/v1/orgs/{orgSlug}/query/{queryId}/download` | Read | Export |
 | | `GET` | `/api/v1/orgs/{orgSlug}/query/{queryId}/download-excel` | Read | Export |
-| | `GET` | `/api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` | Read | Member |
 | [Query history](./03-query-history.md) | `POST` | `/api/v1/query/orgs/{orgSlug}/query-history/query` | Read | Member |
 | | `POST` | `/api/v1/query/orgs/{orgSlug}/query-history/count` | Read | Member |
 | | `GET` | `/api/v1/query/orgs/{orgSlug}/query-history/{queryId}/detail` | Read | Member |

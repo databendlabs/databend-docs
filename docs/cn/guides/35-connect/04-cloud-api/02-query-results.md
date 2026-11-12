@@ -5,6 +5,32 @@ sidebar_label: "查询结果"
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。
 
+## 获取缓存的查询结果 {/* #get-a-cached-query-result */}
+
+`GET /api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` · Read · Member
+
+以 JSON 返回查询的缓存结果。服务端会拼接缓存的各页结果，超过约 10,000 行后停止。
+
+| 参数 | 位置 | 类型 | 必填 | 说明 |
+|---|---|---|---|---|
+| `orgSlug` | 路径 | string | 是 | 组织 ID。 |
+| `queryId` | 路径 | string | 是 | 查询 ID。 |
+
+响应示例。值均为字符串，SQL `NULL` 返回 `null`。
+
+```json
+{
+  "success": true,
+  "data": {
+    "schema": [
+      { "name": "id", "type": "Int32" },
+      { "name": "name", "type": "Nullable(String)" }
+    ],
+    "data": [["1", "alice"], ["2", null]]
+  }
+}
+```
+
 ## 下载查询结果（CSV） {/* #download-a-query-result-as-csv */}
 
 `GET /api/v1/orgs/{orgSlug}/query/{queryId}/download` · Read · Export
@@ -41,29 +67,3 @@ curl --location 'https://api.databend.cn/api/v1/orgs/<organization-id>/query/<qu
 `GET /api/v1/orgs/{orgSlug}/query/{queryId}/download-excel` · Read · Export
 
 与[下载查询结果（CSV）](#download-a-query-result-as-csv)相同。文件格式为 `.xlsx`，Content-Type 为 `application/vnd.ms-excel`。
-
-## 获取缓存的查询结果 {/* #get-a-cached-query-result */}
-
-`GET /api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` · Read · Member
-
-以 JSON 返回查询的缓存结果。服务端会拼接缓存的各页结果，超过约 10,000 行后停止。
-
-| 参数 | 位置 | 类型 | 必填 | 说明 |
-|---|---|---|---|---|
-| `orgSlug` | 路径 | string | 是 | 组织 ID。 |
-| `queryId` | 路径 | string | 是 | 查询 ID。 |
-
-响应示例。值均为字符串，SQL `NULL` 返回 `null`。
-
-```json
-{
-  "success": true,
-  "data": {
-    "schema": [
-      { "name": "id", "type": "Int32" },
-      { "name": "name", "type": "Nullable(String)" }
-    ],
-    "data": [["1", "alice"], ["2", null]]
-  }
-}
-```

@@ -5,6 +5,32 @@ sidebar_label: "Query Results"
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.
 
+## Get a Cached Query Result
+
+`GET /api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` · Read · Member
+
+Returns the cached result of a query as JSON. The server joins the cached result pages and stops after about 10,000 rows.
+
+| Parameter | In | Type | Required | Description |
+|---|---|---|---|---|
+| `orgSlug` | path | string | Yes | Organization ID. |
+| `queryId` | path | string | Yes | Query ID. |
+
+Response example. Values are strings. A SQL `NULL` is `null`.
+
+```json
+{
+  "success": true,
+  "data": {
+    "schema": [
+      { "name": "id", "type": "Int32" },
+      { "name": "name", "type": "Nullable(String)" }
+    ],
+    "data": [["1", "alice"], ["2", null]]
+  }
+}
+```
+
 ## Download a Query Result as CSV
 
 `GET /api/v1/orgs/{orgSlug}/query/{queryId}/download` · Read · Export
@@ -41,29 +67,3 @@ Response: the file body, with `Content-Disposition: attachment; filename="<query
 `GET /api/v1/orgs/{orgSlug}/query/{queryId}/download-excel` · Read · Export
 
 Same as [Download a Query Result as CSV](#download-a-query-result-as-csv). The file format is `.xlsx` and the content type is `application/vnd.ms-excel`.
-
-## Get a Cached Query Result
-
-`GET /api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` · Read · Member
-
-Returns the cached result of a query as JSON. The server joins the cached result pages and stops after about 10,000 rows.
-
-| Parameter | In | Type | Required | Description |
-|---|---|---|---|---|
-| `orgSlug` | path | string | Yes | Organization ID. |
-| `queryId` | path | string | Yes | Query ID. |
-
-Response example. Values are strings. A SQL `NULL` is `null`.
-
-```json
-{
-  "success": true,
-  "data": {
-    "schema": [
-      { "name": "id", "type": "Int32" },
-      { "name": "name", "type": "Nullable(String)" }
-    ],
-    "data": [["1", "alice"], ["2", null]]
-  }
-}
-```

@@ -135,9 +135,9 @@ Catalog、计算集群和统计类接口还会应用您账户的 SQL 权限。�
 | | `GET` | `/v1/query/{queryId}/page/{pageNum}` | Read | Member |
 | | `GET` | `/v1/query/{queryId}/final` | Read | Member |
 | | `POST` | `/v1/query/{queryId}/kill` | Write | Member |
-| [查询结果](./02-query-results.md) | `GET` | `/api/v1/orgs/{orgSlug}/query/{queryId}/download` | Read | Export |
+| [查询结果](./02-query-results.md) | `GET` | `/api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` | Read | Member |
+| | `GET` | `/api/v1/orgs/{orgSlug}/query/{queryId}/download` | Read | Export |
 | | `GET` | `/api/v1/orgs/{orgSlug}/query/{queryId}/download-excel` | Read | Export |
-| | `GET` | `/api/v1/query/orgs/{orgSlug}/worksheet-query-results/{queryId}` | Read | Member |
 | [查询历史](./03-query-history.md) | `POST` | `/api/v1/query/orgs/{orgSlug}/query-history/query` | Read | Member |
 | | `POST` | `/api/v1/query/orgs/{orgSlug}/query-history/count` | Read | Member |
 | | `GET` | `/api/v1/query/orgs/{orgSlug}/query-history/{queryId}/detail` | Read | Member |
