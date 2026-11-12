@@ -15,7 +15,7 @@ You need these values:
 
 | Value | Where to find it | Example |
 |---|---|---|
-| API origin | `https://api.databend.com` | `https://api.databend.com` |
+| API origin | Use `https://api.databend.com` for the global site. Use `https://api.databend.cn` for the China site. | `https://api.databend.com` |
 | API token | Cloud console → **Account API Tokens → Access Tokens → Generate New Token**. | `dbc_xxxxxxxxxxxx` |
 | Organization ID | Cloud console → **Admin → Organization Profile**, or [List My Organizations](./08-account.md#list-my-organizations). The API calls this value `orgSlug`. | `acme-prod` |
 | Warehouse | The warehouse that runs SQL. Only the Query API needs it. | `default` |
