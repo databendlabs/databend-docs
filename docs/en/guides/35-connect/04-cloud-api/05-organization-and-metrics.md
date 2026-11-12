@@ -30,27 +30,6 @@ Response example:
 }
 ```
 
-## Get Organization Statistics
-
-`GET /api/v1/orgs/{orgSlug}/tenant/statistics` · Read · Member
-
-Returns counts of queries, worksheets, tables, databases, and warehouses, and the storage use.
-
-```json
-{
-  "success": true,
-  "data": {
-    "queryTimes": 18234,
-    "worksheetsCount": 42,
-    "tablesCount": 310,
-    "databasesCount": 12,
-    "warehousesCount": 3,
-    "storageInfo": { "total": 0, "used": 1073741824, "changed": 1048576 },
-    "planUsageInfo": { "credits": 120.5, "storage": {} }
-  }
-}
-```
-
 ## Get Metrics
 
 `GET /api/v1/orgs/{orgSlug}/tenant/metrics/{queryType}` · Read · Member

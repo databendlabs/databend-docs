@@ -30,27 +30,6 @@ sidebar_label: "组织与监控"
 }
 ```
 
-## 获取组织统计 {/* #get-organization-statistics */}
-
-`GET /api/v1/orgs/{orgSlug}/tenant/statistics` · Read · Member
-
-返回查询、工作表、表、数据库和计算集群的数量，以及存储用量。
-
-```json
-{
-  "success": true,
-  "data": {
-    "queryTimes": 18234,
-    "worksheetsCount": 42,
-    "tablesCount": 310,
-    "databasesCount": 12,
-    "warehousesCount": 3,
-    "storageInfo": { "total": 0, "used": 1073741824, "changed": 1048576 },
-    "planUsageInfo": { "credits": 120.5, "storage": {} }
-  }
-}
-```
-
 ## 获取监控指标 {/* #get-metrics */}
 
 `GET /api/v1/orgs/{orgSlug}/tenant/metrics/{queryType}` · Read · Member

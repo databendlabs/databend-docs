@@ -122,7 +122,7 @@ v2 的 `message` 以 `[<KIND>-<CODE>]` 开头。`CLIENT-5001` 表示参数错误
 | Creator or Admin | 资源的创建者，或组织管理员。 |
 | Export | 具有导出权限的成员。 |
 
-Catalog、计算集群和统计类接口还会应用您账户的 SQL 权限。成员只能看到其 SQL 角色有权访问的对象。
+Catalog 和计算集群接口还会应用您账户的 SQL 权限。成员只能看到其 SQL 角色有权访问的对象。
 
 ## 接口索引 {/* #endpoint-index */}
 
@@ -149,7 +149,6 @@ Catalog、计算集群和统计类接口还会应用您账户的 SQL 权限。�
 | | `GET` | `/api/v1/orgs/{orgSlug}/tenant/warehouse-history/{warehouseName}` | Read | Member |
 | | `GET` | `/api/v1/orgs/{orgSlug}/warehouse-sizes` | Read | Member |
 | [组织与监控](./05-organization-and-metrics.md) | `GET` | `/api/v1/orgs/{orgSlug}/tenant` | Read | Member |
-| | `GET` | `/api/v1/orgs/{orgSlug}/tenant/statistics` | Read | Member |
 | | `GET` | `/api/v1/orgs/{orgSlug}/tenant/metrics/{queryType}` | Read | Member |
 | [Catalog](./06-catalog.md) | `GET` | `/api/v1/orgs/{orgSlug}/tenant/databases` | Read | Member |
 | | `GET` | `/api/v1/orgs/{orgSlug}/tenant/databases/{database}/tables` | Read | Member |

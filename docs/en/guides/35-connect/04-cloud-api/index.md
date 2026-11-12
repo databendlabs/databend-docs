@@ -122,7 +122,7 @@ Each endpoint has an access level. The server checks it on every request.
 | Creator or Admin | The account that created the resource, or an organization admin. |
 | Export | A member who has the export permission. |
 
-Catalog, warehouse, and statistics endpoints also apply the SQL privileges of your account. A member can see only the objects that the member's SQL role can see.
+Catalog and warehouse endpoints also apply the SQL privileges of your account. A member can see only the objects that the member's SQL role can see.
 
 ## Endpoint Index
 
@@ -149,7 +149,6 @@ Type `Read` does not change any resource. Type `Write` creates, changes, starts,
 | | `GET` | `/api/v1/orgs/{orgSlug}/tenant/warehouse-history/{warehouseName}` | Read | Member |
 | | `GET` | `/api/v1/orgs/{orgSlug}/warehouse-sizes` | Read | Member |
 | [Organization and metrics](./05-organization-and-metrics.md) | `GET` | `/api/v1/orgs/{orgSlug}/tenant` | Read | Member |
-| | `GET` | `/api/v1/orgs/{orgSlug}/tenant/statistics` | Read | Member |
 | | `GET` | `/api/v1/orgs/{orgSlug}/tenant/metrics/{queryType}` | Read | Member |
 | [Catalog](./06-catalog.md) | `GET` | `/api/v1/orgs/{orgSlug}/tenant/databases` | Read | Member |
 | | `GET` | `/api/v1/orgs/{orgSlug}/tenant/databases/{database}/tables` | Read | Member |
