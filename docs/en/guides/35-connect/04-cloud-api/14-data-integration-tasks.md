@@ -88,7 +88,7 @@ Reads a sample from the source. Use the result to choose the target columns befo
 |---|---|---|---|
 | `orgSlug` | string | Yes | Organization ID. |
 | `datasourceId` | integer | Yes | Data source ID. |
-| One task object | object | Yes | `awsS3File`, `kafkaConsumer`, `mysqlTask`, `postgresTask`, or `tidbTask`. Use the object that matches the data source. |
+| One [task object](#task-objects) | object | Yes | [`awsS3File`](#awss3file), [`kafkaConsumer`](#kafkaconsumerargs-task), [`mysqlTask`](#mysqltaskargs), [`postgresTask`](#postgrestaskargs), or [`tidbTask`](#tidbtaskargs). Use the object that matches the data source. |
 
 Request example (S3 CSV files):
 

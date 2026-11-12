@@ -106,18 +106,18 @@ Tests the connection, then saves the data source.
 | `orgSlug` | string | Yes | Organization ID. |
 | `name` | string | Yes | Unique name in the organization. For `serviceId` 4 (Feishu bot), use only letters, digits, and `_`. |
 | `serviceId` | integer (enum) | Yes | [Service ID](#service-id). |
-| One credentials object | object | Yes | The object that matches `serviceId`. See the table below. |
+| One [credentials object](#credentials-objects) | object | Yes | The object that matches `serviceId`. See the table below. |
 
 | `serviceId` | Credentials field |
 |---|---|
-| `1` | `awsCredentials` |
-| `2` | `mysqlCredentials` |
-| `3` | `postgresCredentials` |
-| `4` | `feiShuBot` |
-| `5` | `awsSqsS3` |
-| `6` | `tidbCredentials` |
-| `7` | `kafkaConsumer` |
-| `8` | `mnsOss` |
+| `1` | [`awsCredentials`](#awscredentials-serviceid-1) |
+| `2` | [`mysqlCredentials`](#mysqlcredentials-serviceid-2) |
+| `3` | [`postgresCredentials`](#postgrescredentials-serviceid-3) |
+| `4` | [`feiShuBot`](#feishubot-serviceid-4) |
+| `5` | [`awsSqsS3`](#awssqss3-serviceid-5) |
+| `6` | [`tidbCredentials`](#tidbcredentials-serviceid-6) |
+| `7` | [`kafkaConsumer`](#kafkaconsumer-serviceid-7) |
+| `8` | [`mnsOss`](#mnsoss-serviceid-8) |
 
 Send exactly one credentials object. The fields of each object are in [Credentials Objects](#credentials-objects).
 
@@ -175,7 +175,7 @@ Replaces the name and the credentials of a data source.
 | `orgSlug` | body | string | Yes | Organization ID. |
 | `name` | body | string | Yes | Name. |
 | `serviceId` | body | integer (enum) | Yes | The current [Service ID](#service-id) of the data source. |
-| One credentials object | body | object | Yes | All credential fields. For a secret that you keep, send `******`. |
+| One [credentials object](#credentials-objects) | body | object | Yes | All credential fields. For a secret that you keep, send `******`. |
 
 Request example:
 

@@ -106,18 +106,18 @@ toc_max_heading_level: 4
 | `orgSlug` | string | 是 | 组织 ID。 |
 | `name` | string | 是 | 在组织内唯一的名称。`serviceId` 为 4（飞书机器人）时，只能使用字母、数字和 `_`。 |
 | `serviceId` | integer（枚举） | 是 | [Service ID](#service-id)。 |
-| 一个凭证对象 | object | 是 | 与 `serviceId` 对应的对象，见下表。 |
+| 一个[凭证对象](#credentials-objects) | object | 是 | 与 `serviceId` 对应的对象，见下表。 |
 
 | `serviceId` | 凭证字段 |
 |---|---|
-| `1` | `awsCredentials` |
-| `2` | `mysqlCredentials` |
-| `3` | `postgresCredentials` |
-| `4` | `feiShuBot` |
-| `5` | `awsSqsS3` |
-| `6` | `tidbCredentials` |
-| `7` | `kafkaConsumer` |
-| `8` | `mnsOss` |
+| `1` | [`awsCredentials`](#awscredentials-serviceid-1) |
+| `2` | [`mysqlCredentials`](#mysqlcredentials-serviceid-2) |
+| `3` | [`postgresCredentials`](#postgrescredentials-serviceid-3) |
+| `4` | [`feiShuBot`](#feishubot-serviceid-4) |
+| `5` | [`awsSqsS3`](#awssqss3-serviceid-5) |
+| `6` | [`tidbCredentials`](#tidbcredentials-serviceid-6) |
+| `7` | [`kafkaConsumer`](#kafkaconsumer-serviceid-7) |
+| `8` | [`mnsOss`](#mnsoss-serviceid-8) |
 
 只能传一个凭证对象。各对象的字段见[凭证对象](#credentials-objects)。
 
@@ -175,7 +175,7 @@ toc_max_heading_level: 4
 | `orgSlug` | 请求体 | string | 是 | 组织 ID。 |
 | `name` | 请求体 | string | 是 | 名称。 |
 | `serviceId` | 请求体 | integer（枚举） | 是 | 数据源当前的 [Service ID](#service-id)。 |
-| 一个凭证对象 | 请求体 | object | 是 | 全部凭证字段。要保留的密钥传 `******`。 |
+| 一个[凭证对象](#credentials-objects) | 请求体 | object | 是 | 全部凭证字段。要保留的密钥传 `******`。 |
 
 请求示例：
 

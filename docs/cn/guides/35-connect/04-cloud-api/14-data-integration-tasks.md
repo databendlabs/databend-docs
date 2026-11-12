@@ -88,7 +88,7 @@ toc_max_heading_level: 4
 |---|---|---|---|
 | `orgSlug` | string | 是 | 组织 ID。 |
 | `datasourceId` | integer | 是 | 数据源 ID。 |
-| 一个任务对象 | object | 是 | `awsS3File`、`kafkaConsumer`、`mysqlTask`、`postgresTask` 或 `tidbTask`，需与数据源类型对应。 |
+| 一个[任务对象](#task-objects) | object | 是 | [`awsS3File`](#awss3file)、[`kafkaConsumer`](#kafkaconsumerargs-task)、[`mysqlTask`](#mysqltaskargs)、[`postgresTask`](#postgrestaskargs) 或 [`tidbTask`](#tidbtaskargs)，需与数据源类型对应。 |
 
 请求示例（S3 CSV 文件）：
 
