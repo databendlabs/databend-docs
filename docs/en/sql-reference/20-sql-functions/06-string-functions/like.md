@@ -11,8 +11,10 @@ Checks whether a string matches an SQL pattern. The comparison is case-sensitive
 
 <expr> [ NOT ] ILIKE <pattern> [ ESCAPE <escape> ]
 
-<expr> [ NOT ] LIKE ANY ( <pattern> [ , <pattern> ... ] ) [ ESCAPE <escape> ]
+<expr> LIKE ANY ( <pattern> [ , <pattern> ... ] ) [ ESCAPE <escape> ]
 ```
+
+`NOT LIKE ANY` is not supported. To negate the result, write `NOT ( <expr> LIKE ANY ( ... ) )`.
 
 | Argument    | Description |
 |-------------|-------------|

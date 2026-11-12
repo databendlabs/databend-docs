@@ -11,8 +11,10 @@ title: LIKE
 
 <expr> [ NOT ] ILIKE <pattern> [ ESCAPE <escape> ]
 
-<expr> [ NOT ] LIKE ANY ( <pattern> [ , <pattern> ... ] ) [ ESCAPE <escape> ]
+<expr> LIKE ANY ( <pattern> [ , <pattern> ... ] ) [ ESCAPE <escape> ]
 ```
+
+不支持 `NOT LIKE ANY`。要对结果取反，请写成 `NOT ( <expr> LIKE ANY ( ... ) )`。
 
 | 参数        | 说明 |
 |-------------|------|
