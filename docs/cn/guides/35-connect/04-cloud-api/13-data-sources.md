@@ -471,19 +471,8 @@ TiDB 数据源从对象存储读取 TiCDC changefeed 文件和 Dumpling 导出�
 传入密钥的规则：
 
 - [更新数据源](#update-a-data-source)会替换全部凭证字段。每个密钥可以传新值，也可以传 `******` 保留已保存的值。
-- 只有连接目标不变时，服务端才会保留已保存的密钥。修改了目标字段就必须重新输入密钥，否则请求返回 HTTP 400。这样可以防止把已保存的密码发到新的主机。
+- 修改主机、端口等其他字段时，服务端同样保留已保存的密钥。要更换密钥，传新值即可。
 - [测试数据源连接](#test-a-data-source-connection)传了 `datasourceId` 时，规则相同。
 - [创建数据源](#create-a-data-source)以及不带 `datasourceId` 的测试请求，收到 `******` 时返回 HTTP 400。
-
-各类型的目标字段：
-
-| 类型 | 目标字段 |
-|---|---|
-| `awsCredentials` | `accessKey` |
-| `mysqlCredentials`、`postgresCredentials` | `host`、`port`、`username`、`sslMode` |
-| `feiShuBot` | 无。URL 本身就是密钥。 |
-| `tidbCredentials` | `storageProvider`、`s3Endpoint`、`s3Region`、`s3AccessKey` |
-| `kafkaConsumer` | `brokers`、`authentication`、`tlsEncryption`、`saslPlain.username` |
-| `mnsOss` | `endpoint`、`region`、`accessKeyId` |
 
 脱敏只作用于结构化字段。服务端不会对查询历史、查询详情、SQL Task 运行记录和任务流中的 SQL 文本脱敏。SQL 语句中可能包含凭证，例如 `CREATE STAGE` 语句。请把 SQL 文本当作敏感信息处理。

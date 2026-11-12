@@ -471,19 +471,8 @@ Masked fields by endpoint:
 Rules for sending secrets:
 
 - [Update a Data Source](#update-a-data-source) replaces all credential fields. For each secret, send a new value, or send `******` to keep the saved one.
-- The server keeps a saved secret only while the connection target is unchanged. If you change a target field, enter the secret again. Otherwise the request fails with HTTP 400. This stops a request from sending a saved password to a new host.
+- The server keeps a saved secret also when you change other fields, for example the host or the port. To replace a secret, send the new value.
 - [Test a Data Source Connection](#test-a-data-source-connection) follows the same rules when you set `datasourceId`.
 - [Create a Data Source](#create-a-data-source), and a test without `datasourceId`, reject `******` with HTTP 400.
-
-Target fields by type:
-
-| Type | Target fields |
-|---|---|
-| `awsCredentials` | `accessKey` |
-| `mysqlCredentials`, `postgresCredentials` | `host`, `port`, `username`, `sslMode` |
-| `feiShuBot` | None. The URL is the secret. |
-| `tidbCredentials` | `storageProvider`, `s3Endpoint`, `s3Region`, `s3AccessKey` |
-| `kafkaConsumer` | `brokers`, `authentication`, `tlsEncryption`, `saslPlain.username` |
-| `mnsOss` | `endpoint`, `region`, `accessKeyId` |
 
 The masking applies to structured fields only. The server does not mask SQL text in query history, query details, SQL task runs, and task flows. A SQL statement can contain a credential, for example in `CREATE STAGE`. Treat SQL text as sensitive.
