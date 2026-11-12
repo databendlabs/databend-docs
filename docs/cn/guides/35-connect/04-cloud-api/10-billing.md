@@ -17,7 +17,7 @@ sidebar_label: "账单"
 |---|---|---|---|---|
 | `orgSlug` | 路径 | string | 是 | 组织 ID。 |
 | `page` | 查询 | integer | 否 | 页码。默认：1。 |
-| `perPage` | 查询 | integer | 否 | 每页条数。默认：50。 |
+| `perPage` | 查询 | integer | 否 | 每页条数。默认：25。 |
 
 响应示例。`state` 是[账单状态](#bill-state)。对于 API token，`invoiceInfo` 中不包含 `cardBrand` 和 `cardLast4`。
 
@@ -26,7 +26,7 @@ sidebar_label: "账单"
   "success": true,
   "data": {
     "page": 1,
-    "perPage": 50,
+    "perPage": 25,
     "total": 2,
     "offlineTransferEnabled": false,
     "list": [

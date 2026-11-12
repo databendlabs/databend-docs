@@ -17,7 +17,7 @@ Returns the bills of the organization, from the newest. The first page starts wi
 |---|---|---|---|---|
 | `orgSlug` | path | string | Yes | Organization ID. |
 | `page` | query | integer | No | Page number. Default: 1. |
-| `perPage` | query | integer | No | Rows per page. Default: 50. |
+| `perPage` | query | integer | No | Rows per page. Default: 25. |
 
 Response example. `state` is a [bill state](#bill-state). For API tokens, `invoiceInfo` leaves out `cardBrand` and `cardLast4`.
 
@@ -26,7 +26,7 @@ Response example. `state` is a [bill state](#bill-state). For API tokens, `invoi
   "success": true,
   "data": {
     "page": 1,
-    "perPage": 50,
+    "perPage": 25,
     "total": 2,
     "offlineTransferEnabled": false,
     "list": [
