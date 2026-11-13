@@ -1,6 +1,7 @@
 ---
 title: "Task Flows"
 sidebar_label: "Task Flows"
+description: "Read task flows with an account API token: flows, task names, dependency graphs, versions, and run history. These endpoints are read-only."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

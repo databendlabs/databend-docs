@@ -1,6 +1,7 @@
 ---
 title: "SQL Task"
 sidebar_label: "SQL Task"
+description: "使用账户 API token 查看通过 CREATE TASK 创建的 SQL Task，并查询它的运行记录。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

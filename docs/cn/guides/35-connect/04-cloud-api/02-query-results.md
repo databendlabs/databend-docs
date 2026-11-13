@@ -1,6 +1,7 @@
 ---
 title: "查询结果"
 sidebar_label: "查询结果"
+description: "使用账户 API token 以 JSON 读取查询的缓存结果，或将结果下载为 CSV 或 Excel。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

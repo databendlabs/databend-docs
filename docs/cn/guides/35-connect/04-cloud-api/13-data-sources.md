@@ -1,6 +1,7 @@
 ---
 title: "数据源"
 sidebar_label: "数据源"
+description: "使用账户 API token 管理数据源：列出、创建、更新和删除数据源，测试连接，列出 MySQL 和 PostgreSQL 的表，以及预览 MySQL 和 TiDB 的表规则。响应中的所有密钥均已脱敏。"
 toc_max_heading_level: 4
 ---
 

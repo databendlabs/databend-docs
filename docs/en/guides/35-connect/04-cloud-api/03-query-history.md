@@ -1,6 +1,7 @@
 ---
 title: "Query History"
 sidebar_label: "Query History"
+description: "Search and count the query history of an organization, and get query details, query profiles, and the SQL users in the history, with an account API token."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

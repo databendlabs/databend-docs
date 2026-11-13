@@ -1,6 +1,7 @@
 ---
 title: "Catalog"
 sidebar_label: "Catalog"
+description: "Read catalog metadata with an account API token: databases, tables, columns, streams, and the log query configuration of a table. Results contain only the objects that your SQL role can access."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

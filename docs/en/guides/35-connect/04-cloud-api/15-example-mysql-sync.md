@@ -1,6 +1,7 @@
 ---
 title: "Example: Sync a MySQL Table to Databend"
 sidebar_label: "Example: Sync MySQL"
+description: "Step-by-step example: an agent syncs a MySQL table to Databend with one account API token, from testing the connection to checking the data."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

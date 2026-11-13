@@ -1,6 +1,7 @@
 ---
 title: "Warehouses"
 sidebar_label: "Warehouses"
+description: "List warehouses, and read the state, sessions, run history, and available sizes of a warehouse, with an account API token. These endpoints are read-only."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

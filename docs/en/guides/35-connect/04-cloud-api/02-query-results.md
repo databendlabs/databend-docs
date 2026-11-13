@@ -1,6 +1,7 @@
 ---
 title: "Query Results"
 sidebar_label: "Query Results"
+description: "Read the cached result of a query as JSON, or download it as CSV or Excel, with an account API token."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

@@ -1,6 +1,7 @@
 ---
 title: "账户"
 sidebar_label: "账户"
+description: "获取 API token 所属的账户、该账户所在的组织，以及待处理的邀请。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

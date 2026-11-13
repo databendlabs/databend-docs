@@ -1,6 +1,7 @@
 ---
 title: "组织"
 sidebar_label: "组织"
+description: "使用账户 API token 获取组织的基本信息，并列出组织成员。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

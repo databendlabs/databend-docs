@@ -1,6 +1,7 @@
 ---
 title: "Data Integration Tasks"
 sidebar_label: "Data Integration Tasks"
+description: "Manage data integration tasks from S3, SQS, OSS, Kafka, MySQL, PostgreSQL, and TiDB with an account API token: create, update, start, stop, and delete tasks, and read their runs, table results, and sync metrics."
 toc_max_heading_level: 4
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: "Organization"
 sidebar_label: "Organization"
+description: "Get the profile of an organization and list its members with an account API token."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.
