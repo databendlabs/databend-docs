@@ -7,7 +7,7 @@ slug: /sql-reference/table-engines/iceberg
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.725"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Databend supports the integration of an [Apache Iceberg™](https://iceberg.apache.org/) catalog, enhancing its compatibility and versatility for data management and analytics. This extends Databend's capabilities by seamlessly incorporating the powerful metadata and storage management capabilities of Apache Iceberg™ into the platform.
 
@@ -226,6 +226,22 @@ This table maps data types between Apache Iceberg™ and Databend. Please note t
 | MAP&lt;KEYTYPE, VALUETYPE&gt;               | [MAP](/sql/sql-reference/data-types/map)                                 |
 | STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)                             |
 | LIST                                        | [ARRAY](/sql/sql-reference/data-types/array)                             |
+
+## Parquet Files Without Field IDs
+
+Since v1.2.953, Databend can read Iceberg Parquet files without embedded field IDs when the table provides a valid `schema.name-mapping.default` property. This is an Iceberg table metadata property, not a `CREATE CATALOG` connection parameter. Maintain it through your Iceberg writer or catalog.
+
+The property contains a JSON array of field mappings. For example, if field ID `1` belongs to `current_name`, this value maps both names to that identity:
+
+```json
+[
+  {"field-id": 1, "names": ["old_name", "current_name"]}
+]
+```
+
+Explicit Parquet field IDs take precedence. For fields without IDs, include historical aliases in the mapping. Keep nested aliases under the correct parent field. Do not rely on matching column names or positions without a mapping.
+
+Keep the Iceberg schema, field IDs, and name mapping consistent when importing or renaming columns. Field IDs must be positive and unique. Invalid or ambiguous mappings can cause a schema error.
 
 ## Managing Catalogs
 
