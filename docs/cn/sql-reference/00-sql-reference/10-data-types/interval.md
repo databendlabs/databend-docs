@@ -5,14 +5,14 @@ sidebar_position: 7
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于: v1.2.677"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 ## 概览
 
 `INTERVAL` 表示一段时间，可以用自然语言文本（如 `'1 year 2 months'`、`'3 days ago'`）或微秒数的整数来表示。Databend 支持从千年到微秒的单位，并允许对区间、日期和时间戳进行算术运算。
 
 :::note
-解析数值区间时会丢弃小数部分。`'1.6 seconds'` 会变成 1 秒的区间。
+带小数的数量会按其单位四舍五入为整数，正好 .5 时远离零取整。`'1.3 hours'` 变成 1 小时，`'1.5 hours'` 变成 2 小时，`'-1.5 hours'` 变成 -2 小时。如需保留小数部分，请改用更小的单位（如 `'90 minutes'`）或时钟格式（如 `'01:30:00'`、`'00:00:01.5'`）。
 :::
 
 ## 示例
@@ -45,18 +45,23 @@ SELECT TO_STRING(duration) AS duration_text FROM intervals;
 
 ```sql
 SELECT
-  TO_STRING(TO_INTERVAL('1 seconds'))   AS whole,
-  TO_STRING(TO_INTERVAL('1.6 seconds')) AS fractional;
+  TO_STRING(TO_INTERVAL('1.3 hours'))   AS round_down,
+  TO_STRING(TO_INTERVAL('1.5 hours'))   AS round_up,
+  TO_STRING(TO_INTERVAL('1.5 days'))    AS days,
+  TO_STRING(TO_INTERVAL('90 minutes'))  AS minutes,
+  TO_STRING(TO_INTERVAL('00:00:01.5'))  AS clock;
 ```
 
 结果：
 ```
-┌────────┬────────────┐
-│ whole  │ fractional │
-├────────┼────────────┤
-│ 0:00:01 │ 0:00:01   │
-└────────┴────────────┘
+┌────────────┬──────────┬────────┬─────────┬───────────┐
+│ round_down │ round_up │ days   │ minutes │ clock     │
+├────────────┼──────────┼────────┼─────────┼───────────┤
+│ 1:00:00    │ 2:00:00  │ 2 days │ 1:30:00 │ 0:00:01.5 │
+└────────────┴──────────┴────────┴─────────┴───────────┘
 ```
+
+由于 `'1.5 days'` 会变成 2 个日历天，把它加到 TIMESTAMP 上时，即使跨越夏令时切换，也会保持相同的本地时间。而 TIMESTAMP_TZ 值保留自身的 UTC 偏移，不受会话时区夏令时切换的影响：`'2024-03-09 12:00:00 -08:00'::TIMESTAMP_TZ + TO_INTERVAL('1.5 days')` 返回 `2024-03-11 12:00:00.000000 -0800`。
 
 ### 区间运算
 
