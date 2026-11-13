@@ -363,7 +363,7 @@ toc_max_heading_level: 4
 | `database` | string | 否 | 默认数据库。使用 `includeTables` 的任务必填，使用 [`tableRules`](./14-data-integration-tasks.md#table-rules) 的任务不使用。 |
 | `sslMode` | string（枚举） | 否 | `disable`（默认）、`require`、`verify-ca` 或 `verify-full`。 |
 | `serverId` | integer | 否 | Binlog 复制的 server ID，在组织内必须唯一。不传时，创建会自动生成，更新会保留当前值。 |
-| `charset` | string | 否 | 连接字符集。 |
+| `charset` | string | 否 | 连接字符集，例如 `utf8mb4`。 |
 
 #### postgresCredentials（`serviceId` 3） {/* #postgrescredentials-serviceid-3 */}
 

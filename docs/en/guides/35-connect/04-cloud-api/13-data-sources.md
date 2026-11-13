@@ -363,7 +363,7 @@ Send one of these objects in [Create a Data Source](#create-a-data-source), [Upd
 | `database` | string | No | Default database. Required for tasks that use `includeTables`. Not used by tasks with [`tableRules`](./14-data-integration-tasks.md#table-rules). |
 | `sslMode` | string (enum) | No | `disable` (default), `require`, `verify-ca`, or `verify-full`. |
 | `serverId` | integer | No | Binlog replica server ID. It must be unique in the organization. If you omit it, create generates one and update keeps the current one. |
-| `charset` | string | No | Connection character set. |
+| `charset` | string | No | Connection character set, for example `utf8mb4`. |
 
 #### postgresCredentials (`serviceId` 3)
 
