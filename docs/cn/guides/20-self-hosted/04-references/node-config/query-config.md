@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-<FunctionDescription description="Introduced or updated: v1.2.955"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 本页介绍 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中可用的 Query 节点配置。
 
@@ -56,6 +56,33 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 显式引用 integration 的 UDF，仍受非空配置列表的 operator 主机限制。目标必须同时通过配置列表和 SQL 主机/端口规则。空配置列表表示将 integration 绑定 UDF 的目标控制权交给租户 SQL 策略管理员，不会取消 `enable_udf_server` 或 TLS 检查。
 
 SQL 配置与信任边界见[外部访问集成](/guides/security/external-access-integration)。
+
+<a id="script-udf-resources"></a>
+
+### 脚本 UDF 资源
+
+以下节点配置属于 `[query]`，不是 `[query.settings]`。查询专属的 Python 标量 Worker 和自动 Worker 容量选择在 v1.2.955 中引入。从 v1.2.957 开始，本地 Python UDF 和 UDAF 使用 [CREATE SCALAR FUNCTION](/sql/sql-commands/ddl/udf/ddl-create-function#python) 中描述的强制 OS 沙箱。
+
+| 参数 | 默认值 | 说明 |
+|-----------|---------|-------------|
+| `enable_udf_python_script` | `true` | 允许本地 Python 脚本，包括聚合函数。 |
+| `enable_udf_sandbox` | `false` | 将 Python 标量函数路由到外部沙箱服务。此模式下拒绝 Python UDAF。此设置不会禁用本地 OS 沙箱。 |
+| `python_udf_max_workers` | `0` | 节点 Worker 容量。`0` 使用 `query.num_cpus`；若 `num_cpus = 0`，则使用可用 CPU 并行度。 |
+| `python_udf_max_workers_per_tenant` | `0` | 此节点上的租户容量。`0` 继承节点容量。 |
+| `python_udf_max_workers_per_query` | `0` | 单次查询的驻留 Worker 上限。`0` 使用 `M + P - 1`，其中 `M` 为本地运行时数量，`P` 为有效并行度。 |
+| `python_udf_max_queued_queries` | `128` | 最大准入等待数量，必须为正数。 |
+| `python_udf_queue_timeout_secs` | `60` | 准入等待超时，单位为秒，必须为正数。 |
+| `python_udf_execution_timeout_secs` | `300` | 每个 Worker 请求的超时，包括首次请求的解释器启动时间，必须为正数。 |
+| `python_udf_worker_idle_timeout_secs` | `300` | 额外 Worker 的空闲超时。每个运行时保留一个最小 Worker；不会使忙碌 Worker 过期。必须为正数。 |
+| `python_udf_pip_only_binary` | `true` | 只安装 wheel。`false` 允许源码分发包在 Query 节点上、Worker 沙箱之外执行构建脚本。 |
+| `udf_script_memory_limit_mb` | `1024` | 每个 JavaScript 运行时的堆限制和每个 WASM 实例的线性内存限制，单位为 MiB。`0` 表示无限制。不限制 Python Worker 内存。 |
+| `udf_script_execution_timeout_secs` | `300` | JavaScript 操作截止时间，包括模块初始化和转换。`0` 表示无限制。不对 WASM 强制执行。 |
+
+Python 容量是单节点限制，不是整个计算集群的限制。非零配置的 Worker 限制必须满足 `query <= tenant <= node`。有效并行度遵循 SQL `max_threads`，并受节点和租户容量约束。每个已注册运行时准入一个最小 Worker；额外 Worker 按需增长。若查询预算无法容纳最小运行时数量，则会失败，而不是无限等待。
+
+Python 请求超时不是整个 SQL 的超时。普通查询超时仍控制总执行时间。取消或失败/超时的 Worker 请求会使该运行时失效；批次不会自动重试。查询完成后会终止其 Worker。Worker 永远不会被后续查询共享。
+
+进程数量和请求超时不提供 OS 强制执行的 Python 内存或 CPU 预算。Worker 内存不计入查询分配器。对于内存密集型包，请显式设置较小的 Worker 容量，并使用独立的 OS 资源控制。JavaScript 和 WASM 在进程内运行；WASM 没有执行超时，且这两个引擎都不会在运行中的调用内响应取消。
 
 ### 本地 Python UDF 外部访问
 
