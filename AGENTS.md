@@ -102,6 +102,42 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Update the version string when the documented behavior changes. Add the same component (same English version string) to the CN translation.
 
+## Cloud API changelog
+
+`docs/en/guides/35-connect/04-cloud-api/16-changelog.md` (CN: same path under `docs/cn`) records changes to the Cloud API for Agents. Agents, skills, and scripts that call these endpoints read it to find what to update.
+
+Add an entry in the same PR when you:
+
+- add, change, deprecate, or remove an endpoint in `04-cloud-api/`, or change its request or response fields, limits, or access level;
+- change a convention in `04-cloud-api/index.md`: authentication, request styles, JSON rules, pagination, errors, access levels, or the endpoints that API tokens cannot call.
+
+Do not add an entry for wording or example fixes that do not change behavior.
+
+How to write an entry:
+
+1. Use the release date as the heading, `## YYYY-MM-DD`. Put the newest entry at the top, below the introduction. If a heading for that date exists, add to it. The endpoints have no version number, so the date identifies a release. In CN, keep the anchor: `## YYYY-MM-DD {/* #YYYY-MM-DD */}`.
+2. Group the items under `### Added`, `### Changed`, `### Deprecated`, `### Removed`, in this order (CN: `### 新增 {/* #added */}`, `### 变更 {/* #changed */}`, `### 弃用 {/* #deprecated */}`, `### 移除 {/* #removed */}`). Leave out empty groups.
+3. Write one item per endpoint or convention. Start with the method and path in code, for example `` `POST /api/v2/data-integration/datasource/create` ``, and link to its section on the reference page. Say what changed in one sentence.
+4. Mark a change that can cause existing calls to fail with **Breaking** (CN: **不兼容变更**), and give the steps to migrate.
+5. For a deprecation, say what to use instead and, if known, the removal date.
+6. In the same PR, update the reference page and the [Endpoint Index](docs/en/guides/35-connect/04-cloud-api/index.md#endpoint-index). The changelog does not replace the reference pages.
+7. Do not edit past entries, except to correct an error in them.
+8. Write the CN entry in the same PR, with the same date and the same items.
+
+Example (the endpoints and changes are hypothetical):
+
+```md
+## 2026-12-01
+
+### Added
+
+- `POST /api/v2/data-integration/task/{taskId}/pause`: pause a data integration task. See [Pause a Task](./14-data-integration-tasks.md#pause-a-task).
+
+### Changed
+
+- **Breaking** `POST /api/v2/data-integration/datasources`: `perPage` is now at most 100. Requests with a larger value return HTTP 400. Send 100 or less.
+```
+
 ## Building doc UI components
 
 When a doc needs a custom UI component (callout, card, interactive widget):
@@ -135,6 +171,7 @@ Removing a doc or changing its path changes its public URL and will 404 for exis
 - [ ] Every `<details>` is inside a `<DetailsWrap>`, with the import present.
 - [ ] Comments use `{/* ... */}`, not `<!-- ... -->`.
 - [ ] `FunctionDescription` version strings updated where behavior changed.
+- [ ] Cloud API endpoint or convention changes have an entry in `04-cloud-api/16-changelog.md` (EN and CN).
 - [ ] Any UI component works in light AND dark mode using theme variables.
 - [ ] Removed/moved URLs have redirects in `site-redirects.ts`.
 - [ ] `npm run build:en` / `npm run build:cn` (or the dev servers) run without errors.
