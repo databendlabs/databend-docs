@@ -61,6 +61,23 @@ REFRESH MATERIALIZED VIEW paid_orders_by_customer;
 
 `CREATE OR REPLACE` replaces an existing materialized view. `IF NOT EXISTS` is a no-op if the name already exists.
 
+<h3 id="cross-database-source">Use a source table in another database</h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+The materialized view and its source table can use different databases in the same `default` catalog. Qualify the source table with its database name. An unqualified source name resolves in the current session database, not the target database.
+
+For example, if `sales.orders` has the columns in the previous example and the `reporting` database exists:
+
+```sql
+CREATE MATERIALIZED VIEW reporting.paid_orders AS
+SELECT order_id, amount FROM sales.orders WHERE paid;
+
+REFRESH MATERIALIZED VIEW reporting.paid_orders;
+```
+
+Dropping the source database makes the view invalid. `system.materialized_views` reports `invalid = 1` and `invalid_reason = 'source database was dropped'`. Restore the original source database with `UNDROP DATABASE` to recover a view invalidated only by that drop. Creating a new database with the same name does not restore the source table's identity. Dropping the database that contains the materialized view does not prevent queries on the source table.
+
 ## Refresh a materialized view
 
 ```sql

@@ -61,6 +61,23 @@ REFRESH MATERIALIZED VIEW paid_orders_by_customer;
 
 `CREATE OR REPLACE` 会替换已有物化视图；当同名对象已存在时，`IF NOT EXISTS` 不执行任何操作。
 
+<h3 id="cross-database-source">使用其他数据库中的源表</h3>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+物化视图与源表可以位于同一 `default` catalog 中的不同数据库。请使用数据库名称限定源表。未限定的源表名称在当前会话数据库中解析，而不是在目标数据库中解析。
+
+例如，假设 `sales.orders` 具有上例中的列，且 `reporting` 数据库已存在：
+
+```sql
+CREATE MATERIALIZED VIEW reporting.paid_orders AS
+SELECT order_id, amount FROM sales.orders WHERE paid;
+
+REFRESH MATERIALIZED VIEW reporting.paid_orders;
+```
+
+删除源数据库会使物化视图失效。`system.materialized_views` 会显示 `invalid = 1` 和 `invalid_reason = 'source database was dropped'`。对于仅因该删除操作而失效的物化视图，使用 `UNDROP DATABASE` 恢复原源数据库即可恢复视图。新建同名数据库不会恢复源表的对象身份。删除物化视图所在的数据库不会阻止对源表的查询。
+
 ## 刷新物化视图
 
 ```sql
