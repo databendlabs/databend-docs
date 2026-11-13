@@ -55,3 +55,5 @@ curl --request POST 'https://api.databend.cn/v1/query' \
 - 查询结果和日志可能进入 Agent 的模型上下文，请遵循组织的数据安全要求。
 
 更多说明请参阅[身份认证](https://raw.githubusercontent.com/databendcloud/databend-cloud-skill/main/references/authentication.md)和 [Query API 参考](https://raw.githubusercontent.com/databendcloud/databend-cloud-skill/main/references/query-api.md)。
+
+如需让 Agent 通过控制台 API 管理数据源、数据集成任务、计算集群等资源，请参阅[面向 Agent 的 Cloud API](/guides/connect/cloud-api)。

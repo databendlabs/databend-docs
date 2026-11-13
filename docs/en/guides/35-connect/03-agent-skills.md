@@ -55,3 +55,5 @@ curl --request POST 'https://api.databend.com/v1/query' \
 - Results and logs can enter the agent's model context. Follow your data policy.
 
 Details: [Authentication](https://raw.githubusercontent.com/databendcloud/databend-cloud-skill/main/references/authentication.md) · [Query API](https://raw.githubusercontent.com/databendcloud/databend-cloud-skill/main/references/query-api.md).
+
+To let an agent manage data sources, data integration tasks, warehouses, and other resources through the console APIs, see [Cloud API for Agents](/guides/connect/cloud-api).
