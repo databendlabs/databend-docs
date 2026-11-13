@@ -1,6 +1,7 @@
 ---
 title: "Catalog"
 sidebar_label: "Catalog"
+description: "使用账户 API token 读取 Catalog 元数据：数据库、表、列、Stream，以及表的日志查询配置。结果只包含您的 SQL 角色可以访问的对象。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

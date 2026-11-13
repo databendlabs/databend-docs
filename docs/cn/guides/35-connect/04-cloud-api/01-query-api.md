@@ -1,6 +1,7 @@
 ---
 title: "Query API"
 sidebar_label: "Query API"
+description: "使用账户 API token 在 Databend Cloud 上执行 SQL：提交查询、读取结果分页、释放或取消查询，以及使用会话接口。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

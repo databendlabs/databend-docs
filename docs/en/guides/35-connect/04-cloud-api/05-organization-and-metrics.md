@@ -1,6 +1,7 @@
 ---
 title: "Organization and Metrics"
 sidebar_label: "Organization and Metrics"
+description: "Read the cloud, region, plan, and features of an organization tenant, and get the time series of a monitoring metric, with an account API token."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

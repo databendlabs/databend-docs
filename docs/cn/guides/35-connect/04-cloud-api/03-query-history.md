@@ -1,6 +1,7 @@
 ---
 title: "查询历史"
 sidebar_label: "查询历史"
+description: "使用账户 API token 搜索和统计组织的查询历史，获取查询详情、Query Profile，以及查询历史中的 SQL 用户。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

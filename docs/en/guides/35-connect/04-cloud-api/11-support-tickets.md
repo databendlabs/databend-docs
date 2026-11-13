@@ -1,6 +1,7 @@
 ---
 title: "Support Tickets"
 sidebar_label: "Support Tickets"
+description: "List, read, create, and comment on support tickets, and change their status, with an account API token. Attachments are not available."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

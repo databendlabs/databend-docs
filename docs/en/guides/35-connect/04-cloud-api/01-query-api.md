@@ -1,6 +1,7 @@
 ---
 title: "Query API"
 sidebar_label: "Query API"
+description: "Run SQL on Databend Cloud with an account API token: submit a query, read the result pages, release or cancel the query, and use session endpoints."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

@@ -1,6 +1,7 @@
 ---
 title: "Billing"
 sidebar_label: "Billing"
+description: "Read the bills, bill details, and daily usage of an organization with an account API token. These endpoints are read-only."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

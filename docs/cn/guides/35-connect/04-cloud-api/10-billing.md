@@ -1,6 +1,7 @@
 ---
 title: "账单"
 sidebar_label: "账单"
+description: "使用账户 API token 读取组织的账单、账单明细和每日用量。这些接口只读。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

@@ -1,6 +1,7 @@
 ---
 title: "示例：把 MySQL 表同步到 Databend"
 sidebar_label: "示例：同步 MySQL"
+description: "分步示例：Agent 使用一个账户 API token 把 MySQL 表同步到 Databend，从测试连接到核对数据。"
 ---
 
 调用前请先阅读[概览](./index.md)，了解鉴权、请求约定和错误处理。

@@ -1,6 +1,7 @@
 ---
 title: "Data Sources"
 sidebar_label: "Data Sources"
+description: "Manage data sources with an account API token: list, create, update, and delete them, test connections, list MySQL and PostgreSQL tables, and preview MySQL and TiDB table rules. Responses mask all secrets."
 toc_max_heading_level: 4
 ---
 

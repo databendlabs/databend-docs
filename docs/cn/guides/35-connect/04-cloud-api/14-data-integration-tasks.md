@@ -1,6 +1,7 @@
 ---
 title: "数据集成任务"
 sidebar_label: "数据集成任务"
+description: "使用账户 API token 管理从 S3、SQS、OSS、Kafka、MySQL、PostgreSQL 和 TiDB 同步数据的数据集成任务：创建、更新、启动、停止和删除任务，并读取运行记录、表级结果和同步指标。"
 toc_max_heading_level: 4
 ---
 

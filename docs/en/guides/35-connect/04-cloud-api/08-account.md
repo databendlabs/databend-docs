@@ -1,6 +1,7 @@
 ---
 title: "Account"
 sidebar_label: "Account"
+description: "Get the account that owns an API token, the organizations of the account, and its pending invitations."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.

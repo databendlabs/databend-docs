@@ -9,6 +9,9 @@ These pages list the Databend Cloud console APIs that an account API token can c
 These pages are for people and for AI agents. All endpoints use the same layout: method and path, access level, parameters, and examples. If the endpoints of a page use enums or objects, the page ends with a Types section that describes them.
 
 This API is for **Databend Cloud only**. It does not apply to self-hosted Databend.
+
+The [Changelog](./16-changelog.md) lists the changes to these endpoints. Read it when you update an agent, a skill, or a script that calls them.
+
 ## Before You Start
 
 You need these values:

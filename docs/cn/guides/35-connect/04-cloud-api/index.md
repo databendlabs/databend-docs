@@ -9,6 +9,9 @@ description: 使用账户 API token 调用 Databend Cloud 控制台 API，管理
 本节同时面向开发者和 AI Agent。所有接口采用相同的结构：方法和路径、权限级别、参数和示例。如果某页的接口用到枚举或对象，该页末尾有“类型”一节加以说明。
 
 此 API **仅适用于 Databend Cloud**，不适用于自建部署的 Databend。
+
+接口的变更记录在[更新记录](./16-changelog.md)中。更新调用这些接口的 Agent、skill 或脚本时，请先查看该页。
+
 ## 开始之前 {/* #before-you-start */}
 
 需要准备以下信息：

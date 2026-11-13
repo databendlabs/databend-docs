@@ -1,6 +1,7 @@
 ---
 title: "SQL Tasks"
 sidebar_label: "SQL Tasks"
+description: "Describe a SQL task that you created with CREATE TASK, and query its runs, with an account API token."
 ---
 
 Read the [Overview](./index.md) first for authentication, request conventions, and errors.
