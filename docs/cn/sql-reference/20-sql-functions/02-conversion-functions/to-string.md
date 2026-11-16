@@ -16,6 +16,30 @@ TO_STRING( '<expr>' )
 TO_STRING( '<date>', '<format>' )
 ```
 
+## Binary 输入
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+```sql
+TO_STRING( <binary_expr>, '<format>' )
+```
+
+对于 Binary 输入，`format` 可以是字符集标签、`hex` 或 `base64`：
+
+- 字符集标签将字节解码为 String。例如，`gbk` 解码 GBK 字节。支持的标签和解码错误见 [CONVERT_FROM](convert-from.md)。
+- `hex` 返回小写十六进制文本。`base64` 返回 Base64 文本。这两种格式不执行字符集解码。
+
+格式必须是标量常量，不能是列。输入或标量格式为 `NULL` 时返回 `NULL`。无效字节或不支持的标签会报错。[TRY_TO_STRING](try-to-string.md) 在转换失败时返回 `NULL`，但仍拒绝列格式参数。
+
+不指定格式参数时，Binary 输入使用 UTF-8 解码。仅当 `binary_output_format = 'utf-8-lossy'` 时，才允许替换无效 UTF-8 字节。此设置不会改变显式字符集解码。
+
+对于 Base64 包装的 GBK 数据，先解码 Base64 层：
+
+```sql
+SELECT TO_STRING(FROM_BASE64('xOO6ww=='), 'gbk');
+-- 你好
+```
+
 ## 日期格式样式
 
 Databend 支持两种日期格式样式，可以使用 `date_format_style` 设置进行选择：

@@ -15,6 +15,29 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 TO_BINARY( <expr> )
 ```
 
+## 显式指定格式的 String 输入
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+```sql
+TO_BINARY( <string_expr>, '<format>' )
+```
+
+两参数形式支持以下格式：
+
+- `hex`：将十六进制文本解码为字节。
+- `base64`：将 Base64 文本解码为字节。
+- 字符集标签，如 `utf-8`、`gbk` 或 `gb18030`：将 String 编码为该字符集的字节。编码限制见 [CONVERT_TO](convert-to.md)。
+
+格式必须是标量常量，不能是列。标签不区分大小写。输入或标量格式为 `NULL` 时返回 `NULL`。输入无效、标签不受支持或目标字符集无法表示某个字符时会报错。不支持 UTF-16 编码。使用 [TRY_TO_BINARY](try-to-binary.md) 可在转换失败时返回 `NULL`。
+
+显式格式不使用 `binary_input_format`。现有单参数形式对 String 输入仍使用该设置。Binary 结果存储字节，其显示文本取决于 `binary_output_format`。使用 [TO_HEX](to-hex.md) 查看字节：
+
+```sql
+SELECT TO_HEX(TO_BINARY('你好', 'gbk'));
+-- c4e3bac3
+```
+
 ## 示例
 
 此示例将字符串转换为二进制：

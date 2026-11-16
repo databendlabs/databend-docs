@@ -15,6 +15,26 @@ See also: [TO_BINARY](to-binary.md)
 TRY_TO_BINARY( <expr> )
 ```
 
+## String input with an explicit format
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+```sql
+TRY_TO_BINARY( <string_expr>, '<format>' )
+```
+
+Accepts the formats of [TO_BINARY](to-binary.md): `hex`, `base64`, or a character set label. Returns Nullable(Binary). A `NULL` input or scalar format returns `NULL`. Conversion failures return `NULL`. These include invalid text, unknown labels, unsupported UTF-16 encoding, and characters that the target character set cannot represent.
+
+The format must be a scalar constant. A column format raises an error, even with `TRY_TO_BINARY`. **Compatibility change:** before v1.2.964-nightly, the two-argument form returned `NULL` for a column format. Replace that argument with a constant format. Do not use `TRY_TO_BINARY` to suppress this parameter error.
+
+```sql
+SELECT TO_HEX(TRY_TO_BINARY('你好', 'gbk'));
+-- c4e3bac3
+
+SELECT TRY_TO_BINARY('😀', 'gbk');
+-- NULL
+```
+
 ## Examples
 
 This example successfully converts the JSON data to binary:

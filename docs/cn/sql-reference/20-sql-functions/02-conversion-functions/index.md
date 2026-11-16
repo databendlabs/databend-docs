@@ -11,7 +11,8 @@ title: '转换函数（Conversion Functions）'
 | [CAST](cast.md) | 将值转换为指定的数据类型 | `CAST('123' AS INT)` → `123` |
 | [TRY_CAST](try-cast.md) | 安全地将值转换为指定数据类型，失败时返回 NULL | `TRY_CAST('abc' AS INT)` → `NULL` |
 | [TO_BOOLEAN](to-boolean.md) | 将值转换为 BOOLEAN 类型 | `TO_BOOLEAN('true')` → `true` |
-| [TO_STRING](to-string.md) | 将值转换为 STRING 类型 | `TO_STRING(123)` → `'123'` |
+| [TO_STRING](to-string.md) | 将值转换为 STRING 类型，或使用显式字符集解码 Binary | `TO_STRING(123)` → `'123'` |
+| [TRY_TO_STRING](try-to-string.md) | 将 Binary 转换为 STRING，转换失败时返回 NULL | `TRY_TO_STRING(FROM_HEX('C4'), 'gbk')` → `NULL` |
 | [TO_VARCHAR](to-varchar.md) | 将值转换为 VARCHAR 类型 | `TO_VARCHAR(123)` → `'123'` |
 | [TO_TEXT](to-text.md) | 将值转换为 TEXT 类型 | `TO_TEXT(123)` → `'123'` |
 
@@ -36,6 +37,10 @@ title: '转换函数（Conversion Functions）'
 |----------|-------------|---------|
 | [TO_BINARY](to-binary.md) | 将值转换为 BINARY 类型 | `TO_BINARY('abc')` → `binary value` |
 | [TRY_TO_BINARY](try-to-binary.md) | 安全地将值转换为 BINARY 类型，失败时返回 NULL | `TRY_TO_BINARY('abc')` → `binary value` |
+| [CONVERT_FROM](convert-from.md) | 将指定字符集的字节解码为 STRING | `CONVERT_FROM(FROM_HEX('C4E3BAC3'), 'gbk')` → `'你好'` |
+| [TRY_CONVERT_FROM](convert-from.md) | 解码字节，转换失败时返回 NULL | `TRY_CONVERT_FROM(FROM_HEX('C4'), 'gbk')` → `NULL` |
+| [CONVERT_TO](convert-to.md) | 将 STRING 编码为指定字符集的 BINARY | `TO_HEX(CONVERT_TO('你好', 'gbk'))` → `'c4e3bac3'` |
+| [TRY_CONVERT_TO](convert-to.md) | 编码 STRING，转换失败时返回 NULL | `TRY_CONVERT_TO('😀', 'gbk')` → `NULL` |
 | [TO_HEX](to-hex.md) | 将值转换为十六进制字符串 | `TO_HEX(255)` → `'FF'` |
 | [TO_VARIANT](to-variant.md) | 将值转换为 VARIANT 类型 | `TO_VARIANT('{"a": 1}')` → `{"a": 1}` |
 | [BUILD_BITMAP](build-bitmap.md) | 从整数数组构建位图 | `BUILD_BITMAP([1,2,3])` → `bitmap value` |

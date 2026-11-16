@@ -15,6 +15,29 @@ See also: [TRY_TO_BINARY](try-to-binary.md)
 TO_BINARY( <expr> )
 ```
 
+## String input with an explicit format
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+```sql
+TO_BINARY( <string_expr>, '<format>' )
+```
+
+The two-argument form supports these formats:
+
+- `hex`: decodes hexadecimal text to bytes.
+- `base64`: decodes Base64 text to bytes.
+- A character set label, such as `utf-8`, `gbk`, or `gb18030`: encodes the String in that character set. See [CONVERT_TO](convert-to.md) for encoding restrictions.
+
+The format must be a scalar constant, not a column. Labels are case-insensitive. A `NULL` input or scalar format returns `NULL`. Invalid input, an unsupported label, or a character that the target character set cannot represent raises an error. UTF-16 encoding is not supported. Use [TRY_TO_BINARY](try-to-binary.md) to return `NULL` for conversion failures.
+
+The explicit format does not use `binary_input_format`. The existing one-argument form still uses that setting for String input. A Binary result contains bytes; its displayed text depends on `binary_output_format`. Use [TO_HEX](to-hex.md) to inspect the bytes:
+
+```sql
+SELECT TO_HEX(TO_BINARY('你好', 'gbk'));
+-- c4e3bac3
+```
+
 ## Examples
 
 This example converts a string to binary:

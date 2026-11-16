@@ -15,6 +15,26 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 TRY_TO_BINARY( <expr> )
 ```
 
+## 显式指定格式的 String 输入
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+```sql
+TRY_TO_BINARY( <string_expr>, '<format>' )
+```
+
+接受 [TO_BINARY](to-binary.md) 的格式：`hex`、`base64` 或字符集标签。返回 Nullable(Binary)。输入或标量格式为 `NULL` 时返回 `NULL`。转换失败时返回 `NULL`，包括无效文本、未知标签、不受支持的 UTF-16 编码，以及目标字符集无法表示的字符。
+
+格式必须是标量常量。即使使用 `TRY_TO_BINARY`，列格式参数仍会报错。**兼容性变化：** 在 v1.2.964-nightly 之前，两参数形式对列格式参数返回 `NULL`。请将该参数替换为常量格式。不要使用 `TRY_TO_BINARY` 来抑制此参数错误。
+
+```sql
+SELECT TO_HEX(TRY_TO_BINARY('你好', 'gbk'));
+-- c4e3bac3
+
+SELECT TRY_TO_BINARY('😀', 'gbk');
+-- NULL
+```
+
 ## 示例
 
 此示例成功将 JSON 数据转换为二进制:

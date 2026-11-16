@@ -11,7 +11,8 @@ This page provides a comprehensive overview of Conversion functions in Databend,
 | [CAST](cast.md) | Converts a value to a specified data type | `CAST('123' AS INT)` → `123` |
 | [TRY_CAST](try-cast.md) | Safely converts a value to a specified data type, returning NULL on failure | `TRY_CAST('abc' AS INT)` → `NULL` |
 | [TO_BOOLEAN](to-boolean.md) | Converts a value to BOOLEAN type | `TO_BOOLEAN('true')` → `true` |
-| [TO_STRING](to-string.md) | Converts a value to STRING type | `TO_STRING(123)` → `'123'` |
+| [TO_STRING](to-string.md) | Converts a value to STRING type, or decodes Binary with an explicit character set | `TO_STRING(123)` → `'123'` |
+| [TRY_TO_STRING](try-to-string.md) | Converts Binary to STRING, returning NULL on conversion failure | `TRY_TO_STRING(FROM_HEX('C4'), 'gbk')` → `NULL` |
 | [TO_VARCHAR](to-varchar.md) | Converts a value to VARCHAR type | `TO_VARCHAR(123)` → `'123'` |
 | [TO_TEXT](to-text.md) | Converts a value to TEXT type | `TO_TEXT(123)` → `'123'` |
 
@@ -36,6 +37,10 @@ This page provides a comprehensive overview of Conversion functions in Databend,
 |----------|-------------|---------|
 | [TO_BINARY](to-binary.md) | Converts a value to BINARY type | `TO_BINARY('abc')` → `binary value` |
 | [TRY_TO_BINARY](try-to-binary.md) | Safely converts a value to BINARY type, returning NULL on failure | `TRY_TO_BINARY('abc')` → `binary value` |
+| [CONVERT_FROM](convert-from.md) | Decodes bytes in a specified character set to STRING | `CONVERT_FROM(FROM_HEX('C4E3BAC3'), 'gbk')` → `'你好'` |
+| [TRY_CONVERT_FROM](convert-from.md) | Decodes bytes, returning NULL on conversion failure | `TRY_CONVERT_FROM(FROM_HEX('C4'), 'gbk')` → `NULL` |
+| [CONVERT_TO](convert-to.md) | Encodes a STRING in a specified character set to BINARY | `TO_HEX(CONVERT_TO('你好', 'gbk'))` → `'c4e3bac3'` |
+| [TRY_CONVERT_TO](convert-to.md) | Encodes a STRING, returning NULL on conversion failure | `TRY_CONVERT_TO('😀', 'gbk')` → `NULL` |
 | [TO_HEX](to-hex.md) | Converts a value to hexadecimal string | `TO_HEX(255)` → `'FF'` |
 | [TO_VARIANT](to-variant.md) | Converts a value to VARIANT type | `TO_VARIANT('{"a": 1}')` → `{"a": 1}` |
 | [BUILD_BITMAP](build-bitmap.md) | Builds a bitmap from an array of integers | `BUILD_BITMAP([1,2,3])` → `bitmap value` |
