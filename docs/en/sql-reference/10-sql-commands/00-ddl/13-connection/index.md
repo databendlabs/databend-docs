@@ -21,6 +21,7 @@ Connection can be utilized for creating external stages, external tables, and at
 |---------|-------------|
 | [DESCRIBE CONNECTION](desc-connection.md) | Shows details of a specific connection |
 | [SHOW CONNECTIONS](show-connections.md) | Lists all connections in the current database |
+| [SHOW CREATE CONNECTION](show-create-connection.md) | Shows the `CREATE CONNECTION` statement of a connection |
 
 ### Usage Examples
 
