@@ -22,6 +22,16 @@ Unlike a logical view, a materialized view can be explicitly refreshed to persis
 - The source must be a persistent FUSE base table in the `default` catalog. A materialized view cannot use another view or a different table engine as its source.
 - Materialized views are read-only. Use `REFRESH MATERIALIZED VIEW` to maintain their contents; `INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`, and ordinary `ALTER TABLE` operations are not supported.
 
+## Source-table security policies
+
+<FunctionDescription description="Introduced or updated: v1.2.962-nightly"/>
+
+A materialized view cannot use a source table with a [row access policy](/guides/security/data-protection/row-access-policy) or [masking policy](/guides/security/data-protection/masking-policy). A masking policy blocks creation even if the view does not reference the masked column. Stored materialized-view data does not apply each reader's source-table policies.
+
+To attach either policy to a source table, first drop all dependent materialized views. Invalid materialized views also block policy attachment. Do not remove a required security policy to enable a materialized view.
+
+After an upgrade, an existing materialized view with either policy on its source fails reads and `REFRESH MATERIALIZED VIEW`. The optimizer skips these views when it rewrites source-table queries. Use `SHOW CREATE MATERIALIZED VIEW` to inspect the definition. Use `DROP MATERIALIZED VIEW` to remove the conflicting view and keep the source-table policy.
+
 ## Create a materialized view
 
 ```sql
