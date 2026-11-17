@@ -3,6 +3,8 @@ title: HTTP Handler
 sidebar_label: REST API
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 The Databend HTTP Handler is a REST API that enables you to send SQL queries to Databend and receive results directly via HTTP requests. This is useful for building custom integrations, automation scripts, or when you need direct programmatic access without using a driver.
 
 :::tip[Recommended Alternatives]
@@ -72,6 +74,53 @@ curl -u root: \
 | `/v1/upload_to_stage` | PUT | Upload a file to a stage |
 
 ---
+
+## Query ownership
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+With ordinary credentials, query follow-up requests require the original authenticated tenant and user. `SUPER` does not bypass this ownership check. The same owner can get query status or cancel a query from another client session. Page requests and finalization still require the original client session. Heartbeats do not keep another owner's queries alive.
+
+## Query-scoped tokens
+
+<FunctionDescription description="Introduced or updated: v1.2.965-nightly"/>
+
+A query token lets an HTTP client continue one query without sending its account credentials for every follow-up. This is a Query server protocol. Availability through a Cloud gateway or a specific client depends on that gateway or client.
+
+### Use a query token
+
+1. Submit SQL with your normal authentication method.
+2. Save the `X-DATABEND-QUERY-ID` and `X-DATABEND-QUERY-TOKEN` response headers before reading the body.
+3. Send `Authorization: Bearer <query_token>` on follow-up requests.
+4. Send `X-DATABEND-AUTH-METHOD: query-token` on the same requests.
+5. Keep the original routing headers and any original client-session cookie and headers.
+
+The token is delivered in headers for both JSON and Arrow responses. It is not a JSON field or Arrow metadata field. If the submission response has no token header, keep using ordinary authentication. State, page, final and kill responses do not return the token again. Keep the saved token when those responses omit it.
+
+Query-token authentication supports only these endpoints:
+
+| Method | Endpoint |
+|--------|----------|
+| GET | `/v1/query/<query_id>` |
+| GET | `/v1/query/<query_id>/page/<page_no>` |
+| GET or POST | `/v1/query/<query_id>/final` |
+| GET or POST | `/v1/query/<query_id>/kill` |
+
+Use normal credentials for new SQL, heartbeat, session refresh, uploads and other APIs. If the query belongs to a client session, every query-token follow-up requires that original session, including status and cancellation. A query token does not keep the client session alive.
+
+### Lifetime and recovery
+
+A token lasts as long as the retained query state on its owning node. It has no separate refresh endpoint. It remains usable after the user's credentials change or the user is deleted. Treat it as a credential for the query, not as immediate per-request user revocation.
+
+Missing node-local query state returns HTTP `404`. A wrong token for a retained query returns `401`. Expiration, node restart or routing to the wrong node can lose access to the retained state. Refreshing account credentials does not recover that state. Do not automatically submit SQL again: the original statement may already have run.
+
+Authenticated submission retries can return the saved token only for the original owner and client session. Losing the entire first response does not guarantee recovery of a newly created session or its query token.
+
+### Protect tokens in transit
+
+Use TLS. Do not place tokens in URLs or unredacted logs. Token-bearing responses use `Cache-Control: no-store`. Configure proxies and tracing systems to redact both `Authorization` and `X-DATABEND-QUERY-TOKEN`.
+
+For browser clients, preserve exposure of both query response headers in the gateway's CORS configuration. The Query server's exposed-header list does not configure allowed origins or credentials.
 
 ## Execute Query
 

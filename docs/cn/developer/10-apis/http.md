@@ -3,6 +3,8 @@ title: HTTP Handler
 sidebar_label: REST API
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 Databend HTTP Handler 是一个 REST API，可以让你通过 HTTP 请求直接向 Databend 发送 SQL 查询并获取结果。它适用于构建自定义集成、自动化脚本，或者需要在不使用驱动程序的情况下进行编程访问的场景。
 
 :::tip[推荐替代方案]
@@ -72,6 +74,53 @@ curl -u root: \
 | `/v1/upload_to_stage` | PUT | 上传文件到 Stage |
 
 ---
+
+## 查询所有权
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+使用普通凭证时，查询后续请求要求使用最初认证的租户和用户。`SUPER` 不能绕过所有权检查。同一所有者可以从其他客户端会话查看查询状态或取消查询。获取结果页和完成查询仍要求使用原客户端会话。心跳不会为其他所有者的查询续期。
+
+## 查询级 Token
+
+<FunctionDescription description="Introduced or updated: v1.2.965-nightly"/>
+
+查询 Token 允许 HTTP 客户端继续操作一个查询，而无需在每次后续请求中发送账户凭证。这是 Query server 协议。能否通过 Cloud gateway 或特定客户端使用，取决于该 gateway 或客户端的支持情况。
+
+### 使用查询 Token
+
+1. 使用常规认证方式提交 SQL。
+2. 读取响应正文前，保存 `X-DATABEND-QUERY-ID` 和 `X-DATABEND-QUERY-TOKEN` 响应头。
+3. 在后续请求中发送 `Authorization: Bearer <query_token>`。
+4. 在同一请求中发送 `X-DATABEND-AUTH-METHOD: query-token`。
+5. 保留原路由请求头，以及原客户端会话的 cookie 和请求头（如有）。
+
+JSON 和 Arrow 响应均通过响应头返回 Token。Token 不在 JSON 字段或 Arrow 元数据中。提交响应没有 Token 头时，客户端必须继续使用普通认证。状态、结果页、完成和取消查询的响应不会再次返回 Token。这些响应省略 Token 头时，请保留已保存的 Token。
+
+查询 Token 认证仅支持以下端点：
+
+| 方法 | 端点 |
+|------|------|
+| GET | `/v1/query/<query_id>` |
+| GET | `/v1/query/<query_id>/page/<page_no>` |
+| GET or POST | `/v1/query/<query_id>/final` |
+| GET or POST | `/v1/query/<query_id>/kill` |
+
+新 SQL、心跳、会话刷新、上传和其他 API 仍使用普通凭证。如果查询属于客户端会话，所有查询 Token 后续请求都要求使用该原会话，包括状态查询和取消操作。查询 Token 不会为客户端会话续期。
+
+### 有效期和恢复
+
+Token 的有效期取决于所属节点上保留的查询状态。它没有独立的刷新端点。用户凭证变更或用户被删除后，Token 仍可继续使用。请将其视为该查询的凭证，而不是每次请求都会立即检查用户撤销状态的认证方式。
+
+节点本地查询状态不存在时，返回 HTTP `404`。对仍保留的查询使用错误 Token 时，返回 `401`。状态过期、节点重启或请求路由到错误节点，都可能导致无法访问保留的状态。刷新账户凭证不能恢复该状态。不要自动重新提交 SQL：原语句可能已经执行。
+
+通过普通认证重试提交时，仅原所有者和原客户端会话可以再次收到已保存的 Token。如果第一个响应完全丢失，不能保证恢复新建的会话或其查询 Token。
+
+### 保护传输中的 Token
+
+使用 TLS。不要将 Token 放入 URL 或未脱敏的日志。携带 Token 的响应使用 `Cache-Control: no-store`。配置代理和追踪系统，对 `Authorization` 和 `X-DATABEND-QUERY-TOKEN` 都进行脱敏。
+
+浏览器客户端需要在 gateway 的 CORS 配置中保留两个查询响应头的可见性。Query server 的暴露响应头列表不会配置允许的源或凭证。
 
 ## 执行查询
 
