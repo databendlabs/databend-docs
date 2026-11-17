@@ -51,7 +51,7 @@ Max Result Rows does not apply in these cases:
 - The SQL has its own `LIMIT`. The `LIMIT` decides how many rows are returned.
 - The worksheet session sets `max_result_rows` with [`SET`](/sql/sql-commands/administration-cmds/set-global). That value applies to later runs in the session, whatever Max Result Rows is.
 
-The result details next to the table show **Result Rows** (rows the query returned) and **Display Rows** (rows shown in the table). A warning icon next to Result Rows means the result reached Max Result Rows and may be incomplete.
+The result details next to the table show **Result Rows** (rows the query returned) and **Display Rows** (rows shown in the table).
 
 Result Configs are saved in your browser for each organization and apply to the next run. Only the first 200 columns of a result are shown; this limit is fixed.
 
