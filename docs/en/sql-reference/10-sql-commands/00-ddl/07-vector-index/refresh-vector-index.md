@@ -25,6 +25,21 @@ Run `REFRESH VECTOR INDEX` in these cases:
 
 New data writes automatically build indexes with the current definition. Refresh skips blocks that already have a matching current-version bundle. Older index files remain readable. Refresh removes a legacy file reference from the current block metadata only when no other active index needs it. `VACUUM TABLE` reclaims the file after retained snapshots no longer reference it.
 
+## Rebuild indexes after the HNSW scoring fix
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+Existing indexes do not automatically receive fixes to HNSW graph construction and SQ8 scoring. In particular, an L2 index built before this fix can retain incorrect distance scores. Running `REFRESH VECTOR INDEX` alone does not rebuild matching index files.
+
+To apply the fixes to existing data:
+
+1. Save the index definition and its options.
+2. [Drop the vector index](drop-vector-index.md).
+3. [Create the vector index](create-vector-index.md) again with the required options.
+4. Run `REFRESH VECTOR INDEX` to build files for existing data.
+
+Do not rely on the old L2 index for distance thresholds until the rebuild completes.
+
 ## Examples
 
 ### Example: Index Existing Data

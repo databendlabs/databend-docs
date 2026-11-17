@@ -25,6 +25,21 @@ REFRESH VECTOR INDEX <index_name> ON [<database>.]<table_name>
 
 新写入的数据自动使用当前定义构建索引。刷新会跳过已有匹配的当前版本 bundle 的数据块。旧格式索引文件仍可读取。仅当其他活动索引均不再需要某个旧格式文件时，刷新才会从当前数据块元数据中移除对该文件的引用。保留快照不再引用该文件后，`VACUUM TABLE` 才会回收文件。
 
+## HNSW 评分修复后的索引重建
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+已有索引不会自动应用 HNSW 图构建和 SQ8 评分修复。特别是，修复前构建的 L2 索引可能保留错误的距离分数。仅运行 `REFRESH VECTOR INDEX` 不会重建已有的匹配索引文件。
+
+如需将修复应用于已有数据：
+
+1. 保存索引定义和选项。
+2. [删除向量索引](drop-vector-index.md)。
+3. 使用所需选项重新[创建向量索引](create-vector-index.md)。
+4. 运行 `REFRESH VECTOR INDEX`，为已有数据构建索引文件。
+
+重建完成前，不要依赖旧 L2 索引进行距离阈值筛选。
+
 ## 示例
 
 ### 示例：为已有数据建立索引
