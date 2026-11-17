@@ -44,7 +44,7 @@ To change how the worksheet shows and returns query results, click the settings 
 |---|---|---|---|
 | Max Cell Content Length | 3,000 characters | 3K–Unlimited | Cell values longer than this are truncated in the display. |
 | Max Display Rows | 10,000 | 5,000 or 10,000 | The most rows shown in the result table. It changes only what is shown; the query result and exports are not affected. |
-| Max Result Rows | 10,000 | 10,000, 100,000, 1,000,000 or 10,000,000 | The query stops after returning this many rows, and exports contain the same rows. It is sent as the [`max_result_rows`](/sql/sql-reference/system-tables/system-settings) setting for each run. |
+| Max Result Rows (`max_result_rows`) | 10,000 | 10,000, 100,000, 1,000,000 or 10,000,000 | The query stops after returning this many rows, and exports contain the same rows. It is sent as the [`max_result_rows`](/sql/sql-reference/system-tables/system-settings) setting for each run. |
 
 Max Result Rows does not apply in these cases:
 
