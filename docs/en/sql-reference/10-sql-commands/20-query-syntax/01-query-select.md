@@ -35,6 +35,14 @@ SELECT
 
 - In the examples on this page, the table `numbers(N)` is used for testing, with a single UInt64 column (named `number`) that contains integers from 0 to N-1.
 
+## Expression parsing limits
+
+<FunctionDescription description="Introduced or updated: v1.2.962-nightly"/>
+
+The SQL parser limits structural expression depth to 256 levels, including the root expression. Nested parentheses, function calls, arrays, and maps consume this budget. Separate expressions share the parent depth; they do not add to one another's depth. Excessive nesting returns `expression nesting exceeds the maximum parsing depth`.
+
+The parser can also reject an expression with `expression nesting exceeds the available stack space`. The accepted depth can be lower than 256 because available stack space varies. Simplify deeply nested generated expressions when either error occurs.
+
 ## SELECT Clause
 
 ### AS Keyword 
