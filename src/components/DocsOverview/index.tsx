@@ -131,7 +131,7 @@ const DocsOverview: FC = (): ReactElement => {
       to: "/guides/ai-functions/mcp-integration",
     },
     {
-      icon: <LightDatabendCloudSingleSvg width={24} />,
+      icon: <LightDatabendCloudSingleSvg width={34} />,
       text: $t("Databend Cloud API for Agents"),
       to: "/guides/connect/cloud-api",
     },
