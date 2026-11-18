@@ -88,10 +88,15 @@ const config: Config = {
           changefreq: "daily",
           priority: 0.5,
         },
-        gtag: {
-          trackingID: siteConfig[lang].trackingID,
-          anonymizeIP: true,
-        },
+        // Only the production build (site_env=production) loads gtag.
+        // Elsewhere its client module can run without window.gtag and throw
+        // "window.gtag is not a function" on every route change.
+        gtag: isProduction
+          ? {
+              trackingID: siteConfig[lang].trackingID,
+              anonymizeIP: true,
+            }
+          : undefined,
       } satisfies Preset.Options,
     ],
   ],
