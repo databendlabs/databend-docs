@@ -37,6 +37,7 @@ import Cases from "@site/static/icons/cases.svg";
 import ChangeLog from "@site/static/icons/changelog.svg";
 import FAQ from "@site/static/icons/faq.svg";
 import MCP from "@site/static/icons/mcp.svg";
+import CloudIcon from "@site/static/icons/cloud.svg";
 import MySQL from "@site/static/icons/mysql.svg";
 import PG from "@site/static/icons/postgresql.svg";
 import S3 from "@site/static/icons/s3.svg";
@@ -128,6 +129,11 @@ const DocsOverview: FC = (): ReactElement => {
       icon: <MCP width={24} />,
       text: "MCP Client",
       to: "/guides/ai-functions/mcp-integration",
+    },
+    {
+      icon: <CloudIcon width={24} />,
+      text: $t("Databend Cloud API for Agents"),
+      to: "/guides/connect/cloud-api",
     },
   ];
 

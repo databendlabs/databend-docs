@@ -900,5 +900,9 @@
   "Sign up": {
     "message": "Sign up",
     "description": "Doc body sign-up card"
+  },
+  "Databend Cloud API for Agents": {
+    "message": "Databend Cloud API for Agents",
+    "description": "Databend Cloud API for Agents 的文本"
   }
 }
