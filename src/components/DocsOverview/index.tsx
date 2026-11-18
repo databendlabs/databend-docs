@@ -40,6 +40,7 @@ import MCP from "@site/static/icons/mcp.svg";
 import CloudIcon from "@site/static/icons/cloud.svg";
 import MySQL from "@site/static/icons/mysql.svg";
 import PG from "@site/static/icons/postgresql.svg";
+import TiDB from "@site/static/icons/tidb.svg";
 import S3 from "@site/static/icons/s3.svg";
 import { Col, Row } from "antd";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -189,6 +190,11 @@ const DocsOverview: FC = (): ReactElement => {
       icon: <PG width={24} />,
       text: "PostgreSQL",
       to: "/guides/cloud/data-integration/postgres",
+    },
+    {
+      icon: <TiDB width={24} />,
+      text: "TiDB",
+      to: "/guides/cloud/data-integration/task/tidb",
     },
     {
       icon: <S3 width={24} />,
