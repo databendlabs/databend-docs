@@ -4,11 +4,33 @@ sidebar_label: 准备存储
 description: Databend 部署的存储准备建议。
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.955"/>
+
 本主题介绍在生产环境中部署 Databend 的推荐存储配置。
 
 ## AWS S3
 
 在生产环境中使用 AWS S3 部署 Databend 时，请考虑以下建议：
+
+<a id="region-detection-on-private-networks"></a>
+
+### 私有网络中的区域探测
+
+从 v1.2.955 开始，S3 区域探测可以访问 `AWS_REGION` 选择的区域端点。此行为适用于未显式设置区域、且使用默认端点 `https://s3.amazonaws.com` 的存储位置。适用范围包括服务端存储配置和 SQL S3 位置，例如 Stage、`COPY` 或 `SELECT` 位置。
+
+在 Query 服务环境中，将 `AWS_REGION` 设为可访问的 AWS 商业分区区域。例如：
+
+```bash
+export AWS_REGION='ap-northeast-1'
+```
+
+这样，Databend 无需先访问 S3 全局端点即可探测 Bucket 区域。`AWS_REGION` 选择要访问的端点，不会覆盖 Bucket 的实际区域。请在网络和端点策略中允许访问区域端点。
+
+此行为仅适用于 AWS 商业分区区域，不改变已显式设置区域或自定义端点的存储位置。
+
+如果探测仍超时，请检查 DNS、路由和端点策略。可以在存储配置或 Stage 连接中显式设置正确区域，以避免探测。区域发现不授予 Bucket 访问权限；仍须配置所需 S3 权限和凭据。
 
 ### 安全性
 
