@@ -22,7 +22,7 @@ A change that can cause existing calls to fail has the mark **Breaking**. The en
 ### Added
 
 - [List Data Sources](./13-data-sources.md#list-data-sources) accepts `name`, `creator`, `sort`, and `direction`.
-- [List Data Integration Tasks](./14-data-integration-tasks.md#list-tasks) accepts `name`, `taskStatus`, `lastRunStatus`, `warehouse`, and `creator`.
+- [List Data Integration Tasks](./14-data-integration-tasks.md#list-tasks) accepts `name`, `taskStatus`, `lastRunStatus`, `warehouse`, `creator`, and `datasourceName`.
 
 All new fields are optional. Filters apply before pagination; paths and authentication requirements are unchanged.
 

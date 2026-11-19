@@ -30,6 +30,7 @@ toc_max_heading_level: 4
 | `perPage` | integer | 否 | 每页条数。默认：20。 |
 | `serviceId` | integer（枚举） | 否 | 按数据源的 [Service ID](./13-data-sources.md#service-id) 过滤。 |
 | `datasourceId` | integer | 否 | 按数据源 ID 精确过滤。 |
+| `datasourceName` | string | 否 | 按数据源名称的一部分过滤，不区分大小写。 |
 | `name` | string | 否 | 按任务名称做不区分大小写的子串匹配。 |
 | `taskStatus` | integer（枚举） | 否 | 任务状态：`1` 已停止，`2` 运行中。 |
 | `lastRunStatus` | integer（枚举） | 否 | 只匹配最近一次运行的状态：`1` 运行中，`2` 成功，`3` 失败。尚未运行的任务不匹配。 |

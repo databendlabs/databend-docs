@@ -22,7 +22,7 @@ description: 面向 Agent 的 Databend Cloud API 的变更记录，最新的在�
 ### 新增
 
 - [列出数据源](./13-data-sources.md#list-data-sources)支持 `name`、`creator`、`sort` 和 `direction`。
-- [列出数据集成任务](./14-data-integration-tasks.md#list-tasks)支持 `name`、`taskStatus`、`lastRunStatus`、`warehouse` 和 `creator`。
+- [列出数据集成任务](./14-data-integration-tasks.md#list-tasks)支持 `name`、`taskStatus`、`lastRunStatus`、`warehouse`、`creator` 和 `datasourceName`。
 
 新增字段均为可选，筛选在分页前执行，接口路径和鉴权要求不变。
 
