@@ -17,6 +17,15 @@ description: 面向 Agent 的 Databend Cloud API 的变更记录，最新的在�
 
 可能导致现有调用失败的变更会标注 **不兼容变更**，并给出迁移步骤。
 
+## 2026-11-19 {/* #2026-11-19 */}
+
+### 新增
+
+- [列出数据源](./13-data-sources.md#list-data-sources)支持 `name`、`creator`、`sort` 和 `direction`。
+- [列出数据集成任务](./14-data-integration-tasks.md#list-tasks)支持 `name`、`taskStatus`、`lastRunStatus`、`warehouse`、`creator` 和 `datasourceName`，并支持用 `sort` 和 `direction` 按创建时间排序。
+
+新增字段均为可选，筛选和排序在分页前执行，接口路径和鉴权要求不变。
+
 ## 2026-11-12 {/* #2026-11-12 */}
 
 首次发布。API token 可调用 14 个类别共 79 个接口：

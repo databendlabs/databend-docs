@@ -22,12 +22,18 @@ Secrets: list and get responses mask all secret values in `serviceArgs`. In an u
 | `orgSlug` | string | Yes | Organization ID. |
 | `page` | integer | No | Page number. Default: 1. |
 | `perPage` | integer | No | Rows per page. Default: 20. |
-| `serviceId` | integer (enum) | No | Filter by [Service ID](#service-id). |
+| `serviceId` | integer (enum) | No | Exact [Service ID](#service-id) to filter by. |
+| `name` | string | No | Case-insensitive substring of the data source name. |
+| `creator` | string | No | Case-insensitive substring of the creator's name or email. |
+| `sort` | string | No | Sort field: `name`, `serviceId` (numeric), `createdAt`, or `updatedAt`. Set together with `direction`. |
+| `direction` | string | No | `asc` or `desc`. Set together with `sort`. |
+
+Filters and sorting apply before pagination. `data.total` counts all matches. If no sort is specified, rows are returned by descending ID. Ties use descending ID as well.
 
 Request example:
 
 ```json
-{ "orgSlug": "<organization-id>", "page": 1, "perPage": 20, "serviceId": 2 }
+{ "orgSlug": "<organization-id>", "page": 1, "perPage": 20, "serviceId": 2, "name": "orders", "sort": "updatedAt", "direction": "desc" }
 ```
 
 Response example. `serviceArgs` is a JSON string. Parse it to read the connection settings.
