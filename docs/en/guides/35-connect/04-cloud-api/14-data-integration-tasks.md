@@ -31,6 +31,8 @@ A data integration task reads from a [data source](./13-data-sources.md) and wri
 | `serviceId` | integer (enum) | No | Filter by the [Service ID](./13-data-sources.md#service-id) of the data source. |
 | `datasourceId` | integer | No | Exact data source ID to filter by. |
 | `datasourceName` | string | No | Case-insensitive substring of the data source name. |
+| `sort` | string | No | Set to `createdAt` to sort by creation time. Requires `direction`. |
+| `direction` | string | No | `asc` (oldest first) or `desc` (newest first). Requires `sort`. |
 | `name` | string | No | Case-insensitive substring of the task name. |
 | `taskStatus` | integer (enum) | No | Task status: `1` Stopped, `2` Running. |
 | `lastRunStatus` | integer (enum) | No | Status of the latest run only: `1` Running, `2` Success, `3` Failed. Tasks with no runs do not match. |

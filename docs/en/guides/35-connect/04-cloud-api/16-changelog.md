@@ -17,14 +17,14 @@ Each entry has a date. An entry can have these parts:
 
 A change that can cause existing calls to fail has the mark **Breaking**. The entry gives the steps to migrate.
 
-## Unreleased
+## 2026-11-19
 
 ### Added
 
 - [List Data Sources](./13-data-sources.md#list-data-sources) accepts `name`, `creator`, `sort`, and `direction`.
-- [List Data Integration Tasks](./14-data-integration-tasks.md#list-tasks) accepts `name`, `taskStatus`, `lastRunStatus`, `warehouse`, `creator`, and `datasourceName`.
+- [List Data Integration Tasks](./14-data-integration-tasks.md#list-tasks) accepts `name`, `taskStatus`, `lastRunStatus`, `warehouse`, `creator`, and `datasourceName`, plus `sort` and `direction` for creation-time ordering.
 
-All new fields are optional. Filters apply before pagination; paths and authentication requirements are unchanged.
+All new fields are optional. Filters and sorting apply before pagination; paths and authentication requirements are unchanged.
 
 ## 2026-11-12
 
