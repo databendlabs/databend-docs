@@ -22,12 +22,18 @@ toc_max_heading_level: 4
 | `orgSlug` | string | 是 | 组织 ID。 |
 | `page` | integer | 否 | 页码。默认：1。 |
 | `perPage` | integer | 否 | 每页条数。默认：20。 |
-| `serviceId` | integer（枚举） | 否 | 按 [Service ID](#service-id) 过滤。 |
+| `serviceId` | integer（枚举） | 否 | 按 [Service ID](#service-id) 精确过滤。 |
+| `name` | string | 否 | 按数据源名称做不区分大小写的子串匹配。 |
+| `creator` | string | 否 | 按创建人姓名或邮箱做不区分大小写的子串匹配。 |
+| `sort` | string | 否 | 排序字段：`name`、`serviceId`（按数值）、`createdAt` 或 `updatedAt`。与 `direction` 一起传入。 |
+| `direction` | string | 否 | `asc`（升序）或 `desc`（降序）。与 `sort` 一起传入。 |
+
+先筛选和排序，再分页。`data.total` 是所有匹配记录数。不指定排序时按 ID 降序；排序值相同时也按 ID 降序。
 
 请求示例：
 
 ```json
-{ "orgSlug": "<organization-id>", "page": 1, "perPage": 20, "serviceId": 2 }
+{ "orgSlug": "<organization-id>", "page": 1, "perPage": 20, "serviceId": 2, "name": "orders", "sort": "updatedAt", "direction": "desc" }
 ```
 
 响应示例。`serviceArgs` 是 JSON 字符串，解析后可读取连接配置。

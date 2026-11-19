@@ -29,7 +29,20 @@ toc_max_heading_level: 4
 | `page` | integer | 否 | 页码。默认：1。 |
 | `perPage` | integer | 否 | 每页条数。默认：20。 |
 | `serviceId` | integer（枚举） | 否 | 按数据源的 [Service ID](./13-data-sources.md#service-id) 过滤。 |
-| `datasourceId` | integer | 否 | 按数据源 ID 过滤。 |
+| `datasourceId` | integer | 否 | 按数据源 ID 精确过滤。 |
+| `name` | string | 否 | 按任务名称做不区分大小写的子串匹配。 |
+| `taskStatus` | integer（枚举） | 否 | 任务状态：`1` 已停止，`2` 运行中。 |
+| `lastRunStatus` | integer（枚举） | 否 | 只匹配最近一次运行的状态：`1` 运行中，`2` 成功，`3` 失败。尚未运行的任务不匹配。 |
+| `warehouse` | string | 否 | 按计算集群名称做不区分大小写的子串匹配。 |
+| `creator` | string | 否 | 按创建人姓名或邮箱做不区分大小写的子串匹配。 |
+
+可组合使用筛选条件，筛选在分页前执行。`data.total` 是所有匹配记录数。
+
+`lastRunStatus` 筛选匹配 `lastRunData.status`。如果最近一次运行的详情还没有状态，API 会使用该次运行的历史记录中的状态。
+
+```json
+{ "orgSlug": "<organization-id>", "page": 1, "perPage": 20, "warehouse": "default", "taskStatus": 2, "lastRunStatus": 1 }
+```
 
 响应示例。`taskStatus` 是[任务状态](#task-status)，`lastRunData` 是[最近运行数据](#last-run-data)。
 
