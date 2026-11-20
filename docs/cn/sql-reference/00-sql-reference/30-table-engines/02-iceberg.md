@@ -7,7 +7,7 @@ slug: /sql-reference/table-engines/iceberg
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.725"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Databend 支持集成 [Apache Iceberg™](https://iceberg.apache.org/) catalog，增强了数据管理和分析的兼容性与灵活性。通过将 Apache Iceberg™ 强大的元数据和存储管理能力无缝融入平台，进一步扩展了 Databend 的功能边界。
 
@@ -226,6 +226,22 @@ ORDER BY
 | MAP&lt;KEYTYPE, VALUETYPE&gt;               | [MAP](/sql/sql-reference/data-types/map)                                 |
 | STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)                             |
 | LIST                                        | [ARRAY](/sql/sql-reference/data-types/array)                             |
+
+## 读取没有字段 ID 的 Parquet 文件
+
+从 v1.2.953 开始，当 Iceberg 表提供有效的 `schema.name-mapping.default` 属性时，Databend 可以读取未嵌入字段 ID 的 Parquet 文件。这是 Iceberg 表元数据属性，不是 `CREATE CATALOG` 连接参数。请通过 Iceberg 写入器或 catalog 维护它。
+
+该属性包含字段映射的 JSON 数组。例如，如果字段 ID `1` 属于 `current_name`，以下值将两个名称映射到同一标识：
+
+```json
+[
+  {"field-id": 1, "names": ["old_name", "current_name"]}
+]
+```
+
+显式 Parquet 字段 ID 优先。对于没有 ID 的字段，请在映射中包含历史别名。嵌套别名应放在正确的父字段下。没有映射时，不要依赖列名或位置相同来匹配字段。
+
+导入或重命名列时，请保持 Iceberg Schema、字段 ID 和名称映射一致。字段 ID 必须为正数且唯一。无效或有歧义的映射可能导致 Schema 错误。
 
 ## 管理 Catalog
 
