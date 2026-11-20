@@ -141,7 +141,9 @@ CREATE TABLE <table_name> (
 - **语法：**
   `write_distribution_mode = 'none' | 'hash'`
 - **描述：**
-  控制分区表在写入前是否按计算后的分区键重新分发数据。默认值 `none` 保留原有 Writer 分布；`hash` 会将分区值相同的行路由到同一个 Writer，有助于减少分布式或高并发写入产生的小 Block 碎片，但会引入网络 Shuffle。`hash` 模式必须与 `PARTITION BY` 一同使用。
+  控制分区表在写入前是否按计算后的分区键归并数据。默认值 `none` 保留原有 Writer 分布。`hash` 模式要求定义 `PARTITION BY`，并有助于减少小 Block 碎片。
+
+  哈希布局不保证集群内每个分区只有一个 Writer。支持的写入操作请参阅[哈希分布式写入](/guides/performance/partition-by#hash-distributed-writes)。
 
   **示例：**
   ```sql
