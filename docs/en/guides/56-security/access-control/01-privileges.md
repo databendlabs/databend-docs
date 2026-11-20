@@ -12,6 +12,33 @@ In Databend, privileges are granted to roles. Users receive privileges through t
 
 ![Alt text](/img/guides/access-control-2.png)
 
+## Upgrade: Always-Enforced Object Privileges
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+Builds with always-enforced object privileges remove these settings:
+
+- `enable_experimental_rbac_check`
+- `enable_experimental_connection_privilege_check`
+- `enable_experimental_sequence_privilege_check`
+
+Connection and sequence checks were off by default. After this upgrade, users need ownership or `ACCESS CONNECTION` / `ACCESS SEQUENCE` to access these objects. `SUPER` alone no longer grants access. This affects `CONNECTION_NAME` in stages and `COPY`, and every `nextval` call, including `INSERT` and column defaults. `SHOW CONNECTIONS` and `SHOW SEQUENCES` hide objects that the user cannot access.
+
+Objects created while their checks were disabled can have no ownership record. Databend treats these objects as owned by `account_admin`. Before upgrading, identify the roles that need them. An administrator can restore access after upgrading with grants such as these. Replace the object and role names with existing names:
+
+```sql
+GRANT ACCESS CONNECTION ON CONNECTION storage_conn TO ROLE loader;
+GRANT ACCESS SEQUENCE ON SEQUENCE order_seq TO ROLE writer;
+```
+
+To transfer control instead, use `GRANT OWNERSHIP` as described in [Ownership](03-ownership.md). Users who create connections or sequences also need explicit `CREATE CONNECTION` or `CREATE SEQUENCE` privileges. `SUPER` alone is not sufficient.
+
+Stage and UDF checks were already on by default. If you disabled them, grant the required `READ` / `WRITE` stage privileges and `USAGE` UDF privileges before workloads resume.
+
+Remove the settings from initialization scripts and client session configuration. `SET` and `SET GLOBAL` with these names fail with `UnknownVariable`. HTTP `session.settings`, `SETTINGS (...)`, and `SET_VAR` ignore these names; they do not disable authorization.
+
+Complete the upgrade on all Query nodes before workloads resume. Old nodes retain their previous authorization behavior during a rolling upgrade.
+
 ## Managing Privileges
 
 To manage privileges for a role, use the following commands:
