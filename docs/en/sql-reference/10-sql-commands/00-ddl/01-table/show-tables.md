@@ -4,7 +4,7 @@ sidebar_position: 15
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.415"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 Lists the tables in the current or a specified database.
 
@@ -13,6 +13,14 @@ Starting from version 1.2.415, the SHOW TABLES command no longer includes views 
 :::
 
 See also: [system.tables](../../../00-sql-reference/31-system-tables/system-tables.md)
+
+## Unreadable Metadata
+
+In the default catalog, table listing can skip a table whose metadata is missing or cannot be decoded by this server version. It can also skip a table that cannot be initialized, for example because its engine is unavailable. Other readable tables can still appear in the results.
+
+Listing does not delete or repair skipped metadata. A missing row does not prove that the table was dropped. Check Meta and Query server warning logs when a table is unexpectedly absent. Direct queries or explicit metadata lookups for that table can still fail.
+
+The same distinction applies to bulk listings through [system.tables](../../../00-sql-reference/31-system-tables/system-tables.md). This behavior does not provide a general guarantee that catalog or RPC failures are ignored.
 
 ## Syntax
 

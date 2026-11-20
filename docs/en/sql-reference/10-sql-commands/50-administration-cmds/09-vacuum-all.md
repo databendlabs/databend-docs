@@ -5,7 +5,7 @@ title: VACUUM ALL
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 <EEFeature featureName='VACUUM ALL'/>
 
@@ -26,6 +26,8 @@ VACUUM ALL
 Requires global `SUPER` privilege. There is no database filter or command option. The command does not return a result set.
 
 A failure that propagates from one step stops execution before the following steps. Per-table errors handled by batch cleanup retain the behavior described in [VACUUM TABLES](09-vacuum-tables.md). Cleanup already completed is not rolled back.
+
+The dropped-object step follows [Metadata Compatibility](../00-ddl/01-table/91-vacuum-dropped-objects.md#metadata-compatibility). Some metadata can remain after a successful run. See that reference for skipped undecodable tables, retained databases and metadata-only cleanup of recognized retired engines.
 
 ## Example
 

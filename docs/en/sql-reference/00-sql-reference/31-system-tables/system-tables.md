@@ -2,7 +2,13 @@
 title: system.tables
 ---
 
-Provides metadata information for all tables. It includes details such as table properties, creation time, number of rows, data size, and more.
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
+
+Provides metadata information for tables. It includes details such as table properties, creation time, number of rows, data size, and more.
+
+In the default catalog, bulk listings can omit tables with missing or undecodable metadata, or tables that cannot be initialized. Omission does not delete or repair the table. See [Unreadable Metadata](../../10-sql-commands/00-ddl/01-table/show-tables.md#unreadable-metadata) for the difference between listing and explicit access, and where to check warnings.
 
 See also:
 

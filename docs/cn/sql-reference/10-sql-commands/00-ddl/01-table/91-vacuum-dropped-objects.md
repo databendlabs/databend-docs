@@ -6,7 +6,7 @@ sidebar_position: 18
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 <EEFeature featureName='VACUUM DROPPED OBJECTS'/>
 
@@ -36,6 +36,18 @@ VACUUM DROPPED OBJECTS [FROM <database>]
 SET data_retention_time_in_days = 2;
 SHOW SETTINGS LIKE 'data_retention_time_in_days';
 ```
+
+<a id="metadata-compatibility"></a>
+
+## 元数据兼容性
+
+清理可以跳过元数据无法解码或引擎无法初始化的表，并保留其元数据及所在的已删除数据库。其他符合条件的对象仍可被清理，但命令完成并不表示所有对象都已回收。
+
+对于已知退役的只读 `DELTA` 引擎，清理可以移除已删除表的元数据，但不会删除外部数据文件。此例外不适用于任意未知引擎。保留期及其他保护规则仍然适用。
+
+如果仍有对象保留，请检查 Meta 和 Query Server 日志。跳过元数据不会修复它。不要手动删除被跳过的元数据或数据。
+
+[VACUUM ALL](../../50-administration-cmds/09-vacuum-all.md) 的已删除对象清理步骤遵循这些规则。
 
 ## 示例
 

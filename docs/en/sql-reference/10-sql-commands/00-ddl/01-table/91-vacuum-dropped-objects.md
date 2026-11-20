@@ -6,7 +6,7 @@ sidebar_position: 18
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 <EEFeature featureName='VACUUM DROPPED OBJECTS'/>
 
@@ -36,6 +36,16 @@ Dropped objects become eligible for cleanup after the retention period configure
 SET data_retention_time_in_days = 2;
 SHOW SETTINGS LIKE 'data_retention_time_in_days';
 ```
+
+## Metadata Compatibility
+
+Cleanup can skip tables whose metadata cannot be decoded or whose engine cannot be initialized. It retains their metadata and containing dropped database. Other eligible objects can still be cleaned, but completion does not prove that every object was reclaimed.
+
+For the recognized retired read-only `DELTA` engine, cleanup can remove dropped-table metadata without deleting external data files. This exception does not apply to arbitrary unknown engines. Retention and other protection rules still apply.
+
+If objects remain, check Meta and Query server logs. Skipping metadata does not repair it. Do not delete skipped metadata or data manually.
+
+[VACUUM ALL](../../50-administration-cmds/09-vacuum-all.md) inherits these rules for its dropped-object cleanup step.
 
 ## Examples
 
