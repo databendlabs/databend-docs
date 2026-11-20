@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.799"/>
+<FunctionDescription description="Introduced or updated: v1.2.957"/>
 
 Creates a user-defined aggregate function (UDAF) that runs inside Databend's JavaScript or Python runtime.
 
@@ -36,7 +36,7 @@ $$
 | `STATE { <state_field_list> }` | Struct definition that Databend stores between partial/final aggregation steps (for example `STATE { sum DOUBLE, count DOUBLE }`). |
 | `<return_type>` | Data type returned by the aggregate (`DOUBLE`, `INT`, etc.). |
 | `LANGUAGE` | Runtime used to execute the script. Supported values: `javascript`, `python`. |
-| `IMPORTS` / `PACKAGES` | Optional lists for shipping extra files (imports) or PyPI packages (Python only). |
+| `IMPORTS` / `PACKAGES` | Accepted by the statement syntax, but local Python aggregates do not install packages or imports. Do not rely on these clauses for Python UDAF dependencies. |
 | `<language_specific_code>` | Script body that must expose `create_state`, `accumulate`, `merge`, and `finish` entry points. |
 | `DESC` | Optional description. |
 
@@ -46,6 +46,17 @@ The script must implement these functions:
 - `accumulate(state, *args)` – update the state for each input row.
 - `merge(state1, state2)` – merge two partial states.
 - `finish(state)` – produce the final result (return `None` for SQL `NULL`).
+
+## Runtime Restrictions
+
+Since v1.2.957, Python UDAFs run in the same query-owned worker pool, OS sandbox, and quotas as scalar Python UDFs. Aggregate state remains in the query process and travels with worker requests. Workers are not reused across queries.
+
+- `enable_udf_python_script` must allow Python at creation, binding, and execution.
+- `enable_udf_sandbox = true` selects an external service for scalar Python functions. That service has no aggregate API, so Python UDAFs are rejected in that mode. This setting is not a bypass for the mandatory local OS sandbox.
+- Linux deployment and dependency-installation boundaries are described in [CREATE SCALAR FUNCTION](ddl-create-function.md#python). macOS is for local development only and does not provide the OS sandbox.
+- Python worker count and request timeouts do not enforce a worker memory limit. See [Script UDF Resources](/guides/self-hosted/references/node-config/query-config#script-udf-resources).
+- JavaScript UDAFs use the configured in-process heap and operation deadline, including `create_state`, `accumulate`, `merge`, and `finish`.
+- WASM aggregate functions are not supported.
 
 ## Access control requirements
 
