@@ -123,16 +123,25 @@ Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，
 
 **默认值**: `false`
 
+<a id="csv-quote-style"></a>
+
 ### QUOTE_STYLE（仅导出）
 
 控制 CSV 输出时字段的引号策略。
 
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
 | 可用值                     | 描述                                                         |
 |---------------------------|--------------------------------------------------------------|
-| `QUOTE_NOT_NULL`（默认）   | 对每个非 NULL 字段加引号。                                    |
-| `QUOTE_MINIMAL`           | 仅当字段包含 [QUOTE](#quote仅导入) 字符、[FIELD_DELIMITER](#field_delimiter) 字符或 [RECORD_DELIMITER](#record_delimiter) 的第一个字符时才加引号。 |
+| `QUOTE_NOT_NULL`（默认）   | 对每个非 NULL 字段加引号，包括数值、BOOLEAN 和 BINARY。 |
+| `QUOTE_NON_NUMERIC`       | 对整数、浮点数和 DECIMAL 以外的每个非 NULL 字段加引号。BOOLEAN 和 BINARY 会加引号。 |
+| `QUOTE_MINIMAL`           | 对空值、等于 `NULL_DISPLAY` 的值，以及包含 [QUOTE](#quote仅导入)、[FIELD_DELIMITER](#field_delimiter) 或 [RECORD_DELIMITER](#record_delimiter) 第一个字符的值加引号。 |
 
 **默认值**: `QUOTE_NOT_NULL`
+
+所有策略都会对非 NULL 的空值及等于 `NULL_DISPLAY` 的非 NULL 值加引号。`QUOTE_NON_NUMERIC` 下的数值也遵循此规则。真正的 NULL 值使用不带引号的 `NULL_DISPLAY` 标记。
+
+`QUOTE_NON_NUMERIC` 和修正后的引号规则尚未发布。升级影响和回载设置见 [CSV 输出兼容性](/guides/unload-data/unload-csv#csv-output-compatibility)。在命名文件格式中使用 `QUOTE_NON_NUMERIC` 前，请完成所有 Meta 和 Query 节点的升级。旧节点无法读取这个已保存的选项。
 
 ### NAN_DISPLAY
 
@@ -171,7 +180,7 @@ Databend CSV 符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准，
 | 可用值           | 转换为                                                                |
 |------------------|-----------------------------------------------------------------------|
 | `NULL`           | `NULL`。如果列不可为空则报错。                                         |
-| `STRING`         | 对于 String 列：`''`。<br/> 对于其他列：`NULL`。如果不可为空则报错。    |
+| `STRING`         | 对于 STRING 和 BINARY 列：空值。<br/> 对于其他列：`NULL`。如果不可为空则报错。 |
 | `FIELD_DEFAULT`  | 列的默认值。                                                          |
 
 **默认值**: `NULL`

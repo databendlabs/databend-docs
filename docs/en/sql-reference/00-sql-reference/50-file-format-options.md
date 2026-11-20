@@ -124,16 +124,25 @@ Include a header row with column names.
 
 **Default**: `false`
 
+<a id="csv-quote-style"></a>
+
 ### QUOTE_STYLE (Unload Only)
 
 Controls how CSV values are quoted during output.
 
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
 | Available Values          | Description                                                  |
 |---------------------------|--------------------------------------------------------------|
-| `QUOTE_NOT_NULL` (Default)| Quote every non-NULL field in the CSV output.                |
-| `QUOTE_MINIMAL`           | Quote a field only when it contains the [QUOTE](#quote-load-only) character, the [FIELD_DELIMITER](#field_delimiter) character, or the first character of [RECORD_DELIMITER](#record_delimiter). |
+| `QUOTE_NOT_NULL` (Default)| Quote every non-NULL field, including numbers, BOOLEAN, and BINARY. |
+| `QUOTE_NON_NUMERIC`       | Quote every non-NULL field except integers, floats, and DECIMAL. BOOLEAN and BINARY are quoted. |
+| `QUOTE_MINIMAL`           | Quote empty values, values equal to `NULL_DISPLAY`, and values that contain [QUOTE](#quote-load-only), [FIELD_DELIMITER](#field_delimiter), or the first character of [RECORD_DELIMITER](#record_delimiter). |
 
 **Default**: `QUOTE_NOT_NULL`
+
+All styles quote empty non-NULL values and non-NULL values equal to `NULL_DISPLAY`. This rule also applies to numbers under `QUOTE_NON_NUMERIC`. Actual NULL values use the unquoted `NULL_DISPLAY` marker.
+
+`QUOTE_NON_NUMERIC` and the corrected quoting rules are Unreleased. For upgrade effects and reload settings, see [CSV output compatibility](/guides/unload-data/unload-csv#csv-output-compatibility). Upgrade all Meta and Query nodes before you use `QUOTE_NON_NUMERIC` in a named file format. Older nodes cannot read that stored option.
 
 ### NAN_DISPLAY
 
@@ -172,7 +181,7 @@ The value that unquoted empty fields(i.e `,,`) is converted to.
 | Available Values | Convert to                                                          |
 |------------------|----------------------------------------------------------------------------------|
 | `NULL`           | `NULL`. Error if column is not nullable.                                         |
-| `STRING`         | For String columns:`''`. <br/> For other columns: `NULL`. Error if not nullable. |
+| `STRING`         | For STRING and BINARY columns: an empty value. <br/> For other columns: `NULL`. Error if not nullable. |
 | `FIELD_DEFAULT`  | The column's default value.                                                      |
 
 **Default**: `NULL`

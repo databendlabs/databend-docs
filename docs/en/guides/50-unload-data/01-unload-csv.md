@@ -2,6 +2,8 @@
 title: Unloading CSV File
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 ## Unloading CSV File
 
 Syntax:
@@ -23,6 +25,16 @@ FILE_FORMAT = (
 - More CSV options refer to [CSV File Format Options](/sql/sql-reference/file-format-options#csv-options)
 - Unloading into multiple files use the [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
 - More details about the syntax can be found in [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
+
+<h2 id="csv-output-compatibility">CSV Output Compatibility</h2>
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+The default `QUOTE_STYLE = 'QUOTE_NOT_NULL'` now quotes every non-NULL value. Previously, it left numbers, BOOLEAN, and non-empty BINARY values unquoted. After you upgrade to a release with this change, CSV contents, byte counts, compressed sizes, and file splits can change. TSV output is unchanged.
+
+To leave ordinary integers, floats, and DECIMAL values unquoted, use `QUOTE_STYLE = 'QUOTE_NON_NUMERIC'`. This style still quotes BOOLEAN and BINARY values. For all three choices, see [QUOTE_STYLE](/sql/sql-reference/file-format-options#csv-quote-style).
+
+All styles now quote empty STRING and BINARY values and non-NULL values equal to `NULL_DISPLAY`. To preserve these values on reload, keep `QUOTED_EMPTY_FIELD_AS = STRING` and `ALLOW_QUOTED_NULLS = false`. Match the export's delimiters, quote character, `NULL_DISPLAY`, and `BINARY_FORMAT`. Other load options, such as `TRIM_SPACE`, can still change values.
 
 ## Tutorial
 
@@ -61,7 +73,7 @@ FILE_FORMAT = (FORMAT_NAME = 'csv_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-Result:
+Result (historical example; the file name and size can differ, including after the quoting change above):
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
