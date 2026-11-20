@@ -63,6 +63,7 @@ This page provides a comprehensive overview of Numeric functions in Databend, or
 | Function | Description | Example |
 |----------|-------------|---------|
 | [ABS](abs.md) | Returns the absolute value of x | `ABS(-5)` → `5` |
+| [MIN_SCALE](min-scale.md) | Returns the minimum fractional digits needed for a decimal value | `MIN_SCALE(1.2300::DECIMAL(10, 4))` → `2` |
 | [SIGN](sign.md) | Returns the sign of x | `SIGN(-5)` → `-1` |
 | [FACTORIAL](factorial.md) | Returns the factorial of x | `FACTORIAL(5)` → `120` |
 | [RAND](rand.md) | Returns a random number between 0 and 1 | `RAND()` → `0.123...` (random) |
