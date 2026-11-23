@@ -33,6 +33,12 @@ SELECT
     [IGNORE_RESULT]
 ```
 
+在 `FROM` 子句中对 FUSE 表进行[块采样](#sample-block)时，使用以下语法：
+
+```sql
+FROM <table_name> SAMPLE BLOCK (<percentage>)
+```
+
 - SELECT 语句还允许您直接查询 Stage 文件。有关语法和示例，请参见 [使用 Databend 进行高效数据转换](/guides/load-data/transform/querying-stage)。
 
 - 在此页面上的示例中，表 `numbers(N)` 用于测试，它具有一个 UInt64 类型的单列（名为 `number`），其中包含从 0 到 N-1 的整数。
@@ -266,6 +272,17 @@ FROM numbers(3) SELECT number;
 ```
 
 FROM 子句还可以指定一个位置，从而可以直接从各种来源查询数据，而无需先将其加载到表中。有关更多信息，请参见 [查询 Stage 文件](/guides/load-data/transform/querying-stage)。
+
+### SAMPLE BLOCK
+
+`SAMPLE BLOCK` 对 FUSE 表的存储块进行采样。Databend 从选中的块中读取数据行。相比之下，`SAMPLE ROW (<percentage>)` 以单行为单位进行采样。
+
+```sql
+SELECT customer_id
+FROM orders SAMPLE BLOCK (0.1);
+```
+
+在此示例中，`0.1` 将块采样比例设为 0.1%。查询不一定返回 0.1% 的行。块采样不限制返回的行数。
 
 ## AT 子句
 

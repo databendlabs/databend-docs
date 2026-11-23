@@ -31,6 +31,13 @@ SELECT
     [OFFSET <row_count>]
     [IGNORE_RESULT]
 ```
+
+To apply [block sampling](#sample-block) to a FUSE table in `FROM`, use this syntax:
+
+```sql
+FROM <table_name> SAMPLE BLOCK (<percentage>)
+```
+
 - The SELECT statement also allows you to query staged files directly. For syntax and examples, see [Efficient Data Transformation with Databend](/guides/load-data/transform/querying-stage).
 
 - In the examples on this page, the table `numbers(N)` is used for testing, with a single UInt64 column (named `number`) that contains integers from 0 to N-1.
@@ -264,6 +271,17 @@ FROM numbers(3) SELECT number;
 ```
 
 The FROM clause can also specify a location, enabling direct querying of data from various sources and eliminating the need to first load it into a table. For more information, see [Querying Staged Files](/guides/load-data/transform/querying-stage).
+
+### SAMPLE BLOCK
+
+`SAMPLE BLOCK` samples storage blocks in a FUSE table. Databend reads rows from the selected blocks. In contrast, `SAMPLE ROW (<percentage>)` samples individual rows.
+
+```sql
+SELECT customer_id
+FROM orders SAMPLE BLOCK (0.1);
+```
+
+In this example, `0.1` sets the block sampling rate to 0.1%. The query does not necessarily return 0.1% of the rows. Block sampling does not set a row limit.
 
 ## AT Clause
 
