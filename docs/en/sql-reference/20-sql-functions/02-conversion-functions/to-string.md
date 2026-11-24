@@ -16,6 +16,30 @@ TO_STRING( '<expr>' )
 TO_STRING( '<date>', '<format>' )
 ```
 
+## Binary input
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+```sql
+TO_STRING( <binary_expr>, '<format>' )
+```
+
+For Binary input, `format` is a character set label, `hex`, or `base64`:
+
+- A character set label decodes bytes to a String. For example, `gbk` decodes GBK bytes. See [CONVERT_FROM](convert-from.md) for supported labels and decoding errors.
+- `hex` returns lowercase hexadecimal text. `base64` returns Base64 text. These formats do not decode a character set.
+
+The format must be a scalar constant, not a column. A `NULL` input or scalar format returns `NULL`. Invalid bytes or an unsupported label raise an error. [TRY_TO_STRING](try-to-string.md) returns `NULL` for conversion failures, but still rejects a column format.
+
+Without a format argument, Binary input uses UTF-8 decoding. Only `binary_output_format = 'utf-8-lossy'` permits replacement of invalid UTF-8 bytes. This setting does not change explicit character set decoding.
+
+For Base64-wrapped GBK data, decode the Base64 layer first:
+
+```sql
+SELECT TO_STRING(FROM_BASE64('xOO6ww=='), 'gbk');
+-- 你好
+```
+
 ## Date Format Styles
 
 Databend supports two date format styles that can be selected using the `date_format_style` setting:
