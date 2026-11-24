@@ -245,6 +245,10 @@ Result (week_start = 1):
 
 ### MySQL Format Specifiers
 
+<FunctionDescription description="Introduced or updated: v1.2.962-nightly"/>
+
+For timestamp formatting, bare `%f` outputs six zero-padded microsecond digits. This applies to `TO_STRING`, `STRFTIME`, `DATE_FORMAT`, and `TO_CHAR`. Oracle-style `FF` uses the same six-digit output. Explicit precision, such as `%3f`, `%6f`, and `%9f`, remains unchanged. `%%f` outputs the literal text `%f`. This output rule does not change timestamp parsing.
+
 To handle date and time formatting, Databend makes use of the chrono::format::strftime module, which is a standard module provided by the chrono library in Rust. This module enables precise control over the formatting of dates and times. The following content is excerpted from [https://docs.rs/chrono/latest/chrono/format/strftime/index.html](https://docs.rs/chrono/latest/chrono/format/strftime/index.html):
 
 | Spec. | Example                          | Description                                                                                                                                                                                                                                                                                                                     |
@@ -282,7 +286,7 @@ To handle date and time formatting, Databend makes use of the chrono::format::st
 | %p    | AM                               | AM or PM in 12-hour clocks.                                                                                                                                                                                                                                                                                                     |
 | %M    | 34                               | Minute number (00–59), zero-padded to 2 digits.                                                                                                                                                                                                                                                                                 |
 | %S    | 60                               | Second number (00–60), zero-padded to 2 digits.                                                                                                                                                                                                                                                                                 |
-| %f    | 026490000                        | The fractional seconds (in nanoseconds) since last whole second. Databend recommends converting the Integer string into an Integer first, other than using this specifier. See [Converting Integer to Timestamp](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp) for an example. |
+| %f    | 026490                           | For formatting, the fractional seconds as six zero-padded microsecond digits. Databend recommends converting the Integer string into an Integer first, other than using this specifier. See [Converting Integer to Timestamp](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp) for an example. |
 | %.f   | .026490                          | Similar to .%f but left-aligned. These all consume the leading dot.                                                                                                                                                                                                                                                             |
 | %.3f  | .026                             | Similar to .%f but left-aligned but fixed to a length of 3.                                                                                                                                                                                                                                                                     |
 | %.6f  | .026490                          | Similar to .%f but left-aligned but fixed to a length of 6.                                                                                                                                                                                                                                                                     |
@@ -327,7 +331,7 @@ It is possible to override the default padding behavior of numeric specifiers %?
 - %S: It accounts for leap seconds, so 60 is possible.
 
 - %f, %.f, %.3f, %.6f, %.9f, %3f, %6f, %9f:
-  The default %f is right-aligned and always zero-padded to 9 digits for the compatibility with glibc and others, so it always counts the number of nanoseconds since the last whole second. E.g. 7ms after the last second will print 007000000, and parsing 7000000 will yield the same.
+  For formatting, Databend zero-pads bare %f to 6 digits and outputs microseconds. For example, 7ms after the last whole second prints 007000. This differs from Chrono's default 9-digit nanosecond output.
 
   The variant %.f is left-aligned and print 0, 3, 6 or 9 fractional digits according to the precision. E.g. 70ms after the last second under %.f will print .070 (note: not .07), and parsing .07, .070000 etc. will yield the same. Note that they can print or read nothing if the fractional part is zero or the next character is not ..
 

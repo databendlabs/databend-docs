@@ -33,9 +33,23 @@ SELECT
     [IGNORE_RESULT]
 ```
 
+在 `FROM` 子句中对 FUSE 表进行[块采样](#sample-block)时，使用以下语法：
+
+```sql
+FROM <table_name> SAMPLE BLOCK (<percentage>)
+```
+
 - SELECT 语句还允许您直接查询 Stage 文件。有关语法和示例，请参见 [使用 Databend 进行高效数据转换](/guides/load-data/transform/querying-stage)。
 
 - 在此页面上的示例中，表 `numbers(N)` 用于测试，它具有一个 UInt64 类型的单列（名为 `number`），其中包含从 0 到 N-1 的整数。
+
+## 表达式解析限制
+
+<FunctionDescription description="Introduced or updated: v1.2.962-nightly"/>
+
+SQL 解析器将表达式结构嵌套深度限制为 256 层，其中包括根表达式。嵌套括号、函数调用、数组和映射都会消耗此额度。各个独立表达式使用相同的父级深度，不会相互累加。嵌套过深会返回 `expression nesting exceeds the maximum parsing depth`。
+
+解析器也可能返回 `expression nesting exceeds the available stack space`。由于可用栈空间不同，实际允许的深度可能小于 256 层。遇到任一错误时，请简化生成的深层嵌套表达式。
 
 ## SELECT 子句
 
@@ -266,6 +280,17 @@ FROM numbers(3) SELECT number;
 ```
 
 FROM 子句还可以指定一个位置，从而可以直接从各种来源查询数据，而无需先将其加载到表中。有关更多信息，请参见 [查询 Stage 文件](/guides/load-data/transform/querying-stage)。
+
+### SAMPLE BLOCK
+
+`SAMPLE BLOCK` 对 FUSE 表的存储块进行采样。Databend 从选中的块中读取数据行。相比之下，`SAMPLE ROW (<percentage>)` 以单行为单位进行采样。
+
+```sql
+SELECT customer_id
+FROM orders SAMPLE BLOCK (0.1);
+```
+
+在此示例中，`0.1` 将块采样比例设为 0.1%。查询不一定返回 0.1% 的行。块采样不限制返回的行数。
 
 ## AT 子句
 

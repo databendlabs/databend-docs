@@ -21,6 +21,7 @@ Databend 中的连接指一种预定义配置，用于封装与外部存储服�
 |---------|-------------|
 | [DESCRIBE CONNECTION](desc-connection.md) | 显示指定连接的详细信息 |
 | [SHOW CONNECTIONS](show-connections.md) | 列出当前数据库所有连接 |
+| [SHOW CREATE CONNECTION](show-create-connection.md) | 显示连接的 `CREATE CONNECTION` 语句 |
 
 ### 使用示例
 

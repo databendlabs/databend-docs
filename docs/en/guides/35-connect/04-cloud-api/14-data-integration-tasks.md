@@ -29,7 +29,22 @@ A data integration task reads from a [data source](./13-data-sources.md) and wri
 | `page` | integer | No | Page number. Default: 1. |
 | `perPage` | integer | No | Rows per page. Default: 20. |
 | `serviceId` | integer (enum) | No | Filter by the [Service ID](./13-data-sources.md#service-id) of the data source. |
-| `datasourceId` | integer | No | Filter by data source ID. |
+| `datasourceId` | integer | No | Exact data source ID to filter by. |
+| `datasourceName` | string | No | Case-insensitive substring of the data source name. |
+| `sort` | string | No | Set to `createdAt` to sort by creation time. Requires `direction`. |
+| `direction` | string | No | `asc` (oldest first) or `desc` (newest first). Requires `sort`. |
+| `name` | string | No | Case-insensitive substring of the task name. |
+| `taskStatus` | integer (enum) | No | Task status: `1` Stopped, `2` Running. |
+| `lastRunStatus` | integer (enum) | No | Status of the latest run only: `1` Running, `2` Success, `3` Failed. Tasks with no runs do not match. |
+| `warehouse` | string | No | Case-insensitive substring of the warehouse name. |
+| `creator` | string | No | Case-insensitive substring of the creator's name or email. |
+
+Filters can be combined and apply before pagination. `data.total` counts all matches.
+The `lastRunStatus` filter matches `lastRunData.status`. If the latest run has not supplied a status in its details, the API uses the status from the run history record.
+
+```json
+{ "orgSlug": "<organization-id>", "page": 1, "perPage": 20, "warehouse": "default", "taskStatus": 2, "lastRunStatus": 1 }
+```
 
 Response example. `taskStatus` is a [task status](#task-status). `lastRunData` is the [last run data](#last-run-data).
 

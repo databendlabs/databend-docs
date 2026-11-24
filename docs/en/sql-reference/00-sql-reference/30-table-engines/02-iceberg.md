@@ -302,6 +302,7 @@ CREATE CATALOG iceberg_rest TYPE = ICEBERG CONNECTION = (
     "s3.secret-access-key" = 'password'
     "s3.region" = 'us-east-1'
 )
+```
 
 - AWS Glue Catalog
 For Glue catalogs, the configuration includes both Glue service parameters and storage (S3) parameters. The Glue service parameters appear first, followed by the S3 storage parameters (prefixed with "s3.").
@@ -420,6 +421,18 @@ In addition to metadata caching, Databend also supports table data caching for I
 
 Databend supports writing data to Iceberg tables using `INSERT INTO`. You can create Iceberg tables directly with the `ENGINE = ICEBERG` clause and optionally define partition columns using `PARTITION BY`.
 
+### Supported operations and upgrade behavior
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+Use `CREATE TABLE ... AS SELECT` to create and populate a table in an Iceberg catalog. If `CREATE TABLE IF NOT EXISTS ... AS SELECT` finds an existing table, it leaves that table unchanged. It does not append the query results.
+
+Iceberg tables reject `INSERT OVERWRITE`, `TRUNCATE TABLE`, and `ALTER TABLE ADD COLUMN` or `DROP COLUMN`. Earlier releases could report success without making the requested change. Do not treat an earlier success response as proof that rows were replaced, removed, or that the schema changed.
+
+Databend DDL creates identity partitions. Writes to tables created by other Iceberg clients also apply their bucket, truncate, and temporal partition transforms. This does not add those transforms to Databend's `PARTITION BY` syntax.
+
+Time-travel reads use the requested snapshot. Write conversions report an error if a value does not fit the Iceberg physical type. They do not silently replace that value with NULL.
+
 ### Creating Iceberg Tables
 
 #### Syntax
@@ -448,6 +461,12 @@ The following Databend data types are supported for writing to Iceberg tables:
 | STRING        | String      |
 | DATE          | Date        |
 | TIMESTAMP     | Timestamp   |
+| DECIMAL       | Decimal, precision at most 38 |
+| TUPLE         | Struct      |
+| ARRAY         | List        |
+| MAP           | Map         |
+
+`DECIMAL` precision above 38 is not supported for Iceberg table creation.
 
 ### Inserting Data
 

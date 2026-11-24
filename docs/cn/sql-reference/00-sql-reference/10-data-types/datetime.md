@@ -245,6 +245,10 @@ SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05')); -- 周
 
 ### MySQL 格式说明符
 
+<FunctionDescription description="Introduced or updated: v1.2.962-nightly"/>
+
+格式化时间戳时，单独的 `%f` 输出补零至六位的微秒数。此规则适用于 `TO_STRING`、`STRFTIME`、`DATE_FORMAT` 和 `TO_CHAR`。Oracle 风格的 `FF` 同样输出六位数字。`%3f`、`%6f` 和 `%9f` 等显式精度保持不变。`%%f` 输出字面文本 `%f`。此输出规则不改变时间戳解析行为。
+
 为了处理日期和时间格式化，Databend 使用了 `chrono::format::strftime` 模块，这是 Rust `chrono` 库提供的标准模块。该模块允许对日期和时间的格式进行精确控制。以下内容摘自 [https://docs.rs/chrono/latest/chrono/format/strftime/index.html](https://docs.rs/chrono/latest/chrono/format/strftime/index.html)：
 
 | 说明符 | 示例                             | 描述                                                                                                                                                                                                                                                                                                                            |
@@ -282,7 +286,7 @@ SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05')); -- 周
 | %p     | AM                               | 12 小时制的 AM 或 PM。                                                                                                                                                                                                                                                                                                          |
 | %M     | 34                               | 分钟（00–59），零填充至 2 位。                                                                                                                                                                                                                                                                                                  |
 | %S     | 60                               | 秒（00–60），零填充至 2 位。                                                                                                                                                                                                                                                                                                    |
-| %f     | 026490000                        | 自上一整秒以来的纳秒部分。Databend 建议先将整数字符串转换为 Integer，而不是使用此说明符。参见[将整数转换为时间戳](/sql/sql-functions/datetime-functions/to-timestamp#示例-2-将整数转换为时间戳)示例。                                                                                            |
+| %f     | 026490                           | 格式化时，将秒的小数部分输出为补零至六位的微秒数。Databend 建议先将整数字符串转换为 Integer，而不是使用此说明符。参见[将整数转换为时间戳](/sql/sql-functions/datetime-functions/to-timestamp#示例-2-将整数转换为时间戳)示例。                                                                                            |
 | %.f    | .026490                          | 类似 .%f 但左对齐。这些都会消耗前导点号。                                                                                                                                                                                                                                                                                       |
 | %.3f   | .026                             | 类似 .%f 但左对齐并固定长度为 3。                                                                                                                                                                                                                                                                                               |
 | %.6f   | .026490                          | 类似 .%f 但左对齐并固定长度为 6。                                                                                                                                                                                                                                                                                               |
@@ -327,7 +331,7 @@ SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05')); -- 周
 - %S: 考虑到闰秒，所以可能是 60。
 
 - %f, %.f, %.3f, %.6f, %.9f, %3f, %6f, %9f:
-  默认的 %f 右对齐并始终用零填充至 9 位，以兼容 glibc 等，因此它总是计算自上一整秒以来的纳秒数。例如，上一秒后 7 毫秒将打印 007000000，解析 7000000 也会得到相同结果。
+  格式化时，Databend 将单独的 %f 补零至 6 位，输出微秒数。例如，上一整秒后 7 毫秒会输出 007000。此行为不同于 Chrono 默认的 9 位纳秒输出。
 
   变体 %.f 左对齐，并根据精度打印 0、3、6 或 9 位小数。例如，上一秒后 70 毫秒在 %.f 下将打印 .070（注意：不是 .07），解析 .07、.070000 等也会得到相同结果。注意，如果小数部分为零或下一个字符不是 .，它们可能什么都不打印或读取。
 

@@ -36,17 +36,28 @@ The query result shows in the output area. You can click **Export** to save the 
 - If you enter multiple statements in the SQL input area, Databend Cloud will only execute the statement where the cursor is located. You can move the cursor to execute other statements. Additionally, you can use keyboard shortcuts: Ctrl + Enter (Windows) or Command + Enter (Mac) to execute the current statement, and Ctrl + Shift + Enter (Windows) or Command + Shift + Enter (Mac) to execute all statements.
   :::
 
-## Query Result Defaults
+## Query Result Configs
 
-Databend Cloud applies the following default limits to query results displayed in the worksheet output area:
+To change how the worksheet shows and returns query results, click the settings icon in the bottom-right corner of the result area to open **Result Configs**:
 
-| Setting | Default | Description |
-|---|---|---|
-| Max display rows | 10,000 | Only the first 10,000 rows are shown in the preview. |
-| Max display columns | 200 | Only the first 200 columns are shown in the preview. |
-| Max cell content length | 3,000 characters | Cell values longer than this are truncated in the display. |
+| Setting | Default | Options | Description |
+|---|---|---|---|
+| Max Cell Content Length | 3,000 characters | 3K–Unlimited | Cell values longer than this are truncated in the display. |
+| Max Display Rows | 10,000 | 5,000 or 10,000 | The most rows shown in the result table. It changes only what is shown; the query result and exports are not affected. |
+| Max Result Rows (`max_result_rows`) | 10,000 | 10,000, 100,000, 1,000,000 or 10,000,000 | The query stops after returning this many rows, and exports contain the same rows. It is sent as the [`max_result_rows`](/sql/sql-reference/system-tables/system-settings) setting for each run. |
 
-The row and column limits are fixed. To adjust the max cell content length, click the settings icon in the bottom-right corner of the result area and choose a value (3K–Unlimited). Note that setting a very large value or **Unlimited** may cause the browser to slow down or become unresponsive when working with large result sets.
+Max Result Rows does not apply in these cases:
+
+- The SQL has its own `LIMIT`. The `LIMIT` decides how many rows are returned.
+- The worksheet session sets `max_result_rows` with [`SET`](/sql/sql-commands/administration-cmds/set-global). That value applies to later runs in the session, whatever Max Result Rows is.
+
+The result details next to the table show **Result Rows** (rows the query returned) and **Display Rows** (rows shown in the table).
+
+Result Configs are saved in your browser for each organization and apply to the next run. Only the first 200 columns of a result are shown; this limit is fixed.
+
+:::note
+A large Max Cell Content Length, **Unlimited**, or a large Max Result Rows can make the browser slow or unresponsive with large result sets.
+:::
 
 ## Sharing a Worksheet
 

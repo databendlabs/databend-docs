@@ -22,6 +22,16 @@ import EEFeature from '@site/src/components/EEFeature';
 - 源表必须是 `default` catalog 中持久化的 FUSE 基表，不能以其他视图或其他表引擎作为源。
 - 物化视图为只读对象。使用 `REFRESH MATERIALIZED VIEW` 维护数据；不支持 `INSERT`、`UPDATE`、`DELETE`、`TRUNCATE` 和普通的 `ALTER TABLE` 操作。
 
+## 源表安全策略
+
+<FunctionDescription description="Introduced or updated: v1.2.962-nightly"/>
+
+物化视图不能使用具有[行访问策略](/guides/security/data-protection/row-access-policy)或[脱敏策略](/guides/security/data-protection/masking-policy)的源表。即使视图未引用脱敏列，脱敏策略也会阻止创建。物化视图存储的数据不会按每个读取者应用源表策略。
+
+如需向源表附加任一策略，必须先删除所有依赖该表的物化视图。失效的物化视图同样会阻止附加策略。不要为启用物化视图而移除必需的安全策略。
+
+升级后，如果已有物化视图的源表具有任一策略，读取该视图和执行 `REFRESH MATERIALIZED VIEW` 都会失败。优化器改写源表查询时会跳过这些视图。使用 `SHOW CREATE MATERIALIZED VIEW` 查看定义。使用 `DROP MATERIALIZED VIEW` 删除冲突的视图，并保留源表策略。
+
 ## 创建物化视图
 
 ```sql
