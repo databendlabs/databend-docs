@@ -37,6 +37,21 @@ curl -s "https://api.databend.com/v1/query/<query-id>/page/1" \
 
 Responses can also have `X-DATABEND-SESSION-ID`. The Cloud console uses it. Scripts and agents can ignore it.
 
+:::note
+If shell quoting causes a semicolon or quotation mark to be lost from the SQL in your request, send the JSON through standard input instead. In Bash or Zsh, use `curl --data-binary @-` with a quoted here-document (`<<'EOF'`). The shell passes the body without expanding it.
+
+```bash
+curl -s -X POST "https://api.databend.com/v1/query" \
+  -H "X-DATABENDCLOUD-TOKEN: <api-token>" \
+  -H "X-DATABENDCLOUD-ORG: <organization-id>" \
+  -H "X-DATABENDCLOUD-WAREHOUSE: <warehouse-name>" \
+  -H "Content-Type: application/json" \
+  --data-binary @- <<'EOF'
+{"sql":"SELECT 'fff';"}
+EOF
+```
+:::
+
 ## Request Body
 
 `POST /v1/query` accepts the fields below. The server does not forward other fields, such as `stage_attachment` and `string_fields`. For the response format, see the [Databend HTTP API](/developer/apis/http).
