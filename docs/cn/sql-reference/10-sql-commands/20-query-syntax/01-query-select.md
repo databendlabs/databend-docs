@@ -43,6 +43,14 @@ FROM <table_name> SAMPLE BLOCK (<percentage>)
 
 - 在此页面上的示例中，表 `numbers(N)` 用于测试，它具有一个 UInt64 类型的单列（名为 `number`），其中包含从 0 到 N-1 的整数。
 
+## 表达式解析限制
+
+<FunctionDescription description="Introduced or updated: v1.2.962-nightly"/>
+
+SQL 解析器将表达式结构嵌套深度限制为 256 层，其中包括根表达式。嵌套括号、函数调用、数组和映射都会消耗此额度。各个独立表达式使用相同的父级深度，不会相互累加。嵌套过深会返回 `expression nesting exceeds the maximum parsing depth`。
+
+解析器也可能返回 `expression nesting exceeds the available stack space`。由于可用栈空间不同，实际允许的深度可能小于 256 层。遇到任一错误时，请简化生成的深层嵌套表达式。
+
 ## SELECT 子句
 
 ### AS 关键字
