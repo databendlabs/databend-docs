@@ -421,6 +421,18 @@ iceberg_table_meta_count = 0
 
 Databend 支持通过 `INSERT INTO` 向 Iceberg 表写入数据。可以直接使用 `ENGINE = ICEBERG` 子句创建 Iceberg 表，并通过 `PARTITION BY` 可选地定义分区列。
 
+### 支持的操作和升级行为
+
+<FunctionDescription description="Introduced or updated: v1.2.964-nightly"/>
+
+使用 `CREATE TABLE ... AS SELECT` 可在 Iceberg catalog 中创建表并写入查询结果。如果 `CREATE TABLE IF NOT EXISTS ... AS SELECT` 发现表已存在，则保留该表不变，不会追加查询结果。
+
+Iceberg 表会拒绝 `INSERT OVERWRITE`、`TRUNCATE TABLE`，以及 `ALTER TABLE ADD COLUMN` 或 `DROP COLUMN`。旧版本可能在未完成所请求变更时报告成功。不要将旧版本的成功响应视为行已替换、删除或表结构已更改的证明。
+
+Databend DDL 创建 identity 分区。向其他 Iceberg 客户端创建的表写入数据时，也会应用这些表的 bucket、truncate 和时间分区变换。这不会在 Databend 的 `PARTITION BY` 语法中新增这些变换。
+
+时间旅行读取使用请求指定的快照。写入值无法转换为 Iceberg 物理类型时，转换会报错，不会静默将该值替换为 NULL。
+
 ### 创建 Iceberg 表
 
 #### 语法
@@ -449,6 +461,12 @@ CREATE TABLE <table_name> (
 | STRING        | String      |
 | DATE          | Date        |
 | TIMESTAMP     | Timestamp   |
+| DECIMAL       | Decimal，精度不超过 38 |
+| TUPLE         | Struct      |
+| ARRAY         | List        |
+| MAP           | Map         |
+
+创建 Iceberg 表时，不支持精度大于 38 的 `DECIMAL`。
 
 ### 插入数据
 
