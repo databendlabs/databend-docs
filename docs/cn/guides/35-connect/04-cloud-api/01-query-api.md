@@ -37,6 +37,21 @@ curl -s "https://api.databend.cn/v1/query/<query-id>/page/1" \
 
 响应中还可能有 `X-DATABEND-SESSION-ID`，它供 Cloud 控制台使用，脚本和 Agent 可以忽略。
 
+:::note
+如果 Shell 的引号处理导致请求中的 SQL 丢失分号或引号，可以改用标准输入发送 JSON。在 Bash 或 Zsh 中，将 `curl --data-binary @-` 与带引号的 here-document（`<<'EOF'`）配合使用。Shell 不会对其中的请求体做展开。
+
+```bash
+curl -s -X POST "https://api.databend.cn/v1/query" \
+  -H "X-DATABENDCLOUD-TOKEN: <api-token>" \
+  -H "X-DATABENDCLOUD-ORG: <organization-id>" \
+  -H "X-DATABENDCLOUD-WAREHOUSE: <warehouse-name>" \
+  -H "Content-Type: application/json" \
+  --data-binary @- <<'EOF'
+{"sql":"SELECT 'fff';"}
+EOF
+```
+:::
+
 ## 请求体 {/* #request-body */}
 
 `POST /v1/query` 接受以下字段。其他字段（例如 `stage_attachment` 和 `string_fields`）服务端不会转发。响应格式见 [Databend HTTP API](/developer/apis/http)。
