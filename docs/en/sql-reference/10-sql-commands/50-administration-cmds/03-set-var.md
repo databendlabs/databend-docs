@@ -2,18 +2,16 @@
 title: SET_VAR
 ---
 
-SET_VAR is used to specify optimizer hints within a single SQL statement, allowing for finer control over the execution plan of that specific statement. This includes:
+Use `SET_VAR` to change a setting for a single SQL statement.
 
 :::note
 SET_VAR will be deprecated in an upcoming release. Consider using the [SETTINGS Clause](../20-query-syntax/settings.md) instead.
 :::
 
-- Configure settings temporarily, affecting only the duration of the SQL statement execution. It's important to note that the settings specified with SET_VAR will solely impact the result of the current statement being executed and will not have any lasting effects on the overall database configuration. For a list of available settings that can be configured using SET_VAR, see [SHOW SETTINGS](03-show-settings.md). To understand how it works, see these examples:
+The setting does not change the database configuration. For available settings, see [SHOW SETTINGS](03-show-settings.md). For usage, see the examples below:
 
-    - [Example 1. Temporarily Set Timezone](#example-1-temporarily-set-timezone)
-    - [Example 2: Control Parallel Processing for COPY INTO](#example-2-control-parallel-processing-for-copy-into)
-
-- Control the deduplication behavior on [INSERT](../10-dml/dml-insert.md), [UPDATE](../10-dml/dml-update.md), or [REPLACE](../10-dml/dml-replace.md) operations with the label *deduplicate_label*. For those operations with a deduplicate_label in the SQL statements, Databend executes only the first statement, and subsequent statements with the same deduplicate_label value are ignored, regardless of their intended data modifications. Please note that once you set a deduplicate_label, it will remain in effect for a period of 24 hours. To understand how the deduplicate_label assists in deduplication, see [Example 3: Set Deduplicate Label](#example-3-set-deduplicate-label).
+- [Example 1: Temporarily Set Timezone](#example-1-temporarily-set-timezone)
+- [Example 2: Control Parallel Processing for COPY INTO](#example-2-control-parallel-processing-for-copy-into)
 
 See also: 
 - [SETTINGS Clause](../20-query-syntax/settings.md)
@@ -86,37 +84,4 @@ When loading data into Databend with COPY INTO, you can control the parallel pro
 
 ```sql
 COPY /*+ set_var(max_threads=6) */ INTO mytable FROM @mystage/ pattern='.*[.]parq' FILE_FORMAT=(TYPE=parquet);
-```
-
-### Example 3: Set Deduplicate Label
-
-```sql
-CREATE TABLE t1(a Int, b bool);
-INSERT /*+ SET_VAR(deduplicate_label='databend') */ INTO t1 (a, b) VALUES(1, false);
-SELECT * FROM t1;
-
-a|b|
--+-+
-1|0|
-
-UPDATE /*+ SET_VAR(deduplicate_label='databend') */ t1 SET a = 20 WHERE b = false;
-SELECT * FROM t1;
-
-a|b|
--+-+
-1|0|
-
-REPLACE /*+ SET_VAR(deduplicate_label='databend') */ INTO t1 on(a,b) VALUES(40, false);
-SELECT * FROM t1;
-
-a|b|
--+-+
-1|0|
-
-MERGE /*+ SET_VAR(deduplicate_label='databend') */ INTO t1 using t2 on t1.a = t2.a when matched then update *;
-SELECT * FROM t1;
-
-a|b|
--+-+
-1|0|
 ```
