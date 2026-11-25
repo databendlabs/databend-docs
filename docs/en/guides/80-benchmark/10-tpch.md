@@ -6,18 +6,18 @@ benchmark_card:
   title: Databend vs. Snowflake
   views:
     - tab: Time
-      headline: 4.53×
+      headline: 3.97×
       summary: faster cold run
       context: 22 queries · 100 GB · Small
       unit: s
       groups:
         - label: Cold run
           rows:
-            - { label: Databend, value: 46, highlight: true }
+            - { label: Databend, value: 52, highlight: true }
             - { label: Snowflake, value: 207 }
         - label: Hot run
           rows:
-            - { label: Databend, value: 34, highlight: true }
+            - { label: Databend, value: 41, highlight: true }
             - { label: Snowflake, value: 138 }
       note: Lower is better
     - tab: Cost
@@ -94,62 +94,62 @@ And remember, **don't just take our word for it — you're encouraged to run and
 
 ![Alt text](@site/static/img/documents/tpch2.png)
 
-| Query          | Snowflake(Total 207s, Cost $0.23) | Databend Cloud(Total 46s, Cost $0.03) |
+| Query          | Snowflake(Total 207s, Cost $0.23) | Databend Cloud(Total 52s, Cost $0.03) |
 | -------------- | --------------------------------- | ------------------------------------- |
-| TPC-H 1        | 11.703                            | 3.467                                 |
-| TPC-H 2        | 4.524                             | 2.745                                 |
-| TPC-H 3        | 8.908                             | 2.982                                 |
-| TPC-H 4        | 8.108                             | 1.530                                 |
-| TPC-H 5        | 9.202                             | 2.421                                 |
-| TPC-H 6        | 1.237                             | 0.745                                 |
-| TPC-H 7        | 9.082                             | 2.130                                 |
-| TPC-H 8        | 10.886                            | 2.213                                 |
-| TPC-H 9        | 18.152                            | 4.032                                 |
-| TPC-H 10       | 13.525                            | 4.219                                 |
-| TPC-H 11       | 2.582                             | 0.627                                 |
-| TPC-H 12       | 10.099                            | 1.460                                 |
-| TPC-H 13       | 13.458                            | 3.085                                 |
-| TPC-H 14       | 8.001                             | 0.886                                 |
-| TPC-H 15       | 8.737                             | 0.937                                 |
-| TPC-H 16       | 4.864                             | 0.561                                 |
-| TPC-H 17       | 5.363                             | 1.686                                 |
-| TPC-H 18       | 19.971                            | 2.492                                 |
-| TPC-H 19       | 9.893                             | 1.627                                 |
-| TPC-H 20       | 8.538                             | 1.673                                 |
-| TPC-H 21       | 16.439                            | 3.718                                 |
-| TPC-H 22       | 3.744                             | 0.446                                 |
-| **Total Time** | **207s**                          | **46s**                               |
+| TPC-H 1        | 11.703                            | 3.368                                 |
+| TPC-H 2        | 4.524                             | 1.621                                 |
+| TPC-H 3        | 8.908                             | 2.847                                 |
+| TPC-H 4        | 8.108                             | 2.062                                 |
+| TPC-H 5        | 9.202                             | 2.989                                 |
+| TPC-H 6        | 1.237                             | 0.760                                 |
+| TPC-H 7        | 9.082                             | 2.658                                 |
+| TPC-H 8        | 10.886                            | 3.065                                 |
+| TPC-H 9        | 18.152                            | 4.882                                 |
+| TPC-H 10       | 13.525                            | 4.278                                 |
+| TPC-H 11       | 2.582                             | 0.611                                 |
+| TPC-H 12       | 10.099                            | 1.449                                 |
+| TPC-H 13       | 13.458                            | 3.342                                 |
+| TPC-H 14       | 8.001                             | 1.244                                 |
+| TPC-H 15       | 8.737                             | 1.356                                 |
+| TPC-H 16       | 4.864                             | 0.604                                 |
+| TPC-H 17       | 5.363                             | 2.446                                 |
+| TPC-H 18       | 19.971                            | 2.660                                 |
+| TPC-H 19       | 9.893                             | 2.014                                 |
+| TPC-H 20       | 8.538                             | 2.417                                 |
+| TPC-H 21       | 16.439                            | 4.977                                 |
+| TPC-H 22       | 3.744                             | 0.536                                 |
+| **Total Time** | **207s**                          | **52s**                               |
 | **Total Cost** | **$0.23**                         | **$0.03**                             |
 
 ### Query Benchmark: Hot Run
 
 ![Alt text](@site/static/img/documents/tpch3.png)
 
-| Query          | Snowflake (Total 138s, Cost $0.15) | Databend Cloud (Total 34s, Cost $0.02) |
+| Query          | Snowflake (Total 138s, Cost $0.15) | Databend Cloud (Total 41s, Cost $0.02) |
 | -------------- | ---------------------------------- | -------------------------------------- |
-| TPC-H 1        | 8.934                              | 2.154                                  |
-| TPC-H 2        | 3.018                              | 0.442                                  |
-| TPC-H 3        | 6.089                              | 1.491                                  |
-| TPC-H 4        | 4.914                              | 0.816                                  |
-| TPC-H 5        | 5.800                              | 1.854                                  |
-| TPC-H 6        | 0.891                              | 0.722                                  |
-| TPC-H 7        | 5.381                              | 2.070                                  |
-| TPC-H 8        | 5.724                              | 1.753                                  |
-| TPC-H 9        | 10.283                             | 3.840                                  |
-| TPC-H 10       | 10.368                             | 2.294                                  |
-| TPC-H 11       | 1.165                              | 0.444                                  |
-| TPC-H 12       | 7.052                              | 1.110                                  |
-| TPC-H 13       | 12.829                             | 2.527                                  |
-| TPC-H 14       | 3.288                              | 0.874                                  |
-| TPC-H 15       | 3.475                              | 0.936                                  |
-| TPC-H 16       | 4.094                              | 0.409                                  |
-| TPC-H 17       | 4.203                              | 1.514                                  |
-| TPC-H 18       | 18.583                             | 2.284                                  |
-| TPC-H 19       | 3.888                              | 1.311                                  |
-| TPC-H 20       | 6.379                              | 1.662                                  |
-| TPC-H 21       | 10.287                             | 3.134                                  |
-| TPC-H 22       | 1.573                              | 0.409                                  |
-| **Total Time** | **138s**                           | **34s**                                |
+| TPC-H 1        | 8.934                              | 2.240                                  |
+| TPC-H 2        | 3.018                              | 0.416                                  |
+| TPC-H 3        | 6.089                              | 1.678                                  |
+| TPC-H 4        | 4.914                              | 0.878                                  |
+| TPC-H 5        | 5.800                              | 2.427                                  |
+| TPC-H 6        | 0.891                              | 0.734                                  |
+| TPC-H 7        | 5.381                              | 2.587                                  |
+| TPC-H 8        | 5.724                              | 2.555                                  |
+| TPC-H 9        | 10.283                             | 4.556                                  |
+| TPC-H 10       | 10.368                             | 2.445                                  |
+| TPC-H 11       | 1.165                              | 0.411                                  |
+| TPC-H 12       | 7.052                              | 1.152                                  |
+| TPC-H 13       | 12.829                             | 2.735                                  |
+| TPC-H 14       | 3.288                              | 1.197                                  |
+| TPC-H 15       | 3.475                              | 1.339                                  |
+| TPC-H 16       | 4.094                              | 0.455                                  |
+| TPC-H 17       | 4.203                              | 2.179                                  |
+| TPC-H 18       | 18.583                             | 2.477                                  |
+| TPC-H 19       | 3.888                              | 1.631                                  |
+| TPC-H 20       | 6.379                              | 2.394                                  |
+| TPC-H 21       | 10.287                             | 4.442                                  |
+| TPC-H 22       | 1.573                              | 0.504                                  |
+| **Total Time** | **138s**                           | **41s**                                |
 | **Total Cost** | **$0.15**                          | **$0.02**                              |
 
 ## Reproduce the Benchmark
