@@ -6,22 +6,22 @@ benchmark_card:
   title: Databend vs. Snowflake
   views:
     - tab: Time
-      headline: 1.25×
+      headline: 4.53×
       summary: faster cold run
       context: 22 queries · 100 GB · Small
       unit: s
       groups:
         - label: Cold run
           rows:
-            - { label: Databend, value: 166, highlight: true }
+            - { label: Databend, value: 46, highlight: true }
             - { label: Snowflake, value: 207 }
         - label: Hot run
           rows:
-            - { label: Databend, value: 124, highlight: true }
+            - { label: Databend, value: 34, highlight: true }
             - { label: Snowflake, value: 138 }
       note: Lower is better
     - tab: Cost
-      headline: ~60%
+      headline: ~87%
       summary: lower query cost
       context: 22 queries · 100 GB · Small
       prefix: $
@@ -29,11 +29,11 @@ benchmark_card:
       groups:
         - label: Cold run
           rows:
-            - { label: Databend, value: 0.09, highlight: true }
+            - { label: Databend, value: 0.03, highlight: true }
             - { label: Snowflake, value: 0.23 }
         - label: Hot run
           rows:
-            - { label: Databend, value: 0.07, highlight: true }
+            - { label: Databend, value: 0.02, highlight: true }
             - { label: Snowflake, value: 0.15 }
         - label: Data loading
           rows:
@@ -64,7 +64,7 @@ The TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing P
 ## Performance and Cost Comparison
 
 - **Data Loading Costs**: Databend achieves a **67% cost reduction** in data loading compared to Snowflake.
-- **Query Execution Costs**: Databend approximately **60% less expensive** for query execution than Snowflake.
+- **Query Execution Costs**: Databend approximately **87% less expensive** for query execution than Snowflake.
 
 :::info[Note]
 
@@ -94,63 +94,63 @@ And remember, **don't just take our word for it — you're encouraged to run and
 
 ![Alt text](@site/static/img/documents/tpch2.png)
 
-| Query          | Snowflake(Total 207s, Cost $0.23) | Databend Cloud(Total 166s, Cost $0.09) |
-| -------------- | --------------------------------- | -------------------------------------- |
-| TPC-H 1        | 11.703                            | 8.036                                  |
-| TPC-H 2        | 4.524                             | 3.786                                  |
-| TPC-H 3        | 8.908                             | 6.040                                  |
-| TPC-H 4        | 8.108                             | 4.462                                  |
-| TPC-H 5        | 9.202                             | 7.014                                  |
-| TPC-H 6        | 1.237                             | 3.234                                  |
-| TPC-H 7        | 9.082                             | 7.345                                  |
-| TPC-H 8        | 10.886                            | 8.976                                  |
-| TPC-H 9        | 18.152                            | 13.340                                 |
-| TPC-H 10       | 13.525                            | 12.891                                 |
-| TPC-H 11       | 2.582                             | 2.183                                  |
-| TPC-H 12       | 10.099                            | 8.839                                  |
-| TPC-H 13       | 13.458                            | 7.206                                  |
-| TPC-H 14       | 8.001                             | 4.612                                  |
-| TPC-H 15       | 8.737                             | 4.621                                  |
-| TPC-H 16       | 4.864                             | 1.645                                  |
-| TPC-H 17       | 5.363                             | 14.315                                 |
-| TPC-H 18       | 19.971                            | 12.058                                 |
-| TPC-H 19       | 9.893                             | 12.579                                 |
-| TPC-H 20       | 8.538                             | 8.836                                  |
-| TPC-H 21       | 16.439                            | 12.270                                 |
-| TPC-H 22       | 3.744                             | 1.926                                  |
-| **Total Time** | **207s**                          | **166s**                               |
-| **Total Cost** | **$0.23**                         | **$0.09**                              |
+| Query          | Snowflake(Total 207s, Cost $0.23) | Databend Cloud(Total 46s, Cost $0.03) |
+| -------------- | --------------------------------- | ------------------------------------- |
+| TPC-H 1        | 11.703                            | 3.467                                 |
+| TPC-H 2        | 4.524                             | 2.745                                 |
+| TPC-H 3        | 8.908                             | 2.982                                 |
+| TPC-H 4        | 8.108                             | 1.530                                 |
+| TPC-H 5        | 9.202                             | 2.421                                 |
+| TPC-H 6        | 1.237                             | 0.745                                 |
+| TPC-H 7        | 9.082                             | 2.130                                 |
+| TPC-H 8        | 10.886                            | 2.213                                 |
+| TPC-H 9        | 18.152                            | 4.032                                 |
+| TPC-H 10       | 13.525                            | 4.219                                 |
+| TPC-H 11       | 2.582                             | 0.627                                 |
+| TPC-H 12       | 10.099                            | 1.460                                 |
+| TPC-H 13       | 13.458                            | 3.085                                 |
+| TPC-H 14       | 8.001                             | 0.886                                 |
+| TPC-H 15       | 8.737                             | 0.937                                 |
+| TPC-H 16       | 4.864                             | 0.561                                 |
+| TPC-H 17       | 5.363                             | 1.686                                 |
+| TPC-H 18       | 19.971                            | 2.492                                 |
+| TPC-H 19       | 9.893                             | 1.627                                 |
+| TPC-H 20       | 8.538                             | 1.673                                 |
+| TPC-H 21       | 16.439                            | 3.718                                 |
+| TPC-H 22       | 3.744                             | 0.446                                 |
+| **Total Time** | **207s**                          | **46s**                               |
+| **Total Cost** | **$0.23**                         | **$0.03**                             |
 
 ### Query Benchmark: Hot Run
 
 ![Alt text](@site/static/img/documents/tpch3.png)
 
-| Query          | Snowflake (Total 138s, Cost $0.15) | Databend Cloud (Total 124s, Cost $0.07) |
-| -------------- | ---------------------------------- | --------------------------------------- |
-| TPC-H 1        | 8.934                              | 7.568                                   |
-| TPC-H 2        | 3.018                              | 3.125                                   |
-| TPC-H 3        | 6.089                              | 5.234                                   |
-| TPC-H 4        | 4.914                              | 3.392                                   |
-| TPC-H 5        | 5.800                              | 4.857                                   |
-| TPC-H 6        | 0.891                              | 2.142                                   |
-| TPC-H 7        | 5.381                              | 4.389                                   |
-| TPC-H 8        | 5.724                              | 5.887                                   |
-| TPC-H 9        | 10.283                             | 9.621                                   |
-| TPC-H 10       | 10.368                             | 8.524                                   |
-| TPC-H 11       | 1.165                              | 1.364                                   |
-| TPC-H 12       | 7.052                              | 5.352                                   |
-| TPC-H 13       | 12.829                             | 6.180                                   |
-| TPC-H 14       | 3.288                              | 2.725                                   |
-| TPC-H 15       | 3.475                              | 2.748                                   |
-| TPC-H 16       | 4.094                              | 1.124                                   |
-| TPC-H 17       | 4.203                              | 13.757                                  |
-| TPC-H 18       | 18.583                             | 11.630                                  |
-| TPC-H 19       | 3.888                              | 7.881                                   |
-| TPC-H 20       | 6.379                              | 5.797                                   |
-| TPC-H 21       | 10.287                             | 9.806                                   |
-| TPC-H 22       | 1.573                              | 1.122                                   |
-| **Total Time** | **138s**                           | **124s**                                |
-| **Total Cost** | **$0.15**                          | **$0.07**                               |
+| Query          | Snowflake (Total 138s, Cost $0.15) | Databend Cloud (Total 34s, Cost $0.02) |
+| -------------- | ---------------------------------- | -------------------------------------- |
+| TPC-H 1        | 8.934                              | 2.154                                  |
+| TPC-H 2        | 3.018                              | 0.442                                  |
+| TPC-H 3        | 6.089                              | 1.491                                  |
+| TPC-H 4        | 4.914                              | 0.816                                  |
+| TPC-H 5        | 5.800                              | 1.854                                  |
+| TPC-H 6        | 0.891                              | 0.722                                  |
+| TPC-H 7        | 5.381                              | 2.070                                  |
+| TPC-H 8        | 5.724                              | 1.753                                  |
+| TPC-H 9        | 10.283                             | 3.840                                  |
+| TPC-H 10       | 10.368                             | 2.294                                  |
+| TPC-H 11       | 1.165                              | 0.444                                  |
+| TPC-H 12       | 7.052                              | 1.110                                  |
+| TPC-H 13       | 12.829                             | 2.527                                  |
+| TPC-H 14       | 3.288                              | 0.874                                  |
+| TPC-H 15       | 3.475                              | 0.936                                  |
+| TPC-H 16       | 4.094                              | 0.409                                  |
+| TPC-H 17       | 4.203                              | 1.514                                  |
+| TPC-H 18       | 18.583                             | 2.284                                  |
+| TPC-H 19       | 3.888                              | 1.311                                  |
+| TPC-H 20       | 6.379                              | 1.662                                  |
+| TPC-H 21       | 10.287                             | 3.134                                  |
+| TPC-H 22       | 1.573                              | 0.409                                  |
+| **Total Time** | **138s**                           | **34s**                                |
+| **Total Cost** | **$0.15**                          | **$0.02**                              |
 
 ## Reproduce the Benchmark
 
