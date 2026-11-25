@@ -31,7 +31,6 @@ SELECT * FROM system.table_functions;
 | execute_background_job     |
 | license_info               |
 | suggested_background_tasks |
-| tenant_quota               |
 | fuse_encoding              |
 +----------------------------+
 ```
