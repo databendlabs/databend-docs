@@ -17,8 +17,11 @@ Unlike a logical view, a materialized view can be explicitly refreshed to persis
 
 ## Limitations
 
+<FunctionDescription description="Introduced or updated: v1.2.937-nightly"/>
+
 - A definition must be a simple `SELECT ... FROM ... [WHERE ...] [GROUP BY ...]` query over exactly one base table. Joins, subqueries, set operations, and non-deterministic functions are not supported.
-- Aggregations are supported only for `sum`, `min`, `max`, `avg`, `count`, and `approx_count_distinct`. `DISTINCT`, `FILTER`, window, and ordered aggregate forms are not supported.
+- Use built-in aggregate functions that support storing and merging aggregate states, such as `SUM` and `STDDEV_POP`. Aggregate calls cannot use `DISTINCT`, `FILTER`, or their own `ORDER BY`. Parametric calls such as `QUANTILE_TDIGEST(0.5)(x)` and aggregate combinators such as `SUM_IF` and `COUNT_DISTINCT` are not supported.
+- A definition cannot use window functions (`OVER`). You can use window functions in a query that reads the materialized view.
 - The source must be a persistent FUSE base table in the `default` catalog. A materialized view cannot use another view or a different table engine as its source.
 - Materialized views are read-only. Use `REFRESH MATERIALIZED VIEW` to maintain their contents; `INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`, and ordinary `ALTER TABLE` operations are not supported.
 

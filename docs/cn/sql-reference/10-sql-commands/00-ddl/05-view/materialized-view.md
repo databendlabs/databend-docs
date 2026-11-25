@@ -17,8 +17,11 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ## 限制
 
+<FunctionDescription description="Introduced or updated: v1.2.937-nightly"/>
+
 - 定义必须是基于一张基表的简单 `SELECT ... FROM ... [WHERE ...] [GROUP BY ...]` 查询。不支持 JOIN、子查询、集合运算和非确定性函数。
-- 聚合仅支持 `sum`、`min`、`max`、`avg`、`count` 和 `approx_count_distinct`。不支持 `DISTINCT`、`FILTER`、窗口函数和带排序的聚合形式。
+- 使用支持存储和合并聚合状态的内置聚合函数，例如 `SUM` 和 `STDDEV_POP`。聚合调用不能使用 `DISTINCT`、`FILTER` 或调用自身的 `ORDER BY`。不支持 `QUANTILE_TDIGEST(0.5)(x)` 等带独立参数列表的写法，也不支持 `SUM_IF` 和 `COUNT_DISTINCT` 等聚合组合函数。
+- 定义不能使用窗口函数（`OVER`）。读取物化视图的查询可以使用窗口函数。
 - 源表必须是 `default` catalog 中持久化的 FUSE 基表，不能以其他视图或其他表引擎作为源。
 - 物化视图为只读对象。使用 `REFRESH MATERIALIZED VIEW` 维护数据；不支持 `INSERT`、`UPDATE`、`DELETE`、`TRUNCATE` 和普通的 `ALTER TABLE` 操作。
 
