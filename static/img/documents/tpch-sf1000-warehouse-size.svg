@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1120" height="640" viewBox="0 0 1120 640" role="img" aria-labelledby="title desc">
   <title id="title">TPC-H SF1000 Warehouse Size Benchmark</title>
-  <desc id="desc">Total runtime for 22 TPC-H SF1000 queries by Databend Cloud Warehouse size: Small 1173.32 seconds, Medium 537.93 seconds, Large 285.96 seconds. Lower is better.</desc>
+  <desc id="desc">Total runtime for 22 TPC-H SF1000 queries by Databend Cloud Warehouse size: Small 539.73 seconds, Medium 311.88 seconds, Large 161.78 seconds. Lower is better.</desc>
   <defs>
     <linearGradient id="barSmall" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#245fc6"/>
@@ -30,10 +30,10 @@
 
     <g font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" font-size="12" font-weight="400" fill="#738299">
       <text x="42" y="308" text-anchor="end">0</text>
-      <text x="42" y="234" text-anchor="end">300</text>
-      <text x="42" y="160" text-anchor="end">600</text>
-      <text x="42" y="86" text-anchor="end">900</text>
-      <text x="42" y="12" text-anchor="end">1200</text>
+      <text x="42" y="234" text-anchor="end">150</text>
+      <text x="42" y="160" text-anchor="end">300</text>
+      <text x="42" y="86" text-anchor="end">450</text>
+      <text x="42" y="12" text-anchor="end">600</text>
     </g>
 
     <g stroke="#edf2f7" stroke-width="1">
@@ -46,15 +46,15 @@
     <line x1="58" y1="304" x2="850" y2="304" stroke="#d7e0ea" stroke-width="1.2"/>
 
     <g filter="url(#barShadow)">
-      <rect x="158" y="9" width="120" height="295" rx="10" fill="url(#barSmall)"/>
-      <rect x="388" y="171" width="120" height="133" rx="10" fill="url(#barMedium)"/>
-      <rect x="618" y="234" width="120" height="70" rx="10" fill="url(#barLarge)"/>
+      <rect x="158" y="37.7" width="120" height="266.3" rx="10" fill="url(#barSmall)"/>
+      <rect x="388" y="150.1" width="120" height="153.9" rx="10" fill="url(#barMedium)"/>
+      <rect x="618" y="224.2" width="120" height="79.8" rx="10" fill="url(#barLarge)"/>
     </g>
 
     <g font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif" text-anchor="middle">
-      <text x="218" y="-10" font-size="18" font-weight="500" fill="#172033">1173.32s</text>
-      <text x="448" y="148" font-size="18" font-weight="500" fill="#172033">537.93s</text>
-      <text x="678" y="211" font-size="18" font-weight="500" fill="#172033">285.96s</text>
+      <text x="218" y="14.7" font-size="18" font-weight="500" fill="#172033">539.73s</text>
+      <text x="448" y="127.1" font-size="18" font-weight="500" fill="#172033">311.88s</text>
+      <text x="678" y="201.2" font-size="18" font-weight="500" fill="#172033">161.78s</text>
 
       <text x="218" y="336" font-size="16" font-weight="500" fill="#273449">Small</text>
       <text x="448" y="336" font-size="16" font-weight="500" fill="#273449">Medium</text>
@@ -69,10 +69,10 @@
 
     <rect x="453" y="535" width="214" height="48" rx="13" fill="#f8fbff" stroke="#e4edf8"/>
     <text x="475" y="556" font-size="12" font-weight="400" fill="#68788f">Speedup vs. Small</text>
-    <text x="475" y="576" font-size="19" font-weight="500" fill="#3577d4">2.18x</text>
+    <text x="475" y="576" font-size="19" font-weight="500" fill="#3577d4">1.73x</text>
 
     <rect x="740" y="535" width="214" height="48" rx="13" fill="#f8fbff" stroke="#e4edf8"/>
     <text x="762" y="556" font-size="12" font-weight="400" fill="#68788f">Speedup vs. Small</text>
-    <text x="762" y="576" font-size="19" font-weight="500" fill="#6aa1dd">4.10x</text>
+    <text x="762" y="576" font-size="19" font-weight="500" fill="#6aa1dd">3.34x</text>
   </g>
 </svg>

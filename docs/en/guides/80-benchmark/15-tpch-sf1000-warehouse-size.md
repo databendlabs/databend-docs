@@ -6,18 +6,18 @@ benchmark_card:
   title: TPC-H SF1000 · 1 TB
   views:
     - tab: Total time
-      headline: 4.10×
+      headline: 3.34×
       summary: faster on Large vs. Small
       context: 22 queries · about 6B rows
       unit: s
       groups:
         - rows:
-            - { label: Small, value: 1173.32 }
-            - { label: Medium, value: 537.93 }
-            - { label: Large, value: 285.96, highlight: true }
+            - { label: Small, value: 539.73 }
+            - { label: Medium, value: 311.88 }
+            - { label: Large, value: 161.78, highlight: true }
       note: Lower is better
     - tab: Speedup
-      headline: 4.10×
+      headline: 3.34×
       summary: faster on Large vs. Small
       context: Speedup vs. Small warehouse
       decimals: 2
@@ -25,8 +25,8 @@ benchmark_card:
       groups:
         - rows:
             - { label: Small, value: 1 }
-            - { label: Medium, value: 2.18 }
-            - { label: Large, value: 4.10, highlight: true }
+            - { label: Medium, value: 1.73 }
+            - { label: Large, value: 3.34, highlight: true }
       note: Higher is better
 ---
 
@@ -57,13 +57,13 @@ TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing Perfo
 
 | Warehouse Size | Total Time | Speedup vs. Small | Speedup vs. Previous Size |
 |---|---:|---:|---:|
-| Small | 1173.32 s | 1.00x | — |
-| Medium | 537.93 s | 2.18x | 2.18x |
-| Large | 285.96 s | 4.10x | 1.88x |
+| Small | 539.73 s | 1.00x | — |
+| Medium | 311.88 s | 1.73x | 1.73x |
+| Large | 161.78 s | 3.34x | 1.93x |
 
 ![TPC-H SF1000 Warehouse Size Benchmark](@site/static/img/documents/tpch-sf1000-warehouse-size.svg)
 
-Medium is about 2.18x faster than Small. Large is about 4.10x faster than Small and completes the full 22-query workload in under 5 minutes.
+Medium is about 1.73x faster than Small. Large is about 3.34x faster than Small and completes the full 22-query workload in under 3 minutes.
 
 ## Query Details
 
@@ -71,29 +71,29 @@ Unit: seconds. Lower is better.
 
 | Query | Small | Medium | Large | Small → Medium | Medium → Large |
 |---:|---:|---:|---:|---:|---:|
-| Q1 | 31.61 | 19.93 | 10.33 | 1.59x | 1.93x |
-| Q2 | 10.00 | 7.15 | 5.52 | 1.40x | 1.30x |
-| Q3 | 73.07 | 24.50 | 17.75 | 2.98x | 1.38x |
-| Q4 | 177.60 | 17.22 | 16.39 | 10.31x | 1.05x |
-| Q5 | 300.78 | 17.69 | 11.22 | 17.00x | 1.58x |
-| Q6 | 13.93 | 4.46 | 2.19 | 3.12x | 2.04x |
-| Q7 | 33.08 | 18.08 | 9.78 | 1.83x | 1.85x |
-| Q8 | 31.37 | 17.81 | 10.90 | 1.76x | 1.63x |
-| Q9 | 102.01 | 45.41 | 29.52 | 2.25x | 1.54x |
-| Q10 | 40.84 | 31.18 | 23.05 | 1.31x | 1.35x |
-| Q11 | 5.91 | 3.59 | 2.20 | 1.65x | 1.63x |
-| Q12 | 23.74 | 11.81 | 8.70 | 2.01x | 1.36x |
-| Q13 | 57.78 | 34.52 | 23.78 | 1.67x | 1.45x |
-| Q14 | 38.45 | 9.84 | 5.18 | 3.91x | 1.90x |
-| Q15 | 13.22 | 8.18 | 4.82 | 1.62x | 1.70x |
-| Q16 | 4.77 | 3.25 | 2.27 | 1.47x | 1.43x |
-| Q17 | 20.77 | 11.29 | 5.87 | 1.84x | 1.92x |
-| Q18 | 90.78 | 158.89 | 17.24 | 0.57x | 9.22x |
-| Q19 | 20.36 | 10.86 | 8.22 | 1.87x | 1.32x |
-| Q20 | 25.34 | 10.07 | 4.94 | 2.52x | 2.04x |
-| Q21 | 52.85 | 64.57 | 61.19 | 0.82x | 1.06x |
-| Q22 | 5.06 | 7.64 | 4.90 | 0.66x | 1.56x |
-| Total | 1173.32 | 537.93 | 285.96 | 2.18x | 1.88x |
+| Q1 | 30.19 | 22.64 | 9.33 | 1.33x | 2.43x |
+| Q2 | 7.76 | 6.74 | 4.20 | 1.15x | 1.60x |
+| Q3 | 20.32 | 14.75 | 8.13 | 1.38x | 1.81x |
+| Q4 | 14.51 | 12.08 | 5.92 | 1.20x | 2.04x |
+| Q5 | 20.02 | 14.61 | 6.50 | 1.37x | 2.25x |
+| Q6 | 6.97 | 3.75 | 2.04 | 1.86x | 1.84x |
+| Q7 | 21.45 | 13.40 | 7.83 | 1.60x | 1.71x |
+| Q8 | 21.67 | 14.97 | 7.13 | 1.45x | 2.10x |
+| Q9 | 44.80 | 35.02 | 18.99 | 1.28x | 1.84x |
+| Q10 | 41.07 | 28.16 | 15.87 | 1.46x | 1.77x |
+| Q11 | 4.63 | 3.13 | 1.65 | 1.48x | 1.90x |
+| Q12 | 29.97 | 12.32 | 6.12 | 2.43x | 2.01x |
+| Q13 | 32.55 | 17.80 | 8.77 | 1.83x | 2.03x |
+| Q14 | 23.50 | 5.35 | 3.46 | 4.39x | 1.55x |
+| Q15 | 10.10 | 4.90 | 2.64 | 2.06x | 1.86x |
+| Q16 | 4.60 | 3.21 | 1.98 | 1.43x | 1.62x |
+| Q17 | 19.94 | 8.97 | 4.93 | 2.22x | 1.82x |
+| Q18 | 68.04 | 20.74 | 11.67 | 3.28x | 1.78x |
+| Q19 | 42.45 | 7.35 | 4.12 | 5.78x | 1.78x |
+| Q20 | 31.25 | 8.20 | 4.33 | 3.81x | 1.89x |
+| Q21 | 39.66 | 47.10 | 22.06 | 0.84x | 2.14x |
+| Q22 | 4.29 | 6.69 | 4.12 | 0.64x | 1.62x |
+| Total | 539.73 | 311.88 | 161.78 | 1.73x | 1.93x |
 
 ## Notes
 

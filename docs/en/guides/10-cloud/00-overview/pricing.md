@@ -35,9 +35,9 @@ See how Small, Medium, and Large warehouses perform on the same workload on the 
 :::note[Overview]
 | Warehouse Size | Total Time | Speedup vs. Small |
 | -------------- | ---------: | ----------------: |
-| Small | 1173.32 s | 1.00x |
-| Medium | 537.93 s | 2.18x |
-| Large | 285.96 s | 4.10x |
+| Small | 539.73 s | 1.00x |
+| Medium | 311.88 s | 1.73x |
+| Large | 161.78 s | 3.34x |
 
 :::
 
