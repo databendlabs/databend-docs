@@ -37,7 +37,7 @@ benchmark_card:
             - { label: Snowflake, value: 0.15 }
         - label: Data loading
           rows:
-            - { label: Databend, value: 0.25, highlight: true }
+            - { label: Databend, value: 0.18, highlight: true }
             - { label: Snowflake, value: 0.77 }
       note: Lower is better
 ---
@@ -63,7 +63,7 @@ The TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing P
 
 ## Performance and Cost Comparison
 
-- **Data Loading Costs**: Databend achieves a **67% cost reduction** in data loading compared to Snowflake.
+- **Data Loading Costs**: Databend achieves a **77% cost reduction** in data loading compared to Snowflake.
 - **Query Execution Costs**: Databend approximately **87% less expensive** for query execution than Snowflake.
 
 :::info[Note]
@@ -76,19 +76,19 @@ And remember, **don't just take our word for it — you're encouraged to run and
 
 ![Alt text](@site/static/img/documents/tpch1.png)
 
-| Table            | Snowflake(695s, Cost $0.77) | Databend Cloud(446s, Cost $0.25) | Rows        |
+| Table            | Snowflake(695s, Cost $0.77) | Databend Cloud(321s, Cost $0.18) | Rows        |
 | ---------------- | --------------------------- | -------------------------------- | ----------- |
-| customer         | 18.137                      | 13.436                           | 15,000,000  |
-| lineitem         | 477.740                     | 305.812                          | 600,037,902 |
-| nation           | 1.347                       | 0.708                            | 25          |
-| orders           | 103.088                     | 64.323                           | 150,000,000 |
-| part             | 19.908                      | 12.192                           | 20,000,000  |
-| partsupp         | 67.410                      | 45.346                           | 80,000,000  |
-| region           | 0.743                       | 0.725                            | 5           |
-| supplier         | 3.000                       | 3.687                            | 10,000,000  |
-| **Total Time**   | **695s**                    | **446s**                         |             |
-| **Total Cost**   | **$0.77**                   | **$0.25**                        |             |
-| **Storage Size** | **20.8GB**                  | **24.5GB**                       |             |
+| customer         | 18.137                      | 9.363                            | 15,000,000  |
+| lineitem         | 477.740                     | 204.404                          | 600,037,902 |
+| nation           | 1.347                       | 0.391                            | 25          |
+| orders           | 103.088                     | 56.795                           | 150,000,000 |
+| part             | 19.908                      | 10.641                           | 20,000,000  |
+| partsupp         | 67.410                      | 36.435                           | 80,000,000  |
+| region           | 0.743                       | 0.351                            | 5           |
+| supplier         | 3.000                       | 2.586                            | 10,000,000  |
+| **Total Time**   | **695s**                    | **321s**                         |             |
+| **Total Cost**   | **$0.77**                   | **$0.18**                        |             |
+| **Storage Size** | **20.8GB**                  | **25.7GB**                       |             |
 
 ### Query Benchmark: Cold Run
 
