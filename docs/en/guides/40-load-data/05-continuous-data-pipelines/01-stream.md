@@ -33,8 +33,6 @@ The stream offset follows the statement's commit boundary:
 - In autocommit mode, a successful consuming DML statement commits the offset even without a new target snapshot.
 - In an explicit transaction, the offset update is buffered. [`COMMIT`](/sql/sql-commands/ddl/transaction/commit) persists it. [`ROLLBACK`](/sql/sql-commands/ddl/transaction/rollback) discards it.
 
-If a no-op consuming DML statement uses `deduplicate_label`, Databend commits the label with its stream offset. Retrying the same labeled request after commit does not consume the next batch while Databend still recognizes that label as a duplicate. Label retention and normal deduplication rules still apply. This is not an unlimited exactly-once guarantee.
-
 Stream batch hints still control which batch is read. A filter that removes all rows from that batch does not preserve it for a later execution. See [WITH Stream Hints](/sql/sql-commands/query-syntax/with-stream-hints).
 
 ## Example 1: Append-Only Stream

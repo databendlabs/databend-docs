@@ -31,8 +31,6 @@ Stream 偏移量遵循语句的提交边界：
 - 在 autocommit 模式下，成功的消费型 DML 语句会提交偏移量，即使没有生成新的目标表快照。
 - 在显式事务中，偏移量更新先被缓冲。[`COMMIT`](/sql/sql-commands/ddl/transaction/commit) 会持久化该更新。[`ROLLBACK`](/sql/sql-commands/ddl/transaction/rollback) 会丢弃该更新。
 
-如果无目标数据变更的消费型 DML 使用 `deduplicate_label`，Databend 会将该标签与 Stream 偏移量一起提交。提交后重试相同标签的请求时，只要 Databend 仍将该标签识别为重复请求，就不会消费下一批数据。标签保留期和通常的去重规则仍然适用。这不是无限期的 exactly-once 保证。
-
 Stream 批次提示仍然决定读取哪个批次。即使过滤条件移除了该批次的所有行，也不会为下次执行保留该批次。请参阅 [WITH Stream Hints](/sql/sql-commands/query-syntax/with-stream-hints)。
 
 ## 示例 1：Append-Only Stream
