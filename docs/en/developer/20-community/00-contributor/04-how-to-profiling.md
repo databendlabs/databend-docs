@@ -2,6 +2,8 @@
 title: How to Profile Databend
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 ## CPU profiling
 
 ```
@@ -14,6 +16,49 @@ Open `<your-ip>:8081` and select `Flame Graph` from the VIEW menus in the site h
 ## Query Level CPU Profiling
 
 `EXPLAIN PERF <statement>` can also be used for CPU profiling, which focuses on a specific query and gathers CPU profiling data from other nodes to help analyze query performance. Check [EXPLAIN PERF](/sql/sql-commands/explain-cmds/explain-perf) for more details.
+
+## Profile an Already Running Query
+
+<FunctionDescription description="Introduced or updated: Unreleased"/>
+
+Use the Query Admin API to collect CPU samples after a slow query starts. You do not need to rerun the query with `EXPLAIN PERF`. Use a trusted admin connection. Do not expose the admin port to public networks. These endpoints are not on the SQL HTTP port.
+
+1. Open `/v1/processlist` on the Query Admin API address, such as `http://127.0.0.1:8080`.
+2. Copy the running query's `current_query_id`.
+3. Open `/v1/queries/<query_id>/perf` on the same address.
+4. Start sampling in the viewer.
+5. Stop sampling when you have enough data.
+
+The viewer refreshes the cumulative flamegraph every 30 seconds by default. Each cluster node has a separate flamegraph. You can also use the API directly:
+
+```shell
+ADMIN_URL='http://127.0.0.1:8080'
+QUERY_ID='replace-with-current-query-id'
+PERF_URL="$ADMIN_URL/v1/queries/$QUERY_ID/perf"
+
+curl -sS -X POST "$PERF_URL/start?frequency=99&seconds=300"
+curl -sS "$PERF_URL/status"
+# Allow time to collect samples, then stop and download them.
+curl -sS -X POST "$PERF_URL/stop"
+curl -fS "$PERF_URL/flamegraph?format=html" -o query-flamegraph.html
+```
+
+Open `query-flamegraph.html` in a browser. To export folded stacks for other profiling tools, use `GET .../flamegraph?format=folded`.
+
+| Target | Base path | Default sampling | Maximum duration |
+|---|---|---|---|
+| One running query | `/v1/queries/<query_id>/perf` | 99 Hz for 300 seconds | 3,600 seconds |
+| All threads on all cluster nodes | `/v1/perf` | 49 Hz for 60 seconds | 600 seconds |
+
+Both base paths support the viewer, `POST /start`, `POST /stop`, `GET /status`, and `GET /flamegraph`. Whole-process sampling can cost more than query sampling. Use a short interval first. Its overhead on a large Linux host has not been measured.
+
+### Interpret Results and Limits
+
+- Check each entry in the response's `nodes` object. A `200 OK` response does not mean every node started sampling. Read each node's `state` and `message`.
+- If the query runs nowhere and no profile remains, `nodes` can be empty. A missing query does not by itself cause `404`. The HTML flamegraph returns `404` when no samples exist. Folded output can be empty.
+- Each node permits one active CPU profiler. Query sampling, whole-process sampling, `EXPLAIN PERF`, and `/debug/pprof/profile` compete for it. Finish the active session before you start another.
+- Samples accumulate from the start. Stop and restart to inspect a recent interval. Restarting replaces the previous samples.
+- Query fragments that start on a node after sampling begins are not included there. A short query can finish before enough samples are collected.
 
 ## Memory profiling
 
