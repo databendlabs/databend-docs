@@ -5,14 +5,14 @@ sidebar_position: 7
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.677"/>
+<FunctionDescription description="Introduced or updated: Unreleased"/>
 
 ## Overview
 
 `INTERVAL` represents a duration that can be written in natural-language text (`'1 year 2 months'`, `'3 days ago'`) or as an integer number of microseconds. Databend supports units from millennia down to microseconds and allows arithmetic on intervals, dates, and timestamps.
 
 :::note
-Fractional parts are discarded when parsing numeric intervals. `'1.6 seconds'` becomes a 1-second interval.
+A fractional quantity is rounded to a whole number of its unit, with halves rounded away from zero. `'1.3 hours'` becomes 1 hour, `'1.5 hours'` becomes 2 hours, and `'-1.5 hours'` becomes -2 hours. To keep the fraction, use a smaller unit (`'90 minutes'`) or clock notation (`'01:30:00'`, `'00:00:01.5'`).
 :::
 
 ## Examples
@@ -45,18 +45,23 @@ Result:
 
 ```sql
 SELECT
-  TO_STRING(TO_INTERVAL('1 seconds'))   AS whole,
-  TO_STRING(TO_INTERVAL('1.6 seconds')) AS fractional;
+  TO_STRING(TO_INTERVAL('1.3 hours'))   AS round_down,
+  TO_STRING(TO_INTERVAL('1.5 hours'))   AS round_up,
+  TO_STRING(TO_INTERVAL('1.5 days'))    AS days,
+  TO_STRING(TO_INTERVAL('90 minutes'))  AS minutes,
+  TO_STRING(TO_INTERVAL('00:00:01.5'))  AS clock;
 ```
 
 Result:
 ```
-┌────────┬────────────┐
-│ whole  │ fractional │
-├────────┼────────────┤
-│ 0:00:01 │ 0:00:01   │
-└────────┴────────────┘
+┌────────────┬──────────┬────────┬─────────┬───────────┐
+│ round_down │ round_up │ days   │ minutes │ clock     │
+├────────────┼──────────┼────────┼─────────┼───────────┤
+│ 1:00:00    │ 2:00:00  │ 2 days │ 1:30:00 │ 0:00:01.5 │
+└────────────┴──────────┴────────┴─────────┴───────────┘
 ```
+
+Because `'1.5 days'` becomes 2 calendar days, adding it to a TIMESTAMP keeps the wall-clock time even across a daylight saving time change. A TIMESTAMP_TZ value keeps its own UTC offset instead, so the session time zone's daylight saving time changes do not apply: `'2024-03-09 12:00:00 -08:00'::TIMESTAMP_TZ + TO_INTERVAL('1.5 days')` returns `2024-03-11 12:00:00.000000 -0800`.
 
 ### Interval Arithmetic
 
