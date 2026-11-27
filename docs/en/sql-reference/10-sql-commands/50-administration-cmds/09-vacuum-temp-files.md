@@ -5,7 +5,7 @@ title: VACUUM TEMPORARY FILES
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 <EEFeature featureName='VACUUM TEMPORARY FILES'/>
 
@@ -22,9 +22,13 @@ VACUUM TEMPORARY FILES [RETAIN <number> {SECONDS | DAYS}] [LIMIT <limit>]
 | Parameter | Description |
 |-----------|-------------|
 | `RETAIN` | Retention period for temporary spill files. Defaults to 3 days. This is independent of `data_retention_time_in_days` and does not set the lifetime of temporary-table sessions. |
-| `LIMIT` | Limits spill-file deletion first. The remaining allowance limits the number of inactive temporary-table sessions to clean, rather than individual files within those sessions. If omitted, no explicit limit is applied. |
+| `LIMIT` | A soft cleanup budget for spill paths first. The remaining allowance limits the number of inactive temporary-table sessions to clean, rather than individual files within those sessions. Concurrent spill tasks can exceed this budget. If omitted, no explicit limit is applied. |
 
 Requires global `SUPER` privilege. The command does not return a result set.
+
+:::note[LIMIT is not an exact deletion cap]
+Concurrent cleanup tasks can finish after the budget is exhausted. The number of removed spill paths can exceed `LIMIT`. Check server logs for failed deletions. Run the command again if eligible files remain.
+:::
 
 ## Examples
 

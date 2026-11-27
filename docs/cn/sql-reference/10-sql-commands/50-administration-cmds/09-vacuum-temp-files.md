@@ -5,7 +5,7 @@ title: VACUUM TEMPORARY FILES
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.940"/>
+<FunctionDescription description="Introduced or updated: v1.2.953"/>
 
 <EEFeature featureName='VACUUM TEMPORARY FILES'/>
 
@@ -22,9 +22,13 @@ VACUUM TEMPORARY FILES [RETAIN <number> {SECONDS | DAYS}] [LIMIT <limit>]
 | 参数 | 说明 |
 |------|------|
 | `RETAIN` | 临时溢出文件的保留期，默认为 3 天。该设置独立于 `data_retention_time_in_days`，不设置临时表会话的存活时间。 |
-| `LIMIT` | 首先限制删除的溢出文件数量，再用剩余额度限制要清理的非活动临时表会话数量，而非这些会话中的单个文件数量。省略时不设置显式上限。 |
+| `LIMIT` | 首先用于溢出路径的软清理预算，再用剩余额度限制要清理的非活动临时表会话数量，而非这些会话中的单个文件数量。并发溢出清理任务可能超出此预算。省略时不设置显式上限。 |
 
 需要全局 `SUPER` 权限。命令不返回结果集。
+
+:::note[LIMIT 不是精确的删除上限]
+预算耗尽后，并发清理任务仍可能完成。删除的溢出路径数量可能超过 `LIMIT`。请检查服务端日志中的删除失败记录。如果仍有符合条件的文件，可以再次运行命令。
+:::
 
 ## 示例
 
