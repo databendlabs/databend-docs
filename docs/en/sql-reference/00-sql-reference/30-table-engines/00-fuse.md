@@ -130,7 +130,9 @@ Below are the available Fuse Engine options, grouped by their purpose:
 - **Syntax:**
   `write_distribution_mode = 'none' | 'hash'`
 - **Description:**
-  Controls whether a partitioned write redistributes rows by the evaluated partition key before writing. The default, `none`, keeps the existing writer distribution. `hash` routes rows with the same partition value to the same writer, which can reduce small-block fragmentation during distributed or highly parallel ingestion, at the cost of a network shuffle. The `hash` mode requires a `PARTITION BY` clause.
+  Controls whether a partitioned write groups rows by the evaluated partition key before writing. The default, `none`, keeps the existing writer distribution. The `hash` mode requires `PARTITION BY` and can reduce small-block fragmentation.
+
+  Hash layout does not guarantee one writer per partition across the cluster. See [Hash-Distributed Writes](/guides/performance/partition-by#hash-distributed-writes) for supported write operations.
 
   **Example:**
   ```sql

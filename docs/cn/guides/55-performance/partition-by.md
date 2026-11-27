@@ -2,6 +2,8 @@
 title: Fuse 表分区
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 # 使用分区加速裁剪并优化数据布局
 
 `PARTITION BY` 会将 Fuse 表的数据按规则物理隔离。Databend 不会让不同分区值的数据块（Block）和段（Segment）跨越分区边界，同时会把分区值记录在元数据中，从而在查询时跳过不可能满足条件的分区。
@@ -15,7 +17,7 @@ title: Fuse 表分区
 | 查询只需要大型表中的少量数据 | 仍需检查无关的 Segment 和 Block | 在扫描前通过分区元数据排除无关分区 |
 | 时序数据跨越许多天或月份 | 查询近期数据时还会读取历史数据 | 使用日期表达式将数据划分为时间分区 |
 | 自然键基数很高 | 每个值一个分区会造成严重碎片化 | `BUCKET()` 将键映射到固定数量的哈希分区 |
-| 分布式写入产生大量小 Block | 多个节点可能分别写入同一分区 | 哈希写入分布将同一分区值路由到同一个 Writer |
+| 并行写入产生大量小 Block | 多个 Writer 可能写入同一分区 | 哈希写入布局会归并分区值；跨节点路由取决于具体操作 |
 
 ## 分区与聚类的区别
 
@@ -158,14 +160,18 @@ PARTITION BY (BUCKET(32, customer_id))
 WRITE_DISTRIBUTION_MODE = 'hash';
 ```
 
-该模式会对计算后的分区键执行哈希分发，在本地排序前，将相同分区值的行路由到同一个 Writer。当多个节点或 Pipeline 同时写入相同分区时，这有助于减少小 Block 碎片。
+该模式会在写入前按计算后的分区键归并数据，有助于减少小 Block 碎片。
 
 `WRITE_DISTRIBUTION_MODE` 支持以下取值：
 
 - `'none'`（默认）：写入前不重新分发数据。
 - `'hash'`：按分区键重新分发数据，必须同时定义 `PARTITION BY`。
 
-哈希分发会引入网络 Shuffle。它适用于分布式或并行导入，并且优化后的 Block 布局能够抵消 Shuffle 成本的场景；对于小规模、单 Writer 写入，通常不会带来收益。
+<FunctionDescription description="Introduced or updated: v1.2.952"/>
+
+从 v1.2.952 开始，哈希写入布局也支持 `REPLACE INTO`、`INSERT ALL` / `INSERT FIRST` 和 `MERGE INTO`。
+
+哈希布局不保证集群内每个分区只有一个 Writer。请用实际写入工作负载评估导入性能。小规模、单 Writer 的插入可能无法受益。
 
 :::caution[不开哈希分发时，无序输入会很慢]
 使用默认的 `WRITE_DISTRIBUTION_MODE = 'none'` 时，数据按到达顺序写入。如果输入数据的分区值逐行混杂，Databend 会写出大量很小的 Block，导入会变得很慢。请给表设置 `WRITE_DISTRIBUTION_MODE = 'hash'`，或者按分区键对输入排序：
